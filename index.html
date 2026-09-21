@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
@@ -106,12 +106,16 @@
         footer { background: #111; color: #ccc; padding: 3rem 0 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
         footer a { color: #fff; text-decoration: none; }
         footer a:hover { color: var(--accent-color); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
-        .footer-logo { font-family: var(--font-serif); font-size: 2rem; color: #fff; margin-bottom: 1rem; display: block; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+        .footer-logo { font-family: var(--font-serif); font-size: 2rem; color: #fff; margin-bottom: 0.8rem; display: block; }
+        .footer-about { color: #aaa; line-height: 1.6; max-width: 480px; }
+        .footer-about p { margin-bottom: 0.5rem; }
+        .footer-tagline { color: #fff; font-family: var(--font-serif); font-style: italic; font-size: 1rem; margin-top: 0.8rem; }
         .footer-bottom { border-top: 1px solid #333; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #777; }
 
         @media (max-width: 850px) {
             .main-layout { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -312,7 +316,11 @@
             <div class="footer-grid">
                 <div>
                     <span class="footer-logo">СПИСАНИЕТО<span style="color: var(--accent-color);">.</span></span>
-                    <p>Независимо дигитално издание за новини, култура, анализи и лайфстайл.</p>
+                    <div class="footer-about">
+                        <p><strong>СПИСАНИЕТО.</strong> е място за новини, идеи и истории от България и света.</p>
+                        <p>Следим важното. Разказваме интересното. Търсим смисъла зад събитията.</p>
+                        <div class="footer-tagline">Всичко важно. На едно място.</div>
+                    </div>
                 </div>
                 <div>
                     <h4 style="color: #fff; margin-bottom: 1rem;">Рубрики</h4>
