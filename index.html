@@ -18,19 +18,25 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-sans); line-height: 1.6; }
         
-        .top-banner { max-width: 1200px; margin: 1rem auto; padding: 0 1.5rem; }
+        /* ЛЕНТА С ДАТА */
+        .top-bar { max-width: 1200px; margin: 0 auto; padding: 0.8rem 1.5rem 0.3rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #666; border-bottom: 1px solid var(--border-color); }
+
+        /* ВЕРХЕН БАНЕР */
+        .top-banner { max-width: 1200px; margin: 1rem auto 0.5rem; padding: 0 1.5rem; }
         .top-banner img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
 
-        header { text-align: center; padding: 1.5rem 1rem 0.5rem; }
+        /* HEADER & NAV */
+        header { text-align: center; padding: 1rem 1rem 0.5rem; }
         .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; }
 
-        nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2.5rem; }
+        nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         nav ul { display: flex; justify-content: center; gap: 3rem; list-style: none; padding: 0.8rem 0; flex-wrap: wrap; }
         nav a { text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.2s; }
         nav a:hover { color: var(--accent-color); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
+        /* КАРАУСЕЛ / HERO */
         .hero { position: relative; width: 100%; height: 480px; margin-bottom: 3rem; overflow: hidden; border-radius: 4px; }
         .carousel-slide { display: none; width: 100%; height: 100%; position: relative; }
         .carousel-slide.active { display: block; }
@@ -44,42 +50,83 @@
         .prev-btn { left: 15px; }
         .next-btn { right: 15px; }
 
+        /* ОСНОВНО СЪДЪРЖАНИЕ СЪС SIDEBAR */
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+        
         .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .card-img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 1rem; border-radius: 2px; }
-        .card-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.25; }
+        /* КАРТИНИ И СТАТИИ */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .card { margin-bottom: 1.5rem; }
+        .card-img { width: 100%; height: 210px; object-fit: cover; margin-bottom: 1rem; border-radius: 3px; }
+        .card-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.25; color: var(--text-color); text-decoration: none; display: block; }
+        .card-title:hover { color: var(--accent-color); }
         .card-excerpt { font-size: 0.85rem; color: #555; }
 
-        footer { border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; font-size: 0.8rem; color: #777; margin-top: 3rem; }
+        /* SIDEBAR / СТРАНИЧНА ЛЕНТА */
+        .sidebar-box { background: #efece6; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem; border: 1px solid var(--border-color); }
+        .sidebar-title { font-family: var(--font-serif); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        
+        .popular-list { list-style: none; }
+        .popular-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; align-items: flex-start; }
+        .popular-num { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--accent-color); line-height: 1; }
+        .popular-text { font-size: 0.9rem; font-weight: 500; text-decoration: none; color: var(--text-color); }
+        .popular-text:hover { color: var(--accent-color); }
+
+        /* ЦИТАТ НА ДЕНЯ */
+        .quote-box { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; line-height: 1.4; border-left: 3px solid var(--accent-color); padding-left: 1rem; margin: 1.5rem 0; color: #333; }
+
+        /* БЮЛЕТИН / NEWSLETTER */
+        .newsletter-form input[type="email"] { width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); margin-bottom: 0.8rem; font-family: var(--font-sans); }
+        .newsletter-form button { width: 100%; padding: 0.7rem; background: var(--text-color); color: #fff; border: none; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; cursor: pointer; transition: 0.2s; }
+        .newsletter-form button:hover { background: var(--accent-color); }
+
+        /* СПЕЦИАЛНА СЕКЦИЯ (ГАЛЕРИЯ / ЛАЙФСТАЙЛ) */
+        .lifestyle-section { background: #ffffff; padding: 3rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .square-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 3px; }
+        .square-card h4 { font-family: var(--font-serif); font-size: 1.1rem; margin-top: 0.5rem; }
+
+        footer { border-top: 1px solid var(--border-color); padding: 2.5rem 0; text-align: center; font-size: 0.8rem; color: #777; margin-top: 2rem; }
+
+        @media (max-width: 850px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ВЕРХЕН БАНЕР / СНИМКА -->
+    <!-- ДАТА И ИЗДАНИЕ -->
+    <div class="top-bar">
+        <span>ПОНЕДЕЛНИК, 21 СЕПТЕМВРИ 2026 г.</span>
+        <span>ДИГИТАЛНО ИЗДАНИЕ</span>
+    </div>
+
+    <!-- 1. ВЕРХЕН БАНЕР -->
     <div class="top-banner">
         <img src="banner.jpg" alt="Банер Списанието">
     </div>
 
-    <!-- ЛОГО И ЗАГЛАВИЕ -->
+    <!-- 2. ХЕДЪР / ЛОГО -->
     <header>
         <a href="#" class="logo">СПИСАНИЕТО</a>
     </header>
 
-    <!-- ОРИГИНАЛНА НАВИГАЦИЯ -->
+    <!-- 3. НАВИГАЦИЯ -->
     <nav>
         <ul>
             <li><a href="#">НОВИНИ</a></li>
             <li><a href="#">ПОЛИТИКА</a></li>
             <li><a href="#">СВЯТ</a></li>
             <li><a href="#">ЛАЙФСТАЙЛ</a></li>
+            <li><a href="#">КУЛТУРА</a></li>
+            <li><a href="#">АНАЛИЗИ</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <!-- КАРАУСЕЛ / ВОДЕЩИ СТАТИИ -->
+        <!-- 4. КАРАУСЕЛ / ВОДЕЩИ СТАТИИ -->
         <section class="hero">
-            <!-- Слайд 1 (Оригиналната статия) -->
             <div class="carousel-slide active">
                 <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" class="hero-img" alt="Политика">
                 <div class="hero-content">
@@ -88,7 +135,6 @@
                 </div>
             </div>
 
-            <!-- Слайд 2 -->
             <div class="carousel-slide">
                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" class="hero-img" alt="Новини">
                 <div class="hero-content">
@@ -101,32 +147,115 @@
             <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
         </section>
 
-        <!-- СЕЛЕКЦИЯ НА РЕДАКЦИЯТА -->
-        <h3 class="section-title">СЕЛЕКЦИЯ НА РЕДАКЦИЯТА</h3>
-        <div class="grid-3">
-            <article>
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 1">
-                <span class="category">ТЕХНОЛОГИИ</span>
-                <h4 class="card-title">Изкуственият интелект в модерните медии</h4>
-                <p class="card-excerpt">Нови възможности за създаване и анализ на журналистическо съдържание.</p>
-            </article>
-            <article>
-                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 2">
-                <span class="category">ЛАЙФСТАЙЛ</span>
-                <h4 class="card-title">Естетика и минимализъм в интериора</h4>
-                <p class="card-excerpt">Как дизайнът wpива хармония в съвременния дом.</p>
-            </article>
-            <article>
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 3">
-                <span class="category">СВЯТ</span>
-                <h4 class="card-title">Зелената трансформация на европейските градове</h4>
-                <p class="card-excerpt">Устойчиви модели за градска среда и архитектура.</p>
-            </article>
+        <!-- 5. ОСНОВНА ЧАСТ (СТАТИИ + СТРАНИЧНА ЛЕНТА) -->
+        <div class="main-layout">
+            
+            <!-- ЛЯВА КОЛОНА: ОСНОВНИ СТАТИИ -->
+            <div>
+                <h3 class="section-title">Селекция на редакцията</h3>
+                <div class="grid-2">
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 1">
+                        <span class="category">ТЕХНОЛОГИИ</span>
+                        <a href="#" class="card-title">Изкуственият интелект в модерните медии</a>
+                        <p class="card-excerpt">Нови възможности за създаване, анализиране и разпространение на съдържание.</p>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 2">
+                        <span class="category">ЛАЙФСТАЙЛ</span>
+                        <a href="#" class="card-title">Естетика и минимализъм в интериора</a>
+                        <p class="card-excerpt">Как хармонията в пространството влияе на нашето ежедневно вдъхновение.</p>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 3">
+                        <span class="category">СВЯТ</span>
+                        <a href="#" class="card-title">Зелената трансформация на градовете</a>
+                        <p class="card-excerpt">Устойчиви модели за архитектура и модерна градска среда в Европа.</p>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 4">
+                        <span class="category">АНАЛИЗИ</span>
+                        <a href="#" class="card-title">Изкуството на бавното живеене</a>
+                        <p class="card-excerpt">Защо все повече хора избират баланса пред забързаното ежедневие.</p>
+                    </article>
+                </div>
+            </div>
+
+            <!-- ДЯСНА КОЛОНА: SIDEBAR -->
+            <aside>
+                <!-- НАЙ-ЧЕТЕНИ -->
+                <div class="sidebar-box">
+                    <h4 class="sidebar-title">Най-четени</h4>
+                    <ul class="popular-list">
+                        <li class="popular-item">
+                            <span class="popular-num">01</span>
+                            <a href="#" class="popular-text">Как дигиталните медии промениха журналистиката</a>
+                        </li>
+                        <li class="popular-item">
+                            <span class="popular-num">02</span>
+                            <a href="#" class="popular-text">5 кулинарни тренда за предстоящия сезон</a>
+                        </li>
+                        <li class="popular-item">
+                            <span class="popular-num">03</span>
+                            <a href="#" class="popular-text">Новите архитектурни шедьоври на Европа</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ЦИТАТ -->
+                <div class="sidebar-box">
+                    <h4 class="sidebar-title">Мираж на деня</h4>
+                    <div class="quote-box">
+                        „Формата следва функцията, но естетиката вдъхновява душата.“
+                    </div>
+                </div>
+
+                <!-- БЮЛЕТИН -->
+                <div class="sidebar-box">
+                    <h4 class="sidebar-title">Абонамент</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 1rem;">Получавайте най-добрите ни статии всяка сутрин във вашата поща.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Благодарим ви за абонамента!');">
+                        <input type="email" placeholder="Вашият имейл..." required>
+                        <button type="submit">Абонирай се</button>
+                    </form>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- 6. ДОПЪЛНИТЕЛНА СЕКЦИЯ: ЛАЙФСТАЙЛ И КУЛТУРА -->
+    <div class="lifestyle-section">
+        <div class="container">
+            <h3 class="section-title">Лайфстайл &amp; Вдъхновение</h3>
+            <div class="grid-4">
+                <div class="square-card">
+                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=500&q=80" alt="Галерия 1">
+                    <h4>Мода и тенденции</h4>
+                </div>
+                <div class="square-card">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80" alt="Галерия 2">
+                    <h4>Кулинарно изкуство</h4>
+                </div>
+                <div class="square-card">
+                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=500&q=80" alt="Галерия 3">
+                    <h4>Пътешествия &amp; Мeста</h4>
+                </div>
+                <div class="square-card">
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500&q=80" alt="Галерия 4">
+                    <h4>Книги и култура</h4>
+                </div>
+            </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 СПИСАНИЕТО. Всички права запазени.
+        <div class="container">
+            <p>&copy; 2026 СПИСАНИЕТО. Всички права запазени.</p>
+        </div>
     </footer>
 
     <script>
