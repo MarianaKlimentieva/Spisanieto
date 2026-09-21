@@ -1,313 +1,136 @@
 <!DOCTYPE html>
-<html lang="bg" class="scroll-smooth">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СПИСАНИЕТО - Модерно издание за новини и лайфстайл</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#B91C1C',
-                            dark: '#111827',
-                            cream: '#FDFBF7',
-                            accent: '#D97706'
-                        }
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'Georgia', 'serif'],
-                        sans: ['Inter', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <title>СПИСАНИЕТО - Дигитално издание</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap');
-        body { background-color: #FDFBF7; }
-        .dark body { background-color: #0F172A; }
-        .carousel-slide { display: none; transition: opacity 0.5s ease-in-out; }
+        :root {
+            --bg-color: #f7f6f2;
+            --text-color: #111111;
+            --accent-color: #8c1d40;
+            --border-color: #e2dfd7;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-sans); line-height: 1.6; }
+        
+        .top-banner { max-width: 1200px; margin: 1rem auto; padding: 0 1.5rem; }
+        .top-banner img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
+
+        header { text-align: center; padding: 1.5rem 1rem 0.5rem; }
+        .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; }
+
+        nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2.5rem; }
+        nav ul { display: flex; justify-content: center; gap: 3rem; list-style: none; padding: 0.8rem 0; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.2s; }
+        nav a:hover { color: var(--accent-color); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .hero { position: relative; width: 100%; height: 480px; margin-bottom: 3rem; overflow: hidden; border-radius: 4px; }
+        .carousel-slide { display: none; width: 100%; height: 100%; position: relative; }
         .carousel-slide.active { display: block; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); }
+        .hero-content { position: absolute; bottom: 2.5rem; left: 2.5rem; right: 2.5rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .category { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; display: inline-block; background: var(--accent-color); padding: 2px 8px; color: #fff; }
+        .hero-title { font-family: var(--font-serif); font-size: 2.8rem; line-height: 1.15; font-weight: 600; max-width: 800px; }
+
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; padding: 12px 16px; cursor: pointer; font-size: 18px; border-radius: 50%; transition: 0.3s; }
+        .carousel-btn:hover { background: rgba(0,0,0,0.8); }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+
+        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .card-img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 1rem; border-radius: 2px; }
+        .card-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.25; }
+        .card-excerpt { font-size: 0.85rem; color: #555; }
+
+        footer { border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; font-size: 0.8rem; color: #777; margin-top: 3rem; }
     </style>
 </head>
-<body class="text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300 min-h-screen flex flex-col">
+<body>
 
-    <!-- TOP BAR / TICKER -->
-    <div class="bg-gray-900 text-gray-300 text-xs py-2 px-4 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <span class="bg-brand-red text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider whitespace-nowrap">БЪРЗИ НОВИНИ</span>
-                <p class="truncate text-gray-300 text-xs">Еврозоната отчита стабилен растеж • Иновативни архитектурни проекти в София • Нови технологии в агробизнеса</p>
-            </div>
-            <div class="hidden md:flex items-center gap-4 whitespace-nowrap">
-                <span><i class="far fa-calendar-alt mr-1"></i> Понеделник, 21 Септември 2026 г.</span>
-                <button onclick="toggleDarkMode()" class="hover:text-white transition">
-                    <i id="themeIcon" class="fas fa-moon"></i>
-                </button>
-            </div>
-        </div>
+    <!-- ВЕРХЕН БАНЕР / СНИМКА -->
+    <div class="top-banner">
+        <img src="banner.jpg" alt="Банер Списанието">
     </div>
 
-    <!-- MAIN HEADER -->
-    <header class="border-b border-gray-300 dark:border-gray-800 py-8 px-4 text-center">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="font-serif text-5xl md:text-7xl font-black tracking-tight uppercase text-gray-900 dark:text-white">
-                СПИСАНИЕТО<span class="text-brand-red">.</span>
-            </h1>
-            <p class="text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400 mt-2 font-medium">
-                Независим аналитичен портал за новини, политика, архитектура и лайфстайл
-            </p>
-        </div>
+    <!-- ЛОГО И ЗАГЛАВИЕ -->
+    <header>
+        <a href="#" class="logo">СПИСАНИЕТО</a>
     </header>
 
-    <!-- NAVIGATION BAR -->
-    <nav class="border-b border-gray-300 dark:border-gray-800 bg-[#FDFBF7] dark:bg-slate-900 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 text-xs uppercase font-semibold tracking-wider">
-            <div class="flex items-center space-x-6 overflow-x-auto hide-scrollbar">
-                <a href="#" class="text-brand-red font-bold">НАЧАЛО</a>
-                <a href="#" class="hover:text-brand-red transition">НОВИНИ</a>
-                <a href="#" class="hover:text-brand-red transition">ПОЛИТИКА</a>
-                <a href="#" class="hover:text-brand-red transition">СВЯТ</a>
-                <a href="#" class="hover:text-brand-red transition">БИЗНЕС & ИНОВАЦИИ</a>
-                <a href="#" class="hover:text-brand-red transition">АРХИТЕКТУРА</a>
-                <a href="#" class="hover:text-brand-red transition">ЛАЙФСТАЙЛ</a>
-            </div>
-            <div class="flex items-center gap-3">
-                <i class="fas fa-search cursor-pointer hover:text-brand-red"></i>
-            </div>
-        </div>
+    <!-- ОРИГИНАЛНА НАВИГАЦИЯ -->
+    <nav>
+        <ul>
+            <li><a href="#">НОВИНИ</a></li>
+            <li><a href="#">ПОЛИТИКА</a></li>
+            <li><a href="#">СВЯТ</a></li>
+            <li><a href="#">ЛАЙФСТАЙЛ</a></li>
+        </ul>
     </nav>
 
-    <!-- TOP HEADER BANNER IMAGE -->
-    <div class="max-w-7xl mx-auto px-4 pt-6">
-        <div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm max-h-48 md:max-h-64">
-            <img src="banner.jpg" alt="СПИСАНИЕТО - Корица" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent flex items-center p-6 md:p-10">
-                <div class="text-white space-y-1">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-red bg-white/90 px-2 py-0.5 rounded">РЕДАКЦИЯ</span>
-                    <h2 class="font-serif text-xl md:text-3xl font-bold">Професионален поглед върху детайлите</h2>
+    <div class="container">
+        <!-- КАРАУСЕЛ / ВОДЕЩИ СТАТИИ -->
+        <section class="hero">
+            <!-- Слайд 1 (Оригиналната статия) -->
+            <div class="carousel-slide active">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" class="hero-img" alt="Политика">
+                <div class="hero-content">
+                    <span class="category">ПОЛИТИКА</span>
+                    <h2 class="hero-title">Бъдещето е тук: Как иновациите променят живота ни</h2>
                 </div>
             </div>
+
+            <!-- Слайд 2 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" class="hero-img" alt="Новини">
+                <div class="hero-content">
+                    <span class="category">НОВИНИ</span>
+                    <h2 class="hero-title">Нови икономически перспективи и глобални тенденции</h2>
+                </div>
+            </div>
+
+            <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+        </section>
+
+        <!-- СЕЛЕКЦИЯ НА РЕДАКЦИЯТА -->
+        <h3 class="section-title">СЕЛЕКЦИЯ НА РЕДАКЦИЯТА</h3>
+        <div class="grid-3">
+            <article>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 1">
+                <span class="category">ТЕХНОЛОГИИ</span>
+                <h4 class="card-title">Изкуственият интелект в модерните медии</h4>
+                <p class="card-excerpt">Нови възможности за създаване и анализ на журналистическо съдържание.</p>
+            </article>
+            <article>
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 2">
+                <span class="category">ЛАЙФСТАЙЛ</span>
+                <h4 class="card-title">Естетика и минимализъм в интериора</h4>
+                <p class="card-excerpt">Как дизайнът wpива хармония в съвременния дом.</p>
+            </article>
+            <article>
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 3">
+                <span class="category">СВЯТ</span>
+                <h4 class="card-title">Зелената трансформация на европейските градове</h4>
+                <p class="card-excerpt">Устойчиви модели за градска среда и архитектура.</p>
+            </article>
         </div>
     </div>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12 flex-grow">
-
-        <!-- HERO CAROUSEL SECTION -->
-        <section class="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800 bg-black">
-            <!-- Slide 1 -->
-            <div class="carousel-slide active relative h-[450px] md:h-[550px]">
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover opacity-80" alt="Новини 1">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                <div class="absolute bottom-8 left-6 right-6 md:left-12 md:right-12 text-white space-y-3">
-                    <span class="bg-brand-red text-white text-xs font-bold uppercase px-3 py-1 rounded">ПОЛИТИКА & ИНОВАЦИИ</span>
-                    <h2 class="font-serif text-3xl md:text-5xl font-bold leading-tight">Бъдещето е тук: Как иновациите и новите технологии променят живота ни</h2>
-                    <p class="text-sm text-gray-300 max-w-3xl line-clamp-2">Дълбочинен преглед на дигиталната трансформация, екологичните стандарти и градоустройствените решения от ново поколение у нас.</p>
-                </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="carousel-slide relative h-[450px] md:h-[550px]">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover opacity-80" alt="Новини 2">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                <div class="absolute bottom-8 left-6 right-6 md:left-12 md:right-12 text-white space-y-3">
-                    <span class="bg-amber-600 text-white text-xs font-bold uppercase px-3 py-1 rounded">АРХИТЕКТУРА</span>
-                    <h2 class="font-serif text-3xl md:text-5xl font-bold leading-tight">Зелена архитектура и био-устойчиви сгради в полите на Витоша</h2>
-                    <p class="text-sm text-gray-300 max-w-3xl line-clamp-2">Как съвременните архитектурни студия съчетават естествени материали, соларни системи и интелигентен дизайн.</p>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-slide relative h-[450px] md:h-[550px]">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover opacity-80" alt="Новини 3">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                <div class="absolute bottom-8 left-6 right-6 md:left-12 md:right-12 text-white space-y-3">
-                    <span class="bg-emerald-600 text-white text-xs font-bold uppercase px-3 py-1 rounded">БИЗНЕС</span>
-                    <h2 class="font-serif text-3xl md:text-5xl font-bold leading-tight">Новите предприемачи: Устойчиви бизнес модели за 2026 година</h2>
-                    <p class="text-sm text-gray-300 max-w-3xl line-clamp-2">Анализ на инвестиционната среда, стартъп екосистемата и възможностите за развитие на българския пазар.</p>
-                </div>
-            </div>
-
-            <!-- Carousel Navigation Controls -->
-            <button onclick="moveSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button onclick="moveSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </section>
-
-        <!-- MAIN LAYOUT: NEWS GRID + SIDEBAR -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-            <!-- MAIN ARTICLES COLUMN (8 COLS) -->
-            <div class="lg:col-span-8 space-y-10">
-
-                <!-- SECTION 1: СЕЛЕКЦИЯ НА РЕДАКЦИЯТА -->
-                <div class="space-y-6">
-                    <div class="border-b-2 border-gray-900 dark:border-white pb-2 flex justify-between items-center">
-                        <h3 class="font-serif text-2xl font-bold uppercase">Селекция на редакцията</h3>
-                        <a href="#" class="text-xs font-semibold uppercase text-brand-red hover:underline">Виж всички <i class="fas fa-arrow-right ml-1"></i></a>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <article class="space-y-3 group cursor-pointer">
-                            <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" class="w-full h-40 object-cover group-hover:scale-105 transition duration-300" alt="Статия">
-                            </div>
-                            <span class="text-[10px] font-bold text-brand-red uppercase tracking-wider">ТЕХНОЛОГИИ</span>
-                            <h4 class="font-serif font-bold text-base leading-snug group-hover:text-brand-red transition">Изкуственият интелект в медиите: Нови хоризонти</h4>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">Как AI подпомага създаването на журналистическо съдържание и анализа на данни.</p>
-                        </article>
-
-                        <article class="space-y-3 group cursor-pointer">
-                            <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
-                                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=80" class="w-full h-40 object-cover group-hover:scale-105 transition duration-300" alt="Статия">
-                            </div>
-                            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">ДИЗАЙН</span>
-                            <h4 class="font-serif font-bold text-base leading-snug group-hover:text-brand-red transition">Трендовете в модерния интериор за сезона</h4>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">Завръщане към естествените материали, облите мебелни форми и топлата цветова палитра.</p>
-                        </article>
-
-                        <article class="space-y-3 group cursor-pointer">
-                            <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
-                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=500&q=80" class="w-full h-40 object-cover group-hover:scale-105 transition duration-300" alt="Статия">
-                            </div>
-                            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">ЕКОЛОГИЯ</span>
-                            <h4 class="font-serif font-bold text-base leading-snug group-hover:text-brand-red transition">Възобновяема енергия и градска среда</h4>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">Интегриране на фотоволтаични фасади в съвременните жилищни сгради.</p>
-                        </article>
-                    </div>
-                </div>
-
-                <!-- SECTION 2: ОБШИРЕН АНАЛИЗ / МЕСЕЧЕН ДОКЛАД -->
-                <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-md space-y-4">
-                    <span class="bg-brand-red text-white text-[10px] font-bold px-2.5 py-1 uppercase rounded tracking-wider">СПЕЦИАЛЕН АНАЛИЗ</span>
-                    <h3 class="font-serif text-2xl md:text-3xl font-bold">Устойчивото развитие като инвестиционен приоритет</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed max-w-2xl">
-                        Преглед на водещите Европейски политики и программы за подпомагане на зеления преход, модерното земеделие и технологичните иновации през 2026 година.
-                    </p>
-                    <div class="pt-2 flex items-center justify-between text-xs text-gray-400 border-t border-gray-800">
-                        <span>Автор: Редакционен екип</span>
-                        <a href="#" class="text-white font-bold hover:text-brand-red">Прочети целия доклад <i class="fas fa-arrow-right ml-1"></i></a>
-                    </div>
-                </div>
-
-                <!-- SECTION 3: ГАЛЕРИЯ И ФОТО-РЕПОРТАЖ -->
-                <div class="space-y-4">
-                    <div class="border-b border-gray-300 dark:border-gray-800 pb-2">
-                        <h3 class="font-serif text-xl font-bold uppercase"><i class="fas fa-camera mr-2 text-brand-red"></i>Фоторепортаж</h3>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80" class="w-full h-28 object-cover rounded-lg shadow hover:opacity-80 cursor-pointer transition" alt="Снимка 1">
-                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80" class="w-full h-28 object-cover rounded-lg shadow hover:opacity-80 cursor-pointer transition" alt="Снимка 2">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80" class="w-full h-28 object-cover rounded-lg shadow hover:opacity-80 cursor-pointer transition" alt="Снимка 3">
-                        <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=400&q=80" class="w-full h-28 object-cover rounded-lg shadow hover:opacity-80 cursor-pointer transition" alt="Снимка 4">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- SIDEBAR COLUMN (4 COLS) -->
-            <aside class="lg:col-span-4 space-y-8">
-
-                <!-- WIDGET 1: ПОСЛЕДНИ НОВИНИ (TIMELINE) -->
-                <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-800 p-6 rounded-2xl shadow-sm space-y-4">
-                    <h4 class="font-serif font-bold text-lg border-b border-gray-200 dark:border-gray-800 pb-2 uppercase flex items-center gap-2">
-                        <i class="fas fa-bolt text-brand-red"></i> В реално време
-                    </h4>
-                    <div class="space-y-4 text-xs">
-                        <div class="border-l-2 border-brand-red pl-3 space-y-1">
-                            <span class="text-gray-400 font-mono">14:30</span>
-                            <p class="font-semibold text-gray-800 dark:text-gray-200 hover:text-brand-red cursor-pointer">Нови европейски стандарти за енергийна ефективност на сградите.</p>
-                        </div>
-                        <div class="border-l-2 border-gray-300 dark:border-gray-700 pl-3 space-y-1">
-                            <span class="text-gray-400 font-mono">13:15</span>
-                            <p class="font-semibold text-gray-800 dark:text-gray-200 hover:text-brand-red cursor-pointer">Български стартъп спечели международно отличие за иновации.</p>
-                        </div>
-                        <div class="border-l-2 border-gray-300 dark:border-gray-700 pl-3 space-y-1">
-                            <span class="text-gray-400 font-mono">11:45</span>
-                            <p class="font-semibold text-gray-800 dark:text-gray-200 hover:text-brand-red cursor-pointer">Представят новия урбанистичен план за развитие на столицата.</p>
-                        </div>
-                        <div class="border-l-2 border-gray-300 dark:border-gray-700 pl-3 space-y-1">
-                            <span class="text-gray-400 font-mono">09:20</span>
-                            <p class="font-semibold text-gray-800 dark:text-gray-200 hover:text-brand-red cursor-pointer">Агробизнесът дигитализира процесите си през новия сезон.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- WIDGET 2: ЦИТАТ НА ДЕНЯ -->
-                <div class="bg-stone-200 dark:bg-slate-800 p-6 rounded-2xl space-y-3 relative">
-                    <i class="fas fa-quote-left text-3xl text-brand-red/30 absolute top-4 left-4"></i>
-                    <blockquote class="font-serif italic text-sm text-gray-800 dark:text-gray-200 relative z-10 pt-2">
-                        „Дизайнът и архитектурата не са просто визия, а начинът, по който организираме нашия живот и бъдеще.“
-                    </blockquote>
-                    <p class="text-xs font-bold text-right text-gray-600 dark:text-gray-400">— Редакционен коментар</p>
-                </div>
-
-                <!-- WIDGET 3: БЮЛЕТИН / НЮЗЛЕТЪР -->
-                <div class="border-2 border-brand-red p-6 rounded-2xl text-center space-y-3">
-                    <i class="far fa-envelope text-3xl text-brand-red"></i>
-                    <h4 class="font-serif font-bold text-base">Седмичен бюлетин</h4>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">Получавайте най-важните анализи и статии директно във вашата поща.</p>
-                    <input type="email" placeholder="Вашият имейл..." class="w-full p-2.5 rounded-lg text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-slate-800 focus:outline-none focus:border-brand-red">
-                    <button class="w-full py-2.5 bg-brand-red hover:bg-red-800 text-white text-xs font-bold uppercase rounded-lg transition">Абонирай се</button>
-                </div>
-
-            </aside>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 text-xs border-t border-gray-800 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="space-y-3">
-                <span class="font-serif text-2xl font-black text-white uppercase">СПИСАНИЕТО<span class="text-brand-red">.</span></span>
-                <p class="text-gray-500 leading-relaxed">Дигитален архив и независимо списание за новини, анализи, иновации и архитектура.</p>
-            </div>
-            <div>
-                <h5 class="text-white font-bold uppercase mb-3">Рубрики</h5>
-                <ul class="space-y-1.5">
-                    <li><a href="#" class="hover:text-white">Новини & Общество</a></li>
-                    <li><a href="#" class="hover:text-white">Политика & Бизнес</a></li>
-                    <li><a href="#" class="hover:text-white">Архитектура & Дизайн</a></li>
-                    <li><a href="#" class="hover:text-white">Лайфстайл & Култура</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="text-white font-bold uppercase mb-3">Информация</h5>
-                <ul class="space-y-1.5">
-                    <li><a href="#" class="hover:text-white">За нас</a></li>
-                    <li><a href="#" class="hover:text-white">Редакционен екип</a></li>
-                    <li><a href="#" class="hover:text-white">Реклама & Партньорства</a></li>
-                    <li><a href="#" class="hover:text-white">Контакти</a></li>
-                </ul>
-            </div>
-            <div class="space-y-3">
-                <h5 class="text-white font-bold uppercase mb-3">Последвайте ни</h5>
-                <div class="flex gap-3 text-lg text-gray-400">
-                    <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-white"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-gray-800 text-center py-4 text-gray-600">
-            © 2026 СПИСАНИЕТО. Всички права запазени.
-        </div>
+    <footer>
+        &copy; 2026 СПИСАНИЕТО. Всички права запазени.
     </footer>
 
-    <!-- JAVASCRIPT FOR CAROUSEL & THEME -->
     <script>
-        let currentSlide = 0;
+        let slideIndex = 0;
         const slides = document.querySelectorAll('.carousel-slide');
 
         function showSlide(index) {
@@ -318,19 +141,11 @@
         }
 
         function moveSlide(direction) {
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            showSlide(currentSlide);
+            slideIndex = (slideIndex + direction + slides.length) % slides.length;
+            showSlide(slideIndex);
         }
 
-        setInterval(() => {
-            moveSlide(1);
-        }, 6000);
-
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            document.getElementById('themeIcon').className = isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon';
-        }
+        setInterval(() => { moveSlide(1); }, 5000);
     </script>
 </body>
 </html>
