@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СПИСАНИЕТО — Дигитално издание</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f6f2;
+            --text-color: #111111;
+            --accent-color: #8c1d40;
+            --border-color: #e2dfd7;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-sans); line-height: 1.6; }
+
+        .top-bar { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #666; }
+        
+        header { text-align: center; padding: 0.5rem 1rem 1.5rem; }
+        .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; }
+
+        nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2.5rem; }
+        nav ul { display: flex; justify-content: center; gap: 3rem; list-style: none; padding: 0.8rem 0; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; transition: color 0.2s; }
+        nav a:hover { color: var(--accent-color); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .hero { position: relative; width: 100%; height: 480px; margin-bottom: 3rem; overflow: hidden; border-radius: 4px; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65); }
+        .hero-content { position: absolute; bottom: 2.5rem; left: 2.5rem; right: 2.5rem; color: #ffffff; max-width: 750px; }
+        .hero-tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #e0e0e0; margin-bottom: 0.5rem; display: block; }
+        .hero-title { font-family: var(--font-serif); font-size: 2.8rem; font-weight: 600; line-height: 1.15; margin-bottom: 1rem; }
+        
+        .section-header { border-bottom: 1px solid var(--text-color); padding-bottom: 0.4rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: flex-end; }
+        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .card { text-decoration: none; color: inherit; display: block; }
+        .card-img-wrap { width: 100%; height: 220px; overflow: hidden; margin-bottom: 1rem; border-radius: 2px; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .card:hover .card-img { transform: scale(1.04); }
+        .card-category { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-color); font-weight: 600; margin-bottom: 0.3rem; display: block; }
+        .card-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; line-height: 1.25; margin-bottom: 0.5rem; }
+        .card-excerpt { font-size: 0.85rem; color: #555; line-height: 1.5; }
+
+        footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid var(--border-color); color: #777; font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hero { height: 380px; }
+            .hero-content { left: 1.2rem; right: 1.2rem; bottom: 1.5rem; }
+            .hero-title { font-size: 1.8rem; }
+            .logo { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <span>Брой 02 — Септември 2026</span>
+        <div><a href="/admin" style="color: inherit; text-decoration: none;">Вход за автори</a></div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">Списанието</a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#novini">Новини</a></li>
+            <li><a href="#politika">Политика</a></li>
+            <li><a href="#svyat">Свят</a></li>
+            <li><a href="#lifestyle">Лайфстайл</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200" alt="Водеща тема" class="hero-img">
+            <div class="hero-content">
+                <span class="hero-tag">Политика</span>
+                <h1 class="hero-title">Бъдещето е тук: Как иновациите променят живота ни</h1>
+            </div>
+        </section>
+
+        <div class="section-header">
+            <h2 class="section-title">Селекция на редакцията</h2>
+        </div>
+
+        <section class="grid">
+            <a href="article.html" class="card">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600" alt="Интервю" class="card-img">
+                </div>
+                <span class="card-category">Лайфстайл</span>
+                <h3 class="card-title">Мария Петрова за изкуството и вдъхновението</h3>
+                <p class="card-excerpt">Разговор за творческата свобода, новите проекти и търсенето на красота в ежедневието.</p>
+            </a>
+
+            <a href="article.html" class="card">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=600" alt="Интериор" class="card-img">
+                </div>
+                <span class="card-category">Свят</span>
+                <h3 class="card-title">Трендовете в дизайна и интериора</h3>
+                <p class="card-excerpt">Анализ на съвременните архитектурни решения, съчетаващи минимализъм и естествени материали.</p>
+            </a>
+
+            <a href="article.html" class="card">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=600" alt="Новини" class="card-img">
+                </div>
+                <span class="card-category">Новини</span>
+                <h3 class="card-title">Фоторепортаж: Красотата на Родопите</h3>
+                <p class="card-excerpt">Визуално пътешествие из скритите кътчета и природата на България.</p>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 Списанието. Всички права запазени.
+    </footer>
+
+</body>
+</html>
