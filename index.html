@@ -1,15 +1,15 @@
-   <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СПИСАНИЕТО - Всичко важно. На едно място.</title>
+    <title>СПИСАНИЕТО - Дигитално издание</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f7f6f2;
             --text-color: #111111;
-            --accent-color: #8c1d40;
+            --accent-color: #8c1d40; /* Маджента / Бордо accent */
             --border-color: #e2dfd7;
             --font-serif: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -27,8 +27,10 @@
         .top-banner img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
 
         /* HEADER & NAV */
-        header { text-align: center; padding: 1.5rem 1rem 0.5rem; position: relative; }
-        .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; }
+        header { text-align: center; padding: 1.5rem 1rem 1rem; position: relative; }
+        .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; display: inline-block; line-height: 1; }
+        .logo-dot { color: var(--accent-color); }
+        .tagline { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: #555; margin-top: 0.4rem; letter-spacing: 0.5px; }
 
         nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; }
@@ -129,9 +131,10 @@
         <img src="banner.jpg" alt="Банер Списанието">
     </div>
 
-    <!-- 2. ХЕДЪР / ЛОГО -->
+    <!-- 2. ХЕДЪР / ЛОГО И СЛОГАН -->
     <header>
-        <a href="#" class="logo">СПИСАНИЕТО</a>
+        <a href="#" class="logo">СПИСАНИЕТО<span class="logo-dot">.</span></a>
+        <div class="tagline">Всичко важно. На едно място.</div>
     </header>
 
     <!-- 3. НАВИГАЦИЯ -->
@@ -308,7 +311,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <span class="footer-logo">СПИСАНИЕТО</span>
+                    <span class="footer-logo">СПИСАНИЕТО<span style="color: var(--accent-color);">.</span></span>
                     <p>Независимо дигитално издание за новини, култура, анализи и лайфстайл.</p>
                 </div>
                 <div>
