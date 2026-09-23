@@ -59,7 +59,7 @@
             align-items: center;
         }
 
-        /* Шапка и Лого с червена точка */
+        /* Шапка, Лого с точка и Слоган */
         header {
             text-align: center;
             padding: 40px 0 20px;
@@ -144,47 +144,82 @@
             width: 100%;
         }
 
-        /* ОСНОВЕН БЛОК: Водеща статия (с banner.jpg) + Дясна рубрика АКЦЕНТИ */
+        /* ГЛАВЕН БАНЕР (ОТГОРЕ) */
+        .main-banner {
+            margin: 25px 0 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            background: var(--card-bg);
+        }
+
+        .main-banner img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ОСНОВЕН БЛОК: КАРУСЕЛ + АКЦЕНТИ */
         .hero-layout {
             display: grid;
             grid-template-columns: 2.2fr 1fr;
             gap: 30px;
-            padding: 35px 0 25px;
+            padding: 20px 0 25px;
             border-bottom: 1px solid var(--border-color);
         }
 
-        /* Карта за основната статия с банер */
-        .main-article-card {
-            background: var(--card-bg);
+        /* КАРУСЕЛ (СЛАЙДЕР) */
+        .carousel-container {
+            position: relative;
             border: 1px solid var(--border-color);
+            background: var(--card-bg);
             overflow: hidden;
-            transition: var(--transition-smooth);
+            height: 100%;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .banner-wrap {
+        .carousel-slide {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .carousel-slide.active {
+            display: flex;
+        }
+
+        .carousel-image-wrap {
+            height: 260px;
             overflow: hidden;
             background: #eee;
-            border-bottom: 1px solid var(--border-color);
         }
 
-        .banner-wrap img {
+        .carousel-image-wrap img {
             width: 100%;
-            max-height: 440px;
+            height: 100%;
             object-fit: cover;
             display: block;
             transition: transform 0.6s ease;
         }
 
-        .main-article-card:hover .banner-wrap img {
+        .carousel-slide:hover .carousel-image-wrap img {
             transform: scale(1.03);
         }
 
-        .main-article-content {
-            padding: 30px;
+        .carousel-content {
+            padding: 25px 30px;
+            background: var(--card-bg);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .category-badge {
-            display: inline-block;
+            align-self: flex-start;
             background: var(--accent);
             color: #fff;
             font-size: 0.72rem;
@@ -192,24 +227,52 @@
             letter-spacing: 1.5px;
             padding: 4px 12px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .main-article-title {
+        .carousel-title {
             font-family: var(--font-editorial);
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             line-height: 1.25;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .main-article-title a {
+        .carousel-title a {
             color: var(--text-main);
             text-decoration: none;
             transition: var(--transition-smooth);
         }
 
-        .main-article-title a:hover {
+        .carousel-title a:hover {
             color: var(--accent);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
         }
 
         /* Дясна колона: АКЦЕНТИ */
@@ -232,7 +295,7 @@
         .accent-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 22px;
+            padding: 20px;
             transition: var(--transition-smooth);
         }
 
@@ -243,9 +306,9 @@
 
         .accent-card h3 {
             font-family: var(--font-editorial);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             line-height: 1.3;
-            margin: 10px 0 8px;
+            margin: 8px 0 6px;
         }
 
         .accent-card h3 a {
@@ -500,23 +563,57 @@
     </nav>
 
     <main class="container">
-        <!-- Основна подредба: Начална статия с банер + Рубрика АКЦЕНТИ -->
+        <!-- ГЛАВЕН БАНЕР (ОТГОРЕ) -->
+        <div class="main-banner">
+            <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
+        </div>
+
+        <!-- ОСНОВЕН БЛОК: КАРУСЕЛ С ВОДЕЩА НОВИНА + ДЯСНА РУБРИКА АКЦЕНТИ -->
         <section class="hero-layout">
-            <!-- Водеща статия с banner.jpg -->
-            <article class="main-article-card">
-                <div class="banner-wrap">
-                    <img src="banner.jpg" alt="Водеща тема" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200'">
-                </div>
-                <div class="main-article-content">
-                    <span class="category-badge">Водеща тема</span>
-                    <h2 class="main-article-title"><a href="article.html">Дигиталното бъдеще и независимата журналистика</a></h2>
-                    <p style="color: #555; font-size: 1.05rem;">Пространство за анализи, обществени теми, европейски политики и културни акценти през новия сезон.</p>
-                    <div class="article-meta" style="margin-top: 15px;">
-                        <span>Септември 2026</span>
-                        <span>⏱ 5 мин. четене</span>
+            <!-- КАРУСЕЛ / СЛАЙДЕР С ВОДЕЩИ НОВИНИ -->
+            <div class="carousel-container">
+                <!-- Слайд 1 -->
+                <div class="carousel-slide active">
+                    <div class="carousel-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800" alt="Водеща тема">
+                    </div>
+                    <div class="carousel-content">
+                        <span class="category-badge">Водеща тема</span>
+                        <h2 class="carousel-title"><a href="article.html">Дигиталната трансформация и независимата журналистика</a></h2>
+                        <p style="color: #555; font-size: 0.95rem;">Пространство за анализи, обществени теми, европейски политики и култура.</p>
                     </div>
                 </div>
-            </article>
+
+                <!-- Слайд 2 -->
+                <div class="carousel-slide">
+                    <div class="carousel-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800" alt="Аграрен сектор">
+                    </div>
+                    <div class="carousel-content">
+                        <span class="category-badge">Европейски политики</span>
+                        <h2 class="carousel-title"><a href="article.html">Новият аграрен сезон и европейските субсидии</a></h2>
+                        <p style="color: #555; font-size: 0.95rem;">Преглед на ключовите промени и изисквания за земеделските производители.</p>
+                    </div>
+                </div>
+
+                <!-- Слайд 3 -->
+                <div class="carousel-slide">
+                    <div class="carousel-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=800" alt="Култура">
+                    </div>
+                    <div class="carousel-content">
+                        <span class="category-badge">Култура</span>
+                        <h2 class="carousel-title"><a href="article.html">Ролята на независимите списания в днешното общество</a></h2>
+                        <p style="color: #555; font-size: 0.95rem;">Защо доброто писмено слово продължава да има своята вярна публика.</p>
+                    </div>
+                </div>
+
+                <!-- Бутони за карусела -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="prevSlide()">&larr;</button>
+                    <button class="carousel-btn" onclick="nextSlide()">&rarr;</button>
+                </div>
+            </div>
 
             <!-- Дясна колона: АКЦЕНТИ -->
             <aside class="sidebar-section">
@@ -576,8 +673,32 @@
         </div>
     </footer>
 
-    <!-- Скриптове за модала и рендиране на статиите -->
+    <!-- Скриптове за карусела, модала и рендиране на статиите -->
     <script>
+        /* Карусел скрипт */
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 6000);
+
+        /* Модал скрипт */
         function openAboutModal() {
             document.getElementById('aboutModal').style.display = 'flex';
         }
@@ -593,6 +714,7 @@
             }
         }
 
+        /* Динамични статии */
         const defaultArticles = [
             {
                 title: "Европейски политики и аграрният сектор през новия сезон",
