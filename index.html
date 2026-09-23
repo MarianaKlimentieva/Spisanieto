@@ -59,7 +59,7 @@
             align-items: center;
         }
 
-        /* Шапка, Лого с точка и Слоган */
+        /* Шапка, Лого с червена точка и Слоган */
         header {
             text-align: center;
             padding: 40px 0 20px;
@@ -144,7 +144,7 @@
             width: 100%;
         }
 
-        /* АУДИО БЛОК (ПЛЕЪР) */
+        /* АУДИО БЛОК */
         .audio-banner {
             background: #111111;
             color: #ffffff;
@@ -190,7 +190,6 @@
         .audio-player audio {
             outline: none;
             height: 36px;
-            border-radius: 20px;
         }
 
         /* ГЛАВЕН БАНЕР */
@@ -209,7 +208,7 @@
             display: block;
         }
 
-        /* ОСНОВЕН БЛОК: КАРУСЕЛ + АКЦЕНТИ */
+        /* ОСНОВЕН БЛОК: КАРУСЕЛ + ДЯСНА КОЛОНА (АКЦЕНТИ И ЦИТАТ) */
         .hero-layout {
             display: grid;
             grid-template-columns: 2.2fr 1fr;
@@ -218,7 +217,7 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        /* КАРУСЕЛ (СЛАЙДЕР) */
+        /* КАРУСЕЛ */
         .carousel-container {
             position: relative;
             border: 1px solid var(--border-color);
@@ -324,7 +323,7 @@
             border-color: var(--accent);
         }
 
-        /* Дясна колона: АКЦЕНТИ */
+        /* ДЯСНА КОЛОНА */
         .sidebar-section {
             display: flex;
             flex-direction: column;
@@ -344,7 +343,7 @@
         .accent-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 18px;
             transition: var(--transition-smooth);
         }
 
@@ -355,9 +354,9 @@
 
         .accent-card h3 {
             font-family: var(--font-editorial);
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             line-height: 1.3;
-            margin: 8px 0 6px;
+            margin: 6px 0 4px;
         }
 
         .accent-card h3 a {
@@ -370,41 +369,40 @@
             color: var(--accent);
         }
 
-        /* ЦИТАТ НА ДЕНЯ */
-        .quote-section {
+        /* ЦИТАТ НА ДЕНЯ В ДЯСНАТА КОЛОНА */
+        .sidebar-quote {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--accent);
-            padding: 25px 35px;
-            margin: 30px 0;
+            padding: 20px;
+            margin-top: 5px;
         }
 
         .quote-label {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.8px;
             color: var(--accent);
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
         }
 
         .quote-text {
             font-family: var(--font-editorial);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-style: italic;
             color: var(--text-main);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .quote-author {
             display: block;
-            margin-top: 10px;
-            font-size: 0.85rem;
+            margin-top: 8px;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         /* Секция Новини */
@@ -505,74 +503,80 @@
             justify-content: space-between;
         }
 
-        /* Модален прозорец "ЗА НАС" */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+        /* БОГАТ ФУТЪР С ПЪЛНА ИНФОРМАЦИЯ */
+        footer {
+            background: #111111;
+            color: #dddddd;
+            padding: 60px 0 30px;
+            border-top: 4px solid var(--accent);
         }
 
-        .modal-card {
-            background: var(--card-bg);
-            max-width: 620px;
-            width: 90%;
-            padding: 40px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.2fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #222222;
+            padding-bottom: 40px;
         }
 
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .modal-title {
+        .footer-about h3 {
             font-family: var(--font-heading);
-            font-size: 1.8rem;
-            margin-bottom: 18px;
-            color: var(--accent);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
+            color: #ffffff;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
         }
 
-        .modal-body p {
-            margin-bottom: 15px;
-            color: #444;
-            font-size: 0.98rem;
+        .footer-about p {
+            font-size: 0.9rem;
+            color: #aaaaaa;
             line-height: 1.6;
         }
 
-        /* Футър */
-        footer {
-            background: #111;
-            color: #eee;
-            padding: 40px 0;
-            border-top: 4px solid var(--accent);
-            text-align: center;
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            color: #ffffff;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 6px;
+            display: inline-block;
         }
 
-        footer p {
-            font-size: 0.85rem;
-            color: #888;
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #aaaaaa;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-col ul li a:hover {
+            color: #ffffff;
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #777777;
         }
 
         @media (max-width: 850px) {
             .hero-layout {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
             .audio-banner {
@@ -610,13 +614,13 @@
                 <li><a href="/">Начало</a></li>
                 <li><a href="#news">Новини</a></li>
                 <li><a href="#analyses">Анализи</a></li>
-                <li><a onclick="openAboutModal()">За нас</a></li>
+                <li><a href="#about">За нас</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container">
-        <!-- АУДИО БЛОК (СПИСАНИЕТО АУДИО / ПОДКАСТ) -->
+        <!-- АУДИО БЛОК -->
         <div class="audio-banner">
             <div class="audio-info">
                 <div class="audio-icon">🎧</div>
@@ -638,7 +642,7 @@
             <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
         </div>
 
-        <!-- ОСНОВЕН БЛОК: КАРУСЕЛ С ВОДЕЩА НОВИНА + ДЯСНА РУБРИКА АКЦЕНТИ -->
+        <!-- ОСНОВЕН БЛОК: КАРУСЕЛ С ВОДЕЩА НОВИНА + ДЯСНА КОЛОНА (АКЦЕНТИ И ЦИТАТ) -->
         <section class="hero-layout">
             <!-- КАРУСЕЛ / СЛАЙДЕР С ВОДЕЩИ НОВИНИ -->
             <div class="carousel-container">
@@ -685,7 +689,7 @@
                 </div>
             </div>
 
-            <!-- Дясна колона: АКЦЕНТИ -->
+            <!-- ДЯСНА КОЛОНА: АКЦЕНТИ И ЦИТАТ НА ДЕНЯ -->
             <aside class="sidebar-section">
                 <h2 class="sidebar-header">Акценти</h2>
 
@@ -700,17 +704,17 @@
                     <h3><a href="article.html">Истории, идеи и публикации на фокус</a></h3>
                     <p style="color:#666; font-size: 0.88rem;">Завръщането на качественото писмено слово.</p>
                 </article>
+
+                <!-- ЦИТАТ НА ДЕНЯ (В ДЯСНАТА КОЛОНА) -->
+                <div class="sidebar-quote">
+                    <span class="quote-label">Цитат на деня</span>
+                    <blockquote class="quote-text">
+                        „Журналистиката е публикуването на това, което някой друг не иска да бъде публикувано. Всичко останало е PR.“
+                    </blockquote>
+                    <span class="quote-author">— Джордж Оруел</span>
+                </div>
             </aside>
         </section>
-
-        <!-- Секция ЦИТАТ НА ДЕНЯ -->
-        <div class="quote-section">
-            <span class="quote-label">Цитат на деня</span>
-            <blockquote class="quote-text">
-                „Журналистиката е публикуването на това, което някой друг не иска да бъде публикувано. Всичко останало е PR.“
-            </blockquote>
-            <span class="quote-author">— Джордж Оруел</span>
-        </div>
 
         <!-- Раздел Последни публикации -->
         <div class="section-header" id="news">
@@ -724,26 +728,54 @@
         </div>
     </main>
 
-    <!-- Модален прозорец (Каре) "ЗА НАС" -->
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeAboutModal()">&times;</button>
-            <h2 class="modal-title">За нас</h2>
-            <div class="modal-body">
-                <p>Добре дошли в <strong>„СПИСАНИЕТО“</strong> — независимо дигитално издание, създадено с фокус върху задълбоченото съдържание, качествената журналистика и важните обществени теми.</p>
-                <p>Нашата мисия е да предоставяме място за новини, анализи, идеи и истории, като съчетаваме традиционния редакционен стил с модерния дигитален формат.</p>
-                <p>Тук ще откриете материали в сферата на икономиката, европейските политики, аграрния сектор, културата и съвременния начин на живот.</p>
-            </div>
-        </div>
-    </div>
-
+    <!-- БОГАТ ФУТЪР С ТЕКСТ ЗА СПИСАНИЕТО, РЕДАКЦИЯ И ЕТИЧНИ ПРАВА -->
     <footer>
         <div class="container">
-            <p>Всички права запазени. &copy; 2026 | spisanieto.bg</p>
+            <div class="footer-grid">
+                <!-- Текст За Списанието -->
+                <div class="footer-about" id="about">
+                    <h3>СПИСАНИЕТО<span style="color:var(--accent)">.</span></h3>
+                    <p>Независимо дигитално издание, създадено с фокус върху задълбоченото съдържание, качествената журналистика и важните обществени теми. Място за новини, анализи, идеи и истории от сферата на икономиката, европейските политики, аграрния сектор и културата.</p>
+                </div>
+
+                <!-- Рубрика За нас -->
+                <div class="footer-col">
+                    <h4>За нас</h4>
+                    <ul>
+                        <li><a href="#about">За изданието</a></li>
+                        <li><a href="#news">Мисия и визия</a></li>
+                        <li><a href="/admin/">Вход за автори</a></li>
+                    </ul>
+                </div>
+
+                <!-- Рубрика Редакция -->
+                <div class="footer-col">
+                    <h4>Редакция</h4>
+                    <ul>
+                        <li><a href="#">Редакционен екип</a></li>
+                        <li><a href="#">Автори и експерти</a></li>
+                        <li><a href="#">Контакти</a></li>
+                    </ul>
+                </div>
+
+                <!-- Рубрика Етични права -->
+                <div class="footer-col">
+                    <h4>Етични права</h4>
+                    <ul>
+                        <li><a href="#">Етичен кодекс</a></li>
+                        <li><a href="#">Право на отговор</a></li>
+                        <li><a href="#">Политика за поверителност</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Всички права запазени. &copy; 2026 | spisanieto.bg</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Скриптове за карусела, модала и рендиране на статиите -->
+    <!-- Скриптове за карусела и рендиране на статиите -->
     <script>
         /* Карусел скрипт */
         let currentSlide = 0;
@@ -767,22 +799,6 @@
         }
 
         setInterval(nextSlide, 6000);
-
-        /* Модал скрипт */
-        function openAboutModal() {
-            document.getElementById('aboutModal').style.display = 'flex';
-        }
-
-        function closeAboutModal() {
-            document.getElementById('aboutModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('aboutModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
 
         /* Динамични статии */
         const defaultArticles = [
