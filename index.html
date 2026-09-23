@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СПИСАНИЕТО | Дигитално издание за съвременна култура и новини</title>
-    <!-- Шрифтове за класически журнал стил -->
+    <title>СПИСАНИЕТО | Дигитално издание</title>
+    <!-- Шрифтове Playfair Display, Cinzel и Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -59,10 +59,10 @@
             align-items: center;
         }
 
-        /* Лого */
+        /* Шапка и Лого */
         header {
             text-align: center;
-            padding: 45px 0 25px;
+            padding: 40px 0 20px;
             border-bottom: 3px double var(--border-color);
         }
 
@@ -89,53 +89,6 @@
             color: var(--text-muted);
             margin-top: 6px;
             font-size: 1.1rem;
-        }
-
-        /* Динамична лента НА ЖИВО */
-        .ticker-bar {
-            background: #111;
-            color: #fff;
-            padding: 8px 0;
-            font-size: 0.82rem;
-            overflow: hidden;
-        }
-
-        .ticker-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .ticker-badge {
-            background: var(--accent);
-            color: #fff;
-            padding: 2px 8px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-
-        .ticker-text {
-            color: #ccc;
-            white-space: nowrap;
         }
 
         /* Навигация */
@@ -166,6 +119,7 @@
             position: relative;
             padding-bottom: 4px;
             transition: var(--transition-smooth);
+            cursor: pointer;
         }
 
         .nav-links a::after {
@@ -184,40 +138,34 @@
             width: 100%;
         }
 
-        /* Hero секция с ефекти */
+        /* Главен Банер (banner.jpg) */
+        .main-banner {
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            background: var(--card-bg);
+        }
+
+        .main-banner img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Основно съдържание */
         .hero-section {
             display: grid;
-            grid-template-columns: 2.2fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 30px;
-            padding: 40px 0;
+            padding: 20px 0 40px;
             border-bottom: 1px solid var(--border-color);
         }
 
         .hero-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            overflow: hidden;
-            transition: var(--transition-smooth);
-        }
-
-        .img-container {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .img-container img {
-            width: 100%;
-            height: 440px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.6s ease;
-        }
-
-        .hero-card:hover img {
-            transform: scale(1.04);
-        }
-
-        .hero-content {
             padding: 30px;
         }
 
@@ -235,22 +183,11 @@
 
         .hero-title {
             font-family: var(--font-editorial);
-            font-size: 2.4rem;
-            line-height: 1.2;
+            font-size: 2.2rem;
+            line-height: 1.25;
             margin-bottom: 15px;
         }
 
-        .hero-title a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .hero-title a:hover {
-            color: var(--accent);
-        }
-
-        /* Страничен панел */
         .side-highlights {
             display: flex;
             flex-direction: column;
@@ -260,111 +197,82 @@
         .side-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 22px;
-            transition: var(--transition-smooth);
-        }
-
-        .side-card:hover {
-            border-color: var(--accent);
-            transform: translateX(4px);
+            padding: 20px;
         }
 
         .side-card h3 {
             font-family: var(--font-editorial);
-            font-size: 1.3rem;
-            line-height: 1.3;
-            margin: 10px 0;
+            font-size: 1.2rem;
+            margin-top: 8px;
         }
 
-        .side-card h3 a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .side-card h3 a:hover {
-            color: var(--accent);
-        }
-
-        /* Второстепенни статии */
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 30px;
-            padding: 40px 0 60px;
-        }
-
-        .article-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            transition: var(--transition-smooth);
-        }
-
-        .article-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 32px rgba(0,0,0,0.07);
-        }
-
-        .article-card img {
+        /* Модален прозорец "За нас" */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 230px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .article-card:hover img {
-            transform: scale(1.05);
+        .modal-card {
+            background: var(--card-bg);
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
-        .article-card-body {
-            padding: 22px;
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
         }
 
-        .article-card h3 {
-            font-family: var(--font-editorial);
-            font-size: 1.45rem;
-            margin: 10px 0;
-            line-height: 1.3;
-        }
-
-        .article-card h3 a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .article-card h3 a:hover {
+        .modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             color: var(--accent);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
         }
 
-        .meta-info {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .modal-body p {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 0.98rem;
         }
 
         /* Футър */
         footer {
             background: #111;
             color: #eee;
-            padding: 50px 0;
+            padding: 40px 0;
             border-top: 4px solid var(--accent);
             text-align: center;
+            margin-top: 50px;
         }
 
         footer p {
             font-size: 0.85rem;
             color: #888;
-            margin-top: 10px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 800px) {
             .hero-section {
                 grid-template-columns: 1fr;
             }
@@ -379,12 +287,12 @@
     <!-- Горна лента -->
     <div class="top-bar">
         <div class="container top-bar-content">
-            <span>Брой 02 — Септември 2026</span>
+            <span>СПИСАНИЕТО.БГ — Дигитално издание</span>
             <a href="/admin/" style="color: inherit; text-decoration: none;">Вход за автори</a>
         </div>
     </div>
 
-    <!-- Лого -->
+    <!-- Заглавна част -->
     <header>
         <div class="container">
             <a href="/" class="logo">СПИСАНИЕТО</a>
@@ -392,86 +300,90 @@
         </div>
     </header>
 
-    <!-- Тракер НА ЖИВО -->
-    <div class="ticker-bar">
-        <div class="container ticker-content">
-            <div class="ticker-badge"><span class="pulse-dot"></span> На живо</div>
-            <div class="ticker-text">Анализи и коментари: Иновациите и европейските политики през новия сезон</div>
-        </div>
-    </div>
-
-    <!-- Навигация -->
+    <!-- Навигация с рубрика "За нас" -->
     <nav>
         <div class="container">
             <ul class="nav-links">
                 <li><a href="#">Новини</a></li>
-                <li><a href="#">Политика</a></li>
-                <li><a href="#">Свят</a></li>
-                <li><a href="#">Лайфстайл</a></li>
+                <li><a href="#">Анализи</a></li>
+                <li><a href="#">Култура</a></li>
+                <li><a onclick="openAboutModal()">За нас</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container">
-        <!-- Водещ блок -->
+        <!-- Главен Банер (banner.jpg) -->
+        <div class="main-banner">
+            <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
+        </div>
+
+        <!-- Основна секция -->
         <section class="hero-section">
             <article class="hero-card">
-                <div class="img-container">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200" alt="Водеща статия">
-                </div>
-                <div class="hero-content">
-                    <span class="category-badge">Политика</span>
-                    <h2 class="hero-title"><a href="#">Бъдещето е тук: Как иновациите променят икономиката и обществото ни</a></h2>
-                    <p style="color: #666; font-size: 1.02rem;">Подробен анализ на глобалните трансформации, технологичния напредък и ролята на дигиталната медийна среда през новата десетилетна ера.</p>
-                    <div class="meta-info">
-                        <span>21 Септември 2026</span>
-                        <span>⏱ 5 мин. четене</span>
-                    </div>
-                </div>
+                <span class="category-badge">Водеща тема</span>
+                <h2 class="hero-title">Дигиталното бъдеще и независимата журналистика</h2>
+                <p style="color: #555;">Пространство за анализи, обществени теми, европейски политики и културни акценти.</p>
             </article>
 
             <div class="side-highlights">
                 <article class="side-card">
-                    <span class="category-badge" style="background:#222;">Новини</span>
-                    <h3><a href="#">Зелените политики и новият европейски дневен ред</a></h3>
-                    <p style="color:#666; font-size: 0.88rem;">Ключови решения и перспективи за устойчиво развитие.</p>
-                    <div class="meta-info">
-                        <span>⏱ 3 мин.</span>
-                    </div>
+                    <span class="category-badge" style="background:#222;">Анализи</span>
+                    <h3>Актуални икономически и социални тенденции</h3>
                 </article>
                 <article class="side-card">
-                    <span class="category-badge" style="background:#222;">Лайфстайл</span>
-                    <h3><a href="#">Изкуството на бавното живеене в забързания град</a></h3>
-                    <p style="color:#666; font-size: 0.88rem;">Практически съвети за постигане на баланс и уединение.</p>
-                    <div class="meta-info">
-                        <span>⏱ 4 мин.</span>
-                    </div>
+                    <span class="category-badge" style="background:#222;">Култура</span>
+                    <h3>Истории, идеи и публикации на фокус</h3>
                 </article>
             </div>
         </section>
-
-        <!-- Мрежа за следващи статии -->
-        <section class="articles-grid" id="articles-container">
-            <!-- Тук ще се зареждат останалите публикации -->
-        </section>
     </main>
+
+    <!-- Модален прозорец за рубриката "За нас" -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeAboutModal()">&times;</button>
+            <h2 class="modal-title">За нас</h2>
+            <div class="modal-body">
+                <p>Добре дошли в <strong>„СПИСАНИЕТО“</strong> — независимо дигитално издание, създадено с фокус върху задълбоченото съдържание, качествената журналистика и важните обществени теми.</p>
+                <p>Нашата мисия е да предоставяме място за новини, анализи, идеи и истории, като съчетаваме традиционния редакционен стил с модерния дигитален формат.</p>
+                <p>Тук ще откриете материали в сферата на икономиката, европейските политики, аграрния сектор, културата и съвременния начин на живот.</p>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 СПИСАНИЕТО. Всички права са запазени.</p>
+            <p>Всички права запазени. &copy; 2026 | spisanieto.bg</p>
         </div>
     </footer>
 
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+        function openAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
+        // Затваряне при клик извън картата
+        window.onclick = function(event) {
+            const modal = document.getElementById('aboutModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
             });
-          }
-        });
-      }
+        }
     </script>
 </body>
 </html>
