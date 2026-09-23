@@ -9,7 +9,7 @@
         :root {
             --bg-color: #f7f6f2;
             --text-color: #111111;
-            --accent-color: #8c1d40; /* Маджента / Бордо accent */
+            --accent-color: #8c1d40; /* Бордо / Маджента accent */
             --border-color: #e2dfd7;
             --font-serif: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -35,7 +35,7 @@
         nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; }
         nav ul { display: flex; justify-content: center; gap: 2.5rem; list-style: none; padding: 0.8rem 0; flex-wrap: wrap; margin: 0 auto; }
-        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.2s; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.2s; cursor: pointer; }
         nav a:hover { color: var(--accent-color); }
         .search-icon { cursor: pointer; font-size: 0.9rem; }
 
@@ -82,10 +82,6 @@
         .quote-box { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; line-height: 1.4; border-left: 3px solid var(--accent-color); padding-left: 1rem; margin: 1rem 0; color: #333; }
         .quote-author { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-top: 0.5rem; display: block; font-style: normal; }
 
-        /* АУДИО / ПОДКАСТ БЛОК */
-        .audio-player { display: flex; align-items: center; gap: 1rem; background: #fff; padding: 0.8rem; border-radius: 4px; border: 1px solid var(--border-color); margin-top: 0.8rem; }
-        .play-btn { background: var(--accent-color); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-
         /* БЮЛЕТИН / NEWSLETTER */
         .newsletter-form input[type="email"] { width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); margin-bottom: 0.8rem; font-family: var(--font-sans); }
         .newsletter-form button { width: 100%; padding: 0.75rem; background: var(--text-color); color: #fff; border: none; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; cursor: pointer; transition: 0.2s; }
@@ -101,6 +97,48 @@
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
         .square-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 3px; }
         .square-card h4 { font-family: var(--font-serif); font-size: 1.1rem; margin-top: 0.5rem; }
+
+        /* СТИЛОВЕ ЗА МОДАЛНИЯ ПРОЗОРЕЦ "ЗА НАС" */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 1.2rem;
+            top: 0.8rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
 
         /* ФУТЪР */
         footer { background: #111; color: #ccc; padding: 3rem 0 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
@@ -130,18 +168,18 @@
         </div>
     </div>
 
-    <!-- 1. ВЕРХЕН БАНЕР -->
+    <!-- ВЕРХЕН БАНЕР -->
     <div class="top-banner">
         <img src="banner.jpg" alt="Банер Списанието">
     </div>
 
-    <!-- 2. ХЕДЪР / ЛОГО И СЛОГАН -->
+    <!-- ХЕДЪР / ЛОГО И СЛОГАН -->
     <header>
         <a href="#" class="logo">СПИСАНИЕТО<span class="logo-dot">.</span></a>
         <div class="tagline">Всичко важно. На едно място.</div>
     </header>
 
-    <!-- 3. НАВИГАЦИЯ -->
+    <!-- НАВИГАЦИЯ -->
     <nav>
         <div class="nav-container">
             <ul>
@@ -151,13 +189,14 @@
                 <li><a href="#">ЛАЙФСТАЙЛ</a></li>
                 <li><a href="#">КУЛТУРА</a></li>
                 <li><a href="#">АНАЛИЗИ</a></li>
+                <li><a href="javascript:void(0)" onclick="openAboutModal()">ЗА НАС</a></li>
             </ul>
             <span class="search-icon" onclick="alert('Търсенето ще бъде активно скоро!')">🔍</span>
         </div>
     </nav>
 
     <div class="container">
-        <!-- 4. КАРАУСЕЛ / ВОДЕЩИ СТАТИИ -->
+        <!-- КАРАУСЕЛ / ВОДЕЩИ СТАТИИ -->
         <section class="hero">
             <div class="carousel-slide active">
                 <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" class="hero-img" alt="Политика">
@@ -179,12 +218,12 @@
             <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
         </section>
 
-        <!-- 5. ОСНОВНА ЧАСТ (СТАТИИ + СТРАНИЧНА ЛЕНТА) -->
+        <!-- ОСНОВНА ЧАСТ (СТАТИИ + СТРАНИЧНА ЛЕНТА) -->
         <div class="main-layout">
             
-            <!-- ЛЯВА КОЛОНА: ОСНОВНИ СТАТИИ -->
+            <!-- ЛЯВА КОЛОНА: АКЦЕНТИ -->
             <div>
-                <h3 class="section-title">Селекция на редакцията</h3>
+                <h3 class="section-title">Акценти</h3>
                 <div class="grid-2">
                     <article class="card">
                         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 1">
@@ -246,19 +285,6 @@
                     </div>
                 </div>
 
-                <!-- ПОДКАСТ / АУДИО -->
-                <div class="sidebar-box">
-                    <h4 class="sidebar-title">Аудио статия</h4>
-                    <p style="font-size: 0.85rem; color: #555;">Слушайте водещия анализ на седмицата:</p>
-                    <div class="audio-player">
-                        <button class="play-btn" onclick="alert('Аудиото ще стартира скоро!')">▶</button>
-                        <div>
-                            <strong style="font-size: 0.85rem; display: block;">Епизод #12</strong>
-                            <span style="font-size: 0.75rem; color: #777;">Времетраене: 8 мин.</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- ТЕМИ НА ФОКУС -->
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Теми на фокус</h4>
@@ -285,7 +311,7 @@
         </div>
     </div>
 
-    <!-- 6. ДОПЪЛНИТЕЛНА СЕКЦИЯ: ЛАЙФСТАЙЛ И КУЛТУРА -->
+    <!-- ДОПЪЛНИТЕЛНА СЕКЦИЯ: ЛАЙФСТАЙЛ И КУЛТУРА -->
     <div class="lifestyle-section">
         <div class="container">
             <h3 class="section-title">Лайфстайл &amp; Вдъхновение</h3>
@@ -310,7 +336,26 @@
         </div>
     </div>
 
-    <!-- 7. ФУТЪР -->
+    <!-- МОДАЛЕН ПРОЗОРЕЦ "ЗА НАС" -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAboutModal()">&times;</span>
+            <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem; color: var(--text-color);">
+                СПИСАНИЕТО<span style="color: var(--accent-color);">.</span>
+            </h2>
+            <p style="font-size: 1.1rem; line-height: 1.7; color: #333; margin-bottom: 1rem;">
+                <strong>СПИСАНИЕТО.</strong> е място за новини, идеи и истории от България и света.
+            </p>
+            <p style="font-size: 1.05rem; line-height: 1.7; color: #444; margin-bottom: 1.5rem;">
+                Следим важното. Разказваме интересното. Търсим смисъла зад събитията.
+            </p>
+            <div style="font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; color: var(--accent-color); border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                Всичко важно. На едно място.
+            </div>
+        </div>
+    </div>
+
+    <!-- ФУТЪР -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -331,7 +376,7 @@
                 </div>
                 <div>
                     <h4 style="color: #fff; margin-bottom: 1rem;">За нас</h4>
-                    <p><a href="#">Редакция</a></p>
+                    <p><a href="javascript:void(0)" onclick="openAboutModal()">Редакция</a></p>
                     <p><a href="#">Етичен кодекс</a></p>
                     <p><a href="#">Реклама</a></p>
                     <p><a href="#">Контакти</a></p>
@@ -344,6 +389,7 @@
     </footer>
 
     <script>
+        // КАРАУСЕЛ
         let slideIndex = 0;
         const slides = document.querySelectorAll('.carousel-slide');
 
@@ -360,6 +406,22 @@
         }
 
         setInterval(() => { moveSlide(1); }, 5000);
+
+        // МОДАЛЕН ПРОЗОРЕЦ "ЗА НАС"
+        function openAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('aboutModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
