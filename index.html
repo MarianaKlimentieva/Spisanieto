@@ -98,17 +98,17 @@
         .tag { font-size: 0.75rem; background: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; text-decoration: none; color: var(--text-color); transition: 0.2s; }
         .tag:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
 
-        /* НОВА СЕКЦИЯ: АВТОРСКИ КОЛОНИ / МНЕНИЯ */
-        .opinion-section { background: #1a1a1a; color: #fff; padding: 4rem 0; margin-bottom: 3rem; }
+        /* СЕКЦИЯ: МНЕНИЯ & КОМЕНТАРИ (СВЕТЛА, СЪОБРАЗЕНА С ДИЗАЙНА) */
+        .opinion-section { background: #efece6; padding: 3.5rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .opinion-header { text-align: center; margin-bottom: 2.5rem; }
-        .opinion-header h3 { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; border: none; }
+        .opinion-header h3 { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-color); }
         .opinion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        .opinion-card { background: #262626; padding: 2rem; border-radius: 4px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
-        .opinion-quote { font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; line-height: 1.4; margin-bottom: 1.5rem; color: #e2dfd7; }
+        .opinion-card { background: #ffffff; padding: 2rem; border-radius: 4px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; }
+        .opinion-quote { font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; line-height: 1.4; margin-bottom: 1.5rem; color: #333333; }
         .opinion-author-box { display: flex; align-items: center; gap: 1rem; }
         .opinion-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); }
-        .opinion-author-name { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
-        .opinion-author-title { font-size: 0.75rem; color: #999; }
+        .opinion-author-name { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
+        .opinion-author-title { font-size: 0.75rem; color: #666; }
 
         /* СПЕЦИАЛНА СЕКЦИЯ (ГАЛЕРИЯ / ЛАЙФСТАЙЛ) */
         .lifestyle-section { background: #ffffff; padding: 3rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
@@ -177,12 +177,12 @@
 </head>
 <body>
 
-    <!-- ДАТА И ИЗДАНИЕ -->
+    <!-- ДИНАМИЧНА ЛЕНТА С ДАТА И ЧАС -->
     <div class="top-bar">
-        <span>ПОНЕДЕЛНИК, 21 СЕПТЕМВРИ 2026 г.</span>
+        <span id="current-date">ЗАРЕЖДАНЕ НА ДАТА...</span>
         <div class="top-bar-right">
             <span>София 22°C ☀️</span>
-            <span>ДИГИТАЛНО ИЗДАНИЕ</span>
+            <span id="current-time">00:00:00</span>
         </div>
     </div>
 
@@ -337,11 +337,10 @@
         </div>
     </div>
 
-    <!-- НОВА СЕКЦИЯ: АВТОРСКИ КОЛОНИ / МНЕНИЯ -->
+    <!-- СЕКЦИЯ: МНЕНИЯ & КОМЕНТАРИ -->
     <section class="opinion-section">
         <div class="opinion-header">
             <h3>Мнения &amp; Коментари</h3>
-            <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">Авторски прозрения от водещи анализатори</p>
         </div>
         <div class="opinion-grid">
             <div class="opinion-card">
@@ -439,12 +438,29 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2026 СПИСАНИЕТО. Всички права запазени.
+                &copy; <span id="current-year">2026</span> СПИСАНИЕТО. Всички права запазени.
             </div>
         </div>
     </footer>
 
     <script>
+        // АКТУАЛНА ДАТА И ЧАС НА БЪЛГАРСКИ
+        function updateDateTime() {
+            const now = new Date();
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('bg-BG', options);
+            document.getElementById('current-date').textContent = dateStr.toUpperCase();
+
+            const timeStr = now.toLocaleTimeString('bg-BG');
+            document.getElementById('current-time').textContent = timeStr;
+
+            document.getElementById('current-year').textContent = now.getFullYear();
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
         // КАРАУСЕЛ
         let slideIndex = 0;
         const slides = document.querySelectorAll('.carousel-slide');
@@ -463,12 +479,11 @@
 
         setInterval(() => { moveSlide(1); }, 5000);
 
-        // ФИЛТРИРАНЕ НА КАТЕГОРИИ (ИНТЕРАКТИВНО)
+        // ФИЛТРИРАНЕ НА КАТЕГОРИИ
         function filterCategory(category) {
             const tabs = document.querySelectorAll('.filter-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-            // Тук можете да добавите допълнителна логика при нужда за сортиране по категории
         }
 
         // МОДАЛЕН ПРОЗОРЕЦ "ЗА НАС"
