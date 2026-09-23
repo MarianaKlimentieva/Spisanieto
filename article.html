@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мария Петрова за изкуството — СПИСАНИЕТО</title>
+    <title>Изкуственият интелект в модерните медии - СПИСАНИЕТО</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,81 +16,249 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-sans); line-height: 1.8; }
-
-        header { border-bottom: 1px solid var(--border-color); padding: 1.2rem 1.5rem; }
-        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-color); text-decoration: none; }
-        .back-link { text-decoration: none; color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .back-link:hover { color: var(--accent-color); }
-
-        .article-container { max-width: 820px; margin: 3rem auto 5rem; padding: 0 1.5rem; }
-
-        .article-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); font-weight: 600; margin-bottom: 0.8rem; }
-        .article-title { font-family: var(--font-serif); font-size: 3.2rem; font-weight: 600; line-height: 1.15; margin-bottom: 1.2rem; letter-spacing: -0.5px; }
-        .article-subheading { font-family: var(--font-serif); font-size: 1.35rem; font-style: italic; color: #444; margin-bottom: 2rem; line-height: 1.5; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-sans); line-height: 1.7; }
         
-        .author-box { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 0.8rem 0; margin-bottom: 2.5rem; font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        /* ЛЕНТА С ДАТА И ВРЕМЕ */
+        .top-bar { max-width: 1200px; margin: 0 auto; padding: 0.8rem 1.5rem 0.3rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #666; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 0.5rem; }
+        .top-bar-right { display: flex; gap: 1.5rem; align-items: center; }
 
-        .featured-image-wrap { margin-bottom: 3rem; }
-        .featured-image { width: 100%; height: 480px; object-fit: cover; border-radius: 2px; }
-        .image-caption { font-size: 0.8rem; color: #777; margin-top: 0.6rem; text-align: center; font-style: italic; }
+        /* HEADER & NAV */
+        header { text-align: center; padding: 1.5rem 1rem 1rem; position: relative; }
+        .logo { font-family: var(--font-serif); font-size: 3.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-color); text-decoration: none; display: inline-block; line-height: 1; }
+        .logo-dot { color: var(--accent-color); }
+        .tagline { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: #555; margin-top: 0.4rem; letter-spacing: 0.5px; }
 
-        .article-body { font-size: 1.1rem; color: #222; }
-        .article-body p { margin-bottom: 1.8rem; }
+        nav { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; }
+        nav ul { display: flex; justify-content: center; gap: 2.5rem; list-style: none; padding: 0.8rem 0; flex-wrap: wrap; margin: 0 auto; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.2s; cursor: pointer; }
+        nav a:hover { color: var(--accent-color); }
+        .search-icon { cursor: pointer; font-size: 0.9rem; }
+
+        /* СТАТИЯ СЪДЪРЖАНИЕ */
+        .article-container { max-width: 800px; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
+        .article-category { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 0.8rem; display: block; }
+        .article-title { font-family: var(--font-serif); font-size: 3rem; line-height: 1.15; font-weight: 600; margin-bottom: 1.2rem; color: var(--text-color); }
+        .article-lead { font-family: var(--font-serif); font-size: 1.35rem; font-style: italic; color: #444; line-height: 1.5; margin-bottom: 2rem; }
+
+        .article-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2.5rem; font-size: 0.85rem; color: #666; }
+        .author-info { font-weight: 600; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; }
+
+        .article-main-img { width: 100%; height: 420px; object-fit: cover; border-radius: 4px; margin-bottom: 2.5rem; border: 1px solid var(--border-color); }
+
+        .article-body { font-size: 1.05rem; color: #222; margin-bottom: 2.5rem; }
+        .article-body p { margin-bottom: 1.5rem; }
+        .article-body h3 { font-family: var(--font-serif); font-size: 1.8rem; margin: 2rem 0 1rem; color: var(--text-color); }
+        .article-body blockquote { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; border-left: 3px solid var(--accent-color); padding-left: 1.2rem; margin: 2rem 0; color: #333; }
+
+        /* БУТОНИ ЗА СПОДЕЛЯНЕ */
+        .share-section { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1.5rem 0; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .share-title { font-family: var(--font-serif); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .share-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; }
         
-        .article-body p:first-of-type::first-letter { font-family: var(--font-serif); font-size: 4.2rem; float: left; line-height: 0.8; margin-right: 0.8rem; margin-top: 0.2rem; color: var(--accent-color); }
+        .share-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: #fff; transition: opacity 0.2s; cursor: pointer; border: none; }
+        .share-btn:hover { opacity: 0.85; }
+        
+        .btn-fb { background-color: #3b5998; }
+        .btn-twitter { background-color: #1da1f2; }
+        .btn-linkedin { background-color: #0077b5; }
+        .btn-copy { background-color: #333333; }
 
-        blockquote { font-family: var(--font-serif); font-size: 2rem; font-style: italic; line-height: 1.3; color: var(--text-color); border-left: 2px solid var(--accent-color); padding-left: 1.5rem; margin: 2.5rem 0; }
+        /* СВЪРЗАНИ СТАТИИ */
+        .related-section { margin-top: 3rem; border-top: 2px solid var(--text-color); padding-top: 2rem; }
+        .related-heading { font-family: var(--font-serif); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .related-card { background: #efece6; border: 1px solid var(--border-color); border-radius: 4px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+        .related-card:hover { transform: translateY(-3px); }
+        .related-img { width: 100%; height: 140px; object-fit: cover; border-radius: 3px; margin-bottom: 0.8rem; }
+        .related-category { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-color); margin-bottom: 0.4rem; display: block; }
+        .related-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; line-height: 1.3; color: var(--text-color); text-decoration: none; display: block; margin-bottom: 0.5rem; }
+        .related-title:hover { color: var(--accent-color); }
+        .related-excerpt { font-size: 0.8rem; color: #555; line-height: 1.4; }
 
-        footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid var(--border-color); color: #777; font-size: 0.8rem; }
+        /* ФУТЪР */
+        footer { background: #111; color: #ccc; padding: 3rem 0 1.5rem; font-size: 0.85rem; margin-top: 3rem; }
+        footer a { color: #fff; text-decoration: none; }
+        footer a:hover { color: var(--accent-color); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+        .footer-logo { font-family: var(--font-serif); font-size: 2rem; color: #fff; margin-bottom: 0.8rem; display: block; }
+        .footer-about { color: #aaa; line-height: 1.6; max-width: 480px; }
+        .footer-about p { margin-bottom: 0.5rem; }
+        .footer-tagline { color: #fff; font-family: var(--font-serif); font-style: italic; font-size: 1rem; margin-top: 0.8rem; }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #777; }
 
         @media (max-width: 768px) {
             .article-title { font-size: 2.2rem; }
-            .featured-image { height: 300px; }
-            .article-container { margin-top: 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .share-section { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-inner">
-            <a href="index.html" class="back-link">← Назад към началната</a>
-            <a href="index.html" class="logo">Списанието</a>
-            <span style="width: 100px;"></span>
+    <!-- ДИНАМИЧНА ЛЕНТА С ДАТА И ЧАС -->
+    <div class="top-bar">
+        <span id="current-date">ЗАРЕЖДАНЕ НА ДАТА...</span>
+        <div class="top-bar-right">
+            <span>София 22°C ☀️</span>
+            <span id="current-time">00:00:00</span>
         </div>
+    </div>
+
+    <!-- ХЕДЪР -->
+    <header>
+        <a href="index.html" class="logo">СПИСАНИЕТО<span class="logo-dot">.</span></a>
+        <div class="tagline">Всичко важно. На едно място.</div>
     </header>
 
+    <!-- НАВИГАЦИЯ -->
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="index.html">НАЧАЛО</a></li>
+                <li><a href="#">НОВИНИ</a></li>
+                <li><a href="#">ПОЛИТИКА</a></li>
+                <li><a href="#">АНАЛИЗИ</a></li>
+                <li><a href="#">ЛАЙФСТАЙЛ</a></li>
+            </ul>
+            <span class="search-icon" onclick="alert('Търсене...')">🔍</span>
+        </div>
+    </nav>
+
+    <!-- ОСНОВНО СЪДЪРЖАНИЕ НА СТАТИЯТА -->
     <main class="article-container">
-        <div class="article-meta">Интервю &nbsp;|&nbsp; Лайфстайл</div>
-        <h1 class="article-title">Мария Петрова за изкуството, свободата и вдъхновението</h1>
-        <p class="article-subheading">Разговор за творческия процес, новите проекти и търсенето на естетика и баланс в динамичното ни ежедневие.</p>
-
-        <div class="author-box">
-            <span>Автор: Авторски състав</span>
-            <span>20 Септември 2026</span>
+        <span class="article-category">Технологии</span>
+        <h1 class="article-title">Изкуственият интелект в модерните медии и дигиталното съдържание</h1>
+        <p class="article-lead">Нови хоризонти за създаване, задълбочено анализиране и качествено разпространение на информация в динамичната дигитална епоха.</p>
+        
+        <div class="article-meta">
+            <div>Автор: <span class="author-info">СПИСАНИЕТО</span></div>
+            <div>Публикувано на: 24 Септември 2026</div>
         </div>
 
-        <div class="featured-image-wrap">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200" alt="Мария Петрова" class="featured-image">
-            <div class="image-caption">Снимка: Личен архив / Портрет за „Списанието“</div>
-        </div>
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80" class="article-main-img" alt="Илюстрация към статията">
 
         <div class="article-body">
-            <p>Истинското изкуство никога не се ражда в бързане. То изисква време, тишина и способност да наблюдаваш детайлите, които останалите подминават.</p>
+            <p>През последните години технологичната еволюция промени коренно начина, по който медиите произвеждат и поднасят своите истории. Изкуственият интелект вече не е абстрактна концепция от научнофантастичните филми, а ежедневен инструмент в ръцете на професионалистите.</p>
+            
+            <p>Основното предизвикателство пред съвременните редакции е съхраняването на автентичността и дълбочината на текста. Скоростта на информацията е висока, но читателите все повече търсят онази осъзната стойност, която отличава качествената журналистика от общия информационен поток.</p>
 
-            <p>Творческият процес е дълбоко личен път. Често започва от една малка идея или визуален спомен, който постепенно придобива форма.</p>
+            <h3>Новите стандарти на дигиталната среда</h3>
+            
+            <p>Интегрирането на нови решения позволява на авторите да отделят повече време на аналитичната работа, разследванията и творческите концепции. Балансът между технологиите и човешкия фактор остава ключовият компонент за успех.</p>
 
-            <blockquote>„Красотата не е просто въпрос на форма, тя е усещане за хармония между пространството и духа.“</blockquote>
+            <blockquote>„Дигиталният свят ни дава скорост, но именно задълбоченият текст и чистият стил са тези, които ни връщат истинския фокус.“</blockquote>
 
-            <p>Когато погледнем към бъдещето, виждаме все по-голяма нужда от завръщане към истинските стойности – чистите линии, качествените материи и дълбокото съдържание.</p>
+            <p>В заключение можем да кажем, че бъдещето принадлежи на онези платформи, които успешно съчетават традициите на качествената преса с гъвкавостта на съвременните дигитални инструменти.</p>
         </div>
+
+        <!-- СЕКЦИЯ ЗА СПОДЕЛЯНЕ -->
+        <div class="share-section">
+            <span class="share-title">Споделете статията:</span>
+            <div class="share-buttons">
+                <a href="javascript:void(0)" onclick="shareOnFacebook()" class="share-btn btn-fb">📘 Facebook</a>
+                <a href="javascript:void(0)" onclick="shareOnTwitter()" class="share-btn btn-twitter">🐦 X / Twitter</a>
+                <a href="javascript:void(0)" onclick="shareOnLinkedIn()" class="share-btn btn-linkedin">💼 LinkedIn</a>
+                <button onclick="copyArticleLink()" class="share-btn btn-copy">🔗 Копирай линк</button>
+            </div>
+        </div>
+
+        <!-- СВЪРЗАНИ СТАТИИ -->
+        <section class="related-section">
+            <h3 class="related-heading">Свързани статии</h3>
+            <div class="related-grid">
+                
+                <article class="related-card">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=80" class="related-img" alt="Статия">
+                        <span class="related-category">Лайфстайл</span>
+                        <a href="article.html" class="related-title">Естетика и минимализъм в интериора</a>
+                    </div>
+                    <p class="related-excerpt">Как хармонията в пространството влияе на нашето ежедневно вдъхновение.</p>
+                </article>
+
+                <article class="related-card">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=500&q=80" class="related-img" alt="Статия">
+                        <span class="related-category">Свят</span>
+                        <a href="article.html" class="related-title">Зелената трансформация на градовете</a>
+                    </div>
+                    <p class="related-excerpt">Устойчиви модели за архитектура и модерна градска среда в Европа.</p>
+                </article>
+
+                <article class="related-card">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=500&q=80" class="related-img" alt="Статия">
+                        <span class="related-category">Анализи</span>
+                        <a href="article.html" class="related-title">Изкуството на бавното живеене</a>
+                    </div>
+                    <p class="related-excerpt">Защо все повече хора избират баланса пред забързаното ежедневие.</p>
+                </article>
+
+            </div>
+        </section>
     </main>
 
+    <!-- ФУТЪР -->
     <footer>
-        &copy; 2026 Списанието. Всички права запазени.
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+            <div class="footer-grid">
+                <div>
+                    <span class="footer-logo">СПИСАНИЕТО<span style="color: var(--accent-color);">.</span></span>
+                    <div class="footer-about">
+                        <p><strong>СПИСАНИЕТО.</strong> е място за новини, идеи и истории от България и света.</p>
+                        <div class="footer-tagline">Всичко важно. На едно място.</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 1rem;">Рубрики</h4>
+                    <p><a href="index.html">Начало</a></p>
+                    <p><a href="#">Новини</a></p>
+                    <p><a href="#">Политика</a></p>
+                </div>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 1rem;">Контакти</h4>
+                    <p><a href="#">Редакция</a></p>
+                    <p><a href="#">Свържете се с нас</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="current-year">2026</span> СПИСАНИЕТО. Всички права запазени.
+            </div>
+        </div>
     </footer>
 
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('bg-BG', options).toUpperCase();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('bg-BG');
+            document.getElementById('current-year').textContent = now.getFullYear();
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        const currentUrl = encodeURIComponent(window.location.href);
+        const currentTitle = encodeURIComponent(document.title);
+
+        function shareOnFacebook() {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnTwitter() {
+            window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${currentTitle}`, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnLinkedIn() {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`, '_blank', 'width=600,height=400');
+        }
+
+        function copyArticleLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Линкът е успешно копиран в клипборда!');
+            });
+        }
+    </script>
 </body>
 </html>
