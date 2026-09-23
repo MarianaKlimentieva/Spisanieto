@@ -286,12 +286,32 @@
             color: var(--accent);
         }
 
+        /* Секция с решетка и тъмен контрастен акцент */
+        .featured-dark-banner {
+            background: #111;
+            color: #fff;
+            padding: 40px;
+            margin: 40px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            border-left: 5px solid var(--accent);
+        }
+
+        .featured-dark-banner h2 {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-top: 10px;
+        }
+
         /* Второстепенни статии */
         .articles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 30px;
-            padding: 40px 0 60px;
+            padding: 30px 0 60px;
         }
 
         .article-card {
@@ -365,7 +385,7 @@
         }
 
         @media (max-width: 900px) {
-            .hero-section {
+            .hero-section, .featured-dark-banner {
                 grid-template-columns: 1fr;
             }
             .logo {
@@ -447,6 +467,21 @@
                         <span>⏱ 4 мин.</span>
                     </div>
                 </article>
+            </div>
+        </section>
+
+        <!-- Тъмен акцентиран репортаж -->
+        <section class="featured-dark-banner">
+            <div>
+                <span class="category-badge" style="background:var(--accent);">Специален репортаж</span>
+                <h2>Дигиталната трансформация в медийния свят: Нови хоризонти</h2>
+            </div>
+            <div>
+                <p style="color:#ccc; margin-bottom:15px;">Как независимите авторитетни издания съчетават традиционната журналистическа етика с най-съвременните дигитални формати.</p>
+                <div class="meta-info" style="border-color:#333; color:#aaa;">
+                    <span>Редакторски избор</span>
+                    <span>⏱ 6 мин. четене</span>
+                </div>
             </div>
         </section>
 
