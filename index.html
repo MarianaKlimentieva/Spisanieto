@@ -78,7 +78,6 @@
             transition: var(--transition-smooth);
         }
 
-        /* Стилно оцветена точка до името */
         .logo-dot {
             color: var(--accent);
             display: inline-block;
@@ -89,7 +88,6 @@
             letter-spacing: 8px;
         }
 
-        /* Слоган под логото */
         .tagline {
             font-family: var(--font-editorial);
             font-style: italic;
@@ -148,7 +146,7 @@
 
         /* Главен Банер (banner.jpg) */
         .main-banner {
-            margin: 30px 0;
+            margin: 30px 0 20px;
             text-align: center;
             border: 1px solid var(--border-color);
             overflow: hidden;
@@ -162,56 +160,153 @@
             display: block;
         }
 
-        /* Основно съдържание */
-        .hero-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            padding: 20px 0 40px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .hero-card {
+        /* Секция Цитат на деня */
+        .quote-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 30px;
+            border-left: 4px solid var(--accent);
+            padding: 25px 35px;
+            margin: 25px 0 35px;
+            position: relative;
+        }
+
+        .quote-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .quote-text {
+            font-family: var(--font-editorial);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Секция Заглавие за Новини */
+        .section-header {
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Мрежа за Новини */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+
+        .article-img-wrap {
+            height: 210px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .article-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .article-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .category-badge {
-            display: inline-block;
+            align-self: flex-start;
             background: var(--accent);
             color: #fff;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            padding: 4px 12px;
+            padding: 3px 10px;
             font-weight: 600;
             margin-bottom: 12px;
         }
 
-        .hero-title {
+        .article-title {
             font-family: var(--font-editorial);
-            font-size: 2.2rem;
-            line-height: 1.25;
+            font-size: 1.35rem;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .article-title a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .article-title a:hover {
+            color: var(--accent);
+        }
+
+        .article-excerpt {
+            color: var(--text-muted);
+            font-size: 0.9rem;
             margin-bottom: 15px;
+            flex-grow: 1;
         }
 
-        .side-highlights {
+        .article-meta {
+            font-size: 0.75rem;
+            color: #888;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .side-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-        }
-
-        .side-card h3 {
-            font-family: var(--font-editorial);
-            font-size: 1.2rem;
-            margin-top: 8px;
+            justify-content: space-between;
         }
 
         /* Модален прозорец "За нас" */
@@ -272,7 +367,6 @@
             padding: 40px 0;
             border-top: 4px solid var(--accent);
             text-align: center;
-            margin-top: 50px;
         }
 
         footer p {
@@ -281,11 +375,11 @@
         }
 
         @media (max-width: 800px) {
-            .hero-section {
-                grid-template-columns: 1fr;
-            }
             .logo {
                 font-size: 2.8rem;
+            }
+            .quote-section {
+                padding: 20px;
             }
         }
     </style>
@@ -300,7 +394,7 @@
         </div>
     </div>
 
-    <!-- Заглавна част с Лого, Точка и Слоган -->
+    <!-- Заглавна част -->
     <header>
         <div class="container">
             <a href="/" class="logo">СПИСАНИЕТО<span class="logo-dot">.</span></a>
@@ -308,13 +402,13 @@
         </div>
     </header>
 
-    <!-- Навигация с рубрика "За нас" -->
+    <!-- Навигация -->
     <nav>
         <div class="container">
             <ul class="nav-links">
-                <li><a href="#">Новини</a></li>
-                <li><a href="#">Анализи</a></li>
-                <li><a href="#">Култура</a></li>
+                <li><a href="/">Начало</a></li>
+                <li><a href="#news">Новини</a></li>
+                <li><a href="#analyses">Анализи</a></li>
                 <li><a onclick="openAboutModal()">За нас</a></li>
             </ul>
         </div>
@@ -326,25 +420,25 @@
             <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
         </div>
 
-        <!-- Основна секция -->
-        <section class="hero-section">
-            <article class="hero-card">
-                <span class="category-badge">Водеща тема</span>
-                <h2 class="hero-title">Дигиталното бъдеще и независимата журналистика</h2>
-                <p style="color: #555;">Пространство за анализи, обществени теми, европейски политики и културни акценти.</p>
-            </article>
+        <!-- Цитат на деня -->
+        <div class="quote-section">
+            <span class="quote-label">Цитат на деня</span>
+            <blockquote class="quote-text">
+                „Журналистиката е публикуването на това, което някой друг не иска да бъде публикувано. Всичко останало е PR.“
+            </blockquote>
+            <span class="quote-author">— Джордж Оруел</span>
+        </div>
 
-            <div class="side-highlights">
-                <article class="side-card">
-                    <span class="category-badge" style="background:#222;">Анализи</span>
-                    <h3>Актуални икономически и социални тенденции</h3>
-                </article>
-                <article class="side-card">
-                    <span class="category-badge" style="background:#222;">Култура</span>
-                    <h3>Истории, идеи и публикации на фокус</h3>
-                </article>
-            </div>
-        </section>
+        <!-- Раздел за последните новини -->
+        <div class="section-header" id="news">
+            <h2 class="section-title">Последни публикации</h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Обновено</span>
+        </div>
+
+        <!-- Контейнер за динамичните статии -->
+        <div class="news-grid" id="articles-container">
+            <!-- Статиите се зареждат тук -->
+        </div>
     </main>
 
     <!-- Модален прозорец за рубриката "За нас" -->
@@ -366,6 +460,7 @@
         </div>
     </footer>
 
+    <!-- Динамично зареждане на статиите -->
     <script>
         function openAboutModal() {
             document.getElementById('aboutModal').style.display = 'flex';
@@ -381,6 +476,59 @@
                 modal.style.display = 'none';
             }
         }
+
+        const defaultArticles = [
+            {
+                title: "Дигиталното бъдеще и независимата журналистика",
+                category: "Анализи",
+                excerpt: "Как новите технологии и медийни формати променят начина, по който консумираме новини и задълбочен анализ.",
+                date: "Септември 2026",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600",
+                url: "article.html"
+            },
+            {
+                title: "Европейски политики и аграрният сектор през новия сезон",
+                category: "Новини",
+                excerpt: "Преглед на основните приоритети, субсидии и стратегически планове за развитие.",
+                date: "Септември 2026",
+                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600",
+                url: "article.html"
+            },
+            {
+                title: "Изкуството на писменото слово в дигиталната ера",
+                category: "Култура",
+                excerpt: "Ролята на списанията и авторските текстове в изграждането на информирано общество.",
+                date: "Септември 2026",
+                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=600",
+                url: "article.html"
+            }
+        ];
+
+        function renderArticles(articles) {
+            const container = document.getElementById('articles-container');
+            if (!container) return;
+
+            container.innerHTML = articles.map(art => `
+                <article class="article-card">
+                    <div class="article-img-wrap">
+                        <img src="${art.image}" alt="${art.title}" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600'">
+                    </div>
+                    <div class="article-body">
+                        <span class="category-badge">${art.category || 'Публикация'}</span>
+                        <h3 class="article-title"><a href="${art.url || '#'}">${art.title}</a></h3>
+                        <p class="article-excerpt">${art.excerpt || ''}</p>
+                        <div class="article-meta">
+                            <span>${art.date || '2026'}</span>
+                            <span>Четете още &rarr;</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderArticles(defaultArticles);
+        });
 
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
