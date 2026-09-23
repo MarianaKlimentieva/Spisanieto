@@ -2,7 +2,7 @@ backend:
   name: github
   repo: MarianaKlimentieva/Spisanieto
   branch: main
-  base_url: https://api.github.com # Добавете този ред, за да не търси Netlify
+  site_id: marianaklimentieva.github.io
 
 media_folder: "images"
 public_folder: "/images"
