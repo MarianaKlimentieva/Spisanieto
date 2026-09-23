@@ -160,6 +160,86 @@
             display: block;
         }
 
+        /* КАРУСЕЛ (СЛАЙДЕР) */
+        .carousel-container {
+            position: relative;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            display: none;
+            grid-template-columns: 1.5fr 1fr;
+            min-height: 380px;
+        }
+
+        .carousel-slide.active {
+            display: grid;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--card-bg);
+        }
+
+        .carousel-title {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            line-height: 1.25;
+            margin: 12px 0 15px;
+        }
+
+        .carousel-title a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .carousel-title a:hover {
+            color: var(--accent);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
         /* Секция Цитат на деня */
         .quote-section {
             background: var(--card-bg);
@@ -167,7 +247,6 @@
             border-left: 4px solid var(--accent);
             padding: 25px 35px;
             margin: 25px 0 35px;
-            position: relative;
         }
 
         .quote-label {
@@ -198,7 +277,7 @@
             letter-spacing: 1px;
         }
 
-        /* Секция Заглавие за Новини */
+        /* Раздел Заглавие */
         .section-header {
             margin: 30px 0 20px;
             padding-bottom: 10px;
@@ -375,11 +454,14 @@
         }
 
         @media (max-width: 800px) {
+            .carousel-slide {
+                grid-template-columns: 1fr;
+            }
+            .carousel-image {
+                min-height: 240px;
+            }
             .logo {
                 font-size: 2.8rem;
-            }
-            .quote-section {
-                padding: 20px;
             }
         }
     </style>
@@ -420,6 +502,45 @@
             <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
         </div>
 
+        <!-- КАРУСЕЛ ЗА ВОДЕЩИ НОВИНИ -->
+        <div class="carousel-container">
+            <!-- Слайд 1 -->
+            <div class="carousel-slide active">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800" class="carousel-image" alt="Водеща тема">
+                <div class="carousel-content">
+                    <span class="category-badge">Водещ Анализ</span>
+                    <h2 class="carousel-title"><a href="article.html">Дигиталната трансформация в медийния свят</a></h2>
+                    <p style="color: #666; font-size: 0.95rem;">Как новите технологии променят начина, по който четем, пишем и консумираме съдържание.</p>
+                </div>
+            </div>
+
+            <!-- Слайд 2 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800" class="carousel-image" alt="Аграрен сектор">
+                <div class="carousel-content">
+                    <span class="category-badge">Европейски политики</span>
+                    <h2 class="carousel-title"><a href="article.html">Новият аграрен сезон и европейските субсидии</a></h2>
+                    <p style="color: #666; font-size: 0.95rem;">Преглед на ключовите промени, реформи и изисквания за земеделските производители.</p>
+                </div>
+            </div>
+
+            <!-- Слайд 3 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=800" class="carousel-image" alt="Култура">
+                <div class="carousel-content">
+                    <span class="category-badge">Култура</span>
+                    <h2 class="carousel-title"><a href="article.html">Ролята на независимите списания в днешното общество</a></h2>
+                    <p style="color: #666; font-size: 0.95rem;">Защо хубавото писмено слово продължава да има своята вярна публика.</p>
+                </div>
+            </div>
+
+            <!-- Бутони за карусела -->
+            <div class="carousel-controls">
+                <button class="carousel-btn" onclick="prevSlide()">&larr;</button>
+                <button class="carousel-btn" onclick="nextSlide()">&rarr;</button>
+            </div>
+        </div>
+
         <!-- Цитат на деня -->
         <div class="quote-section">
             <span class="quote-label">Цитат на деня</span>
@@ -429,19 +550,19 @@
             <span class="quote-author">— Джордж Оруел</span>
         </div>
 
-        <!-- Раздел за последните новини -->
+        <!-- Раздел Заглавие -->
         <div class="section-header" id="news">
             <h2 class="section-title">Последни публикации</h2>
             <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Обновено</span>
         </div>
 
-        <!-- Контейнер за динамичните статии -->
+        <!-- Мрежа за останалите новини -->
         <div class="news-grid" id="articles-container">
             <!-- Статиите се зареждат тук -->
         </div>
     </main>
 
-    <!-- Модален прозорец за рубриката "За нас" -->
+    <!-- Модален прозорец за "За нас" -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-card">
             <button class="modal-close" onclick="closeAboutModal()">&times;</button>
@@ -460,8 +581,33 @@
         </div>
     </footer>
 
-    <!-- Динамично зареждане на статиите -->
+    <!-- Скриптове за Карусел, Модал и Статии -->
     <script>
+        /* Логика за Карусела */
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Автоматично превъртане на всеки 6 секунди
+        setInterval(nextSlide, 6000);
+
+        /* Логика за Модален прозорец */
         function openAboutModal() {
             document.getElementById('aboutModal').style.display = 'flex';
         }
@@ -477,29 +623,30 @@
             }
         }
 
+        /* Динамични Статии */
         const defaultArticles = [
             {
-                title: "Дигиталното бъдеще и независимата журналистика",
-                category: "Анализи",
-                excerpt: "Как новите технологии и медийни формати променят начина, по който консумираме новини и задълбочен анализ.",
+                title: "Иновации и устойчиво развитие през 2026 година",
+                category: "Икономика",
+                excerpt: "Преглед на водещите глобални трендове и тяхното отражение върху местния бизнес.",
                 date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600",
+                image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600",
                 url: "article.html"
             },
             {
-                title: "Европейски политики и аграрният сектор през новия сезон",
-                category: "Новини",
-                excerpt: "Преглед на основните приоритети, субсидии и стратегически планове за развитие.",
+                title: "Новите подходи в европейското субсидиране",
+                category: "Политика",
+                excerpt: "Какво трябва да знаят българските организации за новите кандидатствания.",
                 date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600",
+                image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=600",
                 url: "article.html"
             },
             {
-                title: "Изкуството на писменото слово в дигиталната ера",
-                category: "Култура",
-                excerpt: "Ролята на списанията и авторските текстове в изграждането на информирано общество.",
+                title: "Завръщането на печатното усещане в мрежата",
+                category: "Медии",
+                excerpt: "Защо чистият типографски дизайн печели доверието на читателите.",
                 date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=600",
+                image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=600",
                 url: "article.html"
             }
         ];
