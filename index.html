@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Начало - СПИСАНИЕТО</title>
+    <title>СПИСАНИЕТО - Начало</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -35,11 +35,11 @@
         nav a:hover { color: var(--accent-color); }
         .search-icon { cursor: pointer; font-size: 0.9rem; }
 
-        /* ОСНОВНО СЪДЪРЖАНИЕ (СНИМКИ И КАРТИ С НОВИНИ) */
+        /* ОСНОВНО СЪДЪРЖАНИЕ */
         .main-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 4rem; }
         .section-title { font-family: var(--font-serif); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; border-bottom: 2px solid var(--text-color); padding-bottom: 0.5rem; }
         
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3.5rem; }
         
         .news-card { background: #efece6; border: 1px solid var(--border-color); border-radius: 4px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
         .news-card:hover { transform: translateY(-3px); }
@@ -58,6 +58,17 @@
         .news-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.8rem; font-size: 0.75rem; color: #666; }
         .read-more-btn { font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); text-decoration: none; }
         .read-more-btn:hover { text-decoration: underline; }
+
+        /* ВИДЕО СЕКЦИЯ */
+        .video-section { background: #efece6; border: 1px solid var(--border-color); border-radius: 4px; padding: 2rem; margin-bottom: 3.5rem; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 3px; margin-top: 1rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ФОТОГАЛЕРИЯ */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3.5rem; }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid var(--border-color); aspect-ratio: 4/3; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .gallery-item:hover img { transform: scale(1.05); }
 
         /* ФУТЪР */
         footer { background: #111; color: #ccc; padding: 3rem 0 1.5rem; font-size: 0.85rem; margin-top: 3rem; }
@@ -111,8 +122,7 @@
         <h2 class="section-title">Водещи публикации</h2>
         
         <div class="news-grid">
-            
-            <!-- НОВИНА 1 (Водеща - линк към article.html) -->
+            <!-- НОВИНА 1 (Линк към article.html) -->
             <article class="news-card">
                 <div>
                     <a href="article.html" class="news-img-wrap">
@@ -128,7 +138,7 @@
                 </div>
             </article>
 
-            <!-- НОВИНА 2 (Примерна друга новина) -->
+            <!-- НОВИНА 2 -->
             <article class="news-card">
                 <div>
                     <a href="article.html" class="news-img-wrap">
@@ -144,7 +154,7 @@
                 </div>
             </article>
 
-            <!-- НОВИНА 3 (Примерна трета новина) -->
+            <!-- НОВИНА 3 -->
             <article class="news-card">
                 <div>
                     <a href="article.html" class="news-img-wrap">
@@ -159,8 +169,32 @@
                     <a href="article.html" class="read-more-btn">Прочетете &rarr;</a>
                 </div>
             </article>
-
         </div>
+
+        <!-- ВИДЕО СЕКЦИЯ -->
+        <section class="video-section">
+            <h2 class="section-title" style="border: none; margin-bottom: 0.5rem;">Видео репортаж</h2>
+            <p style="font-size: 0.9rem; color: #555; margin-bottom: 1rem;">Акценти от последните събития и интервюта.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Видео" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- ФОТОГАЛЕРИЯ -->
+        <section>
+            <h2 class="section-title">Фотогалерия</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Галерия 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80" alt="Галерия 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=600&q=80" alt="Галерия 3">
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- ФУТЪР -->
