@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СПИСАНИЕТО. | Дигитално издание</title>
-    <!-- Шрифтове Playfair Display, Cinzel и Plus Jakarta Sans -->
+    <title>СПИСАНИЕТО | Дигитално издание за съвременна култура и новини</title>
+    <!-- Шрифтове за класически журнал стил -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -59,10 +59,10 @@
             align-items: center;
         }
 
-        /* Шапка и Лого с точка */
+        /* Лого */
         header {
             text-align: center;
-            padding: 40px 0 20px;
+            padding: 45px 0 25px;
             border-bottom: 3px double var(--border-color);
         }
 
@@ -78,23 +78,64 @@
             transition: var(--transition-smooth);
         }
 
-        .logo-dot {
-            color: var(--accent);
-            display: inline-block;
-            margin-left: -4px;
-        }
-
         .logo:hover {
             letter-spacing: 8px;
+            color: var(--accent);
         }
 
         .tagline {
             font-family: var(--font-editorial);
             font-style: italic;
             color: var(--text-muted);
-            margin-top: 8px;
-            font-size: 1.15rem;
-            letter-spacing: 0.5px;
+            margin-top: 6px;
+            font-size: 1.1rem;
+        }
+
+        /* Динамична лента НА ЖИВО */
+        .ticker-bar {
+            background: #111;
+            color: #fff;
+            padding: 8px 0;
+            font-size: 0.82rem;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ticker-badge {
+            background: var(--accent);
+            color: #fff;
+            padding: 2px 8px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .ticker-text {
+            color: #ccc;
+            white-space: nowrap;
         }
 
         /* Навигация */
@@ -125,7 +166,6 @@
             position: relative;
             padding-bottom: 4px;
             transition: var(--transition-smooth);
-            cursor: pointer;
         }
 
         .nav-links a::after {
@@ -144,306 +184,176 @@
             width: 100%;
         }
 
-        /* Главен Банер (banner.jpg) */
-        .main-banner {
-            margin: 30px 0 20px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            background: var(--card-bg);
-        }
-
-        .main-banner img {
-            width: 100%;
-            max-height: 480px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* КАРУСЕЛ (СЛАЙДЕР) */
-        .carousel-container {
-            position: relative;
-            margin: 30px 0;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            overflow: hidden;
-        }
-
-        .carousel-slide {
-            display: none;
-            grid-template-columns: 1.5fr 1fr;
-            min-height: 380px;
-        }
-
-        .carousel-slide.active {
+        /* Hero секция с ефекти */
+        .hero-section {
             display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 30px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .carousel-image {
+        .hero-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .img-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
             width: 100%;
-            height: 100%;
-            min-height: 380px;
+            height: 440px;
             object-fit: cover;
             display: block;
+            transition: transform 0.6s ease;
         }
 
-        .carousel-content {
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: var(--card-bg);
+        .hero-card:hover img {
+            transform: scale(1.04);
         }
 
-        .carousel-title {
+        .hero-content {
+            padding: 30px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
             font-family: var(--font-editorial);
-            font-size: 2rem;
-            line-height: 1.25;
-            margin: 12px 0 15px;
+            font-size: 2.4rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
         }
 
-        .carousel-title a {
+        .hero-title a {
             color: var(--text-main);
             text-decoration: none;
             transition: var(--transition-smooth);
         }
 
-        .carousel-title a:hover {
+        .hero-title a:hover {
             color: var(--accent);
         }
 
-        .carousel-controls {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
+        /* Страничен панел */
+        .side-highlights {
             display: flex;
-            gap: 10px;
-            z-index: 10;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .carousel-btn {
-            background: rgba(255, 255, 255, 0.9);
+        .side-card {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 22px;
             transition: var(--transition-smooth);
         }
 
-        .carousel-btn:hover {
-            background: var(--accent);
-            color: #fff;
+        .side-card:hover {
             border-color: var(--accent);
+            transform: translateX(4px);
         }
 
-        /* Секция Цитат на деня */
-        .quote-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--accent);
-            padding: 25px 35px;
-            margin: 25px 0 35px;
-        }
-
-        .quote-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .quote-text {
+        .side-card h3 {
             font-family: var(--font-editorial);
             font-size: 1.3rem;
-            font-style: italic;
+            line-height: 1.3;
+            margin: 10px 0;
+        }
+
+        .side-card h3 a {
             color: var(--text-main);
-            line-height: 1.4;
+            text-decoration: none;
+            transition: var(--transition-smooth);
         }
 
-        .quote-author {
-            display: block;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .side-card h3 a:hover {
+            color: var(--accent);
         }
 
-        /* Раздел Заглавие */
-        .section-header {
-            margin: 30px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--text-main);
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .section-title {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Мрежа за Новини */
-        .news-grid {
+        /* Второстепенни статии */
+        .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
+            padding: 40px 0 60px;
         }
 
         .article-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
             transition: var(--transition-smooth);
         }
 
         .article-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.07);
         }
 
-        .article-img-wrap {
-            height: 210px;
-            overflow: hidden;
-            background: #eee;
-        }
-
-        .article-img-wrap img {
+        .article-card img {
             width: 100%;
-            height: 100%;
+            height: 230px;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
 
-        .article-card:hover .article-img-wrap img {
+        .article-card:hover img {
             transform: scale(1.05);
         }
 
-        .article-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+        .article-card-body {
+            padding: 22px;
         }
 
-        .category-badge {
-            align-self: flex-start;
-            background: var(--accent);
-            color: #fff;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 3px 10px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .article-title {
+        .article-card h3 {
             font-family: var(--font-editorial);
-            font-size: 1.35rem;
+            font-size: 1.45rem;
+            margin: 10px 0;
             line-height: 1.3;
-            margin-bottom: 10px;
         }
 
-        .article-title a {
+        .article-card h3 a {
             color: var(--text-main);
             text-decoration: none;
             transition: var(--transition-smooth);
         }
 
-        .article-title a:hover {
+        .article-card h3 a:hover {
             color: var(--accent);
         }
 
-        .article-excerpt {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
-
-        .article-meta {
+        .meta-info {
             font-size: 0.75rem;
             color: #888;
+            margin-top: 15px;
+            padding-top: 12px;
             border-top: 1px solid #f0f0f0;
-            padding-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             display: flex;
             justify-content: space-between;
-        }
-
-        /* Модален прозорец "За нас" */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-card {
-            background: var(--card-bg);
-            max-width: 600px;
-            width: 90%;
-            padding: 40px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .modal-title {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .modal-body p {
-            margin-bottom: 15px;
-            color: #444;
-            font-size: 0.98rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Футър */
         footer {
             background: #111;
             color: #eee;
-            padding: 40px 0;
+            padding: 50px 0;
             border-top: 4px solid var(--accent);
             text-align: center;
         }
@@ -451,14 +361,12 @@
         footer p {
             font-size: 0.85rem;
             color: #888;
+            margin-top: 10px;
         }
 
-        @media (max-width: 800px) {
-            .carousel-slide {
+        @media (max-width: 900px) {
+            .hero-section {
                 grid-template-columns: 1fr;
-            }
-            .carousel-image {
-                min-height: 240px;
             }
             .logo {
                 font-size: 2.8rem;
@@ -471,221 +379,99 @@
     <!-- Горна лента -->
     <div class="top-bar">
         <div class="container top-bar-content">
-            <span>СПИСАНИЕТО.БГ — Дигитално издание</span>
+            <span>Брой 02 — Септември 2026</span>
             <a href="/admin/" style="color: inherit; text-decoration: none;">Вход за автори</a>
         </div>
     </div>
 
-    <!-- Заглавна част -->
+    <!-- Лого -->
     <header>
         <div class="container">
-            <a href="/" class="logo">СПИСАНИЕТО<span class="logo-dot">.</span></a>
-            <p class="tagline">Всичко важно. На едно място.</p>
+            <a href="/" class="logo">СПИСАНИЕТО</a>
+            <p class="tagline">Независимото дигитално издание за важните теми</p>
         </div>
     </header>
+
+    <!-- Тракер НА ЖИВО -->
+    <div class="ticker-bar">
+        <div class="container ticker-content">
+            <div class="ticker-badge"><span class="pulse-dot"></span> На живо</div>
+            <div class="ticker-text">Анализи и коментари: Иновациите и европейските политики през новия сезон</div>
+        </div>
+    </div>
 
     <!-- Навигация -->
     <nav>
         <div class="container">
             <ul class="nav-links">
-                <li><a href="/">Начало</a></li>
-                <li><a href="#news">Новини</a></li>
-                <li><a href="#analyses">Анализи</a></li>
-                <li><a onclick="openAboutModal()">За нас</a></li>
+                <li><a href="#">Новини</a></li>
+                <li><a href="#">Политика</a></li>
+                <li><a href="#">Свят</a></li>
+                <li><a href="#">Лайфстайл</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container">
-        <!-- Главен Банер (banner.jpg) -->
-        <div class="main-banner">
-            <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
-        </div>
-
-        <!-- КАРУСЕЛ ЗА ВОДЕЩИ НОВИНИ -->
-        <div class="carousel-container">
-            <!-- Слайд 1 -->
-            <div class="carousel-slide active">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800" class="carousel-image" alt="Водеща тема">
-                <div class="carousel-content">
-                    <span class="category-badge">Водещ Анализ</span>
-                    <h2 class="carousel-title"><a href="article.html">Дигиталната трансформация в медийния свят</a></h2>
-                    <p style="color: #666; font-size: 0.95rem;">Как новите технологии променят начина, по който четем, пишем и консумираме съдържание.</p>
+        <!-- Водещ блок -->
+        <section class="hero-section">
+            <article class="hero-card">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200" alt="Водеща статия">
                 </div>
-            </div>
-
-            <!-- Слайд 2 -->
-            <div class="carousel-slide">
-                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800" class="carousel-image" alt="Аграрен сектор">
-                <div class="carousel-content">
-                    <span class="category-badge">Европейски политики</span>
-                    <h2 class="carousel-title"><a href="article.html">Новият аграрен сезон и европейските субсидии</a></h2>
-                    <p style="color: #666; font-size: 0.95rem;">Преглед на ключовите промени, реформи и изисквания за земеделските производители.</p>
+                <div class="hero-content">
+                    <span class="category-badge">Политика</span>
+                    <h2 class="hero-title"><a href="#">Бъдещето е тук: Как иновациите променят икономиката и обществото ни</a></h2>
+                    <p style="color: #666; font-size: 1.02rem;">Подробен анализ на глобалните трансформации, технологичния напредък и ролята на дигиталната медийна среда през новата десетилетна ера.</p>
+                    <div class="meta-info">
+                        <span>21 Септември 2026</span>
+                        <span>⏱ 5 мин. четене</span>
+                    </div>
                 </div>
+            </article>
+
+            <div class="side-highlights">
+                <article class="side-card">
+                    <span class="category-badge" style="background:#222;">Новини</span>
+                    <h3><a href="#">Зелените политики и новият европейски дневен ред</a></h3>
+                    <p style="color:#666; font-size: 0.88rem;">Ключови решения и перспективи за устойчиво развитие.</p>
+                    <div class="meta-info">
+                        <span>⏱ 3 мин.</span>
+                    </div>
+                </article>
+                <article class="side-card">
+                    <span class="category-badge" style="background:#222;">Лайфстайл</span>
+                    <h3><a href="#">Изкуството на бавното живеене в забързания град</a></h3>
+                    <p style="color:#666; font-size: 0.88rem;">Практически съвети за постигане на баланс и уединение.</p>
+                    <div class="meta-info">
+                        <span>⏱ 4 мин.</span>
+                    </div>
+                </article>
             </div>
+        </section>
 
-            <!-- Слайд 3 -->
-            <div class="carousel-slide">
-                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=800" class="carousel-image" alt="Култура">
-                <div class="carousel-content">
-                    <span class="category-badge">Култура</span>
-                    <h2 class="carousel-title"><a href="article.html">Ролята на независимите списания в днешното общество</a></h2>
-                    <p style="color: #666; font-size: 0.95rem;">Защо хубавото писмено слово продължава да има своята вярна публика.</p>
-                </div>
-            </div>
-
-            <!-- Бутони за карусела -->
-            <div class="carousel-controls">
-                <button class="carousel-btn" onclick="prevSlide()">&larr;</button>
-                <button class="carousel-btn" onclick="nextSlide()">&rarr;</button>
-            </div>
-        </div>
-
-        <!-- Цитат на деня -->
-        <div class="quote-section">
-            <span class="quote-label">Цитат на деня</span>
-            <blockquote class="quote-text">
-                „Журналистиката е публикуването на това, което някой друг не иска да бъде публикувано. Всичко останало е PR.“
-            </blockquote>
-            <span class="quote-author">— Джордж Оруел</span>
-        </div>
-
-        <!-- Раздел Заглавие -->
-        <div class="section-header" id="news">
-            <h2 class="section-title">Последни публикации</h2>
-            <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Обновено</span>
-        </div>
-
-        <!-- Мрежа за останалите новини -->
-        <div class="news-grid" id="articles-container">
-            <!-- Статиите се зареждат тук -->
-        </div>
+        <!-- Мрежа за следващи статии -->
+        <section class="articles-grid" id="articles-container">
+            <!-- Тук ще се зареждат останалите публикации -->
+        </section>
     </main>
-
-    <!-- Модален прозорец за "За нас" -->
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeAboutModal()">&times;</button>
-            <h2 class="modal-title">За нас</h2>
-            <div class="modal-body">
-                <p>Добре дошли в <strong>„СПИСАНИЕТО“</strong> — независимо дигитално издание, създадено с фокус върху задълбоченото съдържание, качествената журналистика и важните обществени теми.</p>
-                <p>Нашата мисия е да предоставяме място за новини, анализи, идеи и истории, като съчетаваме традиционния редакционен стил с модерния дигитален формат.</p>
-                <p>Тук ще откриете материали в сферата на икономиката, европейските политики, аграрния сектор, културата и съвременния начин на живот.</p>
-            </div>
-        </div>
-    </div>
 
     <footer>
         <div class="container">
-            <p>Всички права запазени. &copy; 2026 | spisanieto.bg</p>
+            <p>&copy; 2026 СПИСАНИЕТО. Всички права са запазени.</p>
         </div>
     </footer>
 
-    <!-- Скриптове за Карусел, Модал и Статии -->
     <script>
-        /* Логика за Карусела */
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) slide.classList.add('active');
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
             });
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        // Автоматично превъртане на всеки 6 секунди
-        setInterval(nextSlide, 6000);
-
-        /* Логика за Модален прозорец */
-        function openAboutModal() {
-            document.getElementById('aboutModal').style.display = 'flex';
-        }
-
-        function closeAboutModal() {
-            document.getElementById('aboutModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('aboutModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        /* Динамични Статии */
-        const defaultArticles = [
-            {
-                title: "Иновации и устойчиво развитие през 2026 година",
-                category: "Икономика",
-                excerpt: "Преглед на водещите глобални трендове и тяхното отражение върху местния бизнес.",
-                date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600",
-                url: "article.html"
-            },
-            {
-                title: "Новите подходи в европейското субсидиране",
-                category: "Политика",
-                excerpt: "Какво трябва да знаят българските организации за новите кандидатствания.",
-                date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=600",
-                url: "article.html"
-            },
-            {
-                title: "Завръщането на печатното усещане в мрежата",
-                category: "Медии",
-                excerpt: "Защо чистият типографски дизайн печели доверието на читателите.",
-                date: "Септември 2026",
-                image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=600",
-                url: "article.html"
-            }
-        ];
-
-        function renderArticles(articles) {
-            const container = document.getElementById('articles-container');
-            if (!container) return;
-
-            container.innerHTML = articles.map(art => `
-                <article class="article-card">
-                    <div class="article-img-wrap">
-                        <img src="${art.image}" alt="${art.title}" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600'">
-                    </div>
-                    <div class="article-body">
-                        <span class="category-badge">${art.category || 'Публикация'}</span>
-                        <h3 class="article-title"><a href="${art.url || '#'}">${art.title}</a></h3>
-                        <p class="article-excerpt">${art.excerpt || ''}</p>
-                        <div class="article-meta">
-                            <span>${art.date || '2026'}</span>
-                            <span>Четете още &rarr;</span>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderArticles(defaultArticles);
+          }
         });
-
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
-        }
+      }
     </script>
 </body>
 </html>
