@@ -98,7 +98,7 @@
         .tag { font-size: 0.75rem; background: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; text-decoration: none; color: var(--text-color); transition: 0.2s; }
         .tag:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
 
-        /* СЕКЦИЯ: МНЕНИЯ & КОМЕНТАРИ (СВЕТЛА, СЪОБРАЗЕНА С ДИЗАЙНА) */
+        /* СЕКЦИЯ: МНЕНИЯ & КОМЕНТАРИ */
         .opinion-section { background: #efece6; padding: 3.5rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .opinion-header { text-align: center; margin-bottom: 2.5rem; }
         .opinion-header h3 { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-color); }
@@ -109,6 +109,22 @@
         .opinion-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); }
         .opinion-author-name { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
         .opinion-author-title { font-size: 0.75rem; color: #666; }
+
+        /* НОВА СЕКЦИЯ: СНИМКОВА ГАЛЕРИЯ */
+        .photo-gallery-section { padding: 2rem 0 3rem; margin-bottom: 2rem; }
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        .photo-item { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid var(--border-color); background: #fff; }
+        .photo-item img { width: 100%; height: 240px; object-fit: cover; transition: transform 0.4s ease; }
+        .photo-item:hover img { transform: scale(1.04); }
+        .photo-caption { padding: 1rem; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--text-color); }
+
+        /* НОВА СЕКЦИЯ: ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ */
+        .video-section { background: #1a1a1a; color: #fff; padding: 4rem 0; margin-bottom: 3rem; }
+        .video-container-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .video-wrapper iframe, .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; object-fit: cover; }
+        .video-info h3 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2; }
+        .video-info p { color: #aaa; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
 
         /* СПЕЦИАЛНА СЕКЦИЯ (ГАЛЕРИЯ / ЛАЙФСТАЙЛ) */
         .lifestyle-section { background: #ffffff; padding: 3rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
@@ -172,6 +188,7 @@
         @media (max-width: 850px) {
             .main-layout { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; }
+            .video-container-inner { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -335,7 +352,42 @@
             </aside>
 
         </div>
+
+        <!-- СНИМКОВА ГАЛЕРИЯ -->
+        <section class="photo-gallery-section">
+            <h3 class="section-title" style="margin-bottom: 1.5rem;">Фотогалерия</h3>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Галерия 1">
+                    <div class="photo-caption">Пътешествия извън масовите маршрути</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80" alt="Галерия 2">
+                    <div class="photo-caption">Модерна градска архитектура и светлина</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1516825732152-094192279132?auto=format&fit=crop&w=600&q=80" alt="Галерия 3">
+                    <div class="photo-caption">Атмосфера от редакционния архив</div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ -->
+    <section class="video-section">
+        <div class="video-container-inner">
+            <div class="video-wrapper">
+                <!-- Можете да смените линка с ваше YouTube видео или файл -->
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Видео репортаж" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <span class="category" style="margin-bottom: 1rem;">ВИДЕО РЕПОРТАЖ</span>
+                <h3>Поглед отблизо: Разговор за изкуството, медиите и бъдещето</h3>
+                <p>Гледайте специалното ни видео интервю с акценти от седмицата и анализи на водещи експерти в областта на културата и технологиите.</p>
+                <a href="javascript:void(0)" onclick="alert('Всички видео епизоди ще бъдат достъпни скоро!')" style="color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; text-decoration: underline;">Вижте всички видео материали →</a>
+            </div>
+        </div>
+    </section>
 
     <!-- СЕКЦИЯ: МНЕНИЯ & КОМЕНТАРИ -->
     <section class="opinion-section">
