@@ -144,9 +144,58 @@
             width: 100%;
         }
 
-        /* ГЛАВЕН БАНЕР (ОТГОРЕ) */
-        .main-banner {
+        /* АУДИО БЛОК (ПЛЕЪР) */
+        .audio-banner {
+            background: #111111;
+            color: #ffffff;
+            padding: 20px 30px;
             margin: 25px 0 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .audio-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .audio-icon {
+            background: var(--accent);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .audio-text h4 {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .audio-text p {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .audio-player audio {
+            outline: none;
+            height: 36px;
+            border-radius: 20px;
+        }
+
+        /* ГЛАВЕН БАНЕР */
+        .main-banner {
+            margin: 20px 0;
             text-align: center;
             border: 1px solid var(--border-color);
             overflow: hidden;
@@ -526,6 +575,10 @@
             .hero-layout {
                 grid-template-columns: 1fr;
             }
+            .audio-banner {
+                flex-direction: column;
+                text-align: center;
+            }
             .logo {
                 font-size: 2.8rem;
             }
@@ -563,7 +616,24 @@
     </nav>
 
     <main class="container">
-        <!-- ГЛАВЕН БАНЕР (ОТГОРЕ) -->
+        <!-- АУДИО БЛОК (СПИСАНИЕТО АУДИО / ПОДКАСТ) -->
+        <div class="audio-banner">
+            <div class="audio-info">
+                <div class="audio-icon">🎧</div>
+                <div class="audio-text">
+                    <h4>Списанието Аудио</h4>
+                    <p>Слушайте водещия анализ: Дигиталната трансформация в медийния свят</p>
+                </div>
+            </div>
+            <div class="audio-player">
+                <audio controls>
+                    <source src="audio.mp3" type="audio/mpeg">
+                    Вашият браузър не поддържа аудио плеъра.
+                </audio>
+            </div>
+        </div>
+
+        <!-- ГЛАВЕН БАНЕР -->
         <div class="main-banner">
             <img src="banner.jpg" alt="СПИСАНИЕТО Банер" onerror="this.style.display='none'">
         </div>
