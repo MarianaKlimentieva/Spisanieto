@@ -58,7 +58,13 @@
         /* ОСНОВНО СЪДЪРЖАНИЕ СЪС SIDEBAR */
         .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 4rem; }
         
-        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+        
+        /* ФИЛТРИ / ТАБОВЕ */
+        .filter-tabs { display: flex; gap: 1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .filter-tab { cursor: pointer; color: #666; font-weight: 500; padding-bottom: 2px; transition: 0.2s; }
+        .filter-tab.active, .filter-tab:hover { color: var(--accent-color); border-bottom: 1px solid var(--accent-color); }
 
         /* КАРТИНИ И СТАТИИ */
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
@@ -91,6 +97,18 @@
         .tags-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .tag { font-size: 0.75rem; background: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; text-decoration: none; color: var(--text-color); transition: 0.2s; }
         .tag:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+
+        /* НОВА СЕКЦИЯ: АВТОРСКИ КОЛОНИ / МНЕНИЯ */
+        .opinion-section { background: #1a1a1a; color: #fff; padding: 4rem 0; margin-bottom: 3rem; }
+        .opinion-header { text-align: center; margin-bottom: 2.5rem; }
+        .opinion-header h3 { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; border: none; }
+        .opinion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .opinion-card { background: #262626; padding: 2rem; border-radius: 4px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
+        .opinion-quote { font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; line-height: 1.4; margin-bottom: 1.5rem; color: #e2dfd7; }
+        .opinion-author-box { display: flex; align-items: center; gap: 1rem; }
+        .opinion-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); }
+        .opinion-author-name { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
+        .opinion-author-title { font-size: 0.75rem; color: #999; }
 
         /* СПЕЦИАЛНА СЕКЦИЯ (ГАЛЕРИЯ / ЛАЙФСТАЙЛ) */
         .lifestyle-section { background: #ffffff; padding: 3rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
@@ -221,9 +239,17 @@
         <!-- ОСНОВНА ЧАСТ (СТАТИИ + СТРАНИЧНА ЛЕНТА) -->
         <div class="main-layout">
             
-            <!-- ЛЯВА КОЛОНА: АКЦЕНТИ -->
+            <!-- ЛЯВА КОЛОНА: АКЦЕНТИ С ФИЛТРИ -->
             <div>
-                <h3 class="section-title">Акценти</h3>
+                <div class="section-header">
+                    <h3 class="section-title">Акценти</h3>
+                    <div class="filter-tabs">
+                        <span class="filter-tab active" onclick="filterCategory('all')">Всички</span>
+                        <span class="filter-tab" onclick="filterCategory('tech')">Технологии</span>
+                        <span class="filter-tab" onclick="filterCategory('life')">Лайфстайл</span>
+                    </div>
+                </div>
+
                 <div class="grid-2">
                     <article class="card">
                         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Статия 1">
@@ -310,6 +336,36 @@
 
         </div>
     </div>
+
+    <!-- НОВА СЕКЦИЯ: АВТОРСКИ КОЛОНИ / МНЕНИЯ -->
+    <section class="opinion-section">
+        <div class="opinion-header">
+            <h3>Мнения &amp; Коментари</h3>
+            <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">Авторски прозрения от водещи анализатори</p>
+        </div>
+        <div class="opinion-grid">
+            <div class="opinion-card">
+                <p class="opinion-quote">„Дигиталният свят ни дава скорост, но именно задълбоченият текст е този, който ни връща фокуса.“</p>
+                <div class="opinion-author-box">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="opinion-avatar" alt="Автор">
+                    <div>
+                        <div class="opinion-author-name">Мария Илиева</div>
+                        <div class="opinion-author-title">Главен редактор</div>
+                    </div>
+                </div>
+            </div>
+            <div class="opinion-card">
+                <p class="opinion-quote">„Бъдещето принадлежи на изданията, които залагат на автентичността и чистия редакционен стил.“</p>
+                <div class="opinion-author-box">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" class="opinion-avatar" alt="Автор">
+                    <div>
+                        <div class="opinion-author-name">Иван Петров</div>
+                        <div class="opinion-author-title">Икономически анализатор</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ДОПЪЛНИТЕЛНА СЕКЦИЯ: ЛАЙФСТАЙЛ И КУЛТУРА -->
     <div class="lifestyle-section">
@@ -406,6 +462,14 @@
         }
 
         setInterval(() => { moveSlide(1); }, 5000);
+
+        // ФИЛТРИРАНЕ НА КАТЕГОРИИ (ИНТЕРАКТИВНО)
+        function filterCategory(category) {
+            const tabs = document.querySelectorAll('.filter-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // Тук можете да добавите допълнителна логика при нужда за сортиране по категории
+        }
 
         // МОДАЛЕН ПРОЗОРЕЦ "ЗА НАС"
         function openAboutModal() {
