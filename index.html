@@ -58,13 +58,7 @@
         /* ОСНОВНО СЪДЪРЖАНИЕ СЪС SIDEBAR */
         .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 4rem; }
         
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
-        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        
-        /* ФИЛТРИ / ТАБОВЕ */
-        .filter-tabs { display: flex; gap: 1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-        .filter-tab { cursor: pointer; color: #666; font-weight: 500; padding-bottom: 2px; transition: 0.2s; }
-        .filter-tab.active, .filter-tab:hover { color: var(--accent-color); border-bottom: 1px solid var(--accent-color); }
+        .section-title { font-family: var(--font-serif); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--text-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
 
         /* КАРТИНИ И СТАТИИ */
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
@@ -110,7 +104,7 @@
         .opinion-author-name { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
         .opinion-author-title { font-size: 0.75rem; color: #666; }
 
-        /* НОВА СЕКЦИЯ: СНИМКОВА ГАЛЕРИЯ */
+        /* СНИМКОВА ГАЛЕРИЯ */
         .photo-gallery-section { padding: 2rem 0 3rem; margin-bottom: 2rem; }
         .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
         .photo-item { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid var(--border-color); background: #fff; }
@@ -118,13 +112,14 @@
         .photo-item:hover img { transform: scale(1.04); }
         .photo-caption { padding: 1rem; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--text-color); }
 
-        /* НОВА СЕКЦИЯ: ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ */
-        .video-section { background: #1a1a1a; color: #fff; padding: 4rem 0; margin-bottom: 3rem; }
+        /* ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ (В ЦВЯТ БОРДО) */
+        .video-section { background: var(--accent-color); color: #fff; padding: 4rem 0; margin-bottom: 3rem; }
         .video-container-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .video-wrapper iframe, .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; object-fit: cover; }
-        .video-info h3 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2; }
-        .video-info p { color: #aaa; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+        .video-info h3 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2; color: #fff; }
+        .video-info p { color: #f2e6ec; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+        .video-info .category { background: #ffffff; color: var(--accent-color); }
 
         /* СПЕЦИАЛНА СЕКЦИЯ (ГАЛЕРИЯ / ЛАЙФСТАЙЛ) */
         .lifestyle-section { background: #ffffff; padding: 3rem 0; margin-bottom: 3rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
@@ -256,16 +251,9 @@
         <!-- ОСНОВНА ЧАСТ (СТАТИИ + СТРАНИЧНА ЛЕНТА) -->
         <div class="main-layout">
             
-            <!-- ЛЯВА КОЛОНА: АКЦЕНТИ С ФИЛТРИ -->
+            <!-- ЛЯВА КОЛОНА: АКЦЕНТИ -->
             <div>
-                <div class="section-header">
-                    <h3 class="section-title">Акценти</h3>
-                    <div class="filter-tabs">
-                        <span class="filter-tab active" onclick="filterCategory('all')">Всички</span>
-                        <span class="filter-tab" onclick="filterCategory('tech')">Технологии</span>
-                        <span class="filter-tab" onclick="filterCategory('life')">Лайфстайл</span>
-                    </div>
-                </div>
+                <h3 class="section-title">Акценти</h3>
 
                 <div class="grid-2">
                     <article class="card">
@@ -373,11 +361,10 @@
         </section>
     </div>
 
-    <!-- ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ -->
+    <!-- ВИДЕО РЕПОРТАЖ / МУЛТИМЕДИЯ (В ЦВЯТ БОРДО) -->
     <section class="video-section">
         <div class="video-container-inner">
             <div class="video-wrapper">
-                <!-- Можете да смените линка с ваше YouTube видео или файл -->
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Видео репортаж" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -530,13 +517,6 @@
         }
 
         setInterval(() => { moveSlide(1); }, 5000);
-
-        // ФИЛТРИРАНЕ НА КАТЕГОРИИ
-        function filterCategory(category) {
-            const tabs = document.querySelectorAll('.filter-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-        }
 
         // МОДАЛЕН ПРОЗОРЕЦ "ЗА НАС"
         function openAboutModal() {
