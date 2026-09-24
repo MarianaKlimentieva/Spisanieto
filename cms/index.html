@@ -6,7 +6,12 @@
   <title>Админ панел – СПИСАНИЕТО.</title>
 </head>
 <body>
+  <!-- Задължителният контейнер, който очаква CMS-ът -->
+  <div id="nc-root"></div>
+
+  <!-- Зареждаме Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
   <script>
     CMS.init({
       config: {
