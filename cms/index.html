@@ -6,13 +6,6 @@
   <title>Админ панел – СПИСАНИЕТО.</title>
 </head>
 <body>
-  <!-- Зареждаме стабилната версия на Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    // Принуждаваме CMS-а да използва изцяло вградения GitHub бекенд за автентикация
-    if (window.CMS) {
-      CMS.registerBackend('github', window.CMS.GitHubBackend);
-    }
-  </script>
 </body>
 </html>
