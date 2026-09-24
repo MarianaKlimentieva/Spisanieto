@@ -4,15 +4,14 @@ backend:
   branch: main
   auth_type: pkce
 
-media_folder: "images"
-public_folder: "/images"
+media_folder: images
+public_folder: /images
 
 collections:
-  - name: "posts"
-    label: "Статии"
-    folder: "_posts"
+  - name: posts
+    label: Статии
+    folder: _posts
     create: true
     fields:
-      - {label: "Заглавие", name: "title", widget: "string"}
-      - {label: "Дата", name: "date", widget: "datetime"}
-      - {label: "Съдържание", name: "body", widget: "markdown"}
+      - {label: Заглавие, name: title, widget: string}
+      - {label: Съдържание, name: body, widget: markdown}
