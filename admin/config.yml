@@ -2,7 +2,7 @@ backend:
   name: github
   repo: MarianaKlimentieva/Spisanieto
   branch: main
-  site_id: marianaklimentieva.github.io
+  base_url: https://decap-server.herokuapp.com
 
 media_folder: "images"
 public_folder: "/images"
