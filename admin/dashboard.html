@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Администрация – СПИСАНИЕТО.</title>
 
   <style>
@@ -93,10 +92,6 @@
       font-size: 16px;
       cursor: pointer;
       border-radius: 4px;
-    }
-
-    button.save:hover {
-      opacity: .9;
     }
 
     #message {
@@ -201,9 +196,6 @@
   const message = document.getElementById('message');
   const logout = document.getElementById('logout');
 
-  /*
-   * Проверяваме дали има активна сесия.
-   */
   const {
     data: { session }
   } = await supabase.auth.getSession();
@@ -212,9 +204,6 @@
     window.location.href = 'index.html';
   }
 
-  /*
-   * Записване на новината
-   */
   form.addEventListener('submit', async function(event) {
 
     event.preventDefault();
@@ -255,12 +244,9 @@
       });
 
     if (error) {
-
       console.error(error);
-
       message.textContent =
         'Грешка при записването: ' + error.message;
-
       return;
     }
 
@@ -273,9 +259,6 @@
       'СПИСАНИЕТО.';
   });
 
-  /*
-   * Изход
-   */
   logout.addEventListener('click', async function() {
 
     await supabase.auth.signOut();
