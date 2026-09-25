@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -270,6 +269,12 @@
             object-fit: cover;
             margin-bottom: 1rem;
             border-radius: 3px;
+            display: block;
+        }
+
+        .card-image-link {
+            display: block;
+            text-decoration: none;
         }
 
         .card-title {
@@ -285,6 +290,10 @@
 
         .card-title:hover {
             color: var(--accent-color);
+        }
+
+        .card-image-link:hover .card-img {
+            opacity: 0.92;
         }
 
         .card-excerpt {
@@ -1556,9 +1565,8 @@
 
 
         /*
-         * ВАЖНО:
-         * Тук постави СЪЩИЯ Publishable key,
-         * който вече работи в admin/dashboard.html.
+         * Същият Publishable key,
+         * който вече работи в admin/dashboard.html
          */
 
         const SUPABASE_PUBLISHABLE_KEY =
@@ -1579,7 +1587,6 @@
 
             const now = new Date();
 
-
             const options = {
                 weekday: 'long',
                 year: 'numeric',
@@ -1587,35 +1594,29 @@
                 day: 'numeric'
             };
 
-
             const dateStr =
                 now.toLocaleDateString(
                     'bg-BG',
                     options
                 );
 
-
             document.getElementById(
                 'current-date'
             ).textContent =
                 dateStr.toUpperCase();
 
-
             const timeStr =
                 now.toLocaleTimeString('bg-BG');
-
 
             document.getElementById(
                 'current-time'
             ).textContent =
                 timeStr;
 
-
             document.getElementById(
                 'current-year'
             ).textContent =
                 now.getFullYear();
-
         }
 
 
@@ -1671,13 +1672,11 @@
                     error
                 );
 
-
                 container.innerHTML = `
                     <p class="card-excerpt">
                         Възникна проблем при зареждането на новините.
                     </p>
                 `;
-
 
                 return;
             }
@@ -1690,7 +1689,6 @@
                         Все още няма публикувани новини.
                     </p>
                 `;
-
 
                 return;
             }
@@ -1714,27 +1712,55 @@
                         '';
 
 
+                    /*
+                     * ВАЖНО:
+                     * Всяка новина вече има собствен линк:
+                     *
+                     * article.html?id=ID-НА-НОВИНАТА
+                     *
+                     * Така article.html ще знае коя
+                     * новина трябва да покаже.
+                     */
+
+                    const articleUrl =
+                        `article.html?id=${encodeURIComponent(news.id)}`;
+
+
                     return `
 
                         <article class="card">
 
-                            <img
-                                src="${escapeHtml(image)}"
-                                class="card-img"
-                                alt="${escapeHtml(news.title)}"
+                            <!-- СНИМКА -->
+                            <a
+                                href="${articleUrl}"
+                                class="card-image-link"
                             >
 
+                                <img
+                                    src="${escapeHtml(image)}"
+                                    class="card-img"
+                                    alt="${escapeHtml(news.title)}"
+                                >
+
+                            </a>
+
+
+                            <!-- КАТЕГОРИЯ -->
                             <span class="category">
                                 ${escapeHtml(category)}
                             </span>
 
+
+                            <!-- ЗАГЛАВИЕ -->
                             <a
-                                href="#"
+                                href="${articleUrl}"
                                 class="card-title"
                             >
                                 ${escapeHtml(news.title)}
                             </a>
 
+
+                            <!-- ПОДЗАГЛАВИЕ -->
                             ${
                                 subtitle
                                 ? `
@@ -1919,4 +1945,3 @@
 
 </body>
 </html>
-```
