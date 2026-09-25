@@ -94,6 +94,10 @@
       border-radius: 4px;
     }
 
+    button.save:hover {
+      opacity: .9;
+    }
+
     #message {
       margin-top: 20px;
       font-weight: bold;
@@ -239,14 +243,15 @@
         author: author || 'СПИСАНИЕТО.',
         status: 'published',
         is_featured: false,
-        views: 0,
-        published_at: new Date().toISOString()
+        views: 0
       });
 
     if (error) {
       console.error(error);
+
       message.textContent =
         'Грешка при записването: ' + error.message;
+
       return;
     }
 
