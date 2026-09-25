@@ -1,10 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Редакторски панел – СПИСАНИЕТО.</title>
+
+  <title>Администрация – СПИСАНИЕТО.</title>
 
   <style>
     * {
@@ -13,322 +13,278 @@
 
     body {
       margin: 0;
-      background: #f4f4f4;
-      color: #222;
+      background: #f7f4ef;
+      color: #171717;
       font-family: Arial, sans-serif;
     }
 
     header {
-      height: 70px;
       background: #111;
-      color: #fff;
+      color: white;
+      padding: 20px 30px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 30px;
+      align-items: center;
     }
 
-    .brand {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 1px;
+    header h1 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 28px;
     }
 
-    .logout {
-      background: #fff;
-      color: #111;
-      border: 0;
-      padding: 10px 18px;
+    #logout {
+      background: transparent;
+      border: 1px solid #fff;
+      color: white;
+      padding: 9px 16px;
       cursor: pointer;
-      font-size: 14px;
+      border-radius: 4px;
     }
 
-    .logout:hover {
-      background: #ddd;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 30px auto;
+    main {
+      max-width: 900px;
+      margin: 40px auto;
       padding: 0 20px;
     }
 
-    .welcome {
-      margin-bottom: 25px;
+    .panel {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
     }
 
-    .welcome h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-    }
-
-    .welcome p {
-      margin: 0;
-      color: #777;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 25px;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-
-    .card h2 {
+    h2 {
+      font-family: Georgia, serif;
       margin-top: 0;
-      font-size: 21px;
+      font-size: 30px;
     }
 
     label {
       display: block;
-      margin: 18px 0 7px;
+      margin-top: 20px;
+      margin-bottom: 7px;
       font-weight: bold;
-      font-size: 14px;
     }
 
     input,
-    textarea,
-    select {
+    select,
+    textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: inherit;
     }
 
     textarea {
-      min-height: 180px;
+      min-height: 300px;
       resize: vertical;
     }
 
-    .button {
-      margin-top: 20px;
-      padding: 13px 20px;
+    button.save {
+      margin-top: 25px;
+      background: #8c1d40;
+      color: white;
       border: 0;
-      background: #111;
-      color: #fff;
+      padding: 14px 24px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 15px;
+      border-radius: 4px;
     }
 
-    .button:hover {
-      background: #333;
+    button.save:hover {
+      opacity: .9;
     }
 
-    .side-item {
-      border-bottom: 1px solid #ddd;
-      padding: 12px 0;
-    }
-
-    .side-item:last-child {
-      border-bottom: 0;
-    }
-
-    .side-item strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .status {
-      margin-top: 15px;
-      padding: 12px;
-      background: #f1f1f1;
-      font-size: 14px;
-    }
-
-    @media (max-width: 800px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      header {
-        padding: 0 15px;
-      }
-
-      .container {
-        padding: 0 15px;
-      }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="brand">СПИСАНИЕТО.</div>
-    <button class="logout" id="logoutButton">Изход</button>
-  </header>
+<header>
+  <h1>СПИСАНИЕТО.</h1>
+  <button id="logout">Изход</button>
+</header>
 
-  <main class="container">
+<main>
 
-    <div class="welcome">
-      <h1>Редакторски панел</h1>
-      <p>Управлявайте новините и съдържанието на СПИСАНИЕТО.</p>
-    </div>
+  <div class="panel">
 
-    <div class="grid">
+    <h2>Нова новина</h2>
 
-      <section>
+    <form id="newsForm">
 
-        <div class="card">
-          <h2>Нова новина</h2>
+      <label for="title">Заглавие</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="Въведете заглавие"
+        required
+      >
 
-          <form id="newsForm">
+      <label for="subtitle">Подзаглавие</label>
+      <input
+        type="text"
+        id="subtitle"
+        placeholder="Въведете подзаглавие"
+      >
 
-            <label for="title">Заглавие</label>
-            <input
-              type="text"
-              id="title"
-              placeholder="Въведете заглавие"
-              required
-            >
+      <label for="category">Категория</label>
+      <select id="category" required>
+        <option value="">Изберете категория</option>
+        <option value="Новини">Новини</option>
+        <option value="Политика">Политика</option>
+        <option value="Свят">Свят</option>
+        <option value="Анализи">Анализи</option>
+        <option value="Лайфстайл">Лайфстайл</option>
+        <option value="Технологии">Технологии</option>
+        <option value="Икономика">Икономика</option>
+      </select>
 
-            <label for="subtitle">Подзаглавие</label>
-            <input
-              type="text"
-              id="subtitle"
-              placeholder="Въведете подзаглавие"
-            >
+      <label for="image_url">URL на снимката</label>
+      <input
+        type="url"
+        id="image_url"
+        placeholder="https://..."
+      >
 
-            <label for="category">Категория</label>
-            <select id="category" required>
-              <option value="">Изберете категория</option>
-              <option value="Новини">Новини</option>
-              <option value="България">България</option>
-              <option value="Политика">Политика</option>
-              <option value="Свят">Свят</option>
-              <option value="Икономика">Икономика</option>
-              <option value="Земеделие">Земеделие</option>
-              <option value="Лайфстайл">Лайфстайл</option>
-            </select>
+      <label for="content">Текст на новината</label>
+      <textarea
+        id="content"
+        placeholder="Напишете текста на новината..."
+        required
+      ></textarea>
 
-            <label for="image">URL на снимката</label>
-            <input
-              type="text"
-              id="image"
-              placeholder="https://..."
-            >
+      <label for="author">Автор</label>
+      <input
+        type="text"
+        id="author"
+        value="СПИСАНИЕТО."
+      >
 
-            <label for="content">Текст на новината</label>
-            <textarea
-              id="content"
-              placeholder="Напишете текста на новината..."
-              required
-            ></textarea>
+      <button type="submit" class="save">
+        Запази новината
+      </button>
 
-            <button class="button" type="submit">
-              Запази новината
-            </button>
+      <div id="message"></div>
 
-          </form>
+    </form>
 
-          <div class="status" id="status">
-            Готово за работа.
-          </div>
-        </div>
+  </div>
 
-      </section>
+</main>
 
-      <aside>
+<script type="module">
 
-        <div class="card">
-          <h2>Бързи действия</h2>
+  import { createClient } from
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-          <div class="side-item">
-            <strong>📰 Новина</strong>
-            Създайте нова публикация.
-          </div>
+  const SUPABASE_URL =
+    'https://hxvflentlaktgwimsevc.supabase.co';
 
-          <div class="side-item">
-            <strong>📁 Категории</strong>
-            Новини, България, Политика, Свят, Икономика, Земеделие и Лайфстайл.
-          </div>
+  const SUPABASE_PUBLISHABLE_KEY =
+    'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
 
-          <div class="side-item">
-            <strong>📷 Снимки</strong>
-            Към момента снимката се добавя чрез URL.
-          </div>
-        </div>
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-        <div class="card">
-          <h2>Панел</h2>
+  const form = document.getElementById('newsForm');
+  const message = document.getElementById('message');
+  const logout = document.getElementById('logout');
 
-          <div class="side-item">
-            <strong>Статус</strong>
-            Администратор
-          </div>
+  /*
+   * Проверяваме дали има активна сесия.
+   */
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
 
-          <div class="side-item">
-            <strong>Сайт</strong>
-            СПИСАНИЕТО.
-          </div>
-        </div>
+  if (!session) {
+    window.location.href = 'index.html';
+  }
 
-      </aside>
+  /*
+   * Записване на новината
+   */
+  form.addEventListener('submit', async function(event) {
 
-    </div>
+    event.preventDefault();
 
-  </main>
+    message.textContent = 'Запазване...';
 
-  <script type="module">
+    const title =
+      document.getElementById('title').value.trim();
 
-    import { createClient } from
-      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const subtitle =
+      document.getElementById('subtitle').value.trim();
 
-    const SUPABASE_URL =
-      'https://hxvflentlaktgwimsevc.supabase.co';
+    const category =
+      document.getElementById('category').value;
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
+    const image_url =
+      document.getElementById('image_url').value.trim();
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    const content =
+      document.getElementById('content').value.trim();
 
-    const logoutButton =
-      document.getElementById('logoutButton');
+    const author =
+      document.getElementById('author').value.trim();
 
-    const newsForm =
-      document.getElementById('newsForm');
+    const { error } = await supabase
+      .from('news')
+      .insert({
+        title: title,
+        subtitle: subtitle,
+        category: category,
+        image_url: image_url || null,
+        content: content,
+        author: author || 'СПИСАНИЕТО.',
+        status: 'published',
+        is_featured: false,
+        views: 0,
+        published_at: new Date().toISOString()
+      });
 
-    const status =
-      document.getElementById('status');
+    if (error) {
 
-    logoutButton.addEventListener('click', async () => {
+      console.error(error);
 
-      await supabase.auth.signOut();
+      message.textContent =
+        'Грешка при записването: ' + error.message;
 
-      window.location.href = 'index.html';
+      return;
+    }
 
-    });
+    message.textContent =
+      'Новината е публикувана успешно!';
 
-    newsForm.addEventListener('submit', async (event) => {
+    form.reset();
 
-      event.preventDefault();
+    document.getElementById('author').value =
+      'СПИСАНИЕТО.';
+  });
 
-      status.textContent = 'Новината е подготвена за записване...';
+  /*
+   * Изход
+   */
+  logout.addEventListener('click', async function() {
 
-      /*
-        Следващата стъпка е тук да свържем
-        формата с таблицата "news" в Supabase.
+    await supabase.auth.signOut();
 
-        Засега НЕ записваме данни в базата.
-      */
+    window.location.href = 'index.html';
 
-      status.textContent =
-        'Формата работи. Следва да я свържем с базата данни.';
+  });
 
-    });
-
-  </script>
+</script>
 
 </body>
 </html>
-```
