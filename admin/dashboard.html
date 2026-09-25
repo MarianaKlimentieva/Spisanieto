@@ -1,0 +1,334 @@
+```html
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редакторски панел – СПИСАНИЕТО.</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f4f4;
+      color: #222;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      height: 70px;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logout {
+      background: #fff;
+      color: #111;
+      border: 0;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .logout:hover {
+      background: #ddd;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #777;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 25px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 13px 20px;
+      border: 0;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .button:hover {
+      background: #333;
+    }
+
+    .side-item {
+      border-bottom: 1px solid #ddd;
+      padding: 12px 0;
+    }
+
+    .side-item:last-child {
+      border-bottom: 0;
+    }
+
+    .side-item strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f1f1f1;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        padding: 0 15px;
+      }
+
+      .container {
+        padding: 0 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">СПИСАНИЕТО.</div>
+    <button class="logout" id="logoutButton">Изход</button>
+  </header>
+
+  <main class="container">
+
+    <div class="welcome">
+      <h1>Редакторски панел</h1>
+      <p>Управлявайте новините и съдържанието на СПИСАНИЕТО.</p>
+    </div>
+
+    <div class="grid">
+
+      <section>
+
+        <div class="card">
+          <h2>Нова новина</h2>
+
+          <form id="newsForm">
+
+            <label for="title">Заглавие</label>
+            <input
+              type="text"
+              id="title"
+              placeholder="Въведете заглавие"
+              required
+            >
+
+            <label for="subtitle">Подзаглавие</label>
+            <input
+              type="text"
+              id="subtitle"
+              placeholder="Въведете подзаглавие"
+            >
+
+            <label for="category">Категория</label>
+            <select id="category" required>
+              <option value="">Изберете категория</option>
+              <option value="Новини">Новини</option>
+              <option value="България">България</option>
+              <option value="Политика">Политика</option>
+              <option value="Свят">Свят</option>
+              <option value="Икономика">Икономика</option>
+              <option value="Земеделие">Земеделие</option>
+              <option value="Лайфстайл">Лайфстайл</option>
+            </select>
+
+            <label for="image">URL на снимката</label>
+            <input
+              type="text"
+              id="image"
+              placeholder="https://..."
+            >
+
+            <label for="content">Текст на новината</label>
+            <textarea
+              id="content"
+              placeholder="Напишете текста на новината..."
+              required
+            ></textarea>
+
+            <button class="button" type="submit">
+              Запази новината
+            </button>
+
+          </form>
+
+          <div class="status" id="status">
+            Готово за работа.
+          </div>
+        </div>
+
+      </section>
+
+      <aside>
+
+        <div class="card">
+          <h2>Бързи действия</h2>
+
+          <div class="side-item">
+            <strong>📰 Новина</strong>
+            Създайте нова публикация.
+          </div>
+
+          <div class="side-item">
+            <strong>📁 Категории</strong>
+            Новини, България, Политика, Свят, Икономика, Земеделие и Лайфстайл.
+          </div>
+
+          <div class="side-item">
+            <strong>📷 Снимки</strong>
+            Към момента снимката се добавя чрез URL.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Панел</h2>
+
+          <div class="side-item">
+            <strong>Статус</strong>
+            Администратор
+          </div>
+
+          <div class="side-item">
+            <strong>Сайт</strong>
+            СПИСАНИЕТО.
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <script type="module">
+
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL =
+      'https://hxvflentlaktgwimsevc.supabase.co';
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const logoutButton =
+      document.getElementById('logoutButton');
+
+    const newsForm =
+      document.getElementById('newsForm');
+
+    const status =
+      document.getElementById('status');
+
+    logoutButton.addEventListener('click', async () => {
+
+      await supabase.auth.signOut();
+
+      window.location.href = 'index.html';
+
+    });
+
+    newsForm.addEventListener('submit', async (event) => {
+
+      event.preventDefault();
+
+      status.textContent = 'Новината е подготвена за записване...';
+
+      /*
+        Следващата стъпка е тук да свържем
+        формата с таблицата "news" в Supabase.
+
+        Засега НЕ записваме данни в базата.
+      */
+
+      status.textContent =
+        'Формата работи. Следва да я свържем с базата данни.';
+
+    });
+
+  </script>
+
+</body>
+</html>
+```
