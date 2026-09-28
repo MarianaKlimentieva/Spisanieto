@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>СПИСАНИЕТО - Дигитално издание</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
+
         :root {
             --bg-color: #f7f6f2;
             --text-color: #111111;
             --accent-color: #8c1d40;
             --border-color: #e2dfd7;
-            --font-serif: 'Cormorant Garamond', Georgia, serif;
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+            --font-serif:
+                'Cormorant Garamond',
+                Georgia,
+                serif;
+
+            --font-sans:
+                'Plus Jakarta Sans',
+                sans-serif;
         }
+
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
 
         body {
             background-color: var(--bg-color);
@@ -30,21 +44,31 @@
             line-height: 1.6;
         }
 
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
         .top-bar {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0.8rem 1.5rem 0.3rem;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             color: #666;
+
             border-bottom: 1px solid var(--border-color);
+
             flex-wrap: wrap;
             gap: 0.5rem;
         }
+
 
         .top-bar-right {
             display: flex;
@@ -52,11 +76,17 @@
             align-items: center;
         }
 
+
+        /* =========================================
+           BANNER
+        ========================================= */
+
         .top-banner {
             max-width: 1200px;
             margin: 1rem auto 0.5rem;
             padding: 0 1.5rem;
         }
+
 
         .top-banner img {
             width: 100%;
@@ -66,11 +96,17 @@
             border: 1px solid var(--border-color);
         }
 
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
         header {
             text-align: center;
             padding: 1.5rem 1rem 1rem;
             position: relative;
         }
+
 
         .logo {
             font-family: var(--font-serif);
@@ -84,9 +120,11 @@
             line-height: 1;
         }
 
+
         .logo-dot {
             color: var(--accent-color);
         }
+
 
         .tagline {
             font-family: var(--font-serif);
@@ -97,50 +135,72 @@
             letter-spacing: 0.5px;
         }
 
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
         nav {
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 2rem;
         }
 
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             padding: 0 1.5rem;
         }
+
 
         nav ul {
             display: flex;
             justify-content: center;
             gap: 2.5rem;
+
             list-style: none;
             padding: 0.8rem 0;
+
             flex-wrap: wrap;
             margin: 0 auto;
         }
 
+
         nav a {
             text-decoration: none;
             color: var(--text-color);
+
             font-weight: 500;
             font-size: 0.75rem;
+
             text-transform: uppercase;
             letter-spacing: 1.5px;
+
             transition: color 0.2s;
             cursor: pointer;
         }
+
 
         nav a:hover {
             color: var(--accent-color);
         }
 
+
         .search-icon {
             cursor: pointer;
             font-size: 0.9rem;
         }
+
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
 
         .container {
             max-width: 1200px;
@@ -148,619 +208,1047 @@
             padding: 0 1.5rem;
         }
 
+
         /* =========================================
-           HERO / ДИНАМИЧЕН КАРАУСЕЛ
+           HERO
         ========================================= */
 
         .hero {
             position: relative;
+
             width: 100%;
             height: 480px;
+
             margin-bottom: 3rem;
+
             overflow: hidden;
             border-radius: 4px;
-            background: #ddd;
+
+            background: #222;
         }
+
 
         .carousel-slide {
             display: none;
+
             width: 100%;
             height: 100%;
+
             position: relative;
         }
+
 
         .carousel-slide.active {
             display: block;
         }
 
+
         .hero-img {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
-            filter: brightness(0.85);
+
+            filter: brightness(0.72);
+
             display: block;
         }
+
+
+        /*
+         * Текстът вече е в долната част
+         * на снимката и има достатъчно място.
+         */
 
         .hero-content {
             position: absolute;
-            bottom: 2.5rem;
-            left: 2.5rem;
-            right: 2.5rem;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            padding: 7rem 2.5rem 2.5rem;
+
             color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
+            text-shadow:
+                0 2px 5px rgba(0,0,0,0.65);
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(0,0,0,0.82) 0%,
+                    rgba(0,0,0,0.55) 45%,
+                    rgba(0,0,0,0.15) 75%,
+                    transparent 100%
+                );
         }
+
 
         .category {
             font-size: 0.7rem;
+
             font-weight: 600;
+
             text-transform: uppercase;
+
             letter-spacing: 2px;
-            margin-bottom: 0.5rem;
+
+            margin-bottom: 0.7rem;
+
             display: inline-block;
+
             background: var(--accent-color);
-            padding: 2px 8px;
+
+            padding: 3px 9px;
+
             color: #fff;
         }
+
 
         .hero-title {
             font-family: var(--font-serif);
+
             font-size: 2.8rem;
-            line-height: 1.15;
+
+            line-height: 1.12;
+
             font-weight: 600;
-            max-width: 800px;
+
+            max-width: 900px;
+
+            margin: 0;
         }
 
+
         .hero-subtitle {
-            margin-top: 0.6rem;
+            margin-top: 0.7rem;
+
             max-width: 750px;
+
             font-size: 0.95rem;
+
             line-height: 1.5;
+
             color: #fff;
         }
+
 
         .hero-link {
             display: block;
+
             width: 100%;
             height: 100%;
+
             text-decoration: none;
         }
 
+
         .hero-title-link {
             color: #fff;
+
             text-decoration: none;
         }
+
 
         .hero-title-link:hover {
             color: #fff;
         }
 
+
+        /* =========================================
+           HERO BUTTONS
+        ========================================= */
+
         .carousel-btn {
             position: absolute;
+
             top: 50%;
+
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.4);
+
+            background:
+                rgba(0,0,0,0.4);
+
             color: white;
+
             border: none;
+
             padding: 12px 16px;
+
             cursor: pointer;
+
             font-size: 18px;
+
             border-radius: 50%;
+
             transition: 0.3s;
+
             z-index: 10;
         }
 
+
         .carousel-btn:hover {
-            background: rgba(0,0,0,0.8);
+            background:
+                rgba(0,0,0,0.8);
         }
+
 
         .prev-btn {
             left: 15px;
         }
 
+
         .next-btn {
             right: 15px;
         }
 
-        /* ОСНОВНО СЪДЪРЖАНИЕ */
+
+        /* =========================================
+           MAIN LAYOUT
+        ========================================= */
 
         .main-layout {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+
+            grid-template-columns:
+                2fr 1fr;
+
             gap: 3rem;
+
             margin-bottom: 4rem;
         }
 
+
         .section-title {
             font-family: var(--font-serif);
+
             font-size: 1.5rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
-            border-bottom: 1px solid var(--text-color);
+
+            border-bottom:
+                1px solid var(--text-color);
+
             padding-bottom: 0.5rem;
+
             margin-bottom: 1.5rem;
         }
 
-        /* КАРТИ */
+
+        /* =========================================
+           CARDS
+        ========================================= */
 
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
             gap: 2rem;
         }
+
 
         .card {
             margin-bottom: 1.5rem;
         }
 
+
         .card-img {
             width: 100%;
             height: 210px;
+
             object-fit: cover;
+
             margin-bottom: 1rem;
+
             border-radius: 3px;
+
             display: block;
         }
+
 
         .card-image-link {
             display: block;
+
             text-decoration: none;
         }
 
+
         .card-title {
             font-family: var(--font-serif);
+
             font-size: 1.4rem;
+
             font-weight: 600;
+
             margin-bottom: 0.5rem;
+
             line-height: 1.25;
+
             color: var(--text-color);
+
             text-decoration: none;
+
             display: block;
         }
+
 
         .card-title:hover {
             color: var(--accent-color);
         }
 
+
         .card-image-link:hover .card-img {
             opacity: 0.92;
         }
+
 
         .card-excerpt {
             font-size: 0.85rem;
             color: #555;
         }
 
-        /* SIDEBAR */
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
 
         .sidebar-box {
             background: #efece6;
+
             padding: 1.5rem;
+
             border-radius: 4px;
+
             margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
         }
+
 
         .sidebar-title {
             font-family: var(--font-serif);
+
             font-size: 1.2rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
+
             margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
+
+            border-bottom:
+                1px solid var(--border-color);
+
             padding-bottom: 0.5rem;
         }
+
 
         .popular-list {
             list-style: none;
         }
 
+
         .popular-item {
             display: flex;
+
             gap: 1rem;
+
             margin-bottom: 1.2rem;
+
             align-items: flex-start;
         }
 
+
         .popular-num {
             font-family: var(--font-serif);
+
             font-size: 1.8rem;
+
             font-weight: 700;
+
             color: var(--accent-color);
+
             line-height: 1;
         }
 
+
         .popular-text {
             font-size: 0.9rem;
+
             font-weight: 500;
+
             text-decoration: none;
+
             color: var(--text-color);
         }
+
 
         .popular-text:hover {
             color: var(--accent-color);
         }
 
-        /* ЦИТАТ */
+
+        /* =========================================
+           QUOTE
+        ========================================= */
 
         .quote-box {
             font-family: var(--font-serif);
+
             font-style: italic;
+
             font-size: 1.15rem;
+
             line-height: 1.4;
-            border-left: 3px solid var(--accent-color);
+
+            border-left:
+                3px solid var(--accent-color);
+
             padding-left: 1rem;
+
             margin: 1rem 0 0.5rem;
+
             color: #333;
         }
 
-        /* NEWSLETTER */
+
+        /* =========================================
+           NEWSLETTER
+        ========================================= */
 
         .newsletter-form input[type="email"] {
             width: 100%;
+
             padding: 0.7rem;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
+
             margin-bottom: 0.8rem;
+
             font-family: var(--font-sans);
         }
 
+
         .newsletter-form button {
             width: 100%;
+
             padding: 0.75rem;
+
             background: var(--text-color);
+
             color: #fff;
+
             border: none;
+
             font-weight: 600;
+
             text-transform: uppercase;
+
             font-size: 0.75rem;
+
             letter-spacing: 1px;
+
             cursor: pointer;
+
             transition: 0.2s;
         }
+
 
         .newsletter-form button:hover {
             background: var(--accent-color);
         }
 
-        /* ТЕМИ */
+
+        /* =========================================
+           TAGS
+        ========================================= */
 
         .tags-container {
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 0.5rem;
         }
 
+
         .tag {
             font-size: 0.75rem;
+
             background: #fff;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
+
             padding: 4px 10px;
+
             border-radius: 20px;
+
             text-decoration: none;
+
             color: var(--text-color);
+
             transition: 0.2s;
         }
 
+
         .tag:hover {
             background: var(--accent-color);
+
             color: #fff;
-            border-color: var(--accent-color);
+
+            border-color:
+                var(--accent-color);
         }
 
-        /* МНЕНИЯ */
+
+        /* =========================================
+           OPINION
+        ========================================= */
 
         .opinion-section {
             background: #efece6;
+
             padding: 3.5rem 0;
+
             margin-bottom: 3rem;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+
+            border-top:
+                1px solid var(--border-color);
+
+            border-bottom:
+                1px solid var(--border-color);
         }
+
 
         .opinion-header {
             text-align: center;
+
             margin-bottom: 2.5rem;
         }
 
+
         .opinion-header h3 {
             font-family: var(--font-serif);
+
             font-size: 2rem;
+
             letter-spacing: 2px;
+
             text-transform: uppercase;
+
             color: var(--text-color);
         }
 
+
         .opinion-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(300px, 1fr)
+                );
+
             gap: 2rem;
+
             max-width: 1200px;
+
             margin: 0 auto;
+
             padding: 0 1.5rem;
         }
 
+
         .opinion-card {
             background: #ffffff;
+
             padding: 2rem;
+
             border-radius: 4px;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: space-between;
         }
 
+
         .opinion-quote {
             font-family: var(--font-serif);
+
             font-size: 1.25rem;
+
             font-style: italic;
+
             line-height: 1.4;
+
             margin-bottom: 1.5rem;
+
             color: #333333;
         }
 
+
         .opinion-author-box {
             display: flex;
+
             align-items: center;
+
             gap: 1rem;
         }
+
 
         .opinion-avatar {
             width: 50px;
             height: 50px;
+
             border-radius: 50%;
+
             object-fit: cover;
-            border: 2px solid var(--accent-color);
+
+            border:
+                2px solid var(--accent-color);
         }
+
 
         .opinion-author-name {
             font-weight: 600;
+
             font-size: 0.9rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
+
             color: var(--text-color);
         }
 
+
         .opinion-author-title {
             font-size: 0.75rem;
+
             color: #666;
         }
 
-        /* ГАЛЕРИЯ */
+
+        /* =========================================
+           PHOTO GALLERY
+        ========================================= */
 
         .photo-gallery-section {
             padding: 2rem 0 3rem;
+
             margin-bottom: 2rem;
         }
 
+
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(260px, 1fr)
+                );
+
             gap: 1.5rem;
         }
 
+
         .photo-item {
             position: relative;
+
             overflow: hidden;
+
             border-radius: 4px;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
+
             background: #fff;
         }
 
+
         .photo-item img {
             width: 100%;
+
             height: 240px;
+
             object-fit: cover;
-            transition: transform 0.4s ease;
+
+            transition:
+                transform 0.4s ease;
         }
+
 
         .photo-item:hover img {
             transform: scale(1.04);
         }
 
+
         .photo-caption {
             padding: 1rem;
+
             font-family: var(--font-serif);
+
             font-size: 1.1rem;
+
             font-weight: 600;
+
             color: var(--text-color);
         }
 
-        /* ВИДЕО */
+
+        /* =========================================
+           VIDEO
+        ========================================= */
 
         .video-section {
-            background: var(--accent-color);
+            background:
+                var(--accent-color);
+
             color: #fff;
+
             padding: 4rem 0;
+
             margin-bottom: 3rem;
         }
 
+
         .video-container-inner {
             max-width: 1200px;
+
             margin: 0 auto;
+
             padding: 0 1.5rem;
+
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 3rem;
+
             align-items: center;
         }
 
+
         .video-wrapper {
             position: relative;
+
             padding-bottom: 56.25%;
+
             height: 0;
+
             overflow: hidden;
+
             border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,0.3);
         }
+
 
         .video-wrapper iframe,
         .video-wrapper video {
             position: absolute;
+
             top: 0;
             left: 0;
+
             width: 100%;
             height: 100%;
+
             border: none;
+
             object-fit: cover;
         }
+
 
         .video-info h3 {
             font-family: var(--font-serif);
+
             font-size: 2.2rem;
+
             margin-bottom: 1rem;
+
             line-height: 1.2;
+
             color: #fff;
         }
 
+
         .video-info p {
             color: #f2e6ec;
+
             font-size: 0.95rem;
+
             margin-bottom: 1.5rem;
+
             line-height: 1.6;
         }
 
+
         .video-info .category {
             background: #ffffff;
+
             color: var(--accent-color);
         }
 
-        /* ЛАЙФСТАЙЛ */
+
+        /* =========================================
+           LIFESTYLE
+        ========================================= */
 
         .lifestyle-section {
             background: #ffffff;
+
             padding: 3rem 0;
+
             margin-bottom: 3rem;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+
+            border-top:
+                1px solid var(--border-color);
+
+            border-bottom:
+                1px solid var(--border-color);
         }
+
 
         .grid-4 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
             gap: 1.5rem;
         }
 
+
         .square-card img {
             width: 100%;
+
             height: 220px;
+
             object-fit: cover;
+
             border-radius: 3px;
         }
 
+
         .square-card h4 {
             font-family: var(--font-serif);
+
             font-size: 1.1rem;
+
             margin-top: 0.5rem;
         }
 
-        /* МОДАЛЕН ПРОЗОРЕЦ */
+
+        /* =========================================
+           MODAL
+        ========================================= */
 
         .modal {
             display: none;
+
             position: fixed;
+
             z-index: 1000;
+
             left: 0;
             top: 0;
+
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
+
+            background-color:
+                rgba(0,0,0,0.6);
+
             backdrop-filter: blur(3px);
+
             align-items: center;
+
             justify-content: center;
         }
 
+
         .modal-content {
-            background-color: var(--bg-color);
+            background-color:
+                var(--bg-color);
+
             padding: 2.5rem;
+
             border-radius: 8px;
+
             max-width: 550px;
+
             width: 90%;
+
             position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
+
+            box-shadow:
+                0 10px 25px
+                rgba(0,0,0,0.2);
+
+            border:
+                1px solid var(--border-color);
+
             text-align: center;
         }
 
+
         .close-btn {
             position: absolute;
+
             right: 1.2rem;
+
             top: 0.8rem;
+
             font-size: 2rem;
+
             font-weight: bold;
+
             color: #666;
+
             cursor: pointer;
+
             line-height: 1;
         }
+
 
         .close-btn:hover {
             color: var(--accent-color);
         }
 
-        /* ФУТЪР */
+
+        /* =========================================
+           FOOTER
+        ========================================= */
 
         footer {
             background: #111;
+
             color: #ccc;
+
             padding: 3rem 0 1.5rem;
+
             font-size: 0.85rem;
+
             margin-top: 2rem;
         }
 
+
         footer a {
             color: #fff;
+
             text-decoration: none;
         }
+
 
         footer a:hover {
             color: var(--accent-color);
         }
 
+
         .footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+
+            grid-template-columns:
+                2fr 1fr 1fr;
+
             gap: 2.5rem;
+
             margin-bottom: 2rem;
         }
 
+
         .footer-logo {
             font-family: var(--font-serif);
+
             font-size: 2rem;
+
             color: #fff;
+
             margin-bottom: 0.8rem;
+
             display: block;
         }
 
+
         .footer-about {
             color: #aaa;
+
             line-height: 1.6;
+
             max-width: 480px;
         }
+
 
         .footer-about p {
             margin-bottom: 0.5rem;
         }
 
+
         .footer-tagline {
             color: #fff;
+
             font-family: var(--font-serif);
+
             font-style: italic;
+
             font-size: 1rem;
+
             margin-top: 0.8rem;
         }
 
+
         .footer-bottom {
-            border-top: 1px solid #333;
+            border-top:
+                1px solid #333;
+
             padding-top: 1.5rem;
+
             text-align: center;
+
             font-size: 0.75rem;
+
             color: #777;
         }
 
+
         #highlights-loading {
             font-family: var(--font-serif);
+
             font-size: 1.2rem;
+
             color: #666;
+
             padding: 2rem 0;
         }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
 
         @media (max-width: 850px) {
 
@@ -768,38 +1256,90 @@
                 grid-template-columns: 1fr;
             }
 
+
             .footer-grid {
                 grid-template-columns: 1fr;
             }
+
 
             .video-container-inner {
                 grid-template-columns: 1fr;
             }
 
+
             .logo {
                 font-size: 3rem;
             }
 
+
             .hero {
-                height: 380px;
+                height: 400px;
             }
+
+
+            .hero-content {
+                left: 0;
+
+                right: 0;
+
+                bottom: 0;
+
+                padding:
+                    5rem 1.5rem 1.5rem;
+            }
+
 
             .hero-title {
                 font-size: 2.1rem;
+
+                line-height: 1.12;
             }
 
-            .hero-content {
-                left: 1.5rem;
-                right: 1.5rem;
-                bottom: 1.5rem;
+
+            .hero-subtitle {
+                font-size: 0.85rem;
+
+                line-height: 1.4;
             }
+
+
+            nav ul {
+                gap: 1rem;
+            }
+
+
+            .top-bar {
+                justify-content: center;
+
+                text-align: center;
+            }
+
+
+            .top-bar-right {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .carousel-btn {
+                padding: 9px 12px;
+
+                font-size: 15px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- ДАТА И ЧАС -->
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
 
     <div class="top-bar">
 
@@ -807,9 +1347,13 @@
             ЗАРЕЖДАНЕ НА ДАТА...
         </span>
 
+
         <div class="top-bar-right">
 
-            <span>София 22°C ☀️</span>
+            <span>
+                София 22°C ☀️
+            </span>
+
 
             <span id="current-time">
                 00:00:00
@@ -820,7 +1364,9 @@
     </div>
 
 
-    <!-- БАНЕР -->
+    <!-- =========================================
+         BANNER
+    ========================================= -->
 
     <div class="top-banner">
 
@@ -832,13 +1378,19 @@
     </div>
 
 
-    <!-- HEADER -->
+    <!-- =========================================
+         HEADER
+    ========================================= -->
 
     <header>
 
-        <a href="#" class="logo">
+        <a
+            href="#"
+            class="logo"
+        >
             СПИСАНИЕТО<span class="logo-dot">.</span>
         </a>
+
 
         <div class="tagline">
             Всичко важно. На едно място.
@@ -847,7 +1399,9 @@
     </header>
 
 
-    <!-- НАВИГАЦИЯ -->
+    <!-- =========================================
+         NAVIGATION
+    ========================================= -->
 
     <nav>
 
@@ -856,24 +1410,39 @@
             <ul>
 
                 <li>
-                    <a href="#">НОВИНИ</a>
+                    <a href="#">
+                        НОВИНИ
+                    </a>
                 </li>
 
-                <li>
-                    <a href="#">ПОЛИТИКА</a>
-                </li>
 
                 <li>
-                    <a href="#">СВЯТ</a>
+                    <a href="#">
+                        ПОЛИТИКА
+                    </a>
                 </li>
 
-                <li>
-                    <a href="#">АНАЛИЗИ</a>
-                </li>
 
                 <li>
-                    <a href="#">ЛАЙФСТАЙЛ</a>
+                    <a href="#">
+                        СВЯТ
+                    </a>
                 </li>
+
+
+                <li>
+                    <a href="#">
+                        АНАЛИЗИ
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        ЛАЙФСТАЙЛ
+                    </a>
+                </li>
+
 
                 <li>
                     <a
@@ -886,9 +1455,14 @@
 
             </ul>
 
+
             <span
                 class="search-icon"
-                onclick="alert('Търсенето ще бъде активно скоро!')"
+                onclick="
+                    alert(
+                        'Търсенето ще бъде активно скоро!'
+                    )
+                "
             >
                 🔍
             </span>
@@ -902,7 +1476,7 @@
 
 
         <!-- =========================================
-             ДИНАМИЧЕН HERO
+             DYNAMIC HERO
         ========================================= -->
 
         <section
@@ -946,7 +1520,9 @@
         </section>
 
 
-        <!-- ОСНОВНО СЪДЪРЖАНИЕ -->
+        <!-- =========================================
+             MAIN CONTENT
+        ========================================= -->
 
         <div class="main-layout">
 
@@ -987,6 +1563,7 @@
                         Най-четени
                     </h4>
 
+
                     <ul class="popular-list">
 
                         <li class="popular-item">
@@ -994,6 +1571,7 @@
                             <span class="popular-num">
                                 01
                             </span>
+
 
                             <a
                                 href="#"
@@ -1011,6 +1589,7 @@
                                 02
                             </span>
 
+
                             <a
                                 href="#"
                                 class="popular-text"
@@ -1026,6 +1605,7 @@
                             <span class="popular-num">
                                 03
                             </span>
+
 
                             <a
                                 href="#"
@@ -1049,6 +1629,7 @@
                         Цитат на деня
                     </h4>
 
+
                     <div class="quote-box">
                         „Формата следва функцията, но естетиката вдъхновява душата.“
                     </div>
@@ -1064,23 +1645,28 @@
                         Теми на фокус
                     </h4>
 
+
                     <div class="tags-container">
 
                         <a href="#" class="tag">
                             #Иновации
                         </a>
 
+
                         <a href="#" class="tag">
                             #Дизайн
                         </a>
+
 
                         <a href="#" class="tag">
                             #Икономика
                         </a>
 
+
                         <a href="#" class="tag">
                             #Анализи
                         </a>
+
 
                         <a href="#" class="tag">
                             #Екология
@@ -1091,13 +1677,14 @@
                 </div>
 
 
-                <!-- БЮЛЕТИН -->
+                <!-- NEWSLETTER -->
 
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
                         Абонамент
                     </h4>
+
 
                     <p
                         style="
@@ -1108,11 +1695,14 @@
                         Получавайте най-добрите ни статии всяка сутрин във вашата поща.
                     </p>
 
+
                     <form
                         class="newsletter-form"
                         onsubmit="
                             event.preventDefault();
-                            alert('Благодарим ви за абонамента!');
+                            alert(
+                                'Благодарим ви за абонамента!'
+                            );
                         "
                     >
 
@@ -1121,6 +1711,7 @@
                             placeholder="Вашият имейл..."
                             required
                         >
+
 
                         <button type="submit">
                             Абонирай се
@@ -1135,18 +1726,24 @@
         </div>
 
 
-        <!-- ФОТОГАЛЕРИЯ -->
+        <!-- =========================================
+             PHOTO GALLERY
+        ========================================= -->
 
         <section class="photo-gallery-section">
 
             <h3
                 class="section-title"
-                style="margin-bottom:1.5rem;"
+                style="
+                    margin-bottom:1.5rem;
+                "
             >
                 Фотогалерия
             </h3>
 
+
             <div class="photo-grid">
+
 
                 <div class="photo-item">
 
@@ -1154,6 +1751,7 @@
                         src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80"
                         alt="Галерия 1"
                     >
+
 
                     <div class="photo-caption">
                         Пътешествия извън масовите маршрути
@@ -1169,6 +1767,7 @@
                         alt="Галерия 2"
                     >
 
+
                     <div class="photo-caption">
                         Модерна градска архитектура и светлина
                     </div>
@@ -1183,6 +1782,7 @@
                         alt="Галерия 3"
                     >
 
+
                     <div class="photo-caption">
                         Атмосфера от редакционния архив
                     </div>
@@ -1196,11 +1796,14 @@
     </div>
 
 
-    <!-- ВИДЕО -->
+    <!-- =========================================
+         VIDEO
+    ========================================= -->
 
     <section class="video-section">
 
         <div class="video-container-inner">
+
 
             <div class="video-wrapper">
 
@@ -1217,23 +1820,30 @@
 
                 <span
                     class="category"
-                    style="margin-bottom:1rem;"
+                    style="
+                        margin-bottom:1rem;
+                    "
                 >
                     ВИДЕО
                 </span>
+
 
                 <h3>
                     Поглед отблизо: Разговор за изкуството, медиите и бъдещето
                 </h3>
 
+
                 <p>
                     Гледайте специалното ни видео интервю с акценти от седмицата и анализи на водещи експерти в областта на културата и технологиите.
                 </p>
 
+
                 <a
                     href="javascript:void(0)"
                     onclick="
-                        alert('Всички видео епизоди ще бъдат достъпни скоро!')
+                        alert(
+                            'Всички видео епизоди ще бъдат достъпни скоро!'
+                        )
                     "
                     style="
                         color:#fff;
@@ -1254,7 +1864,9 @@
     </section>
 
 
-    <!-- МНЕНИЯ -->
+    <!-- =========================================
+         OPINIONS
+    ========================================= -->
 
     <section class="opinion-section">
 
@@ -1276,6 +1888,7 @@
                     „Дигиталният свят ни дава скорост, но именно задълбоченият текст е този, който ни връща фокуса.“
                 </p>
 
+
                 <div class="opinion-author-box">
 
                     <img
@@ -1284,11 +1897,13 @@
                         alt="Автор"
                     >
 
+
                     <div>
 
                         <div class="opinion-author-name">
                             Мария Илиева
                         </div>
+
 
                         <div class="opinion-author-title">
                             Главен редактор
@@ -1307,6 +1922,7 @@
                     „Бъдещето принадлежи на изданията, които залагат на автентичността и чистия редакционен стил.“
                 </p>
 
+
                 <div class="opinion-author-box">
 
                     <img
@@ -1315,11 +1931,13 @@
                         alt="Автор"
                     >
 
+
                     <div>
 
                         <div class="opinion-author-name">
                             Иван Петров
                         </div>
+
 
                         <div class="opinion-author-title">
                             Икономически анализатор
@@ -1336,7 +1954,9 @@
     </section>
 
 
-    <!-- ЛАЙФСТАЙЛ -->
+    <!-- =========================================
+         LIFESTYLE
+    ========================================= -->
 
     <div class="lifestyle-section">
 
@@ -1349,11 +1969,12 @@
 
             <div class="grid-4">
 
+
                 <div class="square-card">
 
                     <img
                         src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=500&q=80"
-                        alt="Галерия 1"
+                        alt="Мода"
                     >
 
                     <h4>
@@ -1367,7 +1988,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80"
-                        alt="Галерия 2"
+                        alt="Кулинария"
                     >
 
                     <h4>
@@ -1381,7 +2002,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=500&q=80"
-                        alt="Галерия 3"
+                        alt="Пътешествия"
                     >
 
                     <h4>
@@ -1395,7 +2016,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500&q=80"
-                        alt="Галерия 4"
+                        alt="Книги"
                     >
 
                     <h4>
@@ -1411,9 +2032,14 @@
     </div>
 
 
-    <!-- ЗА НАС -->
+    <!-- =========================================
+         ABOUT MODAL
+    ========================================= -->
 
-    <div id="aboutModal" class="modal">
+    <div
+        id="aboutModal"
+        class="modal"
+    >
 
         <div class="modal-content">
 
@@ -1423,6 +2049,7 @@
             >
                 &times;
             </span>
+
 
             <h2
                 style="
@@ -1435,6 +2062,7 @@
                 СПИСАНИЕТО<span style="color:var(--accent-color);">.</span>
             </h2>
 
+
             <p
                 style="
                     font-size:1.1rem;
@@ -1443,8 +2071,10 @@
                     margin-bottom:1rem;
                 "
             >
-                <strong>СПИСАНИЕТО.</strong> е място за новини, идеи и истории от България и света.
+                <strong>СПИСАНИЕТО.</strong>
+                е място за новини, идеи и истории от България и света.
             </p>
+
 
             <p
                 style="
@@ -1456,6 +2086,7 @@
             >
                 Следим важното. Разказваме интересното. Търсим смисъла зад събитията.
             </p>
+
 
             <div
                 style="
@@ -1475,7 +2106,9 @@
     </div>
 
 
-    <!-- ФУТЪР -->
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
 
     <footer>
 
@@ -1490,15 +2123,19 @@
                         СПИСАНИЕТО<span style="color:var(--accent-color);">.</span>
                     </span>
 
+
                     <div class="footer-about">
 
                         <p>
-                            <strong>СПИСАНИЕТО.</strong> е място за новини, идеи и истории от България и света.
+                            <strong>СПИСАНИЕТО.</strong>
+                            е място за новини, идеи и истории от България и света.
                         </p>
+
 
                         <p>
                             Следим важното. Разказваме интересното. Търсим смисъла зад събитията.
                         </p>
+
 
                         <div class="footer-tagline">
                             Всичко важно. На едно място.
@@ -1511,24 +2148,41 @@
 
                 <div>
 
-                    <h4 style="color:#fff;margin-bottom:1rem;">
+                    <h4
+                        style="
+                            color:#fff;
+                            margin-bottom:1rem;
+                        "
+                    >
                         Рубрики
                     </h4>
 
-                    <p>
-                        <a href="#">Новини</a>
-                    </p>
 
                     <p>
-                        <a href="#">Политика</a>
+                        <a href="#">
+                            Новини
+                        </a>
                     </p>
 
-                    <p>
-                        <a href="#">Анализи</a>
-                    </p>
 
                     <p>
-                        <a href="#">Лайфстайл</a>
+                        <a href="#">
+                            Политика
+                        </a>
+                    </p>
+
+
+                    <p>
+                        <a href="#">
+                            Анализи
+                        </a>
+                    </p>
+
+
+                    <p>
+                        <a href="#">
+                            Лайфстайл
+                        </a>
                     </p>
 
                 </div>
@@ -1536,9 +2190,15 @@
 
                 <div>
 
-                    <h4 style="color:#fff;margin-bottom:1rem;">
+                    <h4
+                        style="
+                            color:#fff;
+                            margin-bottom:1rem;
+                        "
+                    >
                         За нас
                     </h4>
+
 
                     <p>
                         <a
@@ -1549,17 +2209,20 @@
                         </a>
                     </p>
 
+
                     <p>
                         <a href="#">
                             Етичен кодекс
                         </a>
                     </p>
 
+
                     <p>
                         <a href="#">
                             Реклама
                         </a>
                     </p>
+
 
                     <p>
                         <a href="#">
@@ -1580,7 +2243,8 @@
                     2026
                 </span>
 
-                СПИСАНИЕТО. Всички права запазени.
+                СПИСАНИЕТО.
+                Всички права запазени.
 
             </div>
 
@@ -1595,8 +2259,11 @@
 
     <script type="module">
 
-        import { createClient } from
-            'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        import {
+            createClient
+        }
+        from
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 
         /* =========================================
@@ -1619,7 +2286,7 @@
 
 
         /* =========================================
-           ДАТА И ЧАС
+           DATE / TIME
         ========================================= */
 
         function updateDateTime() {
@@ -1679,7 +2346,7 @@
 
 
         /* =========================================
-           HTML ESCAPE
+           ESCAPE HTML
         ========================================= */
 
         function escapeHtml(value) {
@@ -1805,75 +2472,77 @@
 
             container.innerHTML =
 
-                data.map(news => {
+                data.map(
+                    news => {
 
-                    const image =
-                        news.image_url ||
-                        'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
-
-
-                    const category =
-                        news.category ||
-                        'Новини';
+                        const image =
+                            news.image_url ||
+                            'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
 
 
-                    const subtitle =
-                        news.subtitle ||
-                        '';
+                        const category =
+                            news.category ||
+                            'Новини';
 
 
-                    const articleUrl =
-                        `article.html?id=${encodeURIComponent(news.id)}`;
+                        const subtitle =
+                            news.subtitle ||
+                            '';
 
 
-                    return `
+                        const articleUrl =
+                            `article.html?id=${encodeURIComponent(news.id)}`;
 
-                        <article class="card">
 
-                            <a
-                                href="${articleUrl}"
-                                class="card-image-link"
-                            >
+                        return `
 
-                                <img
-                                    src="${escapeHtml(image)}"
-                                    class="card-img"
-                                    alt="${escapeHtml(news.title)}"
+                            <article class="card">
+
+                                <a
+                                    href="${articleUrl}"
+                                    class="card-image-link"
                                 >
 
-                            </a>
+                                    <img
+                                        src="${escapeHtml(image)}"
+                                        class="card-img"
+                                        alt="${escapeHtml(news.title)}"
+                                    >
+
+                                </a>
 
 
-                            <span class="category">
-                                ${escapeHtml(category)}
-                            </span>
+                                <span class="category">
+                                    ${escapeHtml(category)}
+                                </span>
 
 
-                            <a
-                                href="${articleUrl}"
-                                class="card-title"
-                            >
-                                ${escapeHtml(news.title)}
-                            </a>
+                                <a
+                                    href="${articleUrl}"
+                                    class="card-title"
+                                >
+                                    ${escapeHtml(news.title)}
+                                </a>
 
 
-                            ${
-                                subtitle
-                                ? `
+                                ${
+                                    subtitle
+                                    ? `
 
-                                    <p class="card-excerpt">
-                                        ${escapeHtml(subtitle)}
-                                    </p>
+                                        <p class="card-excerpt">
+                                            ${escapeHtml(subtitle)}
+                                        </p>
 
-                                  `
-                                : ''
-                            }
+                                      `
+                                    : ''
+                                }
 
-                        </article>
+                            </article>
 
-                    `;
+                        `;
 
-                }).join('');
+                    }
+                ).join('');
 
         }
 
@@ -1898,7 +2567,7 @@
 
 
             /*
-             * Първо зареждаме избраните новини.
+             * Първо търсим избрани новини.
              */
 
             let {
@@ -1942,7 +2611,7 @@
 
             /*
              * Ако няма избрани новини,
-             * използваме последните публикувани.
+             * показваме последните публикувани.
              */
 
             if (
@@ -2022,6 +2691,17 @@
 
                 `;
 
+
+                document.getElementById(
+                    'hero-prev'
+                ).style.display = 'none';
+
+
+                document.getElementById(
+                    'hero-next'
+                ).style.display = 'none';
+
+
                 return;
 
             }
@@ -2051,6 +2731,17 @@
 
                 `;
 
+
+                document.getElementById(
+                    'hero-prev'
+                ).style.display = 'none';
+
+
+                document.getElementById(
+                    'hero-next'
+                ).style.display = 'none';
+
+
                 return;
 
             }
@@ -2065,7 +2756,7 @@
 
 
             /*
-             * СЪЗДАВАМЕ HERO СЛАЙДОВЕТЕ
+             * СЪЗДАВАМЕ СЛАЙДОВЕТЕ
              */
 
             container.innerHTML =
@@ -2157,24 +2848,23 @@
 
 
             /*
-             * Показваме стрелките само ако
-             * има повече от една новина.
+             * СТРЕЛКИ
              */
 
-            document
-                .getElementById('hero-prev')
-                .style.display =
-                    heroSlides.length > 1
-                    ? 'block'
-                    : 'none';
+            document.getElementById(
+                'hero-prev'
+            ).style.display =
+                heroSlides.length > 1
+                ? 'block'
+                : 'none';
 
 
-            document
-                .getElementById('hero-next')
-                .style.display =
-                    heroSlides.length > 1
-                    ? 'block'
-                    : 'none';
+            document.getElementById(
+                'hero-next'
+            ).style.display =
+                heroSlides.length > 1
+                ? 'block'
+                : 'none';
 
 
             /*
@@ -2191,8 +2881,7 @@
 
 
             /*
-             * Автоматично превъртане
-             * на всеки 5 секунди.
+             * Автоматично превъртане.
              */
 
             if (
@@ -2215,7 +2904,7 @@
 
 
         /* =========================================
-           ПОКАЗВАНЕ НА HERO SLIDE
+           ПОКАЗВАНЕ НА HERO
         ========================================= */
 
         function showHeroSlide(index) {
@@ -2260,7 +2949,7 @@
 
 
         /* =========================================
-           ПРЕВЪРТАНЕ НА HERO
+           ПРЕВЪРТАНЕ
         ========================================= */
 
         function moveHeroSlide(direction) {
@@ -2320,7 +3009,7 @@
 
 
         /* =========================================
-           СТАРТИРАНЕ
+           START
         ========================================= */
 
         loadHighlights();
@@ -2329,7 +3018,7 @@
 
 
         /* =========================================
-           МОДАЛЕН ПРОЗОРЕЦ
+           ABOUT MODAL
         ========================================= */
 
         function openAboutModal() {
