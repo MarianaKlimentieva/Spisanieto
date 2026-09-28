@@ -258,8 +258,6 @@
                 alt=""
             >
 
-            <div class="image-caption" id="image-caption"></div>
-
         </div>
 
 
@@ -457,19 +455,9 @@ async function loadArticle() {
         image.alt =
             data.title || 'СПИСАНИЕТО.';
 
-        document.getElementById(
-            'image-caption'
-        ).textContent =
-            'Снимка: СПИСАНИЕТО.';
-
     } else {
 
         image.style.display =
-            'none';
-
-        document.getElementById(
-            'image-caption'
-        ).style.display =
             'none';
 
     }
@@ -484,9 +472,6 @@ async function loadArticle() {
 
 
     if (data.content) {
-
-        // Ако съдържанието е обикновен текст,
-        // всеки нов абзац се превръща в <p>.
 
         const paragraphs =
             data.content
