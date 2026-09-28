@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>СПИСАНИЕТО - Дигитално издание</title>
 
@@ -10,6 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet"
     >
+
 
     <style>
 
@@ -37,11 +43,21 @@
         }
 
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-color);
             color: var(--text-color);
             font-family: var(--font-sans);
             line-height: 1.6;
+        }
+
+
+        img {
+            max-width: 100%;
         }
 
 
@@ -52,27 +68,37 @@
         .top-bar {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0.8rem 1.5rem 0.3rem;
+
+            padding:
+                0.8rem 1.5rem 0.3rem;
 
             display: flex;
+
             justify-content: space-between;
             align-items: center;
 
             font-size: 0.75rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1.5px;
+
             color: #666;
 
-            border-bottom: 1px solid var(--border-color);
+            border-bottom:
+                1px solid var(--border-color);
 
             flex-wrap: wrap;
+
             gap: 0.5rem;
         }
 
 
         .top-bar-right {
             display: flex;
+
             gap: 1.5rem;
+
             align-items: center;
         }
 
@@ -83,17 +109,28 @@
 
         .top-banner {
             max-width: 1200px;
-            margin: 1rem auto 0.5rem;
-            padding: 0 1.5rem;
+
+            margin:
+                1rem auto 0.5rem;
+
+            padding:
+                0 1.5rem;
         }
 
 
         .top-banner img {
             width: 100%;
+
             max-height: 250px;
+
             object-fit: cover;
+
             border-radius: 6px;
-            border: 1px solid var(--border-color);
+
+            border:
+                1px solid var(--border-color);
+
+            display: block;
         }
 
 
@@ -103,20 +140,31 @@
 
         header {
             text-align: center;
-            padding: 1.5rem 1rem 1rem;
+
+            padding:
+                1.5rem 1rem 1rem;
+
             position: relative;
         }
 
 
         .logo {
             font-family: var(--font-serif);
+
             font-size: 3.8rem;
+
             font-weight: 600;
+
             letter-spacing: 3px;
+
             text-transform: uppercase;
+
             color: var(--text-color);
+
             text-decoration: none;
+
             display: inline-block;
+
             line-height: 1;
         }
 
@@ -128,10 +176,15 @@
 
         .tagline {
             font-family: var(--font-serif);
+
             font-style: italic;
+
             font-size: 1.15rem;
+
             color: #555;
+
             margin-top: 0.4rem;
+
             letter-spacing: 0.5px;
         }
 
@@ -141,48 +194,65 @@
         ========================================= */
 
         nav {
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+            border-top:
+                1px solid var(--border-color);
+
+            border-bottom:
+                1px solid var(--border-color);
+
             margin-bottom: 2rem;
         }
 
 
         .nav-container {
             max-width: 1200px;
+
             margin: 0 auto;
 
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
 
-            padding: 0 1.5rem;
+            padding:
+                0 1.5rem;
         }
 
 
         nav ul {
             display: flex;
+
             justify-content: center;
+
             gap: 2.5rem;
 
             list-style: none;
-            padding: 0.8rem 0;
+
+            padding:
+                0.8rem 0;
 
             flex-wrap: wrap;
+
             margin: 0 auto;
         }
 
 
         nav a {
             text-decoration: none;
+
             color: var(--text-color);
 
             font-weight: 500;
+
             font-size: 0.75rem;
 
             text-transform: uppercase;
+
             letter-spacing: 1.5px;
 
             transition: color 0.2s;
+
             cursor: pointer;
         }
 
@@ -194,6 +264,7 @@
 
         .search-icon {
             cursor: pointer;
+
             font-size: 0.9rem;
         }
 
@@ -204,8 +275,11 @@
 
         .container {
             max-width: 1200px;
+
             margin: 0 auto;
-            padding: 0 1.5rem;
+
+            padding:
+                0 1.5rem;
         }
 
 
@@ -217,24 +291,48 @@
             position: relative;
 
             width: 100%;
-            height: 480px;
+
+            height: 520px;
 
             margin-bottom: 3rem;
 
             overflow: hidden;
-            border-radius: 4px;
+
+            border-radius: 5px;
 
             background: #222;
         }
 
 
+        /*
+         * Контейнерът за слайдовете
+         */
+
+        #hero-slides {
+            position: relative;
+
+            width: 100%;
+
+            height: 100%;
+        }
+
+
+        /*
+         * Всеки слайд
+         */
+
         .carousel-slide {
             display: none;
 
+            position: absolute;
+
+            inset: 0;
+
             width: 100%;
+
             height: 100%;
 
-            position: relative;
+            overflow: hidden;
         }
 
 
@@ -243,49 +341,173 @@
         }
 
 
+        /*
+         * Снимката е отделна от текста.
+         * Така никога няма да покрие заглавието.
+         */
+
+        .hero-image-wrap {
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            z-index: 1;
+        }
+
+
         .hero-img {
             width: 100%;
+
             height: 100%;
 
             object-fit: cover;
 
-            filter: brightness(0.72);
+            object-position: center;
 
             display: block;
+
+            filter: brightness(0.68);
         }
 
 
         /*
-         * Текстът вече е в долната част
-         * на снимката и има достатъчно място.
+         * Тъмен слой върху снимката.
+         */
+
+        .hero-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 2;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.05) 0%,
+                    rgba(0,0,0,0.05) 35%,
+                    rgba(0,0,0,0.28) 55%,
+                    rgba(0,0,0,0.88) 100%
+                );
+        }
+
+
+        /*
+         * ТЕКСТЪТ Е НАД СНИМКАТА.
          */
 
         .hero-content {
             position: absolute;
 
             left: 0;
+
             right: 0;
+
             bottom: 0;
 
-            padding: 7rem 2.5rem 2.5rem;
+            z-index: 5;
+
+            padding:
+                4rem 5rem 3rem;
+
+            color: #ffffff;
+
+            pointer-events: none;
+        }
+
+
+        .hero-content .category {
+            pointer-events: auto;
+        }
+
+
+        .hero-title-link {
+            position: relative;
+
+            z-index: 7;
+
+            display: block;
+
+            width: fit-content;
+
+            max-width: 950px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            pointer-events: auto;
+        }
+
+
+        .hero-title-link:hover {
+            color: #ffffff;
+        }
+
+
+        .hero-title {
+            position: relative;
+
+            z-index: 7;
+
+            font-family: var(--font-serif);
+
+            font-size: 3.2rem;
+
+            line-height: 1.08;
+
+            font-weight: 600;
+
+            max-width: 950px;
+
+            margin: 0;
+
+            padding: 0;
 
             color: #ffffff;
 
             text-shadow:
-                0 2px 5px rgba(0,0,0,0.65);
+                0 2px 6px rgba(0,0,0,0.7);
 
-            background:
-                linear-gradient(
-                    to top,
-                    rgba(0,0,0,0.82) 0%,
-                    rgba(0,0,0,0.55) 45%,
-                    rgba(0,0,0,0.15) 75%,
-                    transparent 100%
-                );
+            overflow-wrap: break-word;
+
+            word-wrap: break-word;
+        }
+
+
+        .hero-subtitle {
+            position: relative;
+
+            z-index: 7;
+
+            margin-top: 0.8rem;
+
+            max-width: 850px;
+
+            font-size: 1rem;
+
+            line-height: 1.5;
+
+            color: #ffffff;
+
+            text-shadow:
+                0 2px 5px rgba(0,0,0,0.7);
+
+            pointer-events: none;
         }
 
 
         .category {
+            position: relative;
+
+            z-index: 7;
+
             font-size: 0.7rem;
 
             font-weight: 600;
@@ -294,113 +516,73 @@
 
             letter-spacing: 2px;
 
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.8rem;
 
             display: inline-block;
 
-            background: var(--accent-color);
+            background:
+                var(--accent-color);
 
-            padding: 3px 9px;
-
-            color: #fff;
-        }
-
-
-        .hero-title {
-            font-family: var(--font-serif);
-
-            font-size: 2.8rem;
-
-            line-height: 1.12;
-
-            font-weight: 600;
-
-            max-width: 900px;
-
-            margin: 0;
-        }
-
-
-        .hero-subtitle {
-            margin-top: 0.7rem;
-
-            max-width: 750px;
-
-            font-size: 0.95rem;
-
-            line-height: 1.5;
+            padding:
+                4px 10px;
 
             color: #fff;
         }
 
 
-        .hero-link {
-            display: block;
-
-            width: 100%;
-            height: 100%;
-
-            text-decoration: none;
-        }
-
-
-        .hero-title-link {
-            color: #fff;
-
-            text-decoration: none;
-        }
-
-
-        .hero-title-link:hover {
-            color: #fff;
-        }
-
-
-        /* =========================================
-           HERO BUTTONS
-        ========================================= */
+        /*
+         * Стрелки
+         */
 
         .carousel-btn {
             position: absolute;
 
             top: 50%;
 
-            transform: translateY(-50%);
+            transform:
+                translateY(-50%);
+
+            z-index: 20;
 
             background:
-                rgba(0,0,0,0.4);
+                rgba(0,0,0,0.45);
 
             color: white;
 
             border: none;
 
-            padding: 12px 16px;
+            width: 48px;
+
+            height: 48px;
 
             cursor: pointer;
 
-            font-size: 18px;
+            font-size: 20px;
 
             border-radius: 50%;
 
-            transition: 0.3s;
-
-            z-index: 10;
+            transition:
+                background 0.2s,
+                transform 0.2s;
         }
 
 
         .carousel-btn:hover {
             background:
                 rgba(0,0,0,0.8);
+
+            transform:
+                translateY(-50%) scale(1.05);
         }
 
 
         .prev-btn {
-            left: 15px;
+            left: 18px;
         }
 
 
         .next-btn {
-            right: 15px;
+            right: 18px;
         }
 
 
@@ -462,6 +644,7 @@
 
         .card-img {
             width: 100%;
+
             height: 210px;
 
             object-fit: cover;
@@ -512,6 +695,7 @@
 
         .card-excerpt {
             font-size: 0.85rem;
+
             color: #555;
         }
 
@@ -615,7 +799,8 @@
 
             padding-left: 1rem;
 
-            margin: 1rem 0 0.5rem;
+            margin:
+                1rem 0 0.5rem;
 
             color: #333;
         }
@@ -690,7 +875,8 @@
             border:
                 1px solid var(--border-color);
 
-            padding: 4px 10px;
+            padding:
+                4px 10px;
 
             border-radius: 20px;
 
@@ -703,7 +889,8 @@
 
 
         .tag:hover {
-            background: var(--accent-color);
+            background:
+                var(--accent-color);
 
             color: #fff;
 
@@ -713,13 +900,14 @@
 
 
         /* =========================================
-           OPINION
+           OPINIONS
         ========================================= */
 
         .opinion-section {
             background: #efece6;
 
-            padding: 3.5rem 0;
+            padding:
+                3.5rem 0;
 
             margin-bottom: 3rem;
 
@@ -766,7 +954,8 @@
 
             margin: 0 auto;
 
-            padding: 0 1.5rem;
+            padding:
+                0 1.5rem;
         }
 
 
@@ -814,6 +1003,7 @@
 
         .opinion-avatar {
             width: 50px;
+
             height: 50px;
 
             border-radius: 50%;
@@ -850,7 +1040,8 @@
         ========================================= */
 
         .photo-gallery-section {
-            padding: 2rem 0 3rem;
+            padding:
+                2rem 0 3rem;
 
             margin-bottom: 2rem;
         }
@@ -934,7 +1125,8 @@
 
             margin: 0 auto;
 
-            padding: 0 1.5rem;
+            padding:
+                0 1.5rem;
 
             display: grid;
 
@@ -969,9 +1161,11 @@
             position: absolute;
 
             top: 0;
+
             left: 0;
 
             width: 100%;
+
             height: 100%;
 
             border: none;
@@ -1075,9 +1269,11 @@
             z-index: 1000;
 
             left: 0;
+
             top: 0;
 
             width: 100%;
+
             height: 100%;
 
             background-color:
@@ -1149,7 +1345,8 @@
 
             color: #ccc;
 
-            padding: 3rem 0 1.5rem;
+            padding:
+                3rem 0 1.5rem;
 
             font-size: 0.85rem;
 
@@ -1242,7 +1439,8 @@
 
             color: #666;
 
-            padding: 2rem 0;
+            padding:
+                2rem 0;
         }
 
 
@@ -1272,8 +1470,15 @@
             }
 
 
+            /*
+             * По-висок Hero на телефон,
+             * за да има място за заглавието.
+             */
+
             .hero {
-                height: 400px;
+                height: 480px;
+
+                border-radius: 4px;
             }
 
 
@@ -1285,14 +1490,16 @@
                 bottom: 0;
 
                 padding:
-                    5rem 1.5rem 1.5rem;
+                    3rem 1.5rem 2rem;
             }
 
 
             .hero-title {
-                font-size: 2.1rem;
+                font-size: 2.15rem;
 
-                line-height: 1.12;
+                line-height: 1.08;
+
+                max-width: 100%;
             }
 
 
@@ -1300,6 +1507,36 @@
                 font-size: 0.85rem;
 
                 line-height: 1.4;
+
+                max-width: 100%;
+            }
+
+
+            .category {
+                font-size: 0.65rem;
+
+                letter-spacing: 1.5px;
+            }
+
+
+            .carousel-btn {
+                width: 40px;
+
+                height: 40px;
+
+                padding: 0;
+
+                font-size: 16px;
+            }
+
+
+            .prev-btn {
+                left: 10px;
+            }
+
+
+            .next-btn {
+                right: 10px;
             }
 
 
@@ -1321,16 +1558,57 @@
                 justify-content: center;
             }
 
+        }
 
-            .carousel-btn {
-                padding: 9px 12px;
 
-                font-size: 15px;
+        @media (max-width: 500px) {
+
+            .hero {
+                height: 500px;
+            }
+
+
+            .hero-content {
+                padding:
+                    3rem 1.2rem 1.5rem;
+            }
+
+
+            .hero-title {
+                font-size: 1.9rem;
+            }
+
+
+            .hero-subtitle {
+                font-size: 0.8rem;
+            }
+
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+
+            .top-banner {
+                padding:
+                    0 1rem;
+            }
+
+
+            .container {
+                padding:
+                    0 1rem;
             }
 
         }
 
     </style>
+
 </head>
 
 
@@ -1476,7 +1754,7 @@
 
 
         <!-- =========================================
-             DYNAMIC HERO
+             HERO
         ========================================= -->
 
         <section
@@ -1486,16 +1764,19 @@
 
             <div id="hero-slides">
 
-                <p
+                <div
                     style="
-                        color:#666;
-                        padding:2rem;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        height:100%;
+                        color:#fff;
                         font-family:var(--font-serif);
-                        font-size:1.2rem;
+                        font-size:1.3rem;
                     "
                 >
                     Зареждане на водещите новини...
-                </p>
+                </div>
 
             </div>
 
@@ -1527,8 +1808,6 @@
         <div class="main-layout">
 
 
-            <!-- АКЦЕНТИ -->
-
             <div>
 
                 <h3 class="section-title">
@@ -1554,8 +1833,6 @@
 
             <aside>
 
-
-                <!-- НАЙ-ЧЕТЕНИ -->
 
                 <div class="sidebar-box">
 
@@ -1621,8 +1898,6 @@
                 </div>
 
 
-                <!-- ЦИТАТ -->
-
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1636,8 +1911,6 @@
 
                 </div>
 
-
-                <!-- ТЕМИ -->
 
                 <div class="sidebar-box">
 
@@ -1676,8 +1949,6 @@
 
                 </div>
 
-
-                <!-- NEWSLETTER -->
 
                 <div class="sidebar-box">
 
@@ -1732,12 +2003,7 @@
 
         <section class="photo-gallery-section">
 
-            <h3
-                class="section-title"
-                style="
-                    margin-bottom:1.5rem;
-                "
-            >
+            <h3 class="section-title">
                 Фотогалерия
             </h3>
 
@@ -1820,9 +2086,7 @@
 
                 <span
                     class="category"
-                    style="
-                        margin-bottom:1rem;
-                    "
+                    style="margin-bottom:1rem;"
                 >
                     ВИДЕО
                 </span>
@@ -2254,7 +2518,7 @@
 
 
     <!-- =========================================
-         SUPABASE + JAVASCRIPT
+         JAVASCRIPT
     ========================================= -->
 
     <script type="module">
@@ -2303,29 +2567,23 @@
             };
 
 
-            const dateStr =
-                now.toLocaleDateString(
-                    'bg-BG',
-                    options
-                );
-
-
             document.getElementById(
                 'current-date'
             ).textContent =
-                dateStr.toUpperCase();
-
-
-            const timeStr =
-                now.toLocaleTimeString(
-                    'bg-BG'
-                );
+                now
+                    .toLocaleDateString(
+                        'bg-BG',
+                        options
+                    )
+                    .toUpperCase();
 
 
             document.getElementById(
                 'current-time'
             ).textContent =
-                timeStr;
+                now.toLocaleTimeString(
+                    'bg-BG'
+                );
 
 
             document.getElementById(
@@ -2351,8 +2609,13 @@
 
         function escapeHtml(value) {
 
-            if (!value) {
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
                 return '';
+
             }
 
 
@@ -2472,83 +2735,85 @@
 
             container.innerHTML =
 
-                data.map(
-                    news => {
+                data
+                    .map(
+                        news => {
 
-                        const image =
-                            news.image_url ||
-                            'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
-
-
-                        const category =
-                            news.category ||
-                            'Новини';
+                            const image =
+                                news.image_url ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
 
 
-                        const subtitle =
-                            news.subtitle ||
-                            '';
+                            const category =
+                                news.category ||
+                                'Новини';
 
 
-                        const articleUrl =
-                            `article.html?id=${encodeURIComponent(news.id)}`;
+                            const subtitle =
+                                news.subtitle ||
+                                '';
 
 
-                        return `
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
 
-                            <article class="card">
 
-                                <a
-                                    href="${articleUrl}"
-                                    class="card-image-link"
-                                >
+                            return `
 
-                                    <img
-                                        src="${escapeHtml(image)}"
-                                        class="card-img"
-                                        alt="${escapeHtml(news.title)}"
+                                <article class="card">
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="card-image-link"
                                     >
 
-                                </a>
+                                        <img
+                                            src="${escapeHtml(image)}"
+                                            class="card-img"
+                                            alt="${escapeHtml(news.title)}"
+                                        >
+
+                                    </a>
 
 
-                                <span class="category">
-                                    ${escapeHtml(category)}
-                                </span>
+                                    <span class="category">
+                                        ${escapeHtml(category)}
+                                    </span>
 
 
-                                <a
-                                    href="${articleUrl}"
-                                    class="card-title"
-                                >
-                                    ${escapeHtml(news.title)}
-                                </a>
+                                    <a
+                                        href="${articleUrl}"
+                                        class="card-title"
+                                    >
+                                        ${escapeHtml(news.title)}
+                                    </a>
 
 
-                                ${
-                                    subtitle
-                                    ? `
+                                    ${
+                                        subtitle
+                                        ? `
 
-                                        <p class="card-excerpt">
-                                            ${escapeHtml(subtitle)}
-                                        </p>
+                                            <p class="card-excerpt">
+                                                ${escapeHtml(subtitle)}
+                                            </p>
 
-                                      `
-                                    : ''
-                                }
+                                          `
+                                        : ''
+                                    }
 
-                            </article>
+                                </article>
 
-                        `;
+                            `;
 
-                    }
-                ).join('');
+                        }
+                    )
+                    .join('');
 
         }
 
 
         /* =========================================
-           ДИНАМИЧЕН HERO
+           HERO
         ========================================= */
 
         let slideIndex = 0;
@@ -2567,7 +2832,7 @@
 
 
             /*
-             * Първо търсим избрани новини.
+             * Първо търсим ИЗБРАНИТЕ новини.
              */
 
             let {
@@ -2610,8 +2875,8 @@
 
 
             /*
-             * Ако няма избрани новини,
-             * показваме последните публикувани.
+             * Ако няма избрани,
+             * взимаме последните публикувани.
              */
 
             if (
@@ -2664,7 +2929,7 @@
 
 
             /*
-             * ГРЕШКА
+             * Грешка
              */
 
             if (error) {
@@ -2679,10 +2944,15 @@
 
                     <div
                         style="
+                            height:100%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
                             padding:2rem;
-                            color:#666;
+                            color:#fff;
                             font-family:var(--font-serif);
                             font-size:1.2rem;
+                            text-align:center;
                         "
                     >
                         Възникна проблем при зареждането
@@ -2694,12 +2964,14 @@
 
                 document.getElementById(
                     'hero-prev'
-                ).style.display = 'none';
+                ).style.display =
+                    'none';
 
 
                 document.getElementById(
                     'hero-next'
-                ).style.display = 'none';
+                ).style.display =
+                    'none';
 
 
                 return;
@@ -2708,7 +2980,7 @@
 
 
             /*
-             * НЯМА НОВИНИ
+             * Няма новини
              */
 
             if (
@@ -2720,10 +2992,15 @@
 
                     <div
                         style="
+                            height:100%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
                             padding:2rem;
-                            color:#666;
+                            color:#fff;
                             font-family:var(--font-serif);
                             font-size:1.2rem;
+                            text-align:center;
                         "
                     >
                         Все още няма публикувани новини.
@@ -2734,12 +3011,14 @@
 
                 document.getElementById(
                     'hero-prev'
-                ).style.display = 'none';
+                ).style.display =
+                    'none';
 
 
                 document.getElementById(
                     'hero-next'
-                ).style.display = 'none';
+                ).style.display =
+                    'none';
 
 
                 return;
@@ -2756,99 +3035,111 @@
 
 
             /*
-             * СЪЗДАВАМЕ СЛАЙДОВЕТЕ
+             * Създаваме слайдовете.
              */
 
             container.innerHTML =
 
-                data.map(
-                    (news, index) => {
+                data
+                    .map(
+                        (news, index) => {
 
-                        const image =
-                            news.image_url ||
-                            'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80';
-
-
-                        const category =
-                            news.category ||
-                            'Новини';
+                            const image =
+                                news.image_url ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80';
 
 
-                        const subtitle =
-                            news.subtitle ||
-                            '';
+                            const category =
+                                news.category ||
+                                'Новини';
 
 
-                        const articleUrl =
-                            `article.html?id=${encodeURIComponent(news.id)}`;
+                            const subtitle =
+                                news.subtitle ||
+                                '';
 
 
-                        return `
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
 
-                            <article
-                                class="
-                                    carousel-slide
-                                    ${index === 0 ? 'active' : ''}
-                                "
-                            >
 
-                                <a
-                                    href="${articleUrl}"
-                                    class="hero-link"
+                            return `
+
+                                <article
+                                    class="
+                                        carousel-slide
+                                        ${index === 0 ? 'active' : ''}
+                                    "
                                 >
 
-                                    <img
-                                        src="${escapeHtml(image)}"
-                                        class="hero-img"
-                                        alt="${escapeHtml(news.title)}"
-                                    >
-
-                                </a>
-
-
-                                <div class="hero-content">
-
-                                    <span class="category">
-                                        ${escapeHtml(category)}
-                                    </span>
-
+                                    <!-- СНИМКА -->
 
                                     <a
                                         href="${articleUrl}"
-                                        class="hero-title-link"
+                                        class="hero-image-wrap"
                                     >
 
-                                        <h2 class="hero-title">
-                                            ${escapeHtml(news.title)}
-                                        </h2>
+                                        <img
+                                            src="${escapeHtml(image)}"
+                                            class="hero-img"
+                                            alt="${escapeHtml(news.title)}"
+                                        >
 
                                     </a>
 
 
-                                    ${
-                                        subtitle
-                                        ? `
+                                    <!-- ГРАДИЕНТ -->
 
-                                            <p class="hero-subtitle">
-                                                ${escapeHtml(subtitle)}
-                                            </p>
+                                    <div class="hero-overlay"></div>
 
-                                          `
-                                        : ''
-                                    }
 
-                                </div>
+                                    <!-- ТЕКСТ -->
 
-                            </article>
+                                    <div class="hero-content">
 
-                        `;
+                                        <span class="category">
+                                            ${escapeHtml(category)}
+                                        </span>
 
-                    }
-                ).join('');
+
+                                        <a
+                                            href="${articleUrl}"
+                                            class="hero-title-link"
+                                        >
+
+                                            <h2 class="hero-title">
+                                                ${escapeHtml(news.title)}
+                                            </h2>
+
+                                        </a>
+
+
+                                        ${
+                                            subtitle
+                                            ? `
+
+                                                <p class="hero-subtitle">
+                                                    ${escapeHtml(subtitle)}
+                                                </p>
+
+                                              `
+                                            : ''
+                                        }
+
+                                    </div>
+
+                                </article>
+
+                            `;
+
+                        }
+                    )
+                    .join('');
 
 
             /*
-             * СТРЕЛКИ
+             * Показваме стрелките само ако
+             * има повече от една новина.
              */
 
             document.getElementById(
@@ -2904,7 +3195,7 @@
 
 
         /* =========================================
-           ПОКАЗВАНЕ НА HERO
+           ПОКАЗВАНЕ НА СЛАЙД
         ========================================= */
 
         function showHeroSlide(index) {
@@ -2949,7 +3240,7 @@
 
 
         /* =========================================
-           ПРЕВЪРТАНЕ
+           СЛЕДВАЩ / ПРЕДИШЕН
         ========================================= */
 
         function moveHeroSlide(direction) {
@@ -2985,7 +3276,9 @@
         ========================================= */
 
         document
-            .getElementById('hero-prev')
+            .getElementById(
+                'hero-prev'
+            )
             .addEventListener(
                 'click',
                 () => {
@@ -2997,7 +3290,9 @@
 
 
         document
-            .getElementById('hero-next')
+            .getElementById(
+                'hero-next'
+            )
             .addEventListener(
                 'click',
                 () => {
@@ -3049,7 +3344,8 @@
             closeAboutModal;
 
 
-        window.onclick =
+        window.addEventListener(
+            'click',
             function(event) {
 
                 const modal =
@@ -3067,7 +3363,8 @@
 
                 }
 
-            };
+            }
+        );
 
     </script>
 
