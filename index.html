@@ -30,7 +30,6 @@
             line-height: 1.6;
         }
 
-        /* ЛЕНТА С ДАТА И ВРЕМЕ */
         .top-bar {
             max-width: 1200px;
             margin: 0 auto;
@@ -53,7 +52,6 @@
             align-items: center;
         }
 
-        /* ВЕРХЕН БАНЕР */
         .top-banner {
             max-width: 1200px;
             margin: 1rem auto 0.5rem;
@@ -68,7 +66,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* HEADER & NAV */
         header {
             text-align: center;
             padding: 1.5rem 1rem 1rem;
@@ -151,7 +148,10 @@
             padding: 0 1.5rem;
         }
 
-        /* КАРАУСЕЛ / HERO */
+        /* =========================================
+           HERO / ДИНАМИЧЕН КАРАУСЕЛ
+        ========================================= */
+
         .hero {
             position: relative;
             width: 100%;
@@ -159,6 +159,7 @@
             margin-bottom: 3rem;
             overflow: hidden;
             border-radius: 4px;
+            background: #ddd;
         }
 
         .carousel-slide {
@@ -177,6 +178,7 @@
             height: 100%;
             object-fit: cover;
             filter: brightness(0.85);
+            display: block;
         }
 
         .hero-content {
@@ -208,6 +210,30 @@
             max-width: 800px;
         }
 
+        .hero-subtitle {
+            margin-top: 0.6rem;
+            max-width: 750px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #fff;
+        }
+
+        .hero-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        .hero-title-link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .hero-title-link:hover {
+            color: #fff;
+        }
+
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -220,6 +246,7 @@
             font-size: 18px;
             border-radius: 50%;
             transition: 0.3s;
+            z-index: 10;
         }
 
         .carousel-btn:hover {
@@ -235,6 +262,7 @@
         }
 
         /* ОСНОВНО СЪДЪРЖАНИЕ */
+
         .main-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -253,6 +281,7 @@
         }
 
         /* КАРТИ */
+
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -302,6 +331,7 @@
         }
 
         /* SIDEBAR */
+
         .sidebar-box {
             background: #efece6;
             padding: 1.5rem;
@@ -351,6 +381,7 @@
         }
 
         /* ЦИТАТ */
+
         .quote-box {
             font-family: var(--font-serif);
             font-style: italic;
@@ -363,6 +394,7 @@
         }
 
         /* NEWSLETTER */
+
         .newsletter-form input[type="email"] {
             width: 100%;
             padding: 0.7rem;
@@ -390,6 +422,7 @@
         }
 
         /* ТЕМИ */
+
         .tags-container {
             display: flex;
             flex-wrap: wrap;
@@ -414,6 +447,7 @@
         }
 
         /* МНЕНИЯ */
+
         .opinion-section {
             background: #efece6;
             padding: 3.5rem 0;
@@ -491,6 +525,7 @@
         }
 
         /* ГАЛЕРИЯ */
+
         .photo-gallery-section {
             padding: 2rem 0 3rem;
             margin-bottom: 2rem;
@@ -530,6 +565,7 @@
         }
 
         /* ВИДЕО */
+
         .video-section {
             background: var(--accent-color);
             color: #fff;
@@ -588,6 +624,7 @@
         }
 
         /* ЛАЙФСТАЙЛ */
+
         .lifestyle-section {
             background: #ffffff;
             padding: 3rem 0;
@@ -616,6 +653,7 @@
         }
 
         /* МОДАЛЕН ПРОЗОРЕЦ */
+
         .modal {
             display: none;
             position: fixed;
@@ -658,6 +696,7 @@
         }
 
         /* ФУТЪР */
+
         footer {
             background: #111;
             color: #ccc;
@@ -716,7 +755,6 @@
             color: #777;
         }
 
-        /* СЪОБЩЕНИЕ ПРИ ЗАРЕЖДАНЕ */
         #highlights-loading {
             font-family: var(--font-serif);
             font-size: 1.2rem;
@@ -749,6 +787,12 @@
             .hero-title {
                 font-size: 2.1rem;
             }
+
+            .hero-content {
+                left: 1.5rem;
+                right: 1.5rem;
+                bottom: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -756,6 +800,7 @@
 <body>
 
     <!-- ДАТА И ЧАС -->
+
     <div class="top-bar">
 
         <span id="current-date">
@@ -776,6 +821,7 @@
 
 
     <!-- БАНЕР -->
+
     <div class="top-banner">
 
         <img
@@ -787,6 +833,7 @@
 
 
     <!-- HEADER -->
+
     <header>
 
         <a href="#" class="logo">
@@ -801,6 +848,7 @@
 
 
     <!-- НАВИГАЦИЯ -->
+
     <nav>
 
         <div class="nav-container">
@@ -853,65 +901,44 @@
     <div class="container">
 
 
-        <!-- HERO -->
-        <section class="hero">
+        <!-- =========================================
+             ДИНАМИЧЕН HERO
+        ========================================= -->
 
-            <div class="carousel-slide active">
+        <section
+            class="hero"
+            id="hero"
+        >
 
-                <img
-                    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80"
-                    class="hero-img"
-                    alt="Политика"
+            <div id="hero-slides">
+
+                <p
+                    style="
+                        color:#666;
+                        padding:2rem;
+                        font-family:var(--font-serif);
+                        font-size:1.2rem;
+                    "
                 >
-
-                <div class="hero-content">
-
-                    <span class="category">
-                        ПОЛИТИКА
-                    </span>
-
-                    <h2 class="hero-title">
-                        Бъдещето е тук: Как иновациите променят живота ни
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <div class="carousel-slide">
-
-                <img
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80"
-                    class="hero-img"
-                    alt="Новини"
-                >
-
-                <div class="hero-content">
-
-                    <span class="category">
-                        НОВИНИ
-                    </span>
-
-                    <h2 class="hero-title">
-                        Нови икономически перспективи и глобални тенденции
-                    </h2>
-
-                </div>
+                    Зареждане на водещите новини...
+                </p>
 
             </div>
 
 
             <button
                 class="carousel-btn prev-btn"
-                onclick="moveSlide(-1)"
+                id="hero-prev"
+                aria-label="Предишна новина"
             >
                 &#10094;
             </button>
 
+
             <button
                 class="carousel-btn next-btn"
-                onclick="moveSlide(1)"
+                id="hero-next"
+                aria-label="Следваща новина"
             >
                 &#10095;
             </button>
@@ -920,10 +947,12 @@
 
 
         <!-- ОСНОВНО СЪДЪРЖАНИЕ -->
+
         <div class="main-layout">
 
 
             <!-- АКЦЕНТИ -->
+
             <div>
 
                 <h3 class="section-title">
@@ -946,10 +975,12 @@
 
 
             <!-- SIDEBAR -->
+
             <aside>
 
 
                 <!-- НАЙ-ЧЕТЕНИ -->
+
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1011,6 +1042,7 @@
 
 
                 <!-- ЦИТАТ -->
+
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1025,6 +1057,7 @@
 
 
                 <!-- ТЕМИ -->
+
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1059,6 +1092,7 @@
 
 
                 <!-- БЮЛЕТИН -->
+
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1102,6 +1136,7 @@
 
 
         <!-- ФОТОГАЛЕРИЯ -->
+
         <section class="photo-gallery-section">
 
             <h3
@@ -1162,6 +1197,7 @@
 
 
     <!-- ВИДЕО -->
+
     <section class="video-section">
 
         <div class="video-container-inner">
@@ -1219,6 +1255,7 @@
 
 
     <!-- МНЕНИЯ -->
+
     <section class="opinion-section">
 
         <div class="opinion-header">
@@ -1300,6 +1337,7 @@
 
 
     <!-- ЛАЙФСТАЙЛ -->
+
     <div class="lifestyle-section">
 
         <div class="container">
@@ -1374,6 +1412,7 @@
 
 
     <!-- ЗА НАС -->
+
     <div id="aboutModal" class="modal">
 
         <div class="modal-content">
@@ -1437,6 +1476,7 @@
 
 
     <!-- ФУТЪР -->
+
     <footer>
 
         <div class="container">
@@ -1549,7 +1589,10 @@
     </footer>
 
 
-    <!-- SUPABASE + JAVASCRIPT -->
+    <!-- =========================================
+         SUPABASE + JAVASCRIPT
+    ========================================= -->
+
     <script type="module">
 
         import { createClient } from
@@ -1564,19 +1607,15 @@
             'https://hxvflentlaktgwimsevc.supabase.co';
 
 
-        /*
-         * Същият Publishable key,
-         * който вече работи в admin/dashboard.html
-         */
-
         const SUPABASE_PUBLISHABLE_KEY =
             'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
 
 
-        const supabase = createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        );
+        const supabase =
+            createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
 
 
         /* =========================================
@@ -1585,7 +1624,9 @@
 
         function updateDateTime() {
 
-            const now = new Date();
+            const now =
+                new Date();
+
 
             const options = {
                 weekday: 'long',
@@ -1594,33 +1635,42 @@
                 day: 'numeric'
             };
 
+
             const dateStr =
                 now.toLocaleDateString(
                     'bg-BG',
                     options
                 );
 
+
             document.getElementById(
                 'current-date'
             ).textContent =
                 dateStr.toUpperCase();
 
+
             const timeStr =
-                now.toLocaleTimeString('bg-BG');
+                now.toLocaleTimeString(
+                    'bg-BG'
+                );
+
 
             document.getElementById(
                 'current-time'
             ).textContent =
                 timeStr;
 
+
             document.getElementById(
                 'current-year'
             ).textContent =
                 now.getFullYear();
+
         }
 
 
         updateDateTime();
+
 
         setInterval(
             updateDateTime,
@@ -1629,7 +1679,48 @@
 
 
         /* =========================================
-           ЗАРЕЖДАНЕ НА АКЦЕНТИТЕ ОТ SUPABASE
+           HTML ESCAPE
+        ========================================= */
+
+        function escapeHtml(value) {
+
+            if (!value) {
+                return '';
+            }
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    '&amp;'
+                )
+
+                .replace(
+                    /</g,
+                    '&lt;'
+                )
+
+                .replace(
+                    />/g,
+                    '&gt;'
+                )
+
+                .replace(
+                    /"/g,
+                    '&quot;'
+                )
+
+                .replace(
+                    /'/g,
+                    '&#039;'
+                );
+
+        }
+
+
+        /* =========================================
+           АКЦЕНТИ
         ========================================= */
 
         async function loadHighlights() {
@@ -1640,9 +1731,14 @@
                 );
 
 
-            const { data, error } =
+            const {
+                data,
+                error
+            } =
                 await supabase
+
                     .from('news')
+
                     .select(`
                         id,
                         title,
@@ -1652,16 +1748,19 @@
                         author,
                         created_at
                     `)
+
                     .eq(
                         'status',
                         'published'
                     )
+
                     .order(
                         'created_at',
                         {
                             ascending: false
                         }
                     )
+
                     .limit(4);
 
 
@@ -1672,29 +1771,40 @@
                     error
                 );
 
+
                 container.innerHTML = `
+
                     <p class="card-excerpt">
                         Възникна проблем при зареждането на новините.
                     </p>
+
                 `;
 
                 return;
+
             }
 
 
-            if (!data || data.length === 0) {
+            if (
+                !data ||
+                data.length === 0
+            ) {
 
                 container.innerHTML = `
+
                     <p class="card-excerpt">
                         Все още няма публикувани новини.
                     </p>
+
                 `;
 
                 return;
+
             }
 
 
             container.innerHTML =
+
                 data.map(news => {
 
                     const image =
@@ -1712,16 +1822,6 @@
                         '';
 
 
-                    /*
-                     * ВАЖНО:
-                     * Всяка новина вече има собствен линк:
-                     *
-                     * article.html?id=ID-НА-НОВИНАТА
-                     *
-                     * Така article.html ще знае коя
-                     * новина трябва да покаже.
-                     */
-
                     const articleUrl =
                         `article.html?id=${encodeURIComponent(news.id)}`;
 
@@ -1730,7 +1830,6 @@
 
                         <article class="card">
 
-                            <!-- СНИМКА -->
                             <a
                                 href="${articleUrl}"
                                 class="card-image-link"
@@ -1745,13 +1844,11 @@
                             </a>
 
 
-                            <!-- КАТЕГОРИЯ -->
                             <span class="category">
                                 ${escapeHtml(category)}
                             </span>
 
 
-                            <!-- ЗАГЛАВИЕ -->
                             <a
                                 href="${articleUrl}"
                                 class="card-title"
@@ -1760,13 +1857,14 @@
                             </a>
 
 
-                            <!-- ПОДЗАГЛАВИЕ -->
                             ${
                                 subtitle
                                 ? `
+
                                     <p class="card-excerpt">
                                         ${escapeHtml(subtitle)}
                                     </p>
+
                                   `
                                 : ''
                             }
@@ -1781,60 +1879,361 @@
 
 
         /* =========================================
-           ЗАЩИТА НА HTML
-        ========================================= */
-
-        function escapeHtml(value) {
-
-            if (!value) {
-                return '';
-            }
-
-
-            return String(value)
-                .replace(
-                    /&/g,
-                    '&amp;'
-                )
-                .replace(
-                    /</g,
-                    '&lt;'
-                )
-                .replace(
-                    />/g,
-                    '&gt;'
-                )
-                .replace(
-                    /"/g,
-                    '&quot;'
-                )
-                .replace(
-                    /'/g,
-                    '&#039;'
-                );
-
-        }
-
-
-        /* Зареждаме новините */
-
-        loadHighlights();
-
-
-        /* =========================================
-           КАРАУСЕЛ
+           ДИНАМИЧЕН HERO
         ========================================= */
 
         let slideIndex = 0;
 
+        let heroSlides = [];
 
-        const slides =
-            document.querySelectorAll(
-                '.carousel-slide'
-            );
+        let heroTimer = null;
 
 
-        function showSlide(index) {
+        async function loadHero() {
+
+            const container =
+                document.getElementById(
+                    'hero-slides'
+                );
+
+
+            /*
+             * Първо зареждаме избраните новини.
+             */
+
+            let {
+                data,
+                error
+            } =
+                await supabase
+
+                    .from('news')
+
+                    .select(`
+                        id,
+                        title,
+                        subtitle,
+                        category,
+                        image_url,
+                        author,
+                        created_at,
+                        is_featured
+                    `)
+
+                    .eq(
+                        'status',
+                        'published'
+                    )
+
+                    .eq(
+                        'is_featured',
+                        true
+                    )
+
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    )
+
+                    .limit(4);
+
+
+            /*
+             * Ако няма избрани новини,
+             * използваме последните публикувани.
+             */
+
+            if (
+                !error &&
+                (
+                    !data ||
+                    data.length === 0
+                )
+            ) {
+
+                const fallback =
+                    await supabase
+
+                        .from('news')
+
+                        .select(`
+                            id,
+                            title,
+                            subtitle,
+                            category,
+                            image_url,
+                            author,
+                            created_at,
+                            is_featured
+                        `)
+
+                        .eq(
+                            'status',
+                            'published'
+                        )
+
+                        .order(
+                            'created_at',
+                            {
+                                ascending: false
+                            }
+                        )
+
+                        .limit(4);
+
+
+                data =
+                    fallback.data;
+
+
+                error =
+                    fallback.error;
+
+            }
+
+
+            /*
+             * ГРЕШКА
+             */
+
+            if (error) {
+
+                console.error(
+                    'Hero Supabase error:',
+                    error
+                );
+
+
+                container.innerHTML = `
+
+                    <div
+                        style="
+                            padding:2rem;
+                            color:#666;
+                            font-family:var(--font-serif);
+                            font-size:1.2rem;
+                        "
+                    >
+                        Възникна проблем при зареждането
+                        на водещите новини.
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            /*
+             * НЯМА НОВИНИ
+             */
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div
+                        style="
+                            padding:2rem;
+                            color:#666;
+                            font-family:var(--font-serif);
+                            font-size:1.2rem;
+                        "
+                    >
+                        Все още няма публикувани новини.
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            heroSlides =
+                data;
+
+
+            slideIndex =
+                0;
+
+
+            /*
+             * СЪЗДАВАМЕ HERO СЛАЙДОВЕТЕ
+             */
+
+            container.innerHTML =
+
+                data.map(
+                    (news, index) => {
+
+                        const image =
+                            news.image_url ||
+                            'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80';
+
+
+                        const category =
+                            news.category ||
+                            'Новини';
+
+
+                        const subtitle =
+                            news.subtitle ||
+                            '';
+
+
+                        const articleUrl =
+                            `article.html?id=${encodeURIComponent(news.id)}`;
+
+
+                        return `
+
+                            <article
+                                class="
+                                    carousel-slide
+                                    ${index === 0 ? 'active' : ''}
+                                "
+                            >
+
+                                <a
+                                    href="${articleUrl}"
+                                    class="hero-link"
+                                >
+
+                                    <img
+                                        src="${escapeHtml(image)}"
+                                        class="hero-img"
+                                        alt="${escapeHtml(news.title)}"
+                                    >
+
+                                </a>
+
+
+                                <div class="hero-content">
+
+                                    <span class="category">
+                                        ${escapeHtml(category)}
+                                    </span>
+
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="hero-title-link"
+                                    >
+
+                                        <h2 class="hero-title">
+                                            ${escapeHtml(news.title)}
+                                        </h2>
+
+                                    </a>
+
+
+                                    ${
+                                        subtitle
+                                        ? `
+
+                                            <p class="hero-subtitle">
+                                                ${escapeHtml(subtitle)}
+                                            </p>
+
+                                          `
+                                        : ''
+                                    }
+
+                                </div>
+
+                            </article>
+
+                        `;
+
+                    }
+                ).join('');
+
+
+            /*
+             * Показваме стрелките само ако
+             * има повече от една новина.
+             */
+
+            document
+                .getElementById('hero-prev')
+                .style.display =
+                    heroSlides.length > 1
+                    ? 'block'
+                    : 'none';
+
+
+            document
+                .getElementById('hero-next')
+                .style.display =
+                    heroSlides.length > 1
+                    ? 'block'
+                    : 'none';
+
+
+            /*
+             * Спираме стария таймер.
+             */
+
+            if (heroTimer) {
+
+                clearInterval(
+                    heroTimer
+                );
+
+            }
+
+
+            /*
+             * Автоматично превъртане
+             * на всеки 5 секунди.
+             */
+
+            if (
+                heroSlides.length > 1
+            ) {
+
+                heroTimer =
+                    setInterval(
+                        () => {
+
+                            moveHeroSlide(1);
+
+                        },
+                        5000
+                    );
+
+            }
+
+        }
+
+
+        /* =========================================
+           ПОКАЗВАНЕ НА HERO SLIDE
+        ========================================= */
+
+        function showHeroSlide(index) {
+
+            const slides =
+                document.querySelectorAll(
+                    '.carousel-slide'
+                );
+
+
+            if (
+                !slides.length
+            ) {
+
+                return;
+
+            }
+
 
             slides.forEach(
                 (slide, i) => {
@@ -1844,7 +2243,9 @@
                     );
 
 
-                    if (i === index) {
+                    if (
+                        i === index
+                    ) {
 
                         slide.classList.add(
                             'active'
@@ -1858,39 +2259,77 @@
         }
 
 
-        function moveSlide(direction) {
+        /* =========================================
+           ПРЕВЪРТАНЕ НА HERO
+        ========================================= */
+
+        function moveHeroSlide(direction) {
+
+            if (
+                heroSlides.length <= 1
+            ) {
+
+                return;
+
+            }
+
 
             slideIndex =
                 (
                     slideIndex +
                     direction +
-                    slides.length
+                    heroSlides.length
                 )
                 %
-                slides.length;
+                heroSlides.length;
 
 
-            showSlide(
+            showHeroSlide(
                 slideIndex
             );
 
         }
 
 
-        window.moveSlide =
-            moveSlide;
+        /* =========================================
+           СТРЕЛКИ
+        ========================================= */
+
+        document
+            .getElementById('hero-prev')
+            .addEventListener(
+                'click',
+                () => {
+
+                    moveHeroSlide(-1);
+
+                }
+            );
 
 
-        setInterval(
-            () => {
-                moveSlide(1);
-            },
-            5000
-        );
+        document
+            .getElementById('hero-next')
+            .addEventListener(
+                'click',
+                () => {
+
+                    moveHeroSlide(1);
+
+                }
+            );
 
 
         /* =========================================
-           МОДАЛЕН ПРОЗОРЕЦ ЗА НАС
+           СТАРТИРАНЕ
+        ========================================= */
+
+        loadHighlights();
+
+        loadHero();
+
+
+        /* =========================================
+           МОДАЛЕН ПРОЗОРЕЦ
         ========================================= */
 
         function openAboutModal() {
