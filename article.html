@@ -1,169 +1,193 @@
 <!DOCTYPE html>
 <html lang="bg">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Новина — СПИСАНИЕТО.</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>СПИСАНИЕТО.</title>
+
+    <meta
+        name="description"
+        content="Всичко важно. На едно място."
+    >
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
+
         :root {
             --bg-color: #f7f6f2;
             --text-color: #111111;
             --accent-color: #8c1d40;
             --border-color: #e2dfd7;
-            --font-serif: 'Cormorant Garamond', Georgia, serif;
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
         }
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
-            background-color: var(--bg-color);
+            margin: 0;
+            background: var(--bg-color);
             color: var(--text-color);
-            font-family: var(--font-sans);
-            line-height: 1.8;
+            font-family: "Plus Jakarta Sans", sans-serif;
         }
 
-        header {
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.2rem 1.5rem;
+        a {
+            color: inherit;
         }
 
-        .header-inner {
-            max-width: 1200px;
+        .article-page {
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .article-header {
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-color);
-            text-decoration: none;
+            justify-content: space-between;
         }
 
         .back-link {
             text-decoration: none;
-            color: #666;
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
+            color: #666;
+            transition: color 0.2s ease;
         }
 
         .back-link:hover {
             color: var(--accent-color);
         }
 
-        .article-container {
-            max-width: 820px;
-            margin: 3rem auto 5rem;
-            padding: 0 1.5rem;
+        .logo {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        .article-meta {
+        /* ARTICLE */
+
+        .article-container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 4rem 2rem 5rem;
+        }
+
+        .article-category {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
         }
 
         .article-title {
-            font-family: var(--font-serif);
+            font-family: "Cormorant Garamond", serif;
             font-size: 3.2rem;
+            line-height: 1.05;
             font-weight: 600;
-            line-height: 1.15;
-            margin-bottom: 1.2rem;
-            letter-spacing: -0.5px;
+            margin: 0 0 1.3rem;
         }
 
-        .article-subheading {
-            font-family: var(--font-serif);
-            font-size: 1.35rem;
-            font-style: italic;
-            color: #444;
-            margin-bottom: 2rem;
-            line-height: 1.5;
+        .article-subtitle {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 1.5rem;
         }
 
-        .author-box {
+        .article-meta {
             display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
             align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.8rem 0;
+            font-size: 0.78rem;
+            color: #777;
             margin-bottom: 2.5rem;
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .featured-image-wrap {
-            margin-bottom: 3rem;
-        }
-
-        .featured-image {
+        .article-image {
             width: 100%;
             height: 480px;
             object-fit: cover;
-            border-radius: 2px;
             display: block;
+            margin-bottom: 2.8rem;
         }
 
-        .image-caption {
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 0.6rem;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .article-body {
-            font-size: 1.1rem;
+        .article-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
             color: #222;
         }
 
-        .article-body p {
-            margin-bottom: 1.8rem;
+        .article-content p {
+            margin: 0 0 1.5rem;
         }
 
-        .article-body p:first-of-type::first-letter {
-            font-family: var(--font-serif);
-            font-size: 4.2rem;
-            float: left;
-            line-height: 0.8;
-            margin-right: 0.8rem;
-            margin-top: 0.2rem;
-            color: var(--accent-color);
-        }
-
-        blockquote {
-            font-family: var(--font-serif);
+        .article-content h2 {
+            font-family: "Cormorant Garamond", serif;
             font-size: 2rem;
-            font-style: italic;
-            line-height: 1.3;
-            color: var(--text-color);
-            border-left: 2px solid var(--accent-color);
-            padding-left: 1.5rem;
-            margin: 2.5rem 0;
+            line-height: 1.2;
+            margin: 2.5rem 0 1rem;
         }
 
-        /* СПОДЕЛЯНЕ */
+        .article-content h3 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .article-content strong {
+            font-weight: 700;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1rem 1.5rem;
+            border-left: 3px solid var(--accent-color);
+            color: #555;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+        }
+
+        /* SHARE */
 
         .share-box {
             border-top: 1px solid var(--border-color);
@@ -237,112 +261,134 @@
             border-color: #111;
         }
 
-        .message {
-            text-align: center;
-            padding: 5rem 1rem;
-            font-size: 1rem;
-            color: #777;
-        }
+        /* FOOTER */
 
-        .error-message {
-            color: var(--accent-color);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
+        .article-footer {
             border-top: 1px solid var(--border-color);
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
             color: #777;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        @media (max-width: 768px) {
+        /* MOBILE */
 
-            .article-title {
-                font-size: 2.2rem;
+        @media (max-width: 700px) {
+
+            .article-header {
+                padding: 1.5rem 1.2rem;
             }
 
-            .featured-image {
-                height: 300px;
+            .logo {
+                font-size: 1.6rem;
             }
 
             .article-container {
-                margin-top: 1.5rem;
+                padding: 2.5rem 1.2rem 4rem;
             }
 
-            .author-box {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.3rem;
+            .article-title {
+                font-size: 2.4rem;
+            }
+
+            .article-subtitle {
+                font-size: 1rem;
+            }
+
+            .article-image {
+                height: 300px;
+            }
+
+            .article-content {
+                font-size: 1rem;
+                line-height: 1.8;
             }
 
             .share-box {
                 flex-direction: column;
                 align-items: flex-start;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
-<header>
-    <div class="header-inner">
+<div class="article-page">
 
-        <a href="index.html" class="back-link">
-            ← Назад към началната
+    <!-- HEADER -->
+
+    <header class="article-header">
+
+        <a
+            href="index.html"
+            class="back-link"
+        >
+            ← Назад
         </a>
 
-        <a href="index.html" class="logo">
+        <div class="logo">
             СПИСАНИЕТО.
-        </a>
+        </div>
 
-        <span style="width: 100px;"></span>
-
-    </div>
-</header>
+    </header>
 
 
-<main class="article-container">
+    <!-- ARTICLE -->
 
-    <div id="loading" class="message">
-        Зареждане на новината...
-    </div>
+    <main class="article-container">
 
+        <div
+            id="article-category"
+            class="article-category"
+        ></div>
 
-    <div id="article" style="display:none;">
+        <h1
+            id="article-title"
+            class="article-title"
+        >
+            Зареждане...
+        </h1>
 
-        <div class="article-meta" id="article-meta"></div>
+        <div
+            id="article-subtitle"
+            class="article-subtitle"
+        ></div>
 
-        <h1 class="article-title" id="article-title"></h1>
+        <div class="article-meta">
 
-        <p class="article-subheading" id="article-subheading"></p>
+            <span id="article-author">
+                Автор: СПИСАНИЕТО.
+            </span>
 
-
-        <div class="author-box">
-
-            <span id="article-author"></span>
+            <span>·</span>
 
             <span id="article-date"></span>
 
         </div>
 
 
-        <div class="featured-image-wrap">
-
-            <img
-                id="article-image"
-                class="featured-image"
-                alt=""
-            >
-
-        </div>
+        <img
+            id="article-image"
+            class="article-image"
+            src=""
+            alt=""
+            style="display:none;"
+        >
 
 
-        <div class="article-body" id="article-body"></div>
+        <div
+            id="article-content"
+            class="article-content"
+        ></div>
 
 
-        <!-- БУТОНИ ЗА СПОДЕЛЯНЕ -->
+        <!-- SHARE -->
 
         <div class="share-box">
 
@@ -411,83 +457,124 @@
 
         </div>
 
-    </div>
+    </main>
 
 
-    <div id="error" class="message error-message" style="display:none;">
+    <!-- FOOTER -->
 
-        Новината не може да бъде заредена.
+    <footer class="article-footer">
+        © СПИСАНИЕТО. Всичко важно. На едно място.
+    </footer>
 
-    </div>
-
-</main>
-
-
-<footer>
-
-    &copy; 2026 СПИСАНИЕТО. Всички права запазени.
-
-</footer>
+</div>
 
 
-<script type="module">
+<script>
 
-import { createClient } from
-    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    /* ================================
+       SUPABASE
+    ================================= */
 
+    const SUPABASE_URL =
+        'https://hxvflentlaktgwimsevc.supabase.co';
 
-const SUPABASE_URL =
-    'https://hxvflentlaktgwimsevc.supabase.co';
-
-
-const SUPABASE_PUBLISHABLE_KEY =
-    'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-
-
-const supabase = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+    const SUPABASE_KEY =
+        'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
 
 
-// Вземаме ID-то от адреса:
-// article.html?id=123
+    /* ================================
+       SUPABASE CLIENT
+    ================================= */
 
-const params = new URLSearchParams(
-    window.location.search
-);
-
-const articleId = params.get('id');
-
-
-async function loadArticle() {
-
-    const loading =
-        document.getElementById('loading');
-
-    const article =
-        document.getElementById('article');
-
-    const error =
-        document.getElementById('error');
+    const supabase =
+        window.supabaseClient ||
+        {
+            from: function () {
+                throw new Error(
+                    'Supabase client не е зареден.'
+                );
+            }
+        };
 
 
-    if (!articleId) {
+</script>
 
-        loading.style.display = 'none';
 
-        error.textContent =
-            'Липсва номер на новината.';
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
-        error.style.display = 'block';
 
-        return;
+<script>
+
+    /* ================================
+       INITIALIZE SUPABASE
+    ================================= */
+
+    const client =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* ================================
+       ARTICLE ID
+    ================================= */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const articleId =
+        params.get('id');
+
+
+    /* ================================
+       ESCAPE HTML
+    ================================= */
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return '';
+        }
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
     }
 
 
-    const { data, error: supabaseError } =
-        await supabase
+    /* ================================
+       LOAD ARTICLE
+    ================================= */
+
+    async function loadArticle() {
+
+        if (!articleId) {
+
+            document.getElementById(
+                'article-title'
+            ).textContent =
+                'Новината не е намерена.';
+
+            return;
+        }
+
+
+        const {
+            data,
+            error
+        } = await client
+
             .from('news')
+
             .select(`
                 id,
                 title,
@@ -498,84 +585,98 @@ async function loadArticle() {
                 created_at,
                 views
             `)
-            .eq('id', articleId)
-            .eq('status', 'published')
+
+            .eq(
+                'id',
+                articleId
+            )
+
+            .eq(
+                'status',
+                'published'
+            )
+
             .single();
 
 
-    if (supabaseError || !data) {
+        if (error || !data) {
 
-        console.error(
-            'Грешка при зареждане:',
-            supabaseError
-        );
+            console.error(error);
 
-        loading.style.display = 'none';
+            document.getElementById(
+                'article-title'
+            ).textContent =
+                'Новината не е намерена.';
 
-        error.textContent =
-            'Новината не е намерена.';
-
-        error.style.display = 'block';
-
-        return;
-    }
+            return;
+        }
 
 
-    // Заглавие
+        /* ================================
+           CATEGORY
+        ================================= */
 
-    document.getElementById(
-        'article-title'
-    ).textContent =
-        data.title || '';
-
-
-    // Подзаглавие
-
-    const subtitle =
         document.getElementById(
-            'article-subheading'
-        );
-
-    if (data.subtitle) {
-
-        subtitle.textContent =
-            data.subtitle;
-
-    } else {
-
-        subtitle.style.display =
-            'none';
-
-    }
+            'article-category'
+        ).textContent =
+            data.category || 'Новини';
 
 
-    // Категория
+        /* ================================
+           TITLE
+        ================================= */
 
-    document.getElementById(
-        'article-meta'
-    ).textContent =
-        data.category || 'Новини';
-
-
-    // Автор
-    // Винаги СПИСАНИЕТО.
-
-    document.getElementById(
-        'article-author'
-    ).textContent =
-        'Автор: СПИСАНИЕТО.';
+        document.getElementById(
+            'article-title'
+        ).textContent =
+            data.title || '';
 
 
-    // Дата
+        /* ================================
+           SUBTITLE
+        ================================= */
 
-    let formattedDate = '';
+        const subtitleElement =
+            document.getElementById(
+                'article-subtitle'
+            );
 
-    if (data.created_at) {
+        if (data.subtitle) {
+
+            subtitleElement.textContent =
+                data.subtitle;
+
+            subtitleElement.style.display =
+                'block';
+
+        } else {
+
+            subtitleElement.style.display =
+                'none';
+
+        }
+
+
+        /* ================================
+           AUTHOR
+        ================================= */
+
+        document.getElementById(
+            'article-author'
+        ).textContent =
+            'Автор: СПИСАНИЕТО.';
+
+
+        /* ================================
+           DATE + VIEWS
+        ================================= */
 
         const date =
-            new Date(data.created_at);
+            new Date(
+                data.created_at
+            );
 
-        formattedDate =
+        const formattedDate =
             date.toLocaleDateString(
                 'bg-BG',
                 {
@@ -585,245 +686,184 @@ async function loadArticle() {
                 }
             );
 
-    }
+
+        let currentViews =
+            Number(data.views) || 0;
 
 
-    // Брой прочитания преди текущото отваряне
-
-    let currentViews =
-        Number(data.views) || 0;
-
-
-    // Увеличаваме броя на гледанията
-
-    const {
-        error: viewsError
-    } =
-        await supabase.rpc(
+        const {
+            error: viewsError
+        } = await client.rpc(
             'increment_news_views',
             {
-                news_id: Number(articleId)
+                news_id:
+                    Number(articleId)
             }
         );
 
 
-    if (viewsError) {
-
-        console.error(
-            'Грешка при увеличаване на views:',
-            viewsError
-        );
-
-    } else {
-
-        // Текущото отваряне вече е отчетено
-        currentViews++;
-
-        console.log(
-            'Гледането е отчетено успешно.'
-        );
-
-    }
+        if (!viewsError) {
+            currentViews++;
+        }
 
 
-    // Дата + само числото на прочитанията
-
-    document.getElementById(
-        'article-date'
-    ).textContent =
-        formattedDate +
-        ' · 👁 ' +
-        currentViews;
-
-
-    // Снимка
-
-    const image =
         document.getElementById(
-            'article-image'
-        );
-
-    if (data.image_url) {
-
-        image.src =
-            data.image_url;
-
-        image.alt =
-            data.title || 'СПИСАНИЕТО.';
-
-    } else {
-
-        image.style.display =
-            'none';
-
-    }
+            'article-date'
+        ).textContent =
+            formattedDate +
+            ' · 👁 ' +
+            currentViews;
 
 
-    // Основен текст
+        /* ================================
+           IMAGE
+        ================================= */
 
-    const body =
+        const image =
+            document.getElementById(
+                'article-image'
+            );
+
+
+        if (data.image_url) {
+
+            image.src =
+                data.image_url;
+
+            image.alt =
+                data.title || '';
+
+            image.style.display =
+                'block';
+
+        } else {
+
+            image.style.display =
+                'none';
+
+        }
+
+
+        /* ================================
+           CONTENT
+        ================================= */
+
         document.getElementById(
-            'article-body'
-        );
+            'article-content'
+        ).innerHTML =
+            escapeHtml(
+                data.content || ''
+            ).replace(
+                /\n/g,
+                '<br>'
+            );
 
 
-    if (data.content) {
+        /* ================================
+           PAGE TITLE
+        ================================= */
 
-        const paragraphs =
-            data.content
-                .split(/\n\s*\n/)
-                .map(
-                    paragraph =>
-                        paragraph.trim()
-                )
-                .filter(
-                    paragraph =>
-                        paragraph.length > 0
-                );
+        document.title =
+            (data.title || 'СПИСАНИЕТО.') +
+            ' — СПИСАНИЕТО.';
 
 
-        body.innerHTML =
-            paragraphs
-                .map(
-                    paragraph =>
-                        `<p>${escapeHtml(paragraph)}</p>`
-                )
-                .join('');
+        /* ================================
+           NORMAL ARTICLE URL
+        ================================= */
 
-    } else {
+        const articleUrl =
+            window.location.href;
 
-        body.innerHTML =
-            '<p>Съдържанието на новината не е налично.</p>';
+
+        const encodedTitle =
+            encodeURIComponent(
+                data.title ||
+                'СПИСАНИЕТО.'
+            );
+
+
+        const encodedArticleUrl =
+            encodeURIComponent(
+                articleUrl
+            );
+
+
+        /* ================================
+           FACEBOOK
+           
+           ВАЖНО:
+           Използваме нормалния URL на
+           статията, а не Supabase URL.
+        ================================= */
+
+        document.getElementById(
+            'share-facebook'
+        ).href =
+            'https://www.facebook.com/sharer/sharer.php?u=' +
+            encodedArticleUrl;
+
+
+        /* ================================
+           MESSENGER
+        ================================= */
+
+        document.getElementById(
+            'share-messenger'
+        ).href =
+            'https://www.facebook.com/dialog/send?link=' +
+            encodedArticleUrl;
+
+
+        /* ================================
+           VIBER
+        ================================= */
+
+        document.getElementById(
+            'share-viber'
+        ).href =
+            'viber://forward?text=' +
+            encodedTitle +
+            '%20' +
+            encodedArticleUrl;
+
+
+        /* ================================
+           WHATSAPP
+        ================================= */
+
+        document.getElementById(
+            'share-whatsapp'
+        ).href =
+            'https://api.whatsapp.com/send?text=' +
+            encodedTitle +
+            '%20' +
+            encodedArticleUrl;
+
+
+        /* ================================
+           X
+        ================================= */
+
+        document.getElementById(
+            'share-x'
+        ).href =
+            'https://twitter.com/intent/tweet?text=' +
+            encodedTitle +
+            '&url=' +
+            encodedArticleUrl;
 
     }
 
 
-    // ==========================================
-    // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
-    // ==========================================
+    /* ================================
+       START
+    ================================= */
 
-    // Нормалният адрес на конкретната статия
-
-    const articleUrl =
-        window.location.href;
-
-
-    // Специалният адрес на Supabase функцията,
-    // която подава OG данните към Facebook
-
-    const shareUrl =
-        'https://hxvflentlaktgwimsevc.supabase.co/functions/v1/share-news?id=' +
-        encodeURIComponent(articleId);
-
-
-    // Заглавие на новината
-
-    const encodedTitle =
-        encodeURIComponent(
-            data.title || 'СПИСАНИЕТО.'
-        );
-
-
-    const encodedArticleUrl =
-        encodeURIComponent(
-            articleUrl
-        );
-
-
-    // ==========================================
-    // FACEBOOK
-    // ==========================================
-
-    document.getElementById(
-        'share-facebook'
-    ).href =
-        'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodeURIComponent(shareUrl);
-
-
-    // ==========================================
-    // MESSENGER
-    // ==========================================
-
-    document.getElementById(
-        'share-messenger'
-    ).href =
-        'https://www.facebook.com/dialog/send?link=' +
-        encodeURIComponent(shareUrl);
-
-
-    // ==========================================
-    // VIBER
-    // ==========================================
-
-    document.getElementById(
-        'share-viber'
-    ).href =
-        'viber://forward?text=' +
-        encodedTitle +
-        '%20' +
-        encodedArticleUrl;
-
-
-    // ==========================================
-    // WHATSAPP
-    // ==========================================
-
-    document.getElementById(
-        'share-whatsapp'
-    ).href =
-        'https://api.whatsapp.com/send?text=' +
-        encodedTitle +
-        '%20' +
-        encodedArticleUrl;
-
-
-    // ==========================================
-    // X
-    // ==========================================
-
-    document.getElementById(
-        'share-x'
-    ).href =
-        'https://twitter.com/intent/tweet?text=' +
-        encodedTitle +
-        '&url=' +
-        encodedArticleUrl;
-
-
-    // Показваме статията
-
-    loading.style.display =
-        'none';
-
-    article.style.display =
-        'block';
-
-
-    // Заглавието на браузъра
-
-    document.title =
-        data.title +
-        ' — СПИСАНИЕТО.';
-
-}
-
-
-function escapeHtml(text) {
-
-    return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-
-}
-
-
-loadArticle();
+    loadArticle();
 
 </script>
 
 </body>
+
 </html>
