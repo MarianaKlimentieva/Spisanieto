@@ -103,6 +103,48 @@
       resize: vertical;
     }
 
+    .image-help {
+      margin-top: 7px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .image-preview {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .image-preview img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .current-image {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .current-image-title {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .current-image img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
     .featured-box {
       margin-top: 20px;
       padding: 15px;
@@ -136,6 +178,11 @@
 
     button.save:hover {
       opacity: .9;
+    }
+
+    button.save:disabled {
+      opacity: .6;
+      cursor: not-allowed;
     }
 
     button.cancel {
@@ -402,15 +449,55 @@
       </select>
 
 
-      <label for="image_url">
-        URL на снимката
+      <label for="image_file">
+        Снимка на новината
       </label>
 
       <input
-        type="url"
-        id="image_url"
-        placeholder="https://..."
+        type="file"
+        id="image_file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
       >
+
+      <div class="image-help">
+        Избери снимка от компютъра. Тя ще бъде качена автоматично в Supabase.
+      </div>
+
+
+      <div
+        id="currentImage"
+        class="current-image"
+      >
+
+        <div class="current-image-title">
+          Текуща снимка:
+        </div>
+
+        <img
+          id="currentImagePreview"
+          src=""
+          alt="Текуща снимка"
+        >
+
+      </div>
+
+
+      <div
+        id="imagePreview"
+        class="image-preview"
+      >
+
+        <div class="current-image-title">
+          Нова снимка:
+        </div>
+
+        <img
+          id="imagePreviewImage"
+          src=""
+          alt="Преглед на снимката"
+        >
+
+      </div>
 
 
       <label for="content">
@@ -445,7 +532,7 @@
           >
 
           ⭐ Избрана новина
-          
+
         </label>
 
       </div>
@@ -532,6 +619,10 @@
     );
 
 
+  const STORAGE_BUCKET =
+    'news-images';
+
+
 
   const form =
     document.getElementById('newsForm');
@@ -561,7 +652,29 @@
     document.getElementById('cancelEdit');
 
 
+  const imageFile =
+    document.getElementById('image_file');
+
+
+  const imagePreview =
+    document.getElementById('imagePreview');
+
+
+  const imagePreviewImage =
+    document.getElementById('imagePreviewImage');
+
+
+  const currentImage =
+    document.getElementById('currentImage');
+
+
+  const currentImagePreview =
+    document.getElementById('currentImagePreview');
+
+
   let editingId = null;
+
+  let currentImageUrl = '';
 
 
 
@@ -621,6 +734,210 @@
         year: 'numeric'
       }
     );
+
+  }
+
+
+
+  /* ========================= */
+  /* ПРЕГЛЕД НА НОВА СНИМКА */
+  /* ========================= */
+
+  imageFile.addEventListener(
+    'change',
+    function() {
+
+      const file =
+        this.files[0];
+
+      if (!file) {
+
+        imagePreview.style.display =
+          'none';
+
+        imagePreviewImage.src =
+          '';
+
+        return;
+
+      }
+
+
+      if (!file.type.startsWith('image/')) {
+
+        message.textContent =
+          'Моля, избери файл с изображение.';
+
+        this.value = '';
+
+        imagePreview.style.display =
+          'none';
+
+        return;
+
+      }
+
+
+      const previewUrl =
+        URL.createObjectURL(file);
+
+
+      imagePreviewImage.src =
+        previewUrl;
+
+
+      imagePreview.style.display =
+        'block';
+
+
+      message.textContent =
+        '';
+
+    }
+  );
+
+
+
+  /* ========================= */
+  /* КАЧВАНЕ НА СНИМКА */
+  /* ========================= */
+
+  async function uploadImage(file) {
+
+    if (!file) {
+      return null;
+    }
+
+
+    if (!file.type.startsWith('image/')) {
+
+      throw new Error(
+        'Избраният файл не е изображение.'
+      );
+
+    }
+
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/gif'
+    ];
+
+
+    if (!allowedTypes.includes(file.type)) {
+
+      throw new Error(
+        'Позволени са JPG, PNG, WEBP и GIF изображения.'
+      );
+
+    }
+
+
+    const maxSize =
+      10 * 1024 * 1024;
+
+
+    if (file.size > maxSize) {
+
+      throw new Error(
+        'Снимката е прекалено голяма. Максималният размер е 10 MB.'
+      );
+
+    }
+
+
+    const extension =
+      file.name.includes('.')
+        ? file.name
+            .split('.')
+            .pop()
+            .toLowerCase()
+        : 'jpg';
+
+
+    const safeExtension =
+      extension === 'jpeg'
+        ? 'jpg'
+        : extension;
+
+
+    const uniqueName =
+      Date.now() +
+      '-' +
+      crypto.randomUUID() +
+      '.' +
+      safeExtension;
+
+
+    const filePath =
+      'news/' +
+      uniqueName;
+
+
+    const {
+      data,
+      error
+    } = await supabase
+
+      .storage
+
+      .from(STORAGE_BUCKET)
+
+      .upload(
+        filePath,
+        file,
+        {
+          cacheControl: '31536000',
+          contentType: file.type,
+          upsert: false
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        'Storage upload error:',
+        error
+      );
+
+      throw new Error(
+        'Снимката не можа да бъде качена: ' +
+        error.message
+      );
+
+    }
+
+
+    const {
+      data: publicData
+    } =
+      supabase
+
+        .storage
+
+        .from(STORAGE_BUCKET)
+
+        .getPublicUrl(
+          data.path
+        );
+
+
+    if (
+      !publicData ||
+      !publicData.publicUrl
+    ) {
+
+      throw new Error(
+        'Снимката е качена, но не беше получен публичен URL.'
+      );
+
+    }
+
+
+    return publicData.publicUrl;
 
   }
 
@@ -882,6 +1199,10 @@
       data.id;
 
 
+    currentImageUrl =
+      data.image_url || '';
+
+
     document.getElementById('title').value =
       data.title || '';
 
@@ -894,10 +1215,6 @@
       data.category || '';
 
 
-    document.getElementById('image_url').value =
-      data.image_url || '';
-
-
     document.getElementById('content').value =
       data.content || '';
 
@@ -908,6 +1225,37 @@
 
     document.getElementById('is_featured').checked =
       data.is_featured === true;
+
+
+    imageFile.value =
+      '';
+
+
+    imagePreview.style.display =
+      'none';
+
+
+    imagePreviewImage.src =
+      '';
+
+
+    if (currentImageUrl) {
+
+      currentImagePreview.src =
+        currentImageUrl;
+
+      currentImage.style.display =
+        'block';
+
+    } else {
+
+      currentImagePreview.src =
+        '';
+
+      currentImage.style.display =
+        'none';
+
+    }
 
 
     formTitle.textContent =
@@ -954,6 +1302,9 @@
 
     editingId = null;
 
+    currentImageUrl = '';
+
+
     form.reset();
 
 
@@ -963,6 +1314,26 @@
 
     document.getElementById('is_featured').checked =
       false;
+
+
+    imageFile.value =
+      '';
+
+
+    imagePreview.style.display =
+      'none';
+
+
+    imagePreviewImage.src =
+      '';
+
+
+    currentImage.style.display =
+      'none';
+
+
+    currentImagePreview.src =
+      '';
 
 
     formTitle.textContent =
@@ -995,6 +1366,10 @@
       event.preventDefault();
 
 
+      saveButton.disabled =
+        true;
+
+
       message.textContent =
         editingId
         ? 'Запазване на промените...'
@@ -1021,13 +1396,6 @@
           .value;
 
 
-      const image_url =
-        document
-          .getElementById('image_url')
-          .value
-          .trim();
-
-
       const content =
         document
           .getElementById('content')
@@ -1048,12 +1416,108 @@
           .checked;
 
 
+      try {
 
-      /* ========================= */
-      /* РЕДАКЦИЯ */
-      /* ========================= */
+        /* ========================= */
+        /* НОВА СНИМКА */
+        /* ========================= */
 
-      if (editingId) {
+        const selectedFile =
+          imageFile.files[0];
+
+
+        let image_url =
+          currentImageUrl || null;
+
+
+        if (selectedFile) {
+
+          message.textContent =
+            'Качване на снимката...';
+
+
+          image_url =
+            await uploadImage(
+              selectedFile
+            );
+
+        }
+
+
+
+        /* ========================= */
+        /* РЕДАКЦИЯ */
+        /* ========================= */
+
+        if (editingId) {
+
+          const {
+            error
+          } = await supabase
+
+            .from('news')
+
+            .update({
+
+              title: title,
+
+              subtitle: subtitle,
+
+              category: category,
+
+              image_url:
+                image_url,
+
+              content: content,
+
+              author:
+                author || 'СПИСАНИЕТО.',
+
+              is_featured:
+                is_featured,
+
+              updated_at:
+                new Date().toISOString()
+
+            })
+
+            .eq(
+              'id',
+              editingId
+            );
+
+
+          if (error) {
+
+            console.error(error);
+
+            throw new Error(
+              'Грешка при редактирането: ' +
+              error.message
+            );
+
+          }
+
+
+          message.textContent =
+            'Новината е редактирана успешно!';
+
+
+          resetForm();
+
+
+          await loadNews();
+
+
+          return;
+
+        }
+
+
+
+        /* ========================= */
+        /* НОВА НОВИНА */
+        /* ========================= */
 
         const {
           error
@@ -1061,7 +1525,7 @@
 
           .from('news')
 
-          .update({
+          .insert({
 
             title: title,
 
@@ -1070,42 +1534,39 @@
             category: category,
 
             image_url:
-              image_url || null,
+              image_url,
 
             content: content,
 
             author:
               author || 'СПИСАНИЕТО.',
 
+            status:
+              'published',
+
             is_featured:
               is_featured,
 
-            updated_at:
-              new Date().toISOString()
+            views:
+              0
 
-          })
-
-          .eq(
-            'id',
-            editingId
-          );
+          });
 
 
         if (error) {
 
           console.error(error);
 
-          message.textContent =
-            'Грешка при редактирането: ' +
-            error.message;
-
-          return;
+          throw new Error(
+            'Грешка при публикуването: ' +
+            error.message
+          );
 
         }
 
 
         message.textContent =
-          'Новината е редактирана успешно!';
+          'Новината е публикувана успешно!';
 
 
         resetForm();
@@ -1113,72 +1574,20 @@
 
         await loadNews();
 
-
-        return;
-
-      }
-
-
-
-      /* ========================= */
-      /* НОВА НОВИНА */
-      /* ========================= */
-
-      const {
-        error
-      } = await supabase
-
-        .from('news')
-
-        .insert({
-
-          title: title,
-
-          subtitle: subtitle,
-
-          category: category,
-
-          image_url:
-            image_url || null,
-
-          content: content,
-
-          author:
-            author || 'СПИСАНИЕТО.',
-
-          status:
-            'published',
-
-          is_featured:
-            is_featured,
-
-          views:
-            0
-
-        });
-
-
-      if (error) {
+      } catch (error) {
 
         console.error(error);
 
         message.textContent =
-          'Грешка при публикуването: ' +
-          error.message;
+          error.message ||
+          'Възникна грешка.';
 
-        return;
+      } finally {
+
+        saveButton.disabled =
+          false;
 
       }
-
-
-      message.textContent =
-        'Новината е публикувана успешно!';
-
-
-      resetForm();
-
-
-      await loadNews();
 
     }
   );
