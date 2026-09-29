@@ -163,6 +163,80 @@
             margin: 2.5rem 0;
         }
 
+        /* СПОДЕЛЯНЕ */
+
+        .share-box {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .share-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .share-button {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+        }
+
+        .share-button:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .share-button.facebook:hover {
+            background: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .share-button.messenger:hover {
+            background: #0084ff;
+            border-color: #0084ff;
+        }
+
+        .share-button.viber:hover {
+            background: #665cac;
+            border-color: #665cac;
+        }
+
+        .share-button.whatsapp:hover {
+            background: #25d366;
+            border-color: #25d366;
+        }
+
+        .share-button.x:hover {
+            background: #111;
+            border-color: #111;
+        }
+
         .message {
             text-align: center;
             padding: 5rem 1rem;
@@ -200,6 +274,11 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.3rem;
+            }
+
+            .share-box {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -261,6 +340,76 @@
 
 
         <div class="article-body" id="article-body"></div>
+
+
+        <!-- БУТОНИ ЗА СПОДЕЛЯНЕ -->
+
+        <div class="share-box">
+
+            <div class="share-title">
+                Сподели новината
+            </div>
+
+            <div class="share-buttons">
+
+                <a
+                    id="share-facebook"
+                    class="share-button facebook"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели във Facebook"
+                >
+                    f
+                </a>
+
+                <a
+                    id="share-messenger"
+                    class="share-button messenger"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели в Messenger"
+                >
+                    m
+                </a>
+
+                <a
+                    id="share-viber"
+                    class="share-button viber"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели във Viber"
+                >
+                    v
+                </a>
+
+                <a
+                    id="share-whatsapp"
+                    class="share-button whatsapp"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели в WhatsApp"
+                >
+                    w
+                </a>
+
+                <a
+                    id="share-x"
+                    class="share-button x"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели в X"
+                >
+                    𝕏
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -547,6 +696,72 @@ async function loadArticle() {
             '<p>Съдържанието на новината не е налично.</p>';
 
     }
+
+
+    // ==========================================
+    // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
+    // ==========================================
+
+    const articleUrl =
+        window.location.href;
+
+    const encodedUrl =
+        encodeURIComponent(articleUrl);
+
+    const encodedTitle =
+        encodeURIComponent(data.title || 'СПИСАНИЕТО.');
+
+
+    // Facebook
+
+    document.getElementById(
+        'share-facebook'
+    ).href =
+        'https://www.facebook.com/sharer/sharer.php?u=' +
+        encodedUrl;
+
+
+    // Messenger
+
+    document.getElementById(
+        'share-messenger'
+    ).href =
+        'https://www.facebook.com/dialog/send?link=' +
+        encodedUrl +
+        '&app_id=123456789';
+
+
+    // Viber
+
+    document.getElementById(
+        'share-viber'
+    ).href =
+        'viber://forward?text=' +
+        encodedTitle +
+        '%20' +
+        encodedUrl;
+
+
+    // WhatsApp
+
+    document.getElementById(
+        'share-whatsapp'
+    ).href =
+        'https://api.whatsapp.com/send?text=' +
+        encodedTitle +
+        '%20' +
+        encodedUrl;
+
+
+    // X
+
+    document.getElementById(
+        'share-x'
+    ).href =
+        'https://twitter.com/intent/tweet?text=' +
+        encodedTitle +
+        '&url=' +
+        encodedUrl;
 
 
     // Показваме статията
