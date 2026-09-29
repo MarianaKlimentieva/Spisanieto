@@ -345,9 +345,9 @@ async function loadArticle() {
                 subtitle,
                 content,
                 category,
-                author,
                 image_url,
-                created_at
+                created_at,
+                views
             `)
             .eq('id', articleId)
             .eq('status', 'published')
@@ -409,24 +409,24 @@ async function loadArticle() {
 
 
     // Автор
+    // Винаги СПИСАНИЕТО.
 
     document.getElementById(
         'article-author'
     ).textContent =
-        'Автор: ' +
-        (data.author || 'СПИСАНИЕТО.');
+        'Автор: СПИСАНИЕТО.';
 
 
     // Дата
+
+    let formattedDate = '';
 
     if (data.created_at) {
 
         const date =
             new Date(data.created_at);
 
-        document.getElementById(
-            'article-date'
-        ).textContent =
+        formattedDate =
             date.toLocaleDateString(
                 'bg-BG',
                 {
@@ -437,6 +437,60 @@ async function loadArticle() {
             );
 
     }
+
+
+    // Брой прочитания преди текущото отваряне
+
+    let currentViews =
+        Number(data.views) || 0;
+
+
+    // Увеличаваме броя на гледанията
+
+    const {
+        error: viewsError
+    } =
+        await supabase.rpc(
+            'increment_news_views',
+            {
+                news_id: Number(articleId)
+            }
+        );
+
+
+    if (viewsError) {
+
+        console.error(
+            'Грешка при увеличаване на views:',
+            viewsError
+        );
+
+    } else {
+
+        // Текущото отваряне вече е отчетено
+        currentViews++;
+
+        console.log(
+            'Гледането е отчетено успешно.'
+        );
+
+    }
+
+
+    // Дата + брой прочитания
+
+    document.getElementById(
+        'article-date'
+    ).textContent =
+        formattedDate +
+        ' · 👁 ' +
+        currentViews +
+        ' ' +
+        (
+            currentViews === 1
+                ? 'прочитане'
+                : 'прочитания'
+        );
 
 
     // Снимка
@@ -515,37 +569,6 @@ async function loadArticle() {
     document.title =
         data.title +
         ' — СПИСАНИЕТО.';
-
-
-    // --------------------------------------------------
-    // Увеличаваме броя на гледанията
-    // --------------------------------------------------
-
-    const {
-        error: viewsError
-    } =
-        await supabase.rpc(
-            'increment_news_views',
-            {
-                news_id: Number(articleId)
-            }
-        );
-
-
-    if (viewsError) {
-
-        console.error(
-            'Грешка при увеличаване на views:',
-            viewsError
-        );
-
-    } else {
-
-        console.log(
-            'Гледането е отчетено успешно.'
-        );
-
-    }
 
 }
 
