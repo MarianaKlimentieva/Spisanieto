@@ -702,36 +702,59 @@ async function loadArticle() {
     // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
     // ==========================================
 
+    // Нормалният адрес на конкретната статия
+
     const articleUrl =
         window.location.href;
 
-    const encodedUrl =
-        encodeURIComponent(articleUrl);
+
+    // Специалният адрес на Supabase функцията,
+    // която подава OG данните към Facebook
+
+    const shareUrl =
+        'https://hxvflentlaktgwimsevc.supabase.co/functions/v1/share-news?id=' +
+        encodeURIComponent(articleId);
+
+
+    // Заглавие на новината
 
     const encodedTitle =
-        encodeURIComponent(data.title || 'СПИСАНИЕТО.');
+        encodeURIComponent(
+            data.title || 'СПИСАНИЕТО.'
+        );
 
 
-    // Facebook
+    const encodedArticleUrl =
+        encodeURIComponent(
+            articleUrl
+        );
+
+
+    // ==========================================
+    // FACEBOOK
+    // ==========================================
 
     document.getElementById(
         'share-facebook'
     ).href =
         'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodedUrl;
+        encodeURIComponent(shareUrl);
 
 
-    // Messenger
+    // ==========================================
+    // MESSENGER
+    // ==========================================
 
     document.getElementById(
         'share-messenger'
     ).href =
         'https://www.facebook.com/dialog/send?link=' +
-        encodedUrl +
-        '&app_id=123456789';
+        encodeURIComponent(shareUrl);
 
 
-    // Viber
+    // ==========================================
+    // VIBER
+    // ==========================================
 
     document.getElementById(
         'share-viber'
@@ -739,10 +762,12 @@ async function loadArticle() {
         'viber://forward?text=' +
         encodedTitle +
         '%20' +
-        encodedUrl;
+        encodedArticleUrl;
 
 
-    // WhatsApp
+    // ==========================================
+    // WHATSAPP
+    // ==========================================
 
     document.getElementById(
         'share-whatsapp'
@@ -750,10 +775,12 @@ async function loadArticle() {
         'https://api.whatsapp.com/send?text=' +
         encodedTitle +
         '%20' +
-        encodedUrl;
+        encodedArticleUrl;
 
 
+    // ==========================================
     // X
+    // ==========================================
 
     document.getElementById(
         'share-x'
@@ -761,7 +788,7 @@ async function loadArticle() {
         'https://twitter.com/intent/tweet?text=' +
         encodedTitle +
         '&url=' +
-        encodedUrl;
+        encodedArticleUrl;
 
 
     // Показваме статията
