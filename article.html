@@ -702,16 +702,6 @@ async function loadArticle() {
     // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
     // ==========================================
 
-    /*
-     * Това е истинският адрес на статията.
-     *
-     * Пример:
-     * https://marianaklimentieva.github.io/Spisanieto/article.html?id=12
-     *
-     * Вече НЕ използваме Supabase адреса
-     * като URL за споделяне.
-     */
-
     const articleUrl =
         window.location.href;
 
@@ -732,11 +722,30 @@ async function loadArticle() {
     // FACEBOOK
     // ==========================================
 
+    /*
+     * Facebook получава Worker URL.
+     *
+     * Worker-ът взема ID-то на новината
+     * от Supabase и подава Open Graph
+     * заглавие, описание и снимка.
+     */
+
+    const sharePreviewUrl =
+        'https://spisanieto-share.mklimentieva.workers.dev/?id=' +
+        encodeURIComponent(articleId);
+
+
+    const encodedSharePreviewUrl =
+        encodeURIComponent(
+            sharePreviewUrl
+        );
+
+
     document.getElementById(
         'share-facebook'
     ).href =
         'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodedArticleUrl;
+        encodedSharePreviewUrl;
 
 
     // ==========================================
