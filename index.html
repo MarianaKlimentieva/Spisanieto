@@ -1815,7 +1815,10 @@
                     </h4>
 
 
-                    <ul class="popular-list">
+                    <ul
+                        class="popular-list"
+                        id="popular-news"
+                    >
 
                         <li class="popular-item">
 
@@ -1824,46 +1827,9 @@
                             </span>
 
 
-                            <a
-                                href="#"
-                                class="popular-text"
-                            >
-                                Как дигиталните медии промениха журналистиката
-                            </a>
-
-                        </li>
-
-
-                        <li class="popular-item">
-
-                            <span class="popular-num">
-                                02
+                            <span class="popular-text">
+                                Зареждане...
                             </span>
-
-
-                            <a
-                                href="#"
-                                class="popular-text"
-                            >
-                                5 кулинарни тренда за предстоящия сезон
-                            </a>
-
-                        </li>
-
-
-                        <li class="popular-item">
-
-                            <span class="popular-num">
-                                03
-                            </span>
-
-
-                            <a
-                                href="#"
-                                class="popular-text"
-                            >
-                                Новите архитектурни шедьоври на Европа
-                            </a>
 
                         </li>
 
@@ -2768,6 +2734,147 @@
 
 
         /* =========================================
+           НАЙ-ЧЕТЕНИ
+        ========================================= */
+
+        async function loadPopularNews() {
+
+            const container =
+                document.getElementById(
+                    'popular-news'
+                );
+
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+
+                    .from('news')
+
+                    .select(`
+                        id,
+                        title,
+                        views,
+                        created_at
+                    `)
+
+                    .eq(
+                        'status',
+                        'published'
+                    )
+
+                    .order(
+                        'views',
+                        {
+                            ascending: false
+                        }
+                    )
+
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    )
+
+                    .limit(3);
+
+
+            if (error) {
+
+                console.error(
+                    'Popular news Supabase error:',
+                    error
+                );
+
+
+                container.innerHTML = `
+
+                    <li class="popular-item">
+
+                        <span class="popular-num">
+                            01
+                        </span>
+
+                        <span class="popular-text">
+                            Не успяхме да заредим най-четените новини.
+                        </span>
+
+                    </li>
+
+                `;
+
+                return;
+
+            }
+
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <li class="popular-item">
+
+                        <span class="popular-num">
+                            01
+                        </span>
+
+                        <span class="popular-text">
+                            Все още няма публикувани новини.
+                        </span>
+
+                    </li>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+
+                data
+                    .map(
+                        (news, index) => {
+
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
+
+
+                            return `
+
+                                <li class="popular-item">
+
+                                    <span class="popular-num">
+                                        ${String(index + 1).padStart(2, '0')}
+                                    </span>
+
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="popular-text"
+                                    >
+                                        ${escapeHtml(news.title)}
+                                    </a>
+
+                                </li>
+
+                            `;
+
+                        }
+                    )
+                    .join('');
+
+        }
+
+
+        /* =========================================
            HERO
         ========================================= */
 
@@ -3243,6 +3350,8 @@
         ========================================= */
 
         loadHighlights();
+
+        loadPopularNews();
 
         loadHero();
 
