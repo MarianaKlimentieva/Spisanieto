@@ -477,20 +477,14 @@ async function loadArticle() {
     }
 
 
-    // Дата + брой прочитания
+    // Дата + само числото на прочитанията
 
     document.getElementById(
         'article-date'
     ).textContent =
         formattedDate +
         ' · 👁 ' +
-        currentViews +
-        ' ' +
-        (
-            currentViews === 1
-                ? 'прочитане'
-                : 'прочитания'
-        );
+        currentViews;
 
 
     // Снимка
