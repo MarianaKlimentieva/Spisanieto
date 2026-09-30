@@ -146,6 +146,88 @@
     }
 
     /* ========================= */
+    /* РЕДАКТОР НА ТЕКСТА */
+    /* ========================= */
+
+    .editor-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px;
+      background: #f4f1ec;
+      border: 1px solid #ccc;
+      border-bottom: 0;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .editor-button {
+      min-width: 42px;
+      height: 38px;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background: white;
+      color: #222;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .editor-button:hover {
+      background: #eee;
+    }
+
+    .editor-button strong {
+      font-weight: 700;
+    }
+
+    .editor-button em {
+      font-style: italic;
+    }
+
+    .editor-button.link-button {
+      font-size: 18px;
+    }
+
+    .editor-button.unlink-button {
+      font-size: 17px;
+    }
+
+    .editor-content {
+      width: 100%;
+      min-height: 350px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 0 0 5px 5px;
+      font-size: 17px;
+      line-height: 1.7;
+      font-family: Arial, sans-serif;
+      background: white;
+      outline: none;
+      overflow-y: auto;
+    }
+
+    .editor-content:focus {
+      border-color: #8c1d40;
+      box-shadow: 0 0 0 1px #8c1d40;
+    }
+
+    .editor-content p {
+      margin: 0 0 16px;
+    }
+
+    .editor-content a {
+      color: #8c1d40;
+      text-decoration: underline;
+    }
+
+    .editor-help {
+      margin-top: 7px;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ========================= */
     /* ГАЛЕРИЯ */
     /* ========================= */
 
@@ -455,6 +537,10 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .editor-content {
+        min-height: 300px;
+      }
+
     }
 
   </style>
@@ -475,10 +561,6 @@
 
 <main>
 
-
-  <!-- ========================= -->
-  <!-- НОВА / РЕДАКТИРАНА НОВИНА -->
-  <!-- ========================= -->
 
   <div class="panel">
 
@@ -606,10 +688,6 @@
       </div>
 
 
-      <!-- ========================= -->
-      <!-- ДОПЪЛНИТЕЛНИ СНИМКИ -->
-      <!-- ========================= -->
-
       <label for="gallery_files">
         Допълнителни снимки към новината
       </label>
@@ -649,14 +727,72 @@
       ></div>
 
 
-      <label for="content">
+      <!-- ========================= -->
+      <!-- НОВ РЕДАКТОР -->
+      <!-- ========================= -->
+
+      <label>
         Текст на новината
       </label>
 
+      <div class="editor-toolbar">
+
+        <button
+          type="button"
+          class="editor-button"
+          data-command="bold"
+          title="Удебелен текст"
+        >
+          <strong>B</strong>
+        </button>
+
+        <button
+          type="button"
+          class="editor-button"
+          data-command="italic"
+          title="Курсив"
+        >
+          <em>I</em>
+        </button>
+
+        <button
+          type="button"
+          class="editor-button link-button"
+          id="addLink"
+          title="Добави линк"
+        >
+          🔗
+        </button>
+
+        <button
+          type="button"
+          class="editor-button unlink-button"
+          id="removeLink"
+          title="Премахни линк"
+        >
+          🔓
+        </button>
+
+      </div>
+
+
+      <div
+        id="contentEditor"
+        class="editor-content"
+        contenteditable="true"
+        spellcheck="true"
+      ></div>
+
+
+      <div class="editor-help">
+        Маркирай дума или изречение и използвай <strong>B</strong>, <em>I</em> или 🔗 за линк.
+      </div>
+
+
+      <!-- Скрито старо поле за съвместимост -->
       <textarea
         id="content"
-        placeholder="Напишете текста на новината..."
-        required
+        style="display:none;"
       ></textarea>
 
 
@@ -714,10 +850,6 @@
 
 
 
-  <!-- ========================= -->
-  <!-- ПУБЛИКУВАНИ НОВИНИ -->
-  <!-- ========================= -->
-
   <div class="panel">
 
     <div class="section-title">
@@ -752,6 +884,9 @@
   import { createClient } from
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
+  import DOMPurify from
+    'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
+
 
   const SUPABASE_URL =
     'https://hxvflentlaktgwimsevc.supabase.co';
@@ -772,74 +907,72 @@
     'news-images';
 
 
-
   const form =
     document.getElementById('newsForm');
-
 
   const message =
     document.getElementById('message');
 
-
   const logout =
     document.getElementById('logout');
-
 
   const newsList =
     document.getElementById('newsList');
 
-
   const formTitle =
     document.getElementById('formTitle');
-
 
   const saveButton =
     document.getElementById('saveButton');
 
-
   const cancelEdit =
     document.getElementById('cancelEdit');
-
 
   const imageFile =
     document.getElementById('image_file');
 
-
   const imagePreview =
     document.getElementById('imagePreview');
-
 
   const imagePreviewImage =
     document.getElementById('imagePreviewImage');
 
-
   const currentImage =
     document.getElementById('currentImage');
-
 
   const currentImagePreview =
     document.getElementById('currentImagePreview');
 
-
   const galleryFiles =
     document.getElementById('gallery_files');
-
 
   const galleryPreview =
     document.getElementById('galleryPreview');
 
-
   const existingGallery =
     document.getElementById('existingGallery');
 
-
   const existingGalleryGrid =
     document.getElementById('existingGalleryGrid');
+
+  const contentEditor =
+    document.getElementById('contentEditor');
+
+  const content =
+    document.getElementById('content');
+
+  const addLinkButton =
+    document.getElementById('addLink');
+
+  const removeLinkButton =
+    document.getElementById('removeLink');
 
 
   let editingId = null;
 
   let currentImageUrl = '';
+
+  let savedSelection = null;
 
 
 
@@ -899,6 +1032,380 @@
         year: 'numeric'
       }
     );
+
+  }
+
+
+
+  /* ========================= */
+  /* СЕЛЕКЦИЯ В РЕДАКТОРА */
+  /* ========================= */
+
+  function saveSelection() {
+
+    const selection =
+      window.getSelection();
+
+    if (
+      selection &&
+      selection.rangeCount > 0
+    ) {
+
+      const range =
+        selection.getRangeAt(0);
+
+      if (
+        contentEditor.contains(
+          range.commonAncestorContainer
+        )
+      ) {
+
+        savedSelection =
+          range.cloneRange();
+
+      }
+
+    }
+
+  }
+
+
+  function restoreSelection() {
+
+    if (!savedSelection) {
+      return;
+    }
+
+    const selection =
+      window.getSelection();
+
+    selection.removeAllRanges();
+
+    selection.addRange(
+      savedSelection
+    );
+
+  }
+
+
+
+  contentEditor.addEventListener(
+    'mouseup',
+    saveSelection
+  );
+
+
+  contentEditor.addEventListener(
+    'keyup',
+    saveSelection
+  );
+
+
+  contentEditor.addEventListener(
+    'blur',
+    saveSelection
+  );
+
+
+
+  /* ========================= */
+  /* БУТОНИ B / I */
+  /* ========================= */
+
+  document
+    .querySelectorAll(
+      '.editor-button[data-command]'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'mousedown',
+        function(event) {
+
+          event.preventDefault();
+
+        }
+      );
+
+
+      button.addEventListener(
+        'click',
+        function() {
+
+          restoreSelection();
+
+          const command =
+            this.dataset.command;
+
+          document.execCommand(
+            command,
+            false,
+            null
+          );
+
+          contentEditor.focus();
+
+          saveSelection();
+
+        }
+      );
+
+    });
+
+
+
+  /* ========================= */
+  /* ДОБАВЯНЕ НА ЛИНК */
+  /* ========================= */
+
+  addLinkButton.addEventListener(
+    'mousedown',
+    function(event) {
+
+      event.preventDefault();
+
+    }
+  );
+
+
+  addLinkButton.addEventListener(
+    'click',
+    function() {
+
+      restoreSelection();
+
+
+      const selection =
+        window.getSelection();
+
+
+      if (
+        !selection ||
+        selection.rangeCount === 0 ||
+        selection.toString().trim() === ''
+      ) {
+
+        alert(
+          'Първо маркирай думата или изречението, което искаш да направиш линк.'
+        );
+
+        contentEditor.focus();
+
+        return;
+
+      }
+
+
+      const url =
+        prompt(
+          'Въведи адреса на линка:',
+          'https://'
+        );
+
+
+      if (!url) {
+
+        contentEditor.focus();
+
+        return;
+
+      }
+
+
+      let finalUrl =
+        url.trim();
+
+
+      if (
+        !/^https?:\/\//i.test(finalUrl) &&
+        !/^mailto:/i.test(finalUrl) &&
+        !/^tel:/i.test(finalUrl)
+      ) {
+
+        finalUrl =
+          'https://' +
+          finalUrl;
+
+      }
+
+
+      try {
+
+        new URL(
+          finalUrl
+        );
+
+      } catch (error) {
+
+        alert(
+          'Моля, въведи валиден адрес.'
+        );
+
+        contentEditor.focus();
+
+        return;
+
+      }
+
+
+      document.execCommand(
+        'createLink',
+        false,
+        finalUrl
+      );
+
+
+      /*
+        Отваряне в нов раздел
+        и безопасни rel атрибути.
+      */
+
+      contentEditor
+        .querySelectorAll('a')
+        .forEach(link => {
+
+          if (
+            link.getAttribute('href') ===
+            finalUrl
+          ) {
+
+            link.setAttribute(
+              'target',
+              '_blank'
+            );
+
+            link.setAttribute(
+              'rel',
+              'noopener noreferrer'
+            );
+
+          }
+
+        });
+
+
+      contentEditor.focus();
+
+      saveSelection();
+
+    }
+  );
+
+
+
+  /* ========================= */
+  /* ПРЕМАХВАНЕ НА ЛИНК */
+  /* ========================= */
+
+  removeLinkButton.addEventListener(
+    'mousedown',
+    function(event) {
+
+      event.preventDefault();
+
+    }
+  );
+
+
+  removeLinkButton.addEventListener(
+    'click',
+    function() {
+
+      restoreSelection();
+
+
+      document.execCommand(
+        'unlink',
+        false,
+        null
+      );
+
+
+      contentEditor.focus();
+
+      saveSelection();
+
+    }
+  );
+
+
+
+  /* ========================= */
+  /* ПРЕОБРАЗУВАНЕ НА HTML */
+  /* ========================= */
+
+  function plainTextToHtml(text) {
+
+    if (!text) {
+      return '';
+    }
+
+
+    const escaped =
+      escapeHtml(text);
+
+
+    return escaped
+      .split(/\n\s*\n/)
+      .map(paragraph => {
+
+        return `
+          <p>
+            ${paragraph
+              .replace(/\n/g, '<br>')}
+          </p>
+        `;
+
+      })
+      .join('');
+
+  }
+
+
+
+  function sanitizeEditorHtml(html) {
+
+    return DOMPurify.sanitize(
+      html,
+      {
+        ALLOWED_TAGS: [
+          'p',
+          'br',
+          'strong',
+          'b',
+          'em',
+          'i',
+          'a'
+        ],
+        ALLOWED_ATTR: [
+          'href',
+          'target',
+          'rel'
+        ],
+        ALLOW_DATA_ATTR: false
+      }
+    );
+
+  }
+
+
+
+  function getEditorHtml() {
+
+    return sanitizeEditorHtml(
+      contentEditor.innerHTML
+    );
+
+  }
+
+
+
+  function getEditorText() {
+
+    return contentEditor
+      .innerText
+      .replace(/\u00a0/g, ' ')
+      .trim();
 
   }
 
@@ -1170,7 +1677,7 @@
 
 
   /* ========================= */
-  /* ПОЛУЧАВАНЕ НА ПЪТЯ НА ФАЙЛА */
+  /* ПЪТ НА STORAGE ФАЙЛ */
   /* ========================= */
 
   function getStoragePathFromUrl(
@@ -1237,11 +1744,6 @@
       return;
     }
 
-
-    /*
-      Вземаме последния sort_order,
-      за да продължим галерията от него.
-    */
 
     const {
       data: existingImages,
@@ -1395,21 +1897,11 @@
 
     try {
 
-      /*
-        Първо намираме пътя на файла
-        в Supabase Storage.
-      */
-
       const storagePath =
         getStoragePathFromUrl(
           imageUrl
         );
 
-
-      /*
-        Изтриваме физическия файл
-        от Storage.
-      */
 
       if (storagePath) {
 
@@ -1442,10 +1934,6 @@
 
       }
 
-
-      /*
-        Изтриваме записа от news_images.
-      */
 
       const {
         error: databaseError
@@ -1495,6 +1983,7 @@
       message.textContent =
         error.message ||
         'Снимката не можа да бъде изтрита.';
+
 
       if (deleteButton) {
 
@@ -1627,10 +2116,6 @@
       }
     );
 
-
-    /*
-      Свързваме бутоните за изтриване.
-    */
 
     existingGalleryGrid
       .querySelectorAll(
@@ -1828,11 +2313,6 @@
       }).join('');
 
 
-
-    /* ========================= */
-    /* БУТОНИ РЕДАКТИРАНЕ */
-    /* ========================= */
-
     document
       .querySelectorAll('.edit-button')
       .forEach(button => {
@@ -1851,11 +2331,6 @@
 
       });
 
-
-
-    /* ========================= */
-    /* БУТОНИ ИЗТРИВАНЕ */
-    /* ========================= */
 
     document
       .querySelectorAll('.delete-button')
@@ -1903,6 +2378,7 @@
         category,
         image_url,
         content,
+        content_html,
         author,
         is_featured,
         status
@@ -1945,7 +2421,35 @@
       data.category || '';
 
 
-    document.getElementById('content').value =
+    /*
+      Ако новината вече има HTML,
+      зареждаме него.
+
+      Ако е стара новина,
+      използваме стария обикновен текст.
+    */
+
+    if (
+      data.content_html &&
+      data.content_html.trim()
+    ) {
+
+      contentEditor.innerHTML =
+        sanitizeEditorHtml(
+          data.content_html
+        );
+
+    } else {
+
+      contentEditor.innerHTML =
+        plainTextToHtml(
+          data.content || ''
+        );
+
+    }
+
+
+    content.value =
       data.content || '';
 
 
@@ -1960,18 +2464,14 @@
     imageFile.value =
       '';
 
-
     galleryFiles.value =
       '';
-
 
     galleryPreview.innerHTML =
       '';
 
-
     imagePreview.style.display =
       'none';
-
 
     imagePreviewImage.src =
       '';
@@ -2047,6 +2547,8 @@
 
     currentImageUrl = '';
 
+    savedSelection = null;
+
 
     form.reset();
 
@@ -2059,37 +2561,36 @@
       false;
 
 
-    imageFile.value =
+    contentEditor.innerHTML =
       '';
 
+    content.value =
+      '';
+
+
+    imageFile.value =
+      '';
 
     galleryFiles.value =
       '';
 
-
     galleryPreview.innerHTML =
       '';
-
 
     imagePreview.style.display =
       'none';
 
-
     imagePreviewImage.src =
       '';
-
 
     currentImage.style.display =
       'none';
 
-
     currentImagePreview.src =
       '';
 
-
     existingGallery.style.display =
       'none';
-
 
     existingGalleryGrid.innerHTML =
       '';
@@ -2155,11 +2656,21 @@
           .value;
 
 
-      const content =
-        document
-          .getElementById('content')
-          .value
-          .trim();
+      /*
+        HTML версията на текста.
+      */
+
+      const content_html =
+        getEditorHtml();
+
+
+      /*
+        Обикновен текст за старите функции
+        и съвместимост.
+      */
+
+      const contentText =
+        getEditorText();
 
 
       const author =
@@ -2173,6 +2684,21 @@
         document
           .getElementById('is_featured')
           .checked;
+
+
+      if (!contentText) {
+
+        message.textContent =
+          'Моля, въведи текст на новината.';
+
+        saveButton.disabled =
+          false;
+
+        contentEditor.focus();
+
+        return;
+
+      }
 
 
       try {
@@ -2218,16 +2744,23 @@
 
             .update({
 
-              title: title,
+              title:
+                title,
 
-              subtitle: subtitle,
+              subtitle:
+                subtitle,
 
-              category: category,
+              category:
+                category,
 
               image_url:
                 image_url,
 
-              content: content,
+              content:
+                contentText,
+
+              content_html:
+                content_html,
 
               author:
                 author || 'СПИСАНИЕТО.',
@@ -2257,10 +2790,6 @@
 
           }
 
-
-          /* ========================= */
-          /* ДОБАВЯНЕ НА НОВИ СНИМКИ */
-          /* ========================= */
 
           const selectedGalleryFiles =
             galleryFiles.files;
@@ -2308,16 +2837,23 @@
 
           .insert({
 
-            title: title,
+            title:
+              title,
 
-            subtitle: subtitle,
+            subtitle:
+              subtitle,
 
-            category: category,
+            category:
+              category,
 
             image_url:
               image_url,
 
-            content: content,
+            content:
+              contentText,
+
+            content_html:
+              content_html,
 
             author:
               author || 'СПИСАНИЕТО.',
@@ -2349,10 +2885,6 @@
 
         }
 
-
-        /* ========================= */
-        /* ДОПЪЛНИТЕЛНИ СНИМКИ */
-        /* ========================= */
 
         const selectedGalleryFiles =
           galleryFiles.files;
@@ -2417,11 +2949,6 @@
     }
 
 
-    /*
-      Първо зареждаме галерията,
-      за да можем да изтрием и файловете.
-    */
-
     const {
       data: galleryImages,
       error: galleryError
@@ -2455,10 +2982,6 @@
 
     }
 
-
-    /*
-      Изтриваме файловете от Storage.
-    */
 
     for (
       const image of galleryImages || []
@@ -2506,10 +3029,6 @@
     }
 
 
-    /*
-      Изтриваме записите в news_images.
-    */
-
     const {
       error: imagesDeleteError
     } = await supabase
@@ -2539,10 +3058,6 @@
 
     }
 
-
-    /*
-      Накрая изтриваме самата новина.
-    */
 
     const {
       error
