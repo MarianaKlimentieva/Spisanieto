@@ -1,1529 +1,1238 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СПИСАНИЕТО - Дигитално издание</title>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        :root {
-            --bg-color: #f7f6f2;
-            --text-color: #111111;
-            --accent-color: #8c1d40;
-            --border-color: #e2dfd7;
-
-            --font-serif:
-                'Cormorant Garamond',
-                Georgia,
-                serif;
-
-            --font-sans:
-                'Plus Jakarta Sans',
-                sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-        }
-
-        img {
-            max-width: 100%;
-        }
-
-        /* =========================================
-           TOP BAR
-        ========================================= */
-
-        .top-bar {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.8rem 1.5rem 0.3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #666;
-            border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .top-bar-right {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        /* =========================================
-           BANNER
-        ========================================= */
-
-        .top-banner {
-            max-width: 1200px;
-            margin: 1rem auto 0.5rem;
-            padding: 0 1.5rem;
-        }
-
-        .top-banner img {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            display: block;
-        }
-
-        /* =========================================
-           HEADER
-        ========================================= */
-
-        header {
-            text-align: center;
-            padding: 1.5rem 1rem 1rem;
-            position: relative;
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 3.8rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-color);
-            text-decoration: none;
-            display: inline-block;
-            line-height: 1;
-        }
-
-        .logo-dot {
-            color: var(--accent-color);
-        }
-
-        .tagline {
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1.15rem;
-            color: #555;
-            margin-top: 0.4rem;
-            letter-spacing: 0.5px;
-        }
-
-        /* =========================================
-           NAVIGATION
-        ========================================= */
-
-        nav {
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 2rem;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 1.5rem;
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            list-style: none;
-            padding: 0.8rem 0;
-            flex-wrap: wrap;
-            margin: 0 auto;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            color: var(--accent-color);
-        }
-
-        .search-icon {
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        /* =========================================
-           CONTAINER
-        ========================================= */
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* =========================================
-           HERO
-        ========================================= */
-
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 520px;
-            margin-bottom: 3rem;
-            overflow: hidden;
-            border-radius: 5px;
-            background: #222;
-        }
-
-        #hero-slides {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .carousel-slide {
-            display: none;
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .carousel-slide.active {
-            display: block;
-        }
-
-        .hero-image-wrap {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-            filter: brightness(0.68);
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            pointer-events: none;
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(0,0,0,0.05) 0%,
-                    rgba(0,0,0,0.05) 35%,
-                    rgba(0,0,0,0.28) 55%,
-                    rgba(0,0,0,0.88) 100%
-                );
-        }
-
-        .hero-content {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 5;
-            padding: 4rem 5rem 3rem;
-            color: #ffffff;
-            pointer-events: none;
-        }
-
-        .hero-content .category {
-            pointer-events: auto;
-        }
-
-        .hero-title-link {
-            position: relative;
-            z-index: 7;
-            display: block;
-            width: fit-content;
-            max-width: 950px;
-            color: #ffffff;
-            text-decoration: none;
-            pointer-events: auto;
-        }
-
-        .hero-title-link:hover {
-            color: #ffffff;
-        }
-
-        .hero-title {
-            position: relative;
-            z-index: 7;
-            font-family: var(--font-serif);
-            font-size: 3.2rem;
-            line-height: 1.08;
-            font-weight: 600;
-            max-width: 950px;
-            margin: 0;
-            padding: 0;
-            color: #ffffff;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        .hero-subtitle {
-            position: relative;
-            z-index: 7;
-            margin-top: 0.8rem;
-            max-width: 850px;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #ffffff;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.7);
-            pointer-events: none;
-        }
-
-        .category {
-            position: relative;
-            z-index: 7;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.8rem;
-            display: inline-block;
-            background: var(--accent-color);
-            padding: 4px 10px;
-            color: #fff;
-        }
-
-        /* =========================================
-           СТРЕЛКИ
-        ========================================= */
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 20;
-            background: rgba(0,0,0,0.45);
-            color: white;
-            border: none;
-            width: 48px;
-            height: 48px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 50%;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .carousel-btn:hover {
-            background: rgba(0,0,0,0.8);
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        .prev-btn {
-            left: 18px;
-        }
-
-        .next-btn {
-            right: 18px;
-        }
-
-        /* =========================================
-           MAIN LAYOUT
-        ========================================= */
-
-        .main-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--text-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* =========================================
-           CARDS
-        ========================================= */
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            margin-bottom: 1.5rem;
-        }
-
-        .card-img {
-            width: 100%;
-            height: 210px;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border-radius: 3px;
-            display: block;
-        }
-
-        .card-image-link {
-            display: block;
-            text-decoration: none;
-        }
-
-        .card-title {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            line-height: 1.25;
-            color: var(--text-color);
-            text-decoration: none;
-            display: block;
-        }
-
-        .card-title:hover {
-            color: var(--accent-color);
-        }
-
-        .card-image-link:hover .card-img {
-            opacity: 0.92;
-        }
-
-        .card-excerpt {
-            font-size: 0.85rem;
-            color: #555;
-        }
-
-        /* =========================================
-           SIDEBAR
-        ========================================= */
-
-        .sidebar-box {
-            background: #efece6;
-            padding: 1.5rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .sidebar-title {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .popular-list {
-            list-style: none;
-        }
-
-        .popular-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-            align-items: flex-start;
-        }
-
-        .popular-num {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            line-height: 1;
-        }
-
-        .popular-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-decoration: none;
-            color: var(--text-color);
-        }
-
-        .popular-text:hover {
-            color: var(--accent-color);
-        }
-
-        /* =========================================
-           QUOTE
-        ========================================= */
-
-        .quote-box {
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1.15rem;
-            line-height: 1.4;
-            border-left: 3px solid var(--accent-color);
-            padding-left: 1rem;
-            margin: 1rem 0 0.5rem;
-            color: #333;
-        }
-
-        /* =========================================
-           NEWSLETTER
-        ========================================= */
-
-        .newsletter-form input[type="email"] {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid var(--border-color);
-            margin-bottom: 0.8rem;
-            font-family: var(--font-sans);
-        }
-
-        .newsletter-form button {
-            width: 100%;
-            padding: 0.75rem;
-            background: var(--text-color);
-            color: #fff;
-            border: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .newsletter-form button:hover {
-            background: var(--accent-color);
-        }
-
-        /* =========================================
-           TAGS
-        ========================================= */
-
-        .tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .tag {
-            font-size: 0.75rem;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            padding: 4px 10px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: var(--text-color);
-            transition: 0.2s;
-        }
-
-        .tag:hover {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-
-        /* =========================================
-           OPINIONS
-        ========================================= */
-
-        .opinion-section {
-            background: #efece6;
-            padding: 3.5rem 0;
-            margin-bottom: 3rem;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .opinion-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .opinion-header h3 {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-color);
-        }
-
-        .opinion-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .opinion-card {
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .opinion-quote {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            font-style: italic;
-            line-height: 1.4;
-            margin-bottom: 1.5rem;
-            color: #333333;
-        }
-
-        .opinion-author-box {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .opinion-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-color);
-        }
-
-        .opinion-author-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-color);
-        }
-
-        .opinion-author-title {
-            font-size: 0.75rem;
-            color: #666;
-        }
-
-        /* =========================================
-           PHOTO GALLERY
-        ========================================= */
-
-        .photo-gallery-section {
-            padding: 2rem 0 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .photo-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            background: #fff;
-        }
-
-        .photo-item img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .photo-item:hover img {
-            transform: scale(1.04);
-        }
-
-        .photo-caption {
-            padding: 1rem;
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        /* =========================================
-           VIDEO
-        ========================================= */
-
-        .video-section {
-            background: var(--accent-color);
-            color: #fff;
-            padding: 4rem 0;
-            margin-bottom: 3rem;
-        }
-
-        .video-container-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .video-wrapper iframe,
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            object-fit: cover;
-        }
-
-        .video-info h3 {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            color: #fff;
-        }
-
-        .video-info p {
-            color: #f2e6ec;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .video-info .category {
-            background: #ffffff;
-            color: var(--accent-color);
-        }
-
-        /* =========================================
-           LIFESTYLE
-        ========================================= */
-
-        .lifestyle-section {
-            background: #ffffff;
-            padding: 3rem 0;
-            margin-bottom: 3rem;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .square-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 3px;
-        }
-
-        .square-card h4 {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            margin-top: 0.5rem;
-        }
-
-        /* =========================================
-           MODAL
-        ========================================= */
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(3px);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: var(--bg-color);
-            padding: 2.5rem;
-            border-radius: 8px;
-            max-width: 550px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 1.2rem;
-            top: 0.8rem;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #666;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: var(--accent-color);
-        }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
-
-        footer {
-            background: #111;
-            color: #ccc;
-            padding: 3rem 0 1.5rem;
-            font-size: 0.85rem;
-            margin-top: 2rem;
-        }
-
-        footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: var(--accent-color);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-logo {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 0.8rem;
-            display: block;
-        }
-
-        .footer-about {
-            color: #aaa;
-            line-height: 1.6;
-            max-width: 480px;
-        }
-
-        .footer-about p {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-tagline {
-            color: #fff;
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1rem;
-            margin-top: 0.8rem;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 1.5rem;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #777;
-        }
-
-        #highlights-loading {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            color: #666;
-            padding: 2rem 0;
-        }
-
-        /* =========================================
-           MOBILE
-        ========================================= */
-
-        @media (max-width: 850px) {
-
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .video-container-inner {
-                grid-template-columns: 1fr;
-            }
-
-            .logo {
-                font-size: 3rem;
-            }
-
-            .hero {
-                height: 480px;
-                border-radius: 4px;
-            }
-
-            .hero-content {
-                left: 0;
-                right: 0;
-                bottom: 0;
-                padding: 3rem 1.5rem 2rem;
-            }
-
-            .hero-title {
-                font-size: 2.15rem;
-                line-height: 1.08;
-                max-width: 100%;
-            }
-
-            .hero-subtitle {
-                font-size: 0.85rem;
-                line-height: 1.4;
-                max-width: 100%;
-            }
-
-            .category {
-                font-size: 0.65rem;
-                letter-spacing: 1.5px;
-            }
-
-            .carousel-btn {
-                width: 40px;
-                height: 40px;
-                padding: 0;
-                font-size: 16px;
-            }
-
-            .prev-btn {
-                left: 10px;
-            }
-
-            .next-btn {
-                right: 10px;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .top-bar {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .top-bar-right {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .hero {
-                height: 500px;
-            }
-
-            .hero-content {
-                padding: 3rem 1.2rem 1.5rem;
-            }
-
-            .hero-title {
-                font-size: 1.9rem;
-            }
-
-            .hero-subtitle {
-                font-size: 0.8rem;
-            }
-
-            .logo {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1rem;
-            }
-
-            .top-banner {
-                padding: 0 1rem;
-            }
-
-            .container {
-                padding: 0 1rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>СПИСАНИЕТО - Дигитално издание</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+:root {
+    --bg-color: #f7f6f2;
+    --text-color: #111111;
+    --accent-color: #a21f5a;
+    --border-color: #e2dfd7;
+
+    --font-serif:
+        'Cormorant Garamond',
+        Georgia,
+        serif;
+
+    --font-sans:
+        'Plus Jakarta Sans',
+        sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-color);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 26px 0 20px;
+}
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.logo-dot {
+    color: var(--accent-color);
+}
+
+.tagline {
+    margin-top: 2px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.header-date {
+    font-size: 13px;
+    color: #666;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 0 17px;
+}
+
+nav a {
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--accent-color);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    padding: 42px 0 70px;
+}
+
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 24px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 28px;
+    margin-bottom: 42px;
+}
+
+.hero-main {
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    background: #ddd;
+}
+
+.hero-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 36px;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.75),
+            rgba(0,0,0,0)
+        );
+    color: white;
+}
+
+.category {
+    display: inline-block;
+    width: fit-content;
+    padding: 6px 10px;
+    margin-bottom: 12px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-title {
+    max-width: 850px;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 5vw, 66px);
+    line-height: 0.95;
+}
+
+.hero-date {
+    margin-top: 14px;
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+/* =========================
+   HERO SIDE
+========================= */
+
+.hero-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.side-story {
+    display: grid;
+    grid-template-columns: 135px 1fr;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.side-story:last-child {
+    border-bottom: 0;
+}
+
+.side-story img {
+    height: 100px;
+    object-fit: cover;
+}
+
+.side-story h3 {
+    margin: 4px 0 8px;
+    font-family: var(--font-serif);
+    font-size: 25px;
+    line-height: 1;
+}
+
+.side-story h3:hover {
+    color: var(--accent-color);
+}
+
+.side-story .date {
+    font-size: 11px;
+    color: #777;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 42px;
+}
+
+.latest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.card {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 24px;
+}
+
+.card img {
+    height: 230px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.card-category {
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card h2 {
+    margin: 0 0 9px;
+    font-family: var(--font-serif);
+    font-size: 31px;
+    line-height: 1;
+}
+
+.card h2:hover {
+    color: var(--accent-color);
+}
+
+.card-date {
+    font-size: 11px;
+    color: #777;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+}
+
+.widget {
+    border-top: 3px solid var(--text-color);
+    padding-top: 14px;
+}
+
+.widget-title {
+    margin: 0 0 18px;
+    font-family: var(--font-serif);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+/* =========================
+   POPULAR
+========================= */
+
+.popular-item {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popular-number {
+    font-family: var(--font-serif);
+    font-size: 31px;
+    line-height: 1;
+    color: var(--accent-color);
+}
+
+.popular-item h3 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.05;
+}
+
+.popular-item h3:hover {
+    color: var(--accent-color);
+}
+
+/* =========================
+   NEWSLETTER
+========================= */
+
+.newsletter p {
+    margin: 0 0 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.newsletter input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid var(--border-color);
+    background: white;
+    font-family: var(--font-sans);
+    outline: none;
+}
+
+.newsletter button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 13px 14px;
+    border: 0;
+    background: var(--text-color);
+    color: white;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.newsletter button:hover {
+    background: var(--accent-color);
+}
+
+/* =========================
+   TAGS
+========================= */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    padding: 7px 10px;
+    border: 1px solid var(--border-color);
+    font-size: 11px;
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    color: white;
+    border-color: var(--accent-color);
+    background: var(--accent-color);
+}
+
+/* =========================
+   QUOTE
+========================= */
+
+.quote-box {
+    padding: 25px;
+    border-left: 4px solid var(--accent-color);
+    background: white;
+}
+
+.quote-box p {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+/* =========================
+   OPINION
+========================= */
+
+.opinion {
+    margin-top: 55px;
+}
+
+.opinion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.opinion-card {
+    background: white;
+    padding: 24px;
+}
+
+.opinion-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-color);
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.opinion-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.opinion-card h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: 26px;
+}
+
+.opinion-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* =========================
+   PHOTO / VIDEO
+========================= */
+
+.media-section {
+    margin-top: 55px;
+}
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.media-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.media-card img {
+    height: 350px;
+    object-fit: cover;
+}
+
+.media-card-overlay {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 26px;
+    color: white;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.8),
+            transparent
+        );
+}
+
+.media-card h3 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 32px;
+}
+
+.video-section {
+    margin-top: 55px;
+    padding: 35px;
+    background: var(--accent-color);
+    color: white;
+}
+
+.video-section .section-title {
+    color: white;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.video-card {
+    background: white;
+    color: var(--text-color);
+}
+
+.video-card img {
+    height: 190px;
+    object-fit: cover;
+}
+
+.video-card-content {
+    padding: 15px;
+}
+
+.video-card-category {
+    margin-bottom: 7px;
+    color: var(--accent-color);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.video-card h3 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 23px;
+    line-height: 1;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    margin-top: 70px;
+    padding: 40px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+}
+
+.footer-logo {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.footer-tagline {
+    margin-top: 4px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #777;
+}
+
+.footer-title {
+    margin: 0 0 12px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    margin-top: 35px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
+    font-size: 11px;
+    color: #777;
+}
+
+/* =========================
+   ABOUT MODAL
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    width: min(650px, 100%);
+    padding: 40px;
+    background: var(--bg-color);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    border: 0;
+    background: none;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+.modal-logo {
+    margin-bottom: 4px;
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.modal-tagline {
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.modal-content p {
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    padding: 40px 0;
+    color: #777;
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .opinion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .container {
+        width: min(100% - 24px, 1180px);
+    }
+
+    .header-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .logo {
+        font-size: 36px;
+    }
+
+    nav {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    main {
+        padding-top: 28px;
+    }
+
+    .hero-main {
+        min-height: 390px;
+    }
+
+    .hero-overlay {
+        padding: 24px;
+    }
+
+    .hero-title {
+        font-size: 43px;
+    }
+
+    .latest-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .media-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .video-section {
+        padding: 24px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        padding: 30px 22px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="top-bar">
-        <span id="current-date">
-            ЗАРЕЖДАНЕ НА ДАТА...
-        </span>
-
-        <div class="top-bar-right">
-            <span>
-                София 22°C ☀️
-            </span>
-
-            <span id="current-time">
-                00:00:00
-            </span>
-        </div>
-    </div>
-
-    <div class="top-banner">
-        <img
-            src="banner.jpg"
-            alt="Банер Списанието"
-        >
-    </div>
-
-    <header>
-        <a
-            href="index.html"
-            class="logo"
-        >
-            СПИСАНИЕТО<span class="logo-dot">.</span>
-        </a>
-
-        <div class="tagline">
-            Всичко важно. На едно място.
-        </div>
-    </header>
-
-    <nav>
-        <div class="nav-container">
-
-            <ul>
-
-                <li>
-                    <a href="index.html">
-                        НОВИНИ
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html?category=%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0">
-                        ПОЛИТИКА
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html?category=%D0%A1%D0%B2%D1%8F%D1%82">
-                        СВЯТ
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8">
-                        АНАЛИЗИ
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">
-                        ЛАЙФСТАЙЛ
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="javascript:void(0)"
-                        onclick="openAboutModal()"
-                    >
-                        ЗА НАС
-                    </a>
-                </li>
-
-            </ul>
-
-            <span
-                class="search-icon"
-                onclick="
-                    alert(
-                        'Търсенето ще бъде активно скоро!'
-                    )
-                "
-            >
-                🔍
-            </span>
-
-        </div>
-    </nav>
+<header>
 
     <div class="container">
 
-        <section
-            class="hero"
-            id="hero"
-        >
-
-            <div id="hero-slides">
-
-                <div
-                    style="
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        height:100%;
-                        color:#fff;
-                        font-family:var(--font-serif);
-                        font-size:1.3rem;
-                    "
-                >
-                    Зареждане на водещите новини...
-                </div>
-
-            </div>
-
-            <button
-                class="carousel-btn prev-btn"
-                id="hero-prev"
-                aria-label="Предишна новина"
-            >
-                &#10094;
-            </button>
-
-            <button
-                class="carousel-btn next-btn"
-                id="hero-next"
-                aria-label="Следваща новина"
-            >
-                &#10095;
-            </button>
-
-        </section>
-
-        <div class="main-layout">
+        <div class="header-top">
 
             <div>
 
-                <h3 class="section-title">
-                    Акценти
-                </h3>
+                <div class="logo">
+                    СПИСАНИЕТО<span class="logo-dot">.</span>
+                </div>
 
-                <div
-                    class="grid-2"
-                    id="highlights"
-                >
-
-                    <p id="highlights-loading">
-                        Зареждане на новини...
-                    </p>
-
+                <div class="tagline">
+                    Всичко важно. На едно място.
                 </div>
 
             </div>
 
-            <aside>
-
-                <div class="sidebar-box">
-
-                    <h4 class="sidebar-title">
-                        Най-четени
-                    </h4>
-
-                    <ul
-                        class="popular-list"
-                        id="popular-news"
-                    >
-
-                        <li class="popular-item">
-
-                            <span class="popular-num">
-                                01
-                            </span>
-
-                            <span class="popular-text">
-                                Зареждане...
-                            </span>
-
-                        </li>
-
-                    </ul>
-
-                </div>
-
-                <div class="sidebar-box">
-
-                    <h4 class="sidebar-title">
-                        Цитат на деня
-                    </h4>
-
-                    <div class="quote-box">
-                        „Формата следва функцията, но естетиката вдъхновява душата.“
-                    </div>
-
-                </div>
-
-                <div class="sidebar-box">
-
-                    <h4 class="sidebar-title">
-                        Теми на фокус
-                    </h4>
-
-                    <div class="tags-container">
-
-                        <a href="#" class="tag">
-                            #Иновации
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Дизайн
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Икономика
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Анализи
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Екология
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="sidebar-box">
-
-                    <h4 class="sidebar-title">
-                        Абонамент
-                    </h4>
-
-                    <p
-                        style="
-                            font-size:0.85rem;
-                            margin-bottom:1rem;
-                        "
-                    >
-                        Получавайте най-добрите ни статии всяка сутрин във вашата поща.
-                    </p>
-
-                    <form
-                        class="newsletter-form"
-                        onsubmit="
-                            event.preventDefault();
-                            alert(
-                                'Благодарим ви за абонамента!'
-                            );
-                        "
-                    >
-
-                        <input
-                            type="email"
-                            placeholder="Вашият имейл..."
-                            required
-                        >
-
-                        <button type="submit">
-                            Абонирай се
-                        </button>
-
-                    </form>
-
-                </div>
-
-            </aside>
+            <div class="header-date" id="header-date"></div>
 
         </div>
 
-        <section class="photo-gallery-section">
+        <nav>
 
-            <h3 class="section-title">
-                Фотогалерия
-            </h3>
+            <a href="index.html">Новини</a>
 
-            <div class="photo-grid">
+            <a href="index.html?category=%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0">
+                Политика
+            </a>
 
-                <div class="photo-item">
+            <a href="index.html?category=%D0%A1%D0%B2%D1%8F%D1%82">
+                Свят
+            </a>
 
-                    <img
-                        src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80"
-                        alt="Галерия 1"
-                    >
+            <a href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8">
+                Анализи
+            </a>
 
-                    <div class="photo-caption">
-                        Пътешествия извън масовите маршрути
-                    </div>
+            <a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">
+                Лайфстайл
+            </a>
 
-                </div>
+            <a href="#" id="about-link">
+                За нас
+            </a>
 
-                <div class="photo-item">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80"
-                        alt="Галерия 2"
-                    >
-
-                    <div class="photo-caption">
-                        Модерна градска архитектура и светлина
-                    </div>
-
-                </div>
-
-                <div class="photo-item">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1516825732152-094192279132?auto=format&fit=crop&w=600&q=80"
-                        alt="Галерия 3"
-                    >
-
-                    <div class="photo-caption">
-                        Атмосфера от редакционния архив
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
+        </nav>
 
     </div>
 
-    <section class="video-section">
+</header>
 
-        <div class="video-container-inner">
 
-            <div class="video-wrapper">
+<main>
 
-                <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="Видео"
-                    allowfullscreen
-                ></iframe>
+<div class="container">
+
+    <h1 class="section-title">
+        Последни новини
+    </h1>
+
+    <div class="hero">
+
+        <div id="hero-main" class="hero-main">
+
+            <div class="empty-state">
+                Зареждане...
+            </div>
+
+        </div>
+
+        <div id="hero-side" class="hero-side"></div>
+
+    </div>
+
+
+    <div class="content-grid">
+
+        <section>
+
+            <h2 class="section-title">
+                Най-новото
+            </h2>
+
+            <div id="latest-grid" class="latest-grid"></div>
+
+        </section>
+
+
+        <aside class="sidebar">
+
+            <div class="widget">
+
+                <h2 class="widget-title">
+                    Най-четени
+                </h2>
+
+                <div id="popular-list"></div>
 
             </div>
 
-            <div class="video-info">
 
-                <span
-                    class="category"
-                    style="margin-bottom:1rem;"
+            <div class="widget newsletter">
+
+                <h2 class="widget-title">
+                    Бюлетин
+                </h2>
+
+                <p>
+                    Получавайте най-важните новини директно във вашия имейл.
+                </p>
+
+                <input
+                    type="email"
+                    id="newsletter-email"
+                    placeholder="Вашият имейл"
                 >
-                    ВИДЕО
-                </span>
+
+                <button id="newsletter-button">
+                    Абонирай се
+                </button>
+
+            </div>
+
+
+            <div class="widget">
+
+                <h2 class="widget-title">
+                    Теми
+                </h2>
+
+                <div class="tags">
+
+                    <a
+                        class="tag"
+                        href="index.html?category=%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0"
+                    >
+                        Политика
+                    </a>
+
+                    <a
+                        class="tag"
+                        href="index.html?category=%D0%A1%D0%B2%D1%8F%D1%82"
+                    >
+                        Свят
+                    </a>
+
+                    <a
+                        class="tag"
+                        href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8"
+                    >
+                        Анализи
+                    </a>
+
+                    <a
+                        class="tag"
+                        href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB"
+                    >
+                        Лайфстайл
+                    </a>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <section class="opinion">
+
+        <h2 class="section-title">
+            Мнение
+        </h2>
+
+        <div class="opinion-grid">
+
+            <article class="opinion-card">
+
+                <div class="opinion-avatar">
+                    <img
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
+                        alt=""
+                    >
+                </div>
 
                 <h3>
-                    Поглед отблизо: Разговор за изкуството, медиите и бъдещето
+                    Гласове и позиции
                 </h3>
 
                 <p>
-                    Гледайте специалното ни видео интервю с акценти от седмицата и анализи на водещи експерти в областта на културата и технологиите.
+                    Различни гледни точки по темите,
+                    които променят обществото.
                 </p>
 
-                <a
-                    href="javascript:void(0)"
-                    onclick="
-                        alert(
-                            'Всички видео епизоди ще бъдат достъпни скоро!'
-                        )
-                    "
-                    style="
-                        color:#fff;
-                        font-size:0.85rem;
-                        text-transform:uppercase;
-                        letter-spacing:1.5px;
-                        font-weight:600;
-                        text-decoration:underline;
-                    "
+            </article>
+
+
+            <article class="opinion-card">
+
+                <div class="opinion-avatar">
+                    <img
+                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
+                        alt=""
+                    >
+                </div>
+
+                <h3>
+                    Анализ
+                </h3>
+
+                <p>
+                    Контекстът зад новините и фактите,
+                    които заслужават внимание.
+                </p>
+
+            </article>
+
+
+            <article class="opinion-card">
+
+                <div class="opinion-avatar">
+                    <img
+                        src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
+                        alt=""
+                    >
+                </div>
+
+                <h3>
+                    Коментар
+                </h3>
+
+                <p>
+                    Идеи, позиции и лични гледни точки
+                    по важни обществени теми.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section class="media-section">
+
+        <h2 class="section-title">
+            Фото
+        </h2>
+
+        <div class="media-grid">
+
+            <article class="media-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80"
+                    alt=""
                 >
-                    Вижте всички видео материали →
+
+                <div class="media-card-overlay">
+
+                    <h3>
+                        Истории в кадър
+                    </h3>
+
+                </div>
+
+            </article>
+
+
+            <article class="media-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+                    alt=""
+                >
+
+                <div class="media-card-overlay">
+
+                    <h3>
+                        България и светът
+                    </h3>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section class="video-section">
+
+        <h2 class="section-title">
+            Видео
+        </h2>
+
+        <div class="video-grid">
+
+            <article class="video-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=900&q=80"
+                    alt=""
+                >
+
+                <div class="video-card-content">
+
+                    <div class="video-card-category">
+                        Видео
+                    </div>
+
+                    <h3>
+                        Най-важното за деня
+                    </h3>
+
+                </div>
+
+            </article>
+
+
+            <article class="video-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80"
+                    alt=""
+                >
+
+                <div class="video-card-content">
+
+                    <div class="video-card-category">
+                        Видео
+                    </div>
+
+                    <h3>
+                        Разговори и интервюта
+                    </h3>
+
+                </div>
+
+            </article>
+
+
+            <article class="video-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+                    alt=""
+                >
+
+                <div class="video-card-content">
+
+                    <div class="video-card-category">
+                        Видео
+                    </div>
+
+                    <h3>
+                        Във фокус
+                    </h3>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+    <div class="footer-grid">
+
+        <div>
+
+            <div class="footer-logo">
+                СПИСАНИЕТО<span class="logo-dot">.</span>
+            </div>
+
+            <div class="footer-tagline">
+                Всичко важно. На едно място.
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <h3 class="footer-title">
+                Рубрики
+            </h3>
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Новини
+                </a>
+
+                <a href="index.html?category=%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0">
+                    Политика
+                </a>
+
+                <a href="index.html?category=%D0%A1%D0%B2%D1%8F%D1%82">
+                    Свят
+                </a>
+
+                <a href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8">
+                    Анализи
+                </a>
+
+                <a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">
+                    Лайфстайл
                 </a>
 
             </div>
 
         </div>
 
-    </section>
 
-    <section class="opinion-section">
+        <div>
 
-        <div class="opinion-header">
-
-            <h3>
-                Мнения &amp; Коментари
+            <h3 class="footer-title">
+                СПИСАНИЕТО.
             </h3>
 
-        </div>
+            <div class="footer-links">
 
-        <div class="opinion-grid">
-
-            <div class="opinion-card">
-
-                <p class="opinion-quote">
-                    „Дигиталният свят ни дава скорост, но именно задълбоченият текст е този, който ни връща фокуса.“
-                </p>
-
-                <div class="opinion-author-box">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                        class="opinion-avatar"
-                        alt="Автор"
-                    >
-
-                    <div>
-
-                        <div class="opinion-author-name">
-                            Мария Илиева
-                        </div>
-
-                        <div class="opinion-author-title">
-                            Главен редактор
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="opinion-card">
-
-                <p class="opinion-quote">
-                    „Бъдещето принадлежи на изданията, които залагат на автентичността и чистия редакционен стил.“
-                </p>
-
-                <div class="opinion-author-box">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
-                        class="opinion-avatar"
-                        alt="Автор"
-                    >
-
-                    <div>
-
-                        <div class="opinion-author-name">
-                            Иван Петров
-                        </div>
-
-                        <div class="opinion-author-title">
-                            Икономически анализатор
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <div class="lifestyle-section">
-
-        <div class="container">
-
-            <h3 class="section-title">
-                Лайфстайл &amp; Вдъхновение
-            </h3>
-
-            <div class="grid-4">
-
-                <div class="square-card">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=500&q=80"
-                        alt="Мода"
-                    >
-
-                    <h4>
-                        Мода и тенденции
-                    </h4>
-
-                </div>
-
-                <div class="square-card">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80"
-                        alt="Кулинария"
-                    >
-
-                    <h4>
-                        Кулинарно изкуство
-                    </h4>
-
-                </div>
-
-                <div class="square-card">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=500&q=80"
-                        alt="Пътешествия"
-                    >
-
-                    <h4>
-                        Пътешествия &amp; Места
-                    </h4>
-
-                </div>
-
-                <div class="square-card">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500&q=80"
-                        alt="Книги"
-                    >
-
-                    <h4>
-                        Книги и култура
-                    </h4>
-
-                </div>
+                <a href="#" id="footer-about">
+                    За нас
+                </a>
 
             </div>
 
@@ -1531,968 +1240,584 @@
 
     </div>
 
-    <div
-        id="aboutModal"
-        class="modal"
-    >
 
-        <div class="modal-content">
+    <div class="footer-bottom">
+        © 2026 СПИСАНИЕТО. Всички права запазени.
+    </div>
 
-            <span
-                class="close-btn"
-                onclick="closeAboutModal()"
-            >
-                &times;
-            </span>
+</div>
 
-            <h2
-                style="
-                    font-family:var(--font-serif);
-                    font-size:2.2rem;
-                    margin-bottom:1rem;
-                    color:var(--text-color);
-                "
-            >
-                СПИСАНИЕТО<span style="color:var(--accent-color);">.</span>
-            </h2>
+</footer>
 
-            <p
-                style="
-                    font-size:1.1rem;
-                    line-height:1.7;
-                    color:#333;
-                    margin-bottom:1rem;
-                "
-            >
-                <strong>СПИСАНИЕТО.</strong>
-                е място за новини, идеи и истории от България и света.
-            </p>
 
-            <p
-                style="
-                    font-size:1.05rem;
-                    line-height:1.7;
-                    color:#444;
-                    margin-bottom:1.5rem;
-                "
-            >
-                Следим важното. Разказваме интересното. Търсим смисъла зад събитията.
-            </p>
+<!-- ABOUT MODAL -->
 
-            <div
-                style="
-                    font-family:var(--font-serif);
-                    font-style:italic;
-                    font-size:1.2rem;
-                    color:var(--accent-color);
-                    border-top:1px solid var(--border-color);
-                    padding-top:1rem;
-                "
-            >
-                Всичко важно. На едно място.
-            </div>
+<div class="modal" id="about-modal">
 
+    <div class="modal-content">
+
+        <button
+            class="close-modal"
+            id="close-modal"
+            aria-label="Затвори"
+        >
+            ×
+        </button>
+
+        <div class="modal-logo">
+            СПИСАНИЕТО<span class="logo-dot">.</span>
         </div>
+
+        <div class="modal-tagline">
+            Всичко важно. На едно място.
+        </div>
+
+        <p>
+            СПИСАНИЕТО. е място за новини, идеи и истории
+            от България и света.
+        </p>
+
+        <p>
+            Следим важното. Разказваме интересното.
+            Търсим смисъла зад събитията.
+        </p>
+
+        <p>
+            Всичко важно. На едно място.
+        </p>
 
     </div>
 
-    <footer>
+</div>
 
-        <div class="container">
 
-            <div class="footer-grid">
+<script>
 
-                <div>
+const SUPABASE_URL =
+    'https://hxvflentlaktgwimsevc.supabase.co';
 
-                    <span class="footer-logo">
-                        СПИСАНИЕТО<span style="color:var(--accent-color);">.</span>
-                    </span>
+const SUPABASE_ANON_KEY =
+    'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
 
-                    <div class="footer-about">
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
-                        <p>
-                            <strong>СПИСАНИЕТО.</strong>
-                            е място за новини, идеи и истории от България и света.
-                        </p>
 
-                        <p>
-                            Следим важното. Разказваме интересното. Търсим смисъла зад събитията.
-                        </p>
+/* =========================
+   DATE
+========================= */
 
-                        <div class="footer-tagline">
-                            Всичко важно. На едно място.
-                        </div>
+function formatDate(dateString) {
 
-                    </div>
+    const date =
+        new Date(dateString);
 
-                </div>
+    return date.toLocaleDateString(
+        'bg-BG',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }
+    );
+}
 
-                <div>
+const today =
+    new Date();
 
-                    <h4
-                        style="
-                            color:#fff;
-                            margin-bottom:1rem;
-                        "
-                    >
-                        Рубрики
-                    </h4>
+document.getElementById(
+    'header-date'
+).textContent =
+    today.toLocaleDateString(
+        'bg-BG',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }
+    );
 
-                    <p>
-                        <a href="index.html">
-                            Новини
-                        </a>
-                    </p>
 
-                    <p>
-                        <a href="index.html?category=%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0">
-                            Политика
-                        </a>
-                    </p>
+/* =========================
+   CATEGORY FILTER
+========================= */
 
-                    <p>
-                        <a href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8">
-                            Анализи
-                        </a>
-                    </p>
+const categoryParam =
+    new URLSearchParams(
+        window.location.search
+    ).get('category');
 
-                    <p>
-                        <a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">
-                            Лайфстайл
-                        </a>
-                    </p>
+const activeCategory =
+    categoryParam
+        ? categoryParam.trim()
+        : '';
 
-                </div>
 
-                <div>
+function applyCategoryFilter(query) {
 
-                    <h4
-                        style="
-                            color:#fff;
-                            margin-bottom:1rem;
-                        "
-                    >
-                        За нас
-                    </h4>
+    if (activeCategory) {
 
-                    <p>
-                        <a
-                            href="javascript:void(0)"
-                            onclick="openAboutModal()"
-                        >
-                            Редакция
-                        </a>
-                    </p>
+        return query.eq(
+            'category',
+            activeCategory
+        );
 
-                    <p>
-                        <a href="#">
-                            Етичен кодекс
-                        </a>
-                    </p>
+    }
 
-                    <p>
-                        <a href="#">
-                            Реклама
-                        </a>
-                    </p>
+    return query;
+}
 
-                    <p>
-                        <a href="#">
-                            Контакти
-                        </a>
-                    </p>
 
-                </div>
+function updateCategoryTitle() {
 
-            </div>
+    const title =
+        document.querySelector(
+            '.section-title'
+        );
 
-            <div class="footer-bottom">
+    if (
+        title &&
+        activeCategory
+    ) {
 
-                &copy;
+        title.textContent =
+            activeCategory;
 
-                <span id="current-year">
-                    2026
+    }
+
+    document.title =
+        activeCategory
+            ? `${activeCategory} — СПИСАНИЕТО.`
+            : 'СПИСАНИЕТО - Дигитално издание';
+}
+
+
+/* =========================
+   LOAD NEWS
+========================= */
+
+async function loadNews() {
+
+    let query =
+        supabaseClient
+            .from('news')
+            .select('*')
+            .eq('status', 'published')
+            .order(
+                'created_at',
+                {
+                    ascending: false
+                }
+            );
+
+    query =
+        applyCategoryFilter(query);
+
+    const {
+        data,
+        error
+    } = await query;
+
+    if (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            'hero-main'
+        ).innerHTML =
+            '<div class="empty-state">Грешка при зареждане.</div>';
+
+        return;
+
+    }
+
+    renderHero(data || []);
+
+    renderLatest(data || []);
+
+    loadPopular();
+
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+function renderHero(news) {
+
+    const heroMain =
+        document.getElementById(
+            'hero-main'
+        );
+
+    const heroSide =
+        document.getElementById(
+            'hero-side'
+        );
+
+    if (!news.length) {
+
+        heroMain.innerHTML =
+            '<div class="empty-state">Няма публикувани новини в тази рубрика.</div>';
+
+        heroSide.innerHTML = '';
+
+        return;
+
+    }
+
+    const hero =
+        news[0];
+
+    heroMain.innerHTML = `
+
+        <a href="article.html?id=${hero.id}">
+
+            <img
+                src="${hero.image_url || ''}"
+                alt=""
+            >
+
+            <div class="hero-overlay">
+
+                <span class="category">
+                    ${hero.category || 'Новини'}
                 </span>
 
-                СПИСАНИЕТО.
-                Всички права запазени.
+                <h2 class="hero-title">
+                    ${hero.title}
+                </h2>
+
+                <div class="hero-date">
+                    ${formatDate(hero.created_at)}
+                </div>
 
             </div>
 
-        </div>
+        </a>
+    `;
 
-    </footer>
 
-    <script type="module">
+    const sideNews =
+        news.slice(1, 4);
 
-        import {
-            createClient
-        }
-        from
-        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    heroSide.innerHTML =
+        sideNews.map(
+            item => `
 
-        /* =========================================
-           SUPABASE
-        ========================================= */
+                <article class="side-story">
 
-        const SUPABASE_URL =
-            'https://hxvflentlaktgwimsevc.supabase.co';
+                    <a href="article.html?id=${item.id}">
 
-        const SUPABASE_PUBLISHABLE_KEY =
-            'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
+                        <img
+                            src="${item.image_url || ''}"
+                            alt=""
+                        >
 
-        const supabase =
-            createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY
-            );
+                    </a>
 
-        /* =========================================
-           АКТИВНА РУБРИКА
-        ========================================= */
+                    <div>
 
-        const categoryParam =
-            new URLSearchParams(
-                window.location.search
-            ).get('category');
+                        <div class="card-category">
+                            ${item.category || 'Новини'}
+                        </div>
 
-        const activeCategory =
-            categoryParam
-                ? categoryParam.trim()
-                : '';
+                        <h3>
 
-        function applyCategoryFilter(query) {
+                            <a href="article.html?id=${item.id}">
+                                ${item.title}
+                            </a>
 
-            if (activeCategory) {
+                        </h3>
 
-                return query.eq(
-                    'category',
-                    activeCategory
-                );
+                        <div class="date">
+                            ${formatDate(item.created_at)}
+                        </div>
 
-            }
+                    </div>
 
-            return query;
-        }
+                </article>
 
-        function updateCategoryTitle() {
+            `
+        )
+        .join('');
 
-            const title =
-                document.querySelector(
-                    '.section-title'
-                );
+}
 
-            if (
-                title &&
-                activeCategory
-            ) {
 
-                title.textContent =
-                    activeCategory;
+/* =========================
+   LATEST
+========================= */
 
-            }
+function renderLatest(news) {
 
-            document.title =
-                activeCategory
-                    ? `${activeCategory} — СПИСАНИЕТО.`
-                    : 'СПИСАНИЕТО - Дигитално издание';
-        }
-
-        /* =========================================
-           DATE / TIME
-        ========================================= */
-
-        function updateDateTime() {
-
-            const now =
-                new Date();
-
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-
-            document.getElementById(
-                'current-date'
-            ).textContent =
-                now
-                    .toLocaleDateString(
-                        'bg-BG',
-                        options
-                    )
-                    .toUpperCase();
-
-            document.getElementById(
-                'current-time'
-            ).textContent =
-                now.toLocaleTimeString(
-                    'bg-BG'
-                );
-
-            document.getElementById(
-                'current-year'
-            ).textContent =
-                now.getFullYear();
-        }
-
-        updateDateTime();
-
-        setInterval(
-            updateDateTime,
-            1000
+    const container =
+        document.getElementById(
+            'latest-grid'
         );
 
-        /* =========================================
-           ESCAPE HTML
-        ========================================= */
+    const latest =
+        news.slice(4, 12);
 
-        function escapeHtml(value) {
+    if (!latest.length) {
 
-            if (
-                value === null ||
-                value === undefined
-            ) {
-                return '';
-            }
+        container.innerHTML =
+            '<div class="empty-state">Няма други новини.</div>';
 
-            return String(value)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
+        return;
 
-        /* =========================================
-           АКЦЕНТИ
-        ========================================= */
+    }
 
-        async function loadHighlights() {
+    container.innerHTML =
+        latest.map(
+            item => `
 
-            const container =
-                document.getElementById(
-                    'highlights'
-                );
+                <article class="card">
 
-            const {
-                data,
-                error
-            } =
-                await applyCategoryFilter(
-                    supabase
-                        .from('news')
-                        .select(`
-                            id,
-                            title,
-                            category,
-                            image_url,
-                            author,
-                            created_at
-                        `)
-                        .eq(
-                            'status',
-                            'published'
-                        )
-                )
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-                    .limit(4);
+                    <a href="article.html?id=${item.id}">
 
-            if (error) {
+                        <img
+                            src="${item.image_url || ''}"
+                            alt=""
+                        >
 
-                console.error(
-                    'Supabase error:',
-                    error
-                );
+                    </a>
 
-                container.innerHTML = `
-                    <p class="card-excerpt">
-                        Възникна проблем при зареждането на новините.
-                    </p>
-                `;
-
-                return;
-            }
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-                    <p class="card-excerpt">
-                        В тази рубрика все още няма публикувани новини.
-                    </p>
-                `;
-
-                return;
-            }
-
-            container.innerHTML =
-                data
-                    .map(
-                        news => {
-
-                            const image =
-                                news.image_url ||
-                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
-
-                            const category =
-                                news.category ||
-                                'Новини';
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-                            return `
-                                <article class="card">
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="card-image-link"
-                                    >
-                                        <img
-                                            src="${escapeHtml(image)}"
-                                            class="card-img"
-                                            alt="${escapeHtml(news.title)}"
-                                        >
-                                    </a>
-
-                                    <span class="category">
-                                        ${escapeHtml(category)}
-                                    </span>
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="card-title"
-                                    >
-                                        ${escapeHtml(news.title)}
-                                    </a>
-
-                                </article>
-                            `;
-                        }
-                    )
-                    .join('');
-        }
-
-        /* =========================================
-           НАЙ-ЧЕТЕНИ
-        ========================================= */
-
-        async function loadPopularNews() {
-
-            const container =
-                document.getElementById(
-                    'popular-news'
-                );
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-                    .from('news')
-                    .select(`
-                        id,
-                        title,
-                        views,
-                        created_at
-                    `)
-                    .eq(
-                        'status',
-                        'published'
-                    )
-                    .order(
-                        'views',
-                        {
-                            ascending: false
-                        }
-                    )
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-                    .limit(3);
-
-            if (error) {
-
-                console.error(
-                    'Popular news Supabase error:',
-                    error
-                );
-
-                container.innerHTML = `
-                    <li class="popular-item">
-                        <span class="popular-num">
-                            01
-                        </span>
-                        <span class="popular-text">
-                            Не успяхме да заредим най-четените новини.
-                        </span>
-                    </li>
-                `;
-
-                return;
-            }
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-                    <li class="popular-item">
-                        <span class="popular-num">
-                            01
-                        </span>
-                        <span class="popular-text">
-                            Все още няма публикувани новини.
-                        </span>
-                    </li>
-                `;
-
-                return;
-            }
-
-            container.innerHTML =
-                data
-                    .map(
-                        (news, index) => {
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-                            return `
-                                <li class="popular-item">
-
-                                    <span class="popular-num">
-                                        ${String(index + 1).padStart(2, '0')}
-                                    </span>
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="popular-text"
-                                    >
-                                        ${escapeHtml(news.title)}
-                                    </a>
-
-                                </li>
-                            `;
-                        }
-                    )
-                    .join('');
-        }
-
-        /* =========================================
-           HERO
-        ========================================= */
-
-        let slideIndex = 0;
-        let heroSlides = [];
-        let heroTimer = null;
-
-        async function loadHero() {
-
-            const container =
-                document.getElementById(
-                    'hero-slides'
-                );
-
-            let {
-                data,
-                error
-            } =
-                await applyCategoryFilter(
-                    supabase
-                        .from('news')
-                        .select(`
-                            id,
-                            title,
-                            category,
-                            image_url,
-                            author,
-                            created_at,
-                            is_featured
-                        `)
-                        .eq(
-                            'status',
-                            'published'
-                        )
-                        .eq(
-                            'is_featured',
-                            true
-                        )
-                )
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-                    .limit(4);
-
-            if (
-                !error &&
-                (
-                    !data ||
-                    data.length === 0
-                )
-            ) {
-
-                const fallback =
-                    await applyCategoryFilter(
-                        supabase
-                            .from('news')
-                            .select(`
-                                id,
-                                title,
-                                category,
-                                image_url,
-                                author,
-                                created_at,
-                                is_featured
-                            `)
-                            .eq(
-                                'status',
-                                'published'
-                            )
-                    )
-                        .order(
-                            'created_at',
-                            {
-                                ascending: false
-                            }
-                        )
-                        .limit(4);
-
-                data =
-                    fallback.data;
-
-                error =
-                    fallback.error;
-            }
-
-            if (error) {
-
-                console.error(
-                    'Hero Supabase error:',
-                    error
-                );
-
-                container.innerHTML = `
-                    <div
-                        style="
-                            height:100%;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            padding:2rem;
-                            color:#fff;
-                            font-family:var(--font-serif);
-                            font-size:1.2rem;
-                            text-align:center;
-                        "
-                    >
-                        Възникна проблем при зареждането
-                        на водещите новини.
+                    <div class="card-category">
+                        ${item.category || 'Новини'}
                     </div>
-                `;
 
-                document.getElementById(
-                    'hero-prev'
-                ).style.display = 'none';
+                    <h2>
 
-                document.getElementById(
-                    'hero-next'
-                ).style.display = 'none';
+                        <a href="article.html?id=${item.id}">
+                            ${item.title}
+                        </a>
 
-                return;
-            }
+                    </h2>
 
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-                    <div
-                        style="
-                            height:100%;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            padding:2rem;
-                            color:#fff;
-                            font-family:var(--font-serif);
-                            font-size:1.2rem;
-                            text-align:center;
-                        "
-                    >
-                        В тази рубрика все още няма публикувани новини.
+                    <div class="card-date">
+                        ${formatDate(item.created_at)}
                     </div>
-                `;
 
-                document.getElementById(
-                    'hero-prev'
-                ).style.display = 'none';
+                </article>
 
-                document.getElementById(
-                    'hero-next'
-                ).style.display = 'none';
+            `
+        )
+        .join('');
 
-                return;
-            }
+}
 
-            heroSlides = data;
-            slideIndex = 0;
 
-            container.innerHTML =
-                data
-                    .map(
-                        (news, index) => {
+/* =========================
+   POPULAR
+========================= */
 
-                            const image =
-                                news.image_url ||
-                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80';
+async function loadPopular() {
 
-                            const category =
-                                news.category ||
-                                'Новини';
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-                            return `
-                                <article
-                                    class="
-                                        carousel-slide
-                                        ${index === 0 ? 'active' : ''}
-                                    "
-                                >
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="hero-image-wrap"
-                                    >
-                                        <img
-                                            src="${escapeHtml(image)}"
-                                            class="hero-img"
-                                            alt="${escapeHtml(news.title)}"
-                                        >
-                                    </a>
-
-                                    <div class="hero-overlay"></div>
-
-                                    <div class="hero-content">
-
-                                        <span class="category">
-                                            ${escapeHtml(category)}
-                                        </span>
-
-                                        <a
-                                            href="${articleUrl}"
-                                            class="hero-title-link"
-                                        >
-                                            <h2 class="hero-title">
-                                                ${escapeHtml(news.title)}
-                                            </h2>
-                                        </a>
-
-                                    </div>
-
-                                </article>
-                            `;
-                        }
-                    )
-                    .join('');
-
-            document.getElementById(
-                'hero-prev'
-            ).style.display =
-                heroSlides.length > 1
-                    ? 'block'
-                    : 'none';
-
-            document.getElementById(
-                'hero-next'
-            ).style.display =
-                heroSlides.length > 1
-                    ? 'block'
-                    : 'none';
-
-            if (heroTimer) {
-                clearInterval(heroTimer);
-            }
-
-            if (
-                heroSlides.length > 1
-            ) {
-
-                heroTimer =
-                    setInterval(
-                        () => {
-                            moveHeroSlide(1);
-                        },
-                        5000
-                    );
-            }
-        }
-
-        /* =========================================
-           ПОКАЗВАНЕ НА СЛАЙД
-        ========================================= */
-
-        function showHeroSlide(index) {
-
-            const slides =
-                document.querySelectorAll(
-                    '.carousel-slide'
-                );
-
-            if (
-                !slides.length
-            ) {
-                return;
-            }
-
-            slides.forEach(
-                (slide, i) => {
-
-                    slide.classList.remove(
-                        'active'
-                    );
-
-                    if (
-                        i === index
-                    ) {
-
-                        slide.classList.add(
-                            'active'
-                        );
-                    }
-                }
-            );
-        }
-
-        /* =========================================
-           СЛЕДВАЩ / ПРЕДИШЕН
-        ========================================= */
-
-        function moveHeroSlide(direction) {
-
-            if (
-                heroSlides.length <= 1
-            ) {
-                return;
-            }
-
-            slideIndex =
-                (
-                    slideIndex +
-                    direction +
-                    heroSlides.length
-                )
-                %
-                heroSlides.length;
-
-            showHeroSlide(
-                slideIndex
-            );
-        }
-
-        /* =========================================
-           СТРЕЛКИ
-        ========================================= */
-
-        document
-            .getElementById(
-                'hero-prev'
-            )
-            .addEventListener(
-                'click',
-                () => {
-                    moveHeroSlide(-1);
-                }
-            );
-
-        document
-            .getElementById(
-                'hero-next'
-            )
-            .addEventListener(
-                'click',
-                () => {
-                    moveHeroSlide(1);
-                }
-            );
-
-        /* =========================================
-           START
-        ========================================= */
-
-        updateCategoryTitle();
-
-        loadHighlights();
-
-        loadPopularNews();
-
-        loadHero();
-
-        /* =========================================
-           ABOUT MODAL
-        ========================================= */
-
-        function openAboutModal() {
-
-            document.getElementById(
-                'aboutModal'
-            ).style.display =
-                'flex';
-        }
-
-        function closeAboutModal() {
-
-            document.getElementById(
-                'aboutModal'
-            ).style.display =
-                'none';
-        }
-
-        window.openAboutModal =
-            openAboutModal;
-
-        window.closeAboutModal =
-            closeAboutModal;
-
-        window.addEventListener(
-            'click',
-            function(event) {
-
-                const modal =
-                    document.getElementById(
-                        'aboutModal'
-                    );
-
-                if (
-                    event.target === modal
-                ) {
-
-                    modal.style.display =
-                        'none';
-                }
-            }
+    const container =
+        document.getElementById(
+            'popular-list'
         );
 
-    </script>
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from('news')
+            .select(
+                'id,title,views'
+            )
+            .eq(
+                'status',
+                'published'
+            )
+            .order(
+                'views',
+                {
+                    ascending: false
+                }
+            )
+            .limit(5);
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            '<div class="empty-state">Няма данни.</div>';
+
+        return;
+
+    }
+
+    if (!data || !data.length) {
+
+        container.innerHTML =
+            '<div class="empty-state">Няма данни.</div>';
+
+        return;
+
+    }
+
+    container.innerHTML =
+        data.map(
+            (item, index) => `
+
+                <article class="popular-item">
+
+                    <div class="popular-number">
+                        ${String(index + 1).padStart(2, '0')}
+                    </div>
+
+                    <div>
+
+                        <h3>
+
+                            <a href="article.html?id=${item.id}">
+                                ${item.title}
+                            </a>
+
+                        </h3>
+
+                    </div>
+
+                </article>
+
+            `
+        )
+        .join('');
+
+}
+
+
+/* =========================
+   NEWSLETTER
+========================= */
+
+document
+    .getElementById(
+        'newsletter-button'
+    )
+    .addEventListener(
+        'click',
+        function() {
+
+            const email =
+                document.getElementById(
+                    'newsletter-email'
+                ).value.trim();
+
+            if (!email) {
+
+                alert(
+                    'Моля, въведете имейл адрес.'
+                );
+
+                return;
+
+            }
+
+            alert(
+                'Благодарим! Абонаментът ще бъде активиран скоро.'
+            );
+
+        }
+    );
+
+
+/* =========================
+   ABOUT MODAL
+========================= */
+
+const aboutModal =
+    document.getElementById(
+        'about-modal'
+    );
+
+const aboutLink =
+    document.getElementById(
+        'about-link'
+    );
+
+const footerAbout =
+    document.getElementById(
+        'footer-about'
+    );
+
+const closeModal =
+    document.getElementById(
+        'close-modal'
+    );
+
+
+function openAbout(e) {
+
+    if (e) {
+        e.preventDefault();
+    }
+
+    aboutModal.classList.add(
+        'active'
+    );
+
+}
+
+
+function closeAbout() {
+
+    aboutModal.classList.remove(
+        'active'
+    );
+
+}
+
+
+aboutLink.addEventListener(
+    'click',
+    openAbout
+);
+
+footerAbout.addEventListener(
+    'click',
+    openAbout
+);
+
+closeModal.addEventListener(
+    'click',
+    closeAbout
+);
+
+
+aboutModal.addEventListener(
+    'click',
+    function(e) {
+
+        if (
+            e.target === aboutModal
+        ) {
+
+            closeAbout();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   INIT
+========================= */
+
+updateCategoryTitle();
+
+loadNews();
+
+</script>
 
 </body>
 </html>
