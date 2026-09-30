@@ -146,6 +146,34 @@
             margin-bottom: 1.8rem;
         }
 
+        .article-body strong,
+        .article-body b {
+            font-weight: 700;
+        }
+
+        .article-body em,
+        .article-body i {
+            font-style: italic;
+        }
+
+        .article-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .article-body a:hover {
+            opacity: 0.75;
+        }
+
+        .article-body ul,
+        .article-body ol {
+            margin: 0 0 1.8rem 1.8rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.5rem;
+        }
+
         .article-body p:first-of-type::first-letter {
             font-family: var(--font-serif);
             font-size: 4.2rem;
@@ -596,6 +624,9 @@
 import { createClient } from
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
+import DOMPurify from
+    'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
+
 
 const SUPABASE_URL =
     'https://hxvflentlaktgwimsevc.supabase.co';
@@ -619,6 +650,71 @@ const params = new URLSearchParams(
 );
 
 const articleId = params.get('id');
+
+
+// ==========================================
+// БЕЗОПАСНО HTML САНИТИЗИРАНЕ
+// ==========================================
+
+function sanitizeArticleHtml(html) {
+
+    return DOMPurify.sanitize(
+        html || '',
+        {
+            ALLOWED_TAGS: [
+                'p',
+                'br',
+                'strong',
+                'b',
+                'em',
+                'i',
+                'a',
+                'ul',
+                'ol',
+                'li',
+                'blockquote'
+            ],
+
+            ALLOWED_ATTR: [
+                'href',
+                'target',
+                'rel'
+            ],
+
+            ALLOW_DATA_ATTR: false
+        }
+    );
+
+}
+
+
+// ==========================================
+// СТАРИЯТ ФОРМАТ НА ТЕКСТА
+// ==========================================
+
+function plainTextToHtml(text) {
+
+    if (!text) {
+        return '';
+    }
+
+    return text
+        .split(/\n\s*\n/)
+        .map(
+            paragraph =>
+                paragraph.trim()
+        )
+        .filter(
+            paragraph =>
+                paragraph.length > 0
+        )
+        .map(
+            paragraph =>
+                `<p>${escapeHtml(paragraph)}</p>`
+        )
+        .join('');
+
+}
 
 
 async function loadArticle() {
@@ -654,6 +750,7 @@ async function loadArticle() {
                 title,
                 subtitle,
                 content,
+                content_html,
                 category,
                 image_url,
                 created_at,
@@ -682,7 +779,9 @@ async function loadArticle() {
     }
 
 
-    // Заглавие
+    // ==========================================
+    // ЗАГЛАВИЕ
+    // ==========================================
 
     document.getElementById(
         'article-title'
@@ -690,7 +789,9 @@ async function loadArticle() {
         data.title || '';
 
 
-    // Подзаглавие
+    // ==========================================
+    // ПОДЗАГЛАВИЕ
+    // ==========================================
 
     const subtitle =
         document.getElementById(
@@ -710,7 +811,9 @@ async function loadArticle() {
     }
 
 
-    // Категория
+    // ==========================================
+    // КАТЕГОРИЯ
+    // ==========================================
 
     document.getElementById(
         'article-meta'
@@ -718,8 +821,9 @@ async function loadArticle() {
         data.category || 'Новини';
 
 
-    // Автор
-    // Винаги СПИСАНИЕТО.
+    // ==========================================
+    // АВТОР
+    // ==========================================
 
     document.getElementById(
         'article-author'
@@ -727,7 +831,9 @@ async function loadArticle() {
         'Автор: СПИСАНИЕТО.';
 
 
-    // Дата
+    // ==========================================
+    // ДАТА
+    // ==========================================
 
     let formattedDate = '';
 
@@ -749,13 +855,13 @@ async function loadArticle() {
     }
 
 
-    // Брой прочитания преди текущото отваряне
+    // ==========================================
+    // БРОЙ ПРОЧИТАНИЯ
+    // ==========================================
 
     let currentViews =
         Number(data.views) || 0;
 
-
-    // Увеличаваме броя на гледанията
 
     const {
         error: viewsError
@@ -786,8 +892,6 @@ async function loadArticle() {
     }
 
 
-    // Дата + само числото на прочитанията
-
     document.getElementById(
         'article-date'
     ).textContent =
@@ -796,7 +900,9 @@ async function loadArticle() {
         currentViews;
 
 
-    // Основна снимка
+    // ==========================================
+    // ОСНОВНА СНИМКА
+    // ==========================================
 
     const image =
         document.getElementById(
@@ -819,7 +925,9 @@ async function loadArticle() {
     }
 
 
-    // Основен текст
+    // ==========================================
+    // ОСНОВЕН ТЕКСТ
+    // ==========================================
 
     const body =
         document.getElementById(
@@ -827,28 +935,32 @@ async function loadArticle() {
         );
 
 
-    if (data.content) {
+    /*
+       Новите новини използват content_html.
 
-        const paragraphs =
-            data.content
-                .split(/\n\s*\n/)
-                .map(
-                    paragraph =>
-                        paragraph.trim()
-                )
-                .filter(
-                    paragraph =>
-                        paragraph.length > 0
-                );
+       Ако content_html съществува,
+       показваме форматирания текст.
 
+       Ако е стара новина и няма content_html,
+       използваме старото поле content.
+    */
+
+    if (
+        data.content_html &&
+        data.content_html.trim()
+    ) {
 
         body.innerHTML =
-            paragraphs
-                .map(
-                    paragraph =>
-                        `<p>${escapeHtml(paragraph)}</p>`
-                )
-                .join('');
+            sanitizeArticleHtml(
+                data.content_html
+            );
+
+    } else if (data.content) {
+
+        body.innerHTML =
+            plainTextToHtml(
+                data.content
+            );
 
     } else {
 
@@ -935,8 +1047,6 @@ async function loadArticle() {
         gallery.style.display =
             'block';
 
-
-        // Отваряне на снимката в голям размер
 
         document
             .querySelectorAll('.gallery-item')
@@ -1067,7 +1177,9 @@ async function loadArticle() {
         encodedTitle;
 
 
-    // Показваме статията
+    // ==========================================
+    // ПОКАЗВАМЕ СТАТИЯТА
+    // ==========================================
 
     loading.style.display =
         'none';
@@ -1075,8 +1187,6 @@ async function loadArticle() {
     article.style.display =
         'block';
 
-
-    // Заглавието на браузъра
 
     document.title =
         data.title +
@@ -1183,9 +1293,13 @@ document.addEventListener(
 );
 
 
+// ==========================================
+// ESCAPE HTML
+// ==========================================
+
 function escapeHtml(text) {
 
-    return text
+    return String(text || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
