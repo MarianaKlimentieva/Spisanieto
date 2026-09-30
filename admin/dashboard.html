@@ -386,10 +386,15 @@
       cursor: not-allowed;
     }
 
+    /* ========================= */
+    /* НА ФОКУС */
+    /* ========================= */
+
     .featured-box {
       margin-top: 20px;
-      padding: 15px;
+      padding: 18px;
       background: #f7f4ef;
+      border: 1px solid #e5dfd7;
       border-radius: 5px;
     }
 
@@ -399,11 +404,23 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     .featured-box input {
       width: auto;
       margin: 0;
+      transform: scale(1.15);
+      cursor: pointer;
+    }
+
+    .featured-help {
+      margin-top: 8px;
+      margin-left: 28px;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: normal;
     }
 
     button.save {
@@ -970,9 +987,14 @@
             id="is_featured"
           >
 
-          ⭐ Избрана новина
+          🎯 На фокус
 
         </label>
+
+        <div class="featured-help">
+          Маркирай тази новина, ако искаш да се показва в блока
+          „Теми на фокус“ на началната страница.
+        </div>
 
       </div>
 
@@ -1126,6 +1148,9 @@
 
   const editorAlign =
     document.getElementById('editorAlign');
+
+  const featuredCheckbox =
+    document.getElementById('is_featured');
 
 
   let editingId = null;
@@ -2324,7 +2349,7 @@
                 ? `
 
                   <span class="featured-label">
-                    ⭐ Избрана новина
+                    🎯 На фокус
                   </span>
 
                 `
@@ -2472,7 +2497,7 @@
     document.getElementById('author').value =
       data.author || 'СПИСАНИЕТО.';
 
-    document.getElementById('is_featured').checked =
+    featuredCheckbox.checked =
       data.is_featured === true;
 
     imageFile.value =
@@ -2555,7 +2580,7 @@
     document.getElementById('author').value =
       'СПИСАНИЕТО.';
 
-    document.getElementById('is_featured').checked =
+    featuredCheckbox.checked =
       false;
 
     contentEditor.innerHTML =
@@ -2650,9 +2675,7 @@
           .trim();
 
       const is_featured =
-        document
-          .getElementById('is_featured')
-          .checked;
+        featuredCheckbox.checked;
 
       if (!title) {
 
