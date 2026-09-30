@@ -167,6 +167,92 @@
             margin: 2.5rem 0;
         }
 
+        /* ==========================================
+           ГАЛЕРИЯ
+           ========================================== */
+
+        .article-gallery {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            display: block;
+            overflow: hidden;
+            border-radius: 2px;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ==========================================
+           LIGHTBOX
+           ========================================== */
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-image {
+            max-width: 95vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-color);
+        }
+
         /* СПОДЕЛЯНЕ */
 
         .share-box {
@@ -289,6 +375,14 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item img {
+                height: 240px;
+            }
         }
     </style>
 </head>
@@ -349,6 +443,26 @@
 
 
         <div class="article-body" id="article-body"></div>
+
+
+        <!-- ГАЛЕРИЯ -->
+
+        <div
+            id="article-gallery"
+            class="article-gallery"
+            style="display:none;"
+        >
+
+            <h2 class="gallery-title">
+                Още снимки
+            </h2>
+
+            <div
+                id="gallery-grid"
+                class="gallery-grid"
+            ></div>
+
+        </div>
 
 
         <!-- БУТОНИ ЗА СПОДЕЛЯНЕ -->
@@ -441,6 +555,33 @@
     </div>
 
 </main>
+
+
+<!-- LIGHTBOX -->
+
+<div
+    id="lightbox"
+    class="lightbox"
+    aria-hidden="true"
+>
+
+    <button
+        id="lightbox-close"
+        class="lightbox-close"
+        type="button"
+        aria-label="Затвори"
+    >
+        ×
+    </button>
+
+    <img
+        id="lightbox-image"
+        class="lightbox-image"
+        src=""
+        alt=""
+    >
+
+</div>
 
 
 <footer>
@@ -636,7 +777,6 @@ async function loadArticle() {
 
     } else {
 
-        // Текущото отваряне вече е отчетено
         currentViews++;
 
         console.log(
@@ -656,7 +796,7 @@ async function loadArticle() {
         currentViews;
 
 
-    // Снимка
+    // Основна снимка
 
     const image =
         document.getElementById(
@@ -719,6 +859,110 @@ async function loadArticle() {
 
 
     // ==========================================
+    // ГАЛЕРИЯ ОТ ДОПЪЛНИТЕЛНИ СНИМКИ
+    // ==========================================
+
+    const gallery =
+        document.getElementById(
+            'article-gallery'
+        );
+
+    const galleryGrid =
+        document.getElementById(
+            'gallery-grid'
+        );
+
+
+    const {
+        data: galleryImages,
+        error: galleryError
+    } =
+        await supabase
+            .from('news_images')
+            .select(`
+                id,
+                image_url,
+                sort_order
+            `)
+            .eq(
+                'news_id',
+                Number(articleId)
+            )
+            .order(
+                'sort_order',
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (galleryError) {
+
+        console.error(
+            'Грешка при зареждане на галерията:',
+            galleryError
+        );
+
+    }
+
+
+    if (
+        !galleryError &&
+        galleryImages &&
+        galleryImages.length > 0
+    ) {
+
+        galleryGrid.innerHTML =
+            galleryImages
+                .map(
+                    item => `
+                        <a
+                            href="${escapeHtml(item.image_url)}"
+                            class="gallery-item"
+                            data-gallery-image="${escapeHtml(item.image_url)}"
+                        >
+                            <img
+                                src="${escapeHtml(item.image_url)}"
+                                alt="Допълнителна снимка"
+                                loading="lazy"
+                            >
+                        </a>
+                    `
+                )
+                .join('');
+
+
+        gallery.style.display =
+            'block';
+
+
+        // Отваряне на снимката в голям размер
+
+        document
+            .querySelectorAll('.gallery-item')
+            .forEach(
+                item => {
+
+                    item.addEventListener(
+                        'click',
+                        function(event) {
+
+                            event.preventDefault();
+
+                            openLightbox(
+                                this.dataset.galleryImage
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    // ==========================================
     // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
     // ==========================================
 
@@ -741,14 +985,6 @@ async function loadArticle() {
     // ==========================================
     // FACEBOOK
     // ==========================================
-
-    /*
-     * Facebook получава Worker URL.
-     *
-     * Worker-ът взема ID-то на новината
-     * от Supabase и подава Open Graph
-     * заглавие, описание и снимка.
-     */
 
     const sharePreviewUrl =
         'https://spisanieto-share.mklimentieva.workers.dev/?id=' +
@@ -847,6 +1083,104 @@ async function loadArticle() {
         ' — СПИСАНИЕТО.';
 
 }
+
+
+// ==========================================
+// LIGHTBOX
+// ==========================================
+
+const lightbox =
+    document.getElementById(
+        'lightbox'
+    );
+
+const lightboxImage =
+    document.getElementById(
+        'lightbox-image'
+    );
+
+const lightboxClose =
+    document.getElementById(
+        'lightbox-close'
+    );
+
+
+function openLightbox(imageUrl) {
+
+    lightboxImage.src =
+        imageUrl;
+
+    lightbox.classList.add(
+        'active'
+    );
+
+    lightbox.setAttribute(
+        'aria-hidden',
+        'false'
+    );
+
+    document.body.style.overflow =
+        'hidden';
+
+}
+
+
+function closeLightbox() {
+
+    lightbox.classList.remove(
+        'active'
+    );
+
+    lightbox.setAttribute(
+        'aria-hidden',
+        'true'
+    );
+
+    lightboxImage.src =
+        '';
+
+    document.body.style.overflow =
+        '';
+
+}
+
+
+lightboxClose.addEventListener(
+    'click',
+    closeLightbox
+);
+
+
+lightbox.addEventListener(
+    'click',
+    function(event) {
+
+        if (
+            event.target === lightbox
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    'keydown',
+    function(event) {
+
+        if (
+            event.key === 'Escape'
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
 
 
 function escapeHtml(text) {
