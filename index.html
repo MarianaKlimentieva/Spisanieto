@@ -667,6 +667,57 @@
         }
 
         /* =========================================
+           ПОСЛЕДНИ НОВИНИ
+        ========================================= */
+
+        .latest-list {
+            list-style: none;
+        }
+
+        .latest-item {
+            padding: 0 0 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .latest-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .latest-category {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .latest-link {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.25;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .latest-link:hover {
+            color: var(--accent-color);
+        }
+
+        .latest-date {
+            display: block;
+            margin-top: 0.3rem;
+            font-size: 0.68rem;
+            color: #777;
+        }
+
+        /* =========================================
            QUOTE
         ========================================= */
 
@@ -1415,6 +1466,33 @@
                             </span>
 
                             <span class="popular-text">
+                                Зареждане...
+                            </span>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- =========================================
+                     ПОСЛЕДНИ НОВИНИ
+                ========================================= -->
+
+                <div class="sidebar-box">
+
+                    <h4 class="sidebar-title">
+                        Последни новини
+                    </h4>
+
+                    <ul
+                        class="latest-list"
+                        id="latest-news"
+                    >
+
+                        <li class="latest-item">
+
+                            <span class="latest-date">
                                 Зареждане...
                             </span>
 
@@ -2738,6 +2816,120 @@
         }
 
         /* =========================================
+           ПОСЛЕДНИ НОВИНИ
+        ========================================= */
+
+        async function loadLatestNews() {
+
+            const container =
+                document.getElementById(
+                    'latest-news'
+                );
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+                    .from('news')
+                    .select(`
+                        id,
+                        title,
+                        category,
+                        created_at
+                    `)
+                    .eq(
+                        'status',
+                        'published'
+                    )
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(5);
+
+            if (error) {
+
+                console.error(
+                    'Latest news Supabase error:',
+                    error
+                );
+
+                container.innerHTML = `
+                    <li class="latest-item">
+                        <span class="latest-date">
+                            Не успяхме да заредим последните новини.
+                        </span>
+                    </li>
+                `;
+
+                return;
+            }
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <li class="latest-item">
+                        <span class="latest-date">
+                            Все още няма публикувани новини.
+                        </span>
+                    </li>
+                `;
+
+                return;
+            }
+
+            container.innerHTML =
+                data
+                    .map(
+                        news => {
+
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
+
+                            const date =
+                                news.created_at
+                                    ? new Date(
+                                        news.created_at
+                                    ).toLocaleDateString(
+                                        'bg-BG'
+                                    )
+                                    : '';
+
+                            return `
+                                <li class="latest-item">
+
+                                    <span class="latest-category">
+                                        ${escapeHtml(
+                                            news.category ||
+                                            'Новини'
+                                        )}
+                                    </span>
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="latest-link"
+                                    >
+                                        ${escapeHtml(news.title)}
+                                    </a>
+
+                                    <span class="latest-date">
+                                        ${date}
+                                    </span>
+
+                                </li>
+                            `;
+                        }
+                    )
+                    .join('');
+        }
+
+        /* =========================================
            HERO
         ========================================= */
 
@@ -3089,6 +3281,8 @@
         loadHighlights();
 
         loadPopularNews();
+
+        loadLatestNews();
 
         loadHero();
 
