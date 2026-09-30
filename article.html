@@ -237,6 +237,11 @@
             border-color: #111;
         }
 
+        .share-button.telegram:hover {
+            background: #229ED9;
+            border-color: #229ED9;
+        }
+
         .message {
             text-align: center;
             padding: 5rem 1rem;
@@ -405,6 +410,17 @@
                     title="Сподели в X"
                 >
                     𝕏
+                </a>
+
+                <a
+                    id="share-telegram"
+                    class="share-button telegram"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Сподели в Telegram"
+                >
+                    ✈
                 </a>
 
             </div>
@@ -796,6 +812,19 @@ async function loadArticle() {
         encodedTitle +
         '&url=' +
         encodedArticleUrl;
+
+
+    // ==========================================
+    // TELEGRAM
+    // ==========================================
+
+    document.getElementById(
+        'share-telegram'
+    ).href =
+        'https://t.me/share/url?url=' +
+        encodedArticleUrl +
+        '&text=' +
+        encodedTitle;
 
 
     // Показваме статията
