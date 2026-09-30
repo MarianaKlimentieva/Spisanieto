@@ -493,8 +493,6 @@
         <div class="article-body" id="article-body"></div>
 
 
-        <!-- ГАЛЕРИЯ -->
-
         <div
             id="article-gallery"
             class="article-gallery"
@@ -512,8 +510,6 @@
 
         </div>
 
-
-        <!-- БУТОНИ ЗА СПОДЕЛЯНЕ -->
 
         <div class="share-box">
 
@@ -605,8 +601,6 @@
 </main>
 
 
-<!-- LIGHTBOX -->
-
 <div
     id="lightbox"
     class="lightbox"
@@ -662,19 +656,12 @@ const supabase = createClient(
 );
 
 
-// Вземаме ID-то от адреса:
-// article.html?id=123
-
 const params = new URLSearchParams(
     window.location.search
 );
 
 const articleId = params.get('id');
 
-
-// ==========================================
-// БЕЗОПАСНО HTML САНИТИЗИРАНЕ
-// ==========================================
 
 function sanitizeArticleHtml(html) {
 
@@ -683,6 +670,7 @@ function sanitizeArticleHtml(html) {
         {
             ALLOWED_TAGS: [
                 'p',
+                'div',
                 'br',
                 'strong',
                 'b',
@@ -701,7 +689,8 @@ function sanitizeArticleHtml(html) {
             ALLOWED_ATTR: [
                 'href',
                 'target',
-                'rel'
+                'rel',
+                'style'
             ],
 
             ALLOW_DATA_ATTR: false
@@ -710,10 +699,6 @@ function sanitizeArticleHtml(html) {
 
 }
 
-
-// ==========================================
-// СТАРИЯТ ФОРМАТ НА ТЕКСТА
-// ==========================================
 
 function plainTextToHtml(text) {
 
@@ -802,19 +787,11 @@ async function loadArticle() {
     }
 
 
-    // ==========================================
-    // ЗАГЛАВИЕ
-    // ==========================================
-
     document.getElementById(
         'article-title'
     ).textContent =
         data.title || '';
 
-
-    // ==========================================
-    // ПОДЗАГЛАВИЕ
-    // ==========================================
 
     const subtitle =
         document.getElementById(
@@ -834,29 +811,17 @@ async function loadArticle() {
     }
 
 
-    // ==========================================
-    // КАТЕГОРИЯ
-    // ==========================================
-
     document.getElementById(
         'article-meta'
     ).textContent =
         data.category || 'Новини';
 
 
-    // ==========================================
-    // АВТОР
-    // ==========================================
-
     document.getElementById(
         'article-author'
     ).textContent =
         'Автор: СПИСАНИЕТО.';
 
-
-    // ==========================================
-    // ДАТА
-    // ==========================================
 
     let formattedDate = '';
 
@@ -877,10 +842,6 @@ async function loadArticle() {
 
     }
 
-
-    // ==========================================
-    // БРОЙ ПРОЧИТАНИЯ
-    // ==========================================
 
     let currentViews =
         Number(data.views) || 0;
@@ -923,10 +884,6 @@ async function loadArticle() {
         currentViews;
 
 
-    // ==========================================
-    // ОСНОВНА СНИМКА
-    // ==========================================
-
     const image =
         document.getElementById(
             'article-image'
@@ -948,25 +905,11 @@ async function loadArticle() {
     }
 
 
-    // ==========================================
-    // ОСНОВЕН ТЕКСТ
-    // ==========================================
-
     const body =
         document.getElementById(
             'article-body'
         );
 
-
-    /*
-       Новите новини използват content_html.
-
-       Ако content_html съществува,
-       показваме форматирания текст.
-
-       Ако е стара новина и няма content_html,
-       използваме старото поле content.
-    */
 
     if (
         data.content_html &&
@@ -992,10 +935,6 @@ async function loadArticle() {
 
     }
 
-
-    // ==========================================
-    // ГАЛЕРИЯ ОТ ДОПЪЛНИТЕЛНИ СНИМКИ
-    // ==========================================
 
     const gallery =
         document.getElementById(
@@ -1095,10 +1034,6 @@ async function loadArticle() {
     }
 
 
-    // ==========================================
-    // СПОДЕЛЯНЕ В СОЦИАЛНИ МРЕЖИ
-    // ==========================================
-
     const articleUrl =
         window.location.href;
 
@@ -1114,10 +1049,6 @@ async function loadArticle() {
             articleUrl
         );
 
-
-    // ==========================================
-    // FACEBOOK
-    // ==========================================
 
     const sharePreviewUrl =
         'https://spisanieto-share.mklimentieva.workers.dev/?id=' +
@@ -1137,20 +1068,12 @@ async function loadArticle() {
         encodedSharePreviewUrl;
 
 
-    // ==========================================
-    // MESSENGER
-    // ==========================================
-
     document.getElementById(
         'share-messenger'
     ).href =
         'https://www.facebook.com/dialog/send?link=' +
         encodedArticleUrl;
 
-
-    // ==========================================
-    // VIBER
-    // ==========================================
 
     document.getElementById(
         'share-viber'
@@ -1161,10 +1084,6 @@ async function loadArticle() {
         encodedArticleUrl;
 
 
-    // ==========================================
-    // WHATSAPP
-    // ==========================================
-
     document.getElementById(
         'share-whatsapp'
     ).href =
@@ -1173,10 +1092,6 @@ async function loadArticle() {
         '%20' +
         encodedArticleUrl;
 
-
-    // ==========================================
-    // X
-    // ==========================================
 
     document.getElementById(
         'share-x'
@@ -1187,10 +1102,6 @@ async function loadArticle() {
         encodedArticleUrl;
 
 
-    // ==========================================
-    // TELEGRAM
-    // ==========================================
-
     document.getElementById(
         'share-telegram'
     ).href =
@@ -1199,10 +1110,6 @@ async function loadArticle() {
         '&text=' +
         encodedTitle;
 
-
-    // ==========================================
-    // ПОКАЗВАМЕ СТАТИЯТА
-    // ==========================================
 
     loading.style.display =
         'none';
@@ -1217,10 +1124,6 @@ async function loadArticle() {
 
 }
 
-
-// ==========================================
-// LIGHTBOX
-// ==========================================
 
 const lightbox =
     document.getElementById(
@@ -1315,10 +1218,6 @@ document.addEventListener(
     }
 );
 
-
-// ==========================================
-// ESCAPE HTML
-// ==========================================
 
 function escapeHtml(text) {
 
