@@ -196,6 +196,31 @@
       font-size: 17px;
     }
 
+    /* НОВО: Нормален текст */
+
+    .normal-button {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* НОВО: Подравняване */
+
+    .editor-align {
+      height: 38px;
+      min-width: 150px;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      background: white;
+      color: #222;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .editor-align:hover {
+      background: #eee;
+    }
+
     .editor-content {
       width: 100%;
       min-height: 350px;
@@ -578,6 +603,10 @@
         min-height: 300px;
       }
 
+      .editor-align {
+        min-width: 130px;
+      }
+
     }
 
   </style>
@@ -801,6 +830,17 @@
           <u>U</u>
         </button>
 
+        <!-- НОВО: НОРМАЛЕН ТЕКСТ -->
+
+        <button
+          type="button"
+          class="editor-button normal-button"
+          id="removeFormatting"
+          title="Върни към нормален текст"
+        >
+          ↶
+        </button>
+
         <button
           type="button"
           class="editor-button"
@@ -864,6 +904,34 @@
           ❝
         </button>
 
+        <!-- НОВО: ПОДРАВНЯВАНЕ -->
+
+        <select
+          id="editorAlign"
+          class="editor-align"
+          title="Подравняване на текста"
+        >
+          <option value="">
+            Подравняване
+          </option>
+
+          <option value="justifyLeft">
+            ← Ляво
+          </option>
+
+          <option value="justifyCenter">
+            ↔ Център
+          </option>
+
+          <option value="justifyRight">
+            → Дясно
+          </option>
+
+          <option value="justifyFull">
+            ↔ Двустранно
+          </option>
+        </select>
+
       </div>
 
 
@@ -880,13 +948,16 @@
         <strong>B</strong>,
         <em>I</em>,
         <u>U</u>,
+        ↶ за нормален текст,
         H2, H3,
         списък,
-        🔗 за линк или ❝ за цитат.
+        🔗 за линк,
+        ❝ за цитат или избери подравняване.
       </div>
 
 
       <!-- Скрито старо поле за съвместимост -->
+
       <textarea
         id="content"
         style="display:none;"
@@ -1063,6 +1134,14 @@
 
   const removeLinkButton =
     document.getElementById('removeLink');
+
+  /* НОВО */
+
+  const removeFormattingButton =
+    document.getElementById('removeFormatting');
+
+  const editorAlign =
+    document.getElementById('editorAlign');
 
 
   let editingId = null;
@@ -1270,6 +1349,92 @@
       );
 
     });
+
+
+
+  /* ========================= */
+  /* НОВО: НОРМАЛЕН ТЕКСТ */
+  /* ========================= */
+
+  removeFormattingButton.addEventListener(
+    'mousedown',
+    function(event) {
+
+      event.preventDefault();
+
+    }
+  );
+
+
+  removeFormattingButton.addEventListener(
+    'click',
+    function() {
+
+      restoreSelection();
+
+
+      document.execCommand(
+        'removeFormat',
+        false,
+        null
+      );
+
+
+      contentEditor.focus();
+
+      saveSelection();
+
+    }
+  );
+
+
+
+  /* ========================= */
+  /* НОВО: ПОДРАВНЯВАНЕ */
+  /* ========================= */
+
+  editorAlign.addEventListener(
+    'mousedown',
+    function(event) {
+
+      event.stopPropagation();
+
+    }
+  );
+
+
+  editorAlign.addEventListener(
+    'change',
+    function() {
+
+      const command =
+        this.value;
+
+
+      if (!command) {
+        return;
+      }
+
+
+      restoreSelection();
+
+
+      document.execCommand(
+        command,
+        false,
+        null
+      );
+
+
+      contentEditor.focus();
+
+      saveSelection();
+
+
+      this.value = '';
+
+    }
+  );
 
 
 
