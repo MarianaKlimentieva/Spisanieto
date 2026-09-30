@@ -196,14 +196,10 @@
       font-size: 17px;
     }
 
-    /* НОВО: Нормален текст */
-
     .normal-button {
       font-size: 18px;
       font-weight: bold;
     }
-
-    /* НОВО: Подравняване */
 
     .editor-align {
       height: 38px;
@@ -793,10 +789,6 @@
       ></div>
 
 
-      <!-- ========================= -->
-      <!-- РЕДАКТОР НА ТЕКСТА -->
-      <!-- ========================= -->
-
       <label>
         Текст на новината
       </label>
@@ -829,8 +821,6 @@
         >
           <u>U</u>
         </button>
-
-        <!-- НОВО: НОРМАЛЕН ТЕКСТ -->
 
         <button
           type="button"
@@ -904,8 +894,6 @@
           ❝
         </button>
 
-        <!-- НОВО: ПОДРАВНЯВАНЕ -->
-
         <select
           id="editorAlign"
           class="editor-align"
@@ -955,8 +943,6 @@
         ❝ за цитат или избери подравняване.
       </div>
 
-
-      <!-- Скрито старо поле за съвместимост -->
 
       <textarea
         id="content"
@@ -1135,8 +1121,6 @@
   const removeLinkButton =
     document.getElementById('removeLink');
 
-  /* НОВО */
-
   const removeFormattingButton =
     document.getElementById('removeFormatting');
 
@@ -1151,11 +1135,6 @@
   let savedSelection = null;
 
 
-
-  /* ========================= */
-  /* ПРОВЕРКА НА ВХОДА */
-  /* ========================= */
-
   const {
     data: { session }
   } = await supabase.auth.getSession();
@@ -1168,11 +1147,6 @@
 
   }
 
-
-
-  /* ========================= */
-  /* HTML ESCAPE */
-  /* ========================= */
 
   function escapeHtml(value) {
 
@@ -1187,11 +1161,6 @@
 
   }
 
-
-
-  /* ========================= */
-  /* ДАТА */
-  /* ========================= */
 
   function formatDate(dateString) {
 
@@ -1211,11 +1180,6 @@
 
   }
 
-
-
-  /* ========================= */
-  /* СЕЛЕКЦИЯ В РЕДАКТОРА */
-  /* ========================= */
 
   function saveSelection() {
 
@@ -1264,29 +1228,21 @@
   }
 
 
-
   contentEditor.addEventListener(
     'mouseup',
     saveSelection
   );
-
 
   contentEditor.addEventListener(
     'keyup',
     saveSelection
   );
 
-
   contentEditor.addEventListener(
     'blur',
     saveSelection
   );
 
-
-
-  /* ========================= */
-  /* БУТОНИ НА РЕДАКТОРА */
-  /* ========================= */
 
   document
     .querySelectorAll(
@@ -1297,12 +1253,9 @@
       button.addEventListener(
         'mousedown',
         function(event) {
-
           event.preventDefault();
-
         }
       );
-
 
       button.addEventListener(
         'click',
@@ -1310,14 +1263,11 @@
 
           restoreSelection();
 
-
           const command =
             this.dataset.command;
 
-
           const format =
             this.dataset.format;
-
 
           if (command) {
 
@@ -1329,7 +1279,6 @@
 
           }
 
-
           if (format) {
 
             document.execCommand(
@@ -1339,7 +1288,6 @@
             );
 
           }
-
 
           contentEditor.focus();
 
@@ -1351,17 +1299,10 @@
     });
 
 
-
-  /* ========================= */
-  /* НОВО: НОРМАЛЕН ТЕКСТ */
-  /* ========================= */
-
   removeFormattingButton.addEventListener(
     'mousedown',
     function(event) {
-
       event.preventDefault();
-
     }
   );
 
@@ -1372,32 +1313,15 @@
 
       restoreSelection();
 
-
       document.execCommand(
         'removeFormat',
         false,
         null
       );
 
-
       contentEditor.focus();
 
       saveSelection();
-
-    }
-  );
-
-
-
-  /* ========================= */
-  /* НОВО: ПОДРАВНЯВАНЕ */
-  /* ========================= */
-
-  editorAlign.addEventListener(
-    'mousedown',
-    function(event) {
-
-      event.stopPropagation();
 
     }
   );
@@ -1410,14 +1334,11 @@
       const command =
         this.value;
 
-
       if (!command) {
         return;
       }
 
-
       restoreSelection();
-
 
       document.execCommand(
         command,
@@ -1425,11 +1346,9 @@
         null
       );
 
-
       contentEditor.focus();
 
       saveSelection();
-
 
       this.value = '';
 
@@ -1437,17 +1356,10 @@
   );
 
 
-
-  /* ========================= */
-  /* ДОБАВЯНЕ НА ЛИНК */
-  /* ========================= */
-
   addLinkButton.addEventListener(
     'mousedown',
     function(event) {
-
       event.preventDefault();
-
     }
   );
 
@@ -1458,10 +1370,8 @@
 
       restoreSelection();
 
-
       const selection =
         window.getSelection();
-
 
       if (
         !selection ||
@@ -1479,13 +1389,11 @@
 
       }
 
-
       const url =
         prompt(
           'Въведи адреса на линка:',
           'https://'
         );
-
 
       if (!url) {
 
@@ -1495,10 +1403,8 @@
 
       }
 
-
       let finalUrl =
         url.trim();
-
 
       if (
         !/^https?:\/\//i.test(finalUrl) &&
@@ -1512,12 +1418,9 @@
 
       }
 
-
       try {
 
-        new URL(
-          finalUrl
-        );
+        new URL(finalUrl);
 
       } catch (error) {
 
@@ -1530,7 +1433,6 @@
         return;
 
       }
-
 
       document.execCommand(
         'createLink',
@@ -1571,17 +1473,10 @@
   );
 
 
-
-  /* ========================= */
-  /* ПРЕМАХВАНЕ НА ЛИНК */
-  /* ========================= */
-
   removeLinkButton.addEventListener(
     'mousedown',
     function(event) {
-
       event.preventDefault();
-
     }
   );
 
@@ -1592,13 +1487,11 @@
 
       restoreSelection();
 
-
       document.execCommand(
         'unlink',
         false,
         null
       );
-
 
       contentEditor.focus();
 
@@ -1608,21 +1501,14 @@
   );
 
 
-
-  /* ========================= */
-  /* ПРЕОБРАЗУВАНЕ НА HTML */
-  /* ========================= */
-
   function plainTextToHtml(text) {
 
     if (!text) {
       return '';
     }
 
-
     const escaped =
       escapeHtml(text);
-
 
     return escaped
       .split(/\n\s*\n/)
@@ -1640,7 +1526,6 @@
   }
 
 
-
   function sanitizeEditorHtml(html) {
 
     return DOMPurify.sanitize(
@@ -1648,6 +1533,7 @@
       {
         ALLOWED_TAGS: [
           'p',
+          'div',
           'br',
           'strong',
           'b',
@@ -1666,7 +1552,8 @@
         ALLOWED_ATTR: [
           'href',
           'target',
-          'rel'
+          'rel',
+          'style'
         ],
 
         ALLOW_DATA_ATTR: false
@@ -1674,7 +1561,6 @@
     );
 
   }
-
 
 
   function getEditorHtml() {
@@ -1686,7 +1572,6 @@
   }
 
 
-
   function getEditorText() {
 
     return contentEditor
@@ -1696,11 +1581,6 @@
 
   }
 
-
-
-  /* ========================= */
-  /* ПРЕГЛЕД НА НОВА СНИМКА */
-  /* ========================= */
 
   imageFile.addEventListener(
     'change',
@@ -1721,7 +1601,6 @@
 
       }
 
-
       if (!file.type.startsWith('image/')) {
 
         message.textContent =
@@ -1736,18 +1615,14 @@
 
       }
 
-
       const previewUrl =
         URL.createObjectURL(file);
-
 
       imagePreviewImage.src =
         previewUrl;
 
-
       imagePreview.style.display =
         'block';
-
 
       message.textContent =
         '';
@@ -1755,11 +1630,6 @@
     }
   );
 
-
-
-  /* ========================= */
-  /* ПРЕГЛЕД НА ГАЛЕРИЯТА */
-  /* ========================= */
 
   galleryFiles.addEventListener(
     'change',
@@ -1771,11 +1641,9 @@
       const files =
         Array.from(this.files || []);
 
-
       if (!files.length) {
         return;
       }
-
 
       for (const file of files) {
 
@@ -1783,17 +1651,14 @@
           continue;
         }
 
-
         const previewUrl =
           URL.createObjectURL(file);
-
 
         const item =
           document.createElement('div');
 
         item.className =
           'gallery-preview-item';
-
 
         const img =
           document.createElement('img');
@@ -1804,7 +1669,6 @@
         img.alt =
           file.name;
 
-
         const name =
           document.createElement('div');
 
@@ -1813,7 +1677,6 @@
 
         name.textContent =
           file.name;
-
 
         item.appendChild(img);
 
@@ -1827,17 +1690,11 @@
   );
 
 
-
-  /* ========================= */
-  /* КАЧВАНЕ НА СНИМКА */
-  /* ========================= */
-
   async function uploadImage(file) {
 
     if (!file) {
       return null;
     }
-
 
     if (!file.type.startsWith('image/')) {
 
@@ -1847,14 +1704,12 @@
 
     }
 
-
     const allowedTypes = [
       'image/jpeg',
       'image/png',
       'image/webp',
       'image/gif'
     ];
-
 
     if (!allowedTypes.includes(file.type)) {
 
@@ -1864,10 +1719,8 @@
 
     }
 
-
     const maxSize =
       10 * 1024 * 1024;
-
 
     if (file.size > maxSize) {
 
@@ -1877,7 +1730,6 @@
 
     }
 
-
     const extension =
       file.name.includes('.')
         ? file.name
@@ -1886,12 +1738,10 @@
             .toLowerCase()
         : 'jpg';
 
-
     const safeExtension =
       extension === 'jpeg'
         ? 'jpg'
         : extension;
-
 
     const uniqueName =
       Date.now() +
@@ -1900,21 +1750,16 @@
       '.' +
       safeExtension;
 
-
     const filePath =
       'news/' +
       uniqueName;
-
 
     const {
       data,
       error
     } = await supabase
-
       .storage
-
       .from(STORAGE_BUCKET)
-
       .upload(
         filePath,
         file,
@@ -1924,7 +1769,6 @@
           upsert: false
         }
       );
-
 
     if (error) {
 
@@ -1940,20 +1784,15 @@
 
     }
 
-
     const {
       data: publicData
     } =
       supabase
-
         .storage
-
         .from(STORAGE_BUCKET)
-
         .getPublicUrl(
           data.path
         );
-
 
     if (
       !publicData ||
@@ -1966,16 +1805,10 @@
 
     }
 
-
     return publicData.publicUrl;
 
   }
 
-
-
-  /* ========================= */
-  /* ПЪТ НА STORAGE ФАЙЛ */
-  /* ========================= */
 
   function getStoragePathFromUrl(
     imageUrl
@@ -1985,30 +1818,24 @@
       return null;
     }
 
-
     const marker =
       `/storage/v1/object/public/${STORAGE_BUCKET}/`;
-
 
     const markerIndex =
       imageUrl.indexOf(marker);
 
-
     if (markerIndex === -1) {
       return null;
     }
-
 
     const path =
       imageUrl.substring(
         markerIndex + marker.length
       );
 
-
     if (!path) {
       return null;
     }
-
 
     try {
 
@@ -2023,11 +1850,6 @@
   }
 
 
-
-  /* ========================= */
-  /* КАЧВАНЕ НА ГАЛЕРИЯ */
-  /* ========================= */
-
   async function uploadGalleryImages(
     newsId,
     files
@@ -2036,35 +1858,27 @@
     const selectedFiles =
       Array.from(files || []);
 
-
     if (!selectedFiles.length) {
       return;
     }
-
 
     const {
       data: existingImages,
       error: existingError
     } = await supabase
-
       .from('news_images')
-
       .select('sort_order')
-
       .eq(
         'news_id',
         newsId
       )
-
       .order(
         'sort_order',
         {
           ascending: false
         }
       )
-
       .limit(1);
-
 
     if (existingError) {
 
@@ -2080,9 +1894,7 @@
 
     }
 
-
     let nextSortOrder = 0;
-
 
     if (
       existingImages &&
@@ -2096,7 +1908,6 @@
 
     }
 
-
     for (
       let index = 0;
       index < selectedFiles.length;
@@ -2106,21 +1917,16 @@
       const file =
         selectedFiles[index];
 
-
       message.textContent =
         `Качване на допълнителна снимка ${index + 1} от ${selectedFiles.length}...`;
-
 
       const imageUrl =
         await uploadImage(file);
 
-
       const {
         error
       } = await supabase
-
         .from('news_images')
-
         .insert({
 
           news_id:
@@ -2133,7 +1939,6 @@
             nextSortOrder + index
 
         });
-
 
       if (error) {
 
@@ -2154,11 +1959,6 @@
   }
 
 
-
-  /* ========================= */
-  /* ИЗТРИВАНЕ НА ГАЛЕРИЙНА СНИМКА */
-  /* ========================= */
-
   async function deleteGalleryImage(
     imageId,
     imageUrl
@@ -2169,17 +1969,14 @@
         'Сигурни ли сте, че искате да изтриете тази снимка от галерията?'
       );
 
-
     if (!confirmed) {
       return;
     }
-
 
     const deleteButton =
       document.querySelector(
         `.gallery-delete-button[data-id="${imageId}"]`
       );
-
 
     if (deleteButton) {
 
@@ -2191,7 +1988,6 @@
 
     }
 
-
     try {
 
       const storagePath =
@@ -2199,21 +1995,16 @@
           imageUrl
         );
 
-
       if (storagePath) {
 
         const {
           error: storageError
         } = await supabase
-
           .storage
-
           .from(STORAGE_BUCKET)
-
           .remove([
             storagePath
           ]);
-
 
         if (storageError) {
 
@@ -2231,20 +2022,15 @@
 
       }
 
-
       const {
         error: databaseError
       } = await supabase
-
         .from('news_images')
-
         .delete()
-
         .eq(
           'id',
           imageId
         );
-
 
       if (databaseError) {
 
@@ -2260,10 +2046,8 @@
 
       }
 
-
       message.textContent =
         'Снимката е изтрита успешно.';
-
 
       if (editingId) {
 
@@ -2281,7 +2065,6 @@
         error.message ||
         'Снимката не можа да бъде изтрита.';
 
-
       if (deleteButton) {
 
         deleteButton.disabled =
@@ -2297,11 +2080,6 @@
   }
 
 
-
-  /* ========================= */
-  /* ЗАРЕЖДАНЕ НА ГАЛЕРИЯ */
-  /* ========================= */
-
   async function loadGallery(
     newsId
   ) {
@@ -2312,45 +2090,37 @@
     existingGalleryGrid.innerHTML =
       '';
 
-
     if (!newsId) {
       return;
     }
-
 
     const {
       data,
       error
     } = await supabase
-
       .from('news_images')
-
       .select(`
         id,
         image_url,
         sort_order,
         created_at
       `)
-
       .eq(
         'news_id',
         newsId
       )
-
       .order(
         'sort_order',
         {
           ascending: true
         }
       )
-
       .order(
         'created_at',
         {
           ascending: true
         }
       );
-
 
     if (error) {
 
@@ -2363,11 +2133,9 @@
 
     }
 
-
     if (!data || data.length === 0) {
       return;
     }
-
 
     data.forEach(
       (image, index) => {
@@ -2378,13 +2146,11 @@
         item.className =
           'existing-gallery-item';
 
-
         const imageWrap =
           document.createElement('div');
 
         imageWrap.className =
           'existing-gallery-image-wrap';
-
 
         const img =
           document.createElement('img');
@@ -2395,9 +2161,7 @@
         img.alt =
           `Допълнителна снимка ${index + 1}`;
 
-
         imageWrap.appendChild(img);
-
 
         const caption =
           document.createElement('div');
@@ -2407,7 +2171,6 @@
 
         caption.textContent =
           `Снимка ${index + 1}`;
-
 
         const deleteButton =
           document.createElement('button');
@@ -2424,7 +2187,6 @@
         deleteButton.textContent =
           '🗑️ Изтрий';
 
-
         deleteButton.addEventListener(
           'click',
           function() {
@@ -2437,13 +2199,11 @@
           }
         );
 
-
         item.appendChild(imageWrap);
 
         item.appendChild(caption);
 
         item.appendChild(deleteButton);
-
 
         existingGalleryGrid.appendChild(
           item
@@ -2452,31 +2212,22 @@
       }
     );
 
-
     existingGallery.style.display =
       'block';
 
   }
 
 
-
-  /* ========================= */
-  /* ЗАРЕЖДАНЕ НА НОВИНИТЕ */
-  /* ========================= */
-
   async function loadNews() {
 
     newsList.innerHTML =
       '<div class="loading">Зареждане на новините...</div>';
 
-
     const {
       data,
       error
     } = await supabase
-
       .from('news')
-
       .select(`
         id,
         title,
@@ -2491,16 +2242,13 @@
         created_at,
         updated_at
       `)
-
       .eq('status', 'published')
-
       .order(
         'created_at',
         {
           ascending: false
         }
       );
-
 
     if (error) {
 
@@ -2513,7 +2261,6 @@
 
     }
 
-
     if (!data || data.length === 0) {
 
       newsList.innerHTML =
@@ -2523,14 +2270,12 @@
 
     }
 
-
     newsList.innerHTML =
       data.map(news => {
 
         const image =
           news.image_url ||
           'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
-
 
         return `
 
@@ -2542,13 +2287,11 @@
               alt="${escapeHtml(news.title)}"
             >
 
-
             <div class="news-info">
 
               <div class="news-title">
                 ${escapeHtml(news.title)}
               </div>
-
 
               <div class="news-meta">
 
@@ -2564,7 +2307,6 @@
 
               </div>
 
-
               ${
                 news.subtitle
                 ? `
@@ -2576,7 +2318,6 @@
                 `
                 : ''
               }
-
 
               ${
                 news.is_featured
@@ -2592,7 +2333,6 @@
 
             </div>
 
-
             <div class="news-actions">
 
               <button
@@ -2601,7 +2341,6 @@
               >
                 ✏️ Редактирай
               </button>
-
 
               <button
                 class="delete-button"
@@ -2617,7 +2356,6 @@
         `;
 
       }).join('');
-
 
     document
       .querySelectorAll('.edit-button')
@@ -2636,7 +2374,6 @@
         );
 
       });
-
 
     document
       .querySelectorAll('.delete-button')
@@ -2659,24 +2396,16 @@
   }
 
 
-
-  /* ========================= */
-  /* РЕДАКТИРАНЕ */
-  /* ========================= */
-
   async function startEdit(id) {
 
     message.textContent =
       'Зареждане на новината...';
 
-
     const {
       data,
       error
     } = await supabase
-
       .from('news')
-
       .select(`
         id,
         title,
@@ -2689,11 +2418,8 @@
         is_featured,
         status
       `)
-
       .eq('id', id)
-
       .single();
-
 
     if (error) {
 
@@ -2706,26 +2432,20 @@
 
     }
 
-
     editingId =
       data.id;
-
 
     currentImageUrl =
       data.image_url || '';
 
-
     document.getElementById('title').value =
       data.title || '';
-
 
     document.getElementById('subtitle').value =
       data.subtitle || '';
 
-
     document.getElementById('category').value =
       data.category || '';
-
 
     if (
       data.content_html &&
@@ -2746,18 +2466,14 @@
 
     }
 
-
     content.value =
       data.content || '';
-
 
     document.getElementById('author').value =
       data.author || 'СПИСАНИЕТО.';
 
-
     document.getElementById('is_featured').checked =
       data.is_featured === true;
-
 
     imageFile.value =
       '';
@@ -2773,7 +2489,6 @@
 
     imagePreviewImage.src =
       '';
-
 
     if (currentImageUrl) {
 
@@ -2793,27 +2508,21 @@
 
     }
 
-
     await loadGallery(
       data.id
     );
 
-
     formTitle.textContent =
       'Редактиране на новина';
-
 
     saveButton.textContent =
       'Запази промените';
 
-
     cancelEdit.style.display =
       'inline-block';
 
-
     message.textContent =
       '';
-
 
     window.scrollTo({
       top: 0,
@@ -2822,11 +2531,6 @@
 
   }
 
-
-
-  /* ========================= */
-  /* ОТКАЗ ОТ РЕДАКТИРАНЕ */
-  /* ========================= */
 
   cancelEdit.addEventListener(
     'click',
@@ -2838,7 +2542,6 @@
   );
 
 
-
   function resetForm() {
 
     editingId = null;
@@ -2847,24 +2550,19 @@
 
     savedSelection = null;
 
-
     form.reset();
-
 
     document.getElementById('author').value =
       'СПИСАНИЕТО.';
 
-
     document.getElementById('is_featured').checked =
       false;
-
 
     contentEditor.innerHTML =
       '';
 
     content.value =
       '';
-
 
     imageFile.value =
       '';
@@ -2893,18 +2591,14 @@
     existingGalleryGrid.innerHTML =
       '';
 
-
     formTitle.textContent =
       'Нова новина';
-
 
     saveButton.textContent =
       'Запази новината';
 
-
     cancelEdit.style.display =
       'none';
-
 
     message.textContent =
       '';
@@ -2912,27 +2606,19 @@
   }
 
 
-
-  /* ========================= */
-  /* ЗАПАЗВАНЕ */
-  /* ========================= */
-
   form.addEventListener(
     'submit',
     async function(event) {
 
       event.preventDefault();
 
-
       saveButton.disabled =
         true;
-
 
       message.textContent =
         editingId
         ? 'Запазване на промените...'
         : 'Публикуване...';
-
 
       const title =
         document
@@ -2940,27 +2626,22 @@
           .value
           .trim();
 
-
       const subtitle =
         document
           .getElementById('subtitle')
           .value
           .trim();
 
-
       const category =
         document
           .getElementById('category')
           .value;
 
-
       const content_html =
         getEditorHtml();
 
-
       const contentText =
         getEditorText();
-
 
       const author =
         document
@@ -2968,12 +2649,10 @@
           .value
           .trim();
 
-
       const is_featured =
         document
           .getElementById('is_featured')
           .checked;
-
 
       if (!title) {
 
@@ -2989,7 +2668,6 @@
 
       }
 
-
       if (!category) {
 
         message.textContent =
@@ -3003,7 +2681,6 @@
         return;
 
       }
-
 
       if (!contentText) {
 
@@ -3019,26 +2696,18 @@
 
       }
 
-
       try {
-
-        /* ========================= */
-        /* НОВА ОСНОВНА СНИМКА */
-        /* ========================= */
 
         const selectedFile =
           imageFile.files[0];
 
-
         let image_url =
           currentImageUrl || null;
-
 
         if (selectedFile) {
 
           message.textContent =
             'Качване на основната снимка...';
-
 
           image_url =
             await uploadImage(
@@ -3047,20 +2716,12 @@
 
         }
 
-
-
-        /* ========================= */
-        /* РЕДАКЦИЯ */
-        /* ========================= */
-
         if (editingId) {
 
           const {
             error
           } = await supabase
-
             .from('news')
-
             .update({
 
               title:
@@ -3091,12 +2752,10 @@
                 new Date().toISOString()
 
             })
-
             .eq(
               'id',
               editingId
             );
-
 
           if (error) {
 
@@ -3109,10 +2768,8 @@
 
           }
 
-
           const selectedGalleryFiles =
             galleryFiles.files;
-
 
           if (
             selectedGalleryFiles &&
@@ -3126,34 +2783,22 @@
 
           }
 
-
           message.textContent =
             'Новината е редактирана успешно!';
 
-
           resetForm();
 
-
           await loadNews();
-
 
           return;
 
         }
 
-
-
-        /* ========================= */
-        /* НОВА НОВИНА */
-        /* ========================= */
-
         const {
           data: insertedNews,
           error
         } = await supabase
-
           .from('news')
-
           .insert({
 
             title:
@@ -3187,11 +2832,8 @@
               0
 
           })
-
           .select('id')
-
           .single();
-
 
         if (error) {
 
@@ -3204,10 +2846,8 @@
 
         }
 
-
         const selectedGalleryFiles =
           galleryFiles.files;
-
 
         if (
           selectedGalleryFiles &&
@@ -3221,13 +2861,10 @@
 
         }
 
-
         message.textContent =
           'Новината е публикувана успешно!';
 
-
         resetForm();
-
 
         await loadNews();
 
@@ -3250,11 +2887,6 @@
   );
 
 
-
-  /* ========================= */
-  /* ИЗТРИВАНЕ НА НОВИНА */
-  /* ========================= */
-
   async function deleteNews(id) {
 
     const confirmed =
@@ -3262,29 +2894,23 @@
         'Сигурни ли сте, че искате да изтриете тази новина?'
       );
 
-
     if (!confirmed) {
       return;
     }
-
 
     const {
       data: galleryImages,
       error: galleryError
     } = await supabase
-
       .from('news_images')
-
       .select(`
         id,
         image_url
       `)
-
       .eq(
         'news_id',
         id
       );
-
 
     if (galleryError) {
 
@@ -3301,7 +2927,6 @@
 
     }
 
-
     for (
       const image of galleryImages || []
     ) {
@@ -3311,24 +2936,18 @@
           image.image_url
         );
 
-
       if (!storagePath) {
         continue;
       }
 
-
       const {
         error: storageError
       } = await supabase
-
         .storage
-
         .from(STORAGE_BUCKET)
-
         .remove([
           storagePath
         ]);
-
 
       if (storageError) {
 
@@ -3347,20 +2966,15 @@
 
     }
 
-
     const {
       error: imagesDeleteError
     } = await supabase
-
       .from('news_images')
-
       .delete()
-
       .eq(
         'news_id',
         id
       );
-
 
     if (imagesDeleteError) {
 
@@ -3377,20 +2991,15 @@
 
     }
 
-
     const {
       error
     } = await supabase
-
       .from('news')
-
       .delete()
-
       .eq(
         'id',
         id
       );
-
 
     if (error) {
 
@@ -3405,23 +3014,16 @@
 
     }
 
-
     if (editingId === id) {
 
       resetForm();
 
     }
 
-
     await loadNews();
 
   }
 
-
-
-  /* ========================= */
-  /* ИЗХОД */
-  /* ========================= */
 
   logout.addEventListener(
     'click',
@@ -3435,11 +3037,6 @@
     }
   );
 
-
-
-  /* ========================= */
-  /* ПЪРВОНАЧАЛНО ЗАРЕЖДАНЕ */
-  /* ========================= */
 
   await loadNews();
 
