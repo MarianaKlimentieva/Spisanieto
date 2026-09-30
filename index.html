@@ -174,7 +174,191 @@
 
         .search-icon {
             cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, color 0.2s;
+            padding: 0.4rem;
+        }
+
+        .search-icon:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* =========================================
+           SEARCH MODAL
+        ========================================= */
+
+        .search-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            align-items: flex-start;
+            justify-content: center;
+            padding: 8vh 1.5rem 2rem;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .search-header-icon {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-close {
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 1.8rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .search-close:hover {
+            color: var(--accent-color);
+        }
+
+        .search-results {
+            max-height: 65vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .search-status {
+            color: #666;
             font-size: 0.9rem;
+            padding: 0.5rem 0 1rem;
+        }
+
+        .search-result {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1.2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .search-result:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-image {
+            width: 150px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .search-result-category {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #fff;
+            background: var(--accent-color);
+            padding: 3px 8px;
+            margin-bottom: 0.45rem;
+        }
+
+        .search-result-title {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            line-height: 1.2;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .search-result:hover .search-result-title {
+            color: var(--accent-color);
+        }
+
+        .search-result-date {
+            font-size: 0.72rem;
+            color: #777;
+        }
+
+        .search-empty {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: #666;
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 600px) {
+
+            .search-modal {
+                padding: 3vh 0.8rem 1rem;
+            }
+
+            .search-header {
+                padding: 1rem;
+            }
+
+            .search-results {
+                padding: 1rem;
+                max-height: 75vh;
+            }
+
+            .search-result {
+                grid-template-columns: 90px 1fr;
+                gap: 0.8rem;
+            }
+
+            .search-result-image {
+                width: 90px;
+                height: 75px;
+            }
+
+            .search-result-title {
+                font-size: 1.05rem;
+            }
+
+            .search-result-category {
+                font-size: 0.58rem;
+            }
         }
 
         /* =========================================
@@ -1086,17 +1270,66 @@
 
             <span
                 class="search-icon"
-                onclick="
-                    alert(
-                        'Търсенето ще бъде активно скоро!'
-                    )
-                "
+                onclick="openSearchModal()"
+                title="Търсене"
+                aria-label="Търсене"
             >
                 🔍
             </span>
 
         </div>
     </nav>
+
+    <!-- =========================================
+         SEARCH MODAL
+    ========================================= -->
+
+    <div
+        id="searchModal"
+        class="search-modal"
+    >
+
+        <div class="search-modal-content">
+
+            <div class="search-header">
+
+                <span class="search-header-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Какво търсите?"
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    class="search-close"
+                    onclick="closeSearchModal()"
+                    aria-label="Затвори"
+                >
+                    &times;
+                </button>
+
+            </div>
+
+            <div
+                id="searchResults"
+                class="search-results"
+            >
+
+                <div class="search-empty">
+                    Започнете да пишете, за да търсите в новините.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="container">
 
@@ -1201,7 +1434,7 @@
                         class="quote-box"
                         id="daily-quote"
                     >
-                        „Зареждане на цитата...“
+                        Зареждане на цитата...
                     </div>
 
                 </div>
@@ -1848,6 +2081,61 @@
         );
 
         /* =========================================
+           ЦИТАТ НА ДЕНЯ
+        ========================================= */
+
+        function loadDailyQuote() {
+
+            const quotes = [
+                '„Важното не е само какво се случва, а защо се случва.“',
+                '„Добрата журналистика започва с любопитство и завършва с проверен факт.“',
+                '„Въпросите често са началото на най-важните отговори.“',
+                '„Смисълът се открива, когато погледнем отвъд заглавието.“',
+                '„Новините информират. Контекстът помага да разберем.“',
+                '„Един добре проверен факт струва повече от десет предположения.“',
+                '„Промяната започва с въпрос.“',
+                '„Понякога най-важното е скрито между редовете.“',
+                '„Добрият текст не просто казва. Той кара читателя да мисли.“',
+                '„Любопитството е двигателят на всяко истинско знание.“',
+                '„Фактите са основата, а контекстът е посоката.“',
+                '„Всеки ден носи нова история. Важно е да я видим.“',
+                '„Истинският разговор започва там, където свършват готовите отговори.“',
+                '„Добрата история остава с нас дълго след последния ред.“',
+                '„Светът е голям, но важните истории са близо до нас.“'
+            ];
+
+            const now =
+                new Date();
+
+            const dayNumber =
+                Math.floor(
+                    Date.UTC(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        now.getDate()
+                    ) / 86400000
+                );
+
+            const quoteIndex =
+                Math.abs(dayNumber) %
+                quotes.length;
+
+            const quoteElement =
+                document.getElementById(
+                    'daily-quote'
+                );
+
+            if (quoteElement) {
+
+                quoteElement.textContent =
+                    quotes[quoteIndex];
+
+            }
+        }
+
+        loadDailyQuote();
+
+        /* =========================================
            ESCAPE HTML
         ========================================= */
 
@@ -1867,6 +2155,360 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
         }
+
+        /* =========================================
+           ФОРМАТИРАНЕ НА ДАТА
+        ========================================= */
+
+        function formatSearchDate(dateValue) {
+
+            if (!dateValue) {
+                return '';
+            }
+
+            const date =
+                new Date(dateValue);
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return '';
+            }
+
+            return date.toLocaleDateString(
+                'bg-BG'
+            );
+        }
+
+        /* =========================================
+           ТЪРСЕНЕ
+        ========================================= */
+
+        let searchTimeout = null;
+
+        function openSearchModal() {
+
+            const modal =
+                document.getElementById(
+                    'searchModal'
+                );
+
+            const input =
+                document.getElementById(
+                    'searchInput'
+                );
+
+            const results =
+                document.getElementById(
+                    'searchResults'
+                );
+
+            modal.classList.add(
+                'active'
+            );
+
+            document.body.style.overflow =
+                'hidden';
+
+            results.innerHTML = `
+                <div class="search-empty">
+                    Започнете да пишете, за да търсите в новините.
+                </div>
+            `;
+
+            setTimeout(
+                () => {
+                    input.focus();
+                },
+                100
+            );
+        }
+
+        function closeSearchModal() {
+
+            const modal =
+                document.getElementById(
+                    'searchModal'
+                );
+
+            modal.classList.remove(
+                'active'
+            );
+
+            document.body.style.overflow =
+                '';
+        }
+
+        window.openSearchModal =
+            openSearchModal;
+
+        window.closeSearchModal =
+            closeSearchModal;
+
+        async function performSearch() {
+
+            const input =
+                document.getElementById(
+                    'searchInput'
+                );
+
+            const results =
+                document.getElementById(
+                    'searchResults'
+                );
+
+            const searchTerm =
+                input.value.trim();
+
+            if (
+                searchTerm.length < 2
+            ) {
+
+                results.innerHTML = `
+                    <div class="search-empty">
+                        Въведете поне 2 символа за търсене.
+                    </div>
+                `;
+
+                return;
+            }
+
+            results.innerHTML = `
+                <div class="search-status">
+                    Търсене за „${escapeHtml(searchTerm)}“...
+                </div>
+            `;
+
+            const words =
+                searchTerm
+                    .toLowerCase()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+                    .from('news')
+                    .select(`
+                        id,
+                        title,
+                        subtitle,
+                        content,
+                        category,
+                        image_url,
+                        author,
+                        created_at
+                    `)
+                    .eq(
+                        'status',
+                        'published'
+                    )
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(200);
+
+            if (error) {
+
+                console.error(
+                    'Search Supabase error:',
+                    error
+                );
+
+                results.innerHTML = `
+                    <div class="search-empty">
+                        Възникна проблем при търсенето.
+                        Моля, опитайте отново.
+                    </div>
+                `;
+
+                return;
+            }
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                results.innerHTML = `
+                    <div class="search-empty">
+                        Все още няма публикувани новини за търсене.
+                    </div>
+                `;
+
+                return;
+            }
+
+            const matchedNews =
+                data.filter(
+                    news => {
+
+                        const searchableText =
+                            [
+                                news.title,
+                                news.subtitle,
+                                news.content,
+                                news.category,
+                                news.author
+                            ]
+                                .filter(Boolean)
+                                .join(' ')
+                                .toLowerCase();
+
+                        return words.every(
+                            word =>
+                                searchableText.includes(
+                                    word
+                                )
+                        );
+                    }
+                );
+
+            if (
+                matchedNews.length === 0
+            ) {
+
+                results.innerHTML = `
+                    <div class="search-empty">
+                        Няма намерени новини за
+                        „${escapeHtml(searchTerm)}“.
+                    </div>
+                `;
+
+                return;
+            }
+
+            results.innerHTML = `
+                <div class="search-status">
+                    Намерени ${matchedNews.length}
+                    ${matchedNews.length === 1 ? 'резултат' : 'резултата'}
+                    за „${escapeHtml(searchTerm)}“
+                </div>
+
+                ${matchedNews
+                    .map(
+                        news => {
+
+                            const image =
+                                news.image_url ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
+
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
+
+                            return `
+                                <a
+                                    href="${articleUrl}"
+                                    class="search-result"
+                                >
+
+                                    <img
+                                        src="${escapeHtml(image)}"
+                                        class="search-result-image"
+                                        alt="${escapeHtml(news.title)}"
+                                    >
+
+                                    <div>
+
+                                        <span class="search-result-category">
+                                            ${escapeHtml(news.category || 'Новини')}
+                                        </span>
+
+                                        <div class="search-result-title">
+                                            ${escapeHtml(news.title)}
+                                        </div>
+
+                                        <div class="search-result-date">
+                                            ${formatSearchDate(news.created_at)}
+                                            ${news.author ? ` · ${escapeHtml(news.author)}` : ''}
+                                        </div>
+
+                                    </div>
+
+                                </a>
+                            `;
+                        }
+                    )
+                    .join('')}
+            `;
+
+        }
+
+        document
+            .getElementById(
+                'searchInput'
+            )
+            .addEventListener(
+                'input',
+                () => {
+
+                    clearTimeout(
+                        searchTimeout
+                    );
+
+                    searchTimeout =
+                        setTimeout(
+                            performSearch,
+                            350
+                        );
+                }
+            );
+
+        document
+            .getElementById(
+                'searchInput'
+            )
+            .addEventListener(
+                'keydown',
+                event => {
+
+                    if (
+                        event.key === 'Escape'
+                    ) {
+
+                        closeSearchModal();
+
+                    }
+
+                    if (
+                        event.key === 'Enter'
+                    ) {
+
+                        clearTimeout(
+                            searchTimeout
+                        );
+
+                        performSearch();
+
+                    }
+                }
+            );
+
+        document
+            .getElementById(
+                'searchModal'
+            )
+            .addEventListener(
+                'click',
+                event => {
+
+                    if (
+                        event.target.id ===
+                        'searchModal'
+                    ) {
+
+                        closeSearchModal();
+
+                    }
+                }
+            );
 
         /* =========================================
            АКЦЕНТИ
@@ -2439,118 +3081,6 @@
             );
 
         /* =========================================
-           ЦИТАТ НА ДЕНЯ
-        ========================================= */
-
-        function loadDailyQuote() {
-
-            const quotes = [
-
-                '„Успехът е сбор от малки усилия, повтаряни всеки ден.“',
-
-                '„Най-важното не е да знаеш всичко, а да знаеш къде да потърсиш.“',
-
-                '„Истината не се нуждае от украса.“',
-
-                '„Добрият въпрос често е по-ценен от бързия отговор.“',
-
-                '„Времето показва кое наистина има значение.“',
-
-                '„Идеите променят света, когато намерят смели хора, които да ги превърнат в действие.“',
-
-                '„Любопитството е началото на всяко откритие.“',
-
-                '„Промяната започва с една малка крачка.“',
-
-                '„Знанието е сила, когато е споделено.“',
-
-                '„Понякога най-добрият начин да видиш бъдещето е да го създадеш.“',
-
-                '„Добрите истории ни помагат да разберем света.“',
-
-                '„Не всяка тишина е празна. Понякога тя казва най-много.“',
-
-                '„Човек расте, когато не се страхува да задава въпроси.“',
-
-                '„Вниманието към детайла превръща доброто в отлично.“',
-
-                '„Смисълът се открива там, където любопитството срещне знанието.“',
-
-                '„Всяко поколение има своите въпроси и своите отговори.“',
-
-                '„Думите имат значение. Затова си струва да бъдат подбирани внимателно.“',
-
-                '„Най-ценната новина е тази, която ни помага да разберем какво се случва.“',
-
-                '„Историята започва там, където човекът решава да разкаже.“',
-
-                '„Промяната не винаги идва шумно.“',
-
-                '„Когато търсим смисъла, започваме да виждаме отвъд очевидното.“',
-
-                '„Добрата журналистика започва с любопитство и завършва с отговорност.“',
-
-                '„Светът е голям, но добрата история може да го направи разбираем.“',
-
-                '„Всеки ден носи възможност да научим нещо ново.“',
-
-                '„Най-силните идеи често започват с едно просто „Защо?““',
-
-                '„Истината има нужда от светлина, не от шум.“',
-
-                '„Да задаваш въпроси означава да отказваш да приемаш света наготово.“',
-
-                '„Доброто четиво оставя следа и след последното изречение.“',
-
-                '„Информацията ни свързва, но разбирането ни прави общество.“',
-
-                '„Важните неща заслужават време, внимание и добри думи.“'
-
-            ];
-
-            const today =
-                new Date();
-
-            const startDate =
-                new Date(
-                    2026,
-                    0,
-                    1
-                );
-
-            const difference =
-                Math.floor(
-                    (
-                        new Date(
-                            today.getFullYear(),
-                            today.getMonth(),
-                            today.getDate()
-                        ) -
-                        startDate
-                    ) /
-                    86400000
-                );
-
-            const quoteIndex =
-                Math.abs(
-                    difference
-                ) %
-                quotes.length;
-
-            const quoteElement =
-                document.getElementById(
-                    'daily-quote'
-                );
-
-            if (quoteElement) {
-
-                quoteElement.textContent =
-                    quotes[quoteIndex];
-
-            }
-        }
-
-        /* =========================================
            START
         ========================================= */
 
@@ -2561,8 +3091,6 @@
         loadPopularNews();
 
         loadHero();
-
-        loadDailyQuote();
 
         /* =========================================
            ABOUT MODAL
