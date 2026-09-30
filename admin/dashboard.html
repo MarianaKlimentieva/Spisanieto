@@ -206,6 +206,10 @@
       background: #f5f5f5;
     }
 
+    .existing-gallery-image-wrap {
+      position: relative;
+    }
+
     .existing-gallery-item img {
       display: block;
       width: 100%;
@@ -218,6 +222,28 @@
       font-size: 12px;
       color: #777;
       background: white;
+    }
+
+    .gallery-delete-button {
+      display: block;
+      width: calc(100% - 14px);
+      margin: 0 7px 7px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 4px;
+      background: #eee;
+      color: #9b0000;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .gallery-delete-button:hover {
+      background: #f3dede;
+    }
+
+    .gallery-delete-button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
     }
 
     .featured-box {
@@ -1144,6 +1170,57 @@
 
 
   /* ========================= */
+  /* ПОЛУЧАВАНЕ НА ПЪТЯ НА ФАЙЛА */
+  /* ========================= */
+
+  function getStoragePathFromUrl(
+    imageUrl
+  ) {
+
+    if (!imageUrl) {
+      return null;
+    }
+
+
+    const marker =
+      `/storage/v1/object/public/${STORAGE_BUCKET}/`;
+
+
+    const markerIndex =
+      imageUrl.indexOf(marker);
+
+
+    if (markerIndex === -1) {
+      return null;
+    }
+
+
+    const path =
+      imageUrl.substring(
+        markerIndex + marker.length
+      );
+
+
+    if (!path) {
+      return null;
+    }
+
+
+    try {
+
+      return decodeURIComponent(path);
+
+    } catch (error) {
+
+      return path;
+
+    }
+
+  }
+
+
+
+  /* ========================= */
   /* КАЧВАНЕ НА ГАЛЕРИЯ */
   /* ========================= */
 
@@ -1158,6 +1235,66 @@
 
     if (!selectedFiles.length) {
       return;
+    }
+
+
+    /*
+      Вземаме последния sort_order,
+      за да продължим галерията от него.
+    */
+
+    const {
+      data: existingImages,
+      error: existingError
+    } = await supabase
+
+      .from('news_images')
+
+      .select('sort_order')
+
+      .eq(
+        'news_id',
+        newsId
+      )
+
+      .order(
+        'sort_order',
+        {
+          ascending: false
+        }
+      )
+
+      .limit(1);
+
+
+    if (existingError) {
+
+      console.error(
+        'Gallery order error:',
+        existingError
+      );
+
+      throw new Error(
+        'Не можа да бъде проверен редът на галерията: ' +
+        existingError.message
+      );
+
+    }
+
+
+    let nextSortOrder = 0;
+
+
+    if (
+      existingImages &&
+      existingImages.length
+    ) {
+
+      nextSortOrder =
+        Number(
+          existingImages[0].sort_order || 0
+        ) + 1;
+
     }
 
 
@@ -1194,7 +1331,7 @@
             imageUrl,
 
           sort_order:
-            index
+            nextSortOrder + index
 
         });
 
@@ -1210,6 +1347,162 @@
           'Снимката е качена, но не можа да бъде добавена към галерията: ' +
           error.message
         );
+
+      }
+
+    }
+
+  }
+
+
+
+  /* ========================= */
+  /* ИЗТРИВАНЕ НА ГАЛЕРИЙНА СНИМКА */
+  /* ========================= */
+
+  async function deleteGalleryImage(
+    imageId,
+    imageUrl
+  ) {
+
+    const confirmed =
+      confirm(
+        'Сигурни ли сте, че искате да изтриете тази снимка от галерията?'
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const deleteButton =
+      document.querySelector(
+        `.gallery-delete-button[data-id="${imageId}"]`
+      );
+
+
+    if (deleteButton) {
+
+      deleteButton.disabled =
+        true;
+
+      deleteButton.textContent =
+        'Изтриване...';
+
+    }
+
+
+    try {
+
+      /*
+        Първо намираме пътя на файла
+        в Supabase Storage.
+      */
+
+      const storagePath =
+        getStoragePathFromUrl(
+          imageUrl
+        );
+
+
+      /*
+        Изтриваме физическия файл
+        от Storage.
+      */
+
+      if (storagePath) {
+
+        const {
+          error: storageError
+        } = await supabase
+
+          .storage
+
+          .from(STORAGE_BUCKET)
+
+          .remove([
+            storagePath
+          ]);
+
+
+        if (storageError) {
+
+          console.error(
+            'Storage delete error:',
+            storageError
+          );
+
+          throw new Error(
+            'Снимката не можа да бъде изтрита от хранилището: ' +
+            storageError.message
+          );
+
+        }
+
+      }
+
+
+      /*
+        Изтриваме записа от news_images.
+      */
+
+      const {
+        error: databaseError
+      } = await supabase
+
+        .from('news_images')
+
+        .delete()
+
+        .eq(
+          'id',
+          imageId
+        );
+
+
+      if (databaseError) {
+
+        console.error(
+          'Gallery database delete error:',
+          databaseError
+        );
+
+        throw new Error(
+          'Снимката е изтрита от хранилището, но записът не можа да бъде изтрит: ' +
+          databaseError.message
+        );
+
+      }
+
+
+      message.textContent =
+        'Снимката е изтрита успешно.';
+
+
+      if (editingId) {
+
+        await loadGallery(
+          editingId
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      message.textContent =
+        error.message ||
+        'Снимката не можа да бъде изтрита.';
+
+      if (deleteButton) {
+
+        deleteButton.disabled =
+          false;
+
+        deleteButton.textContent =
+          '🗑️ Изтрий';
 
       }
 
@@ -1264,6 +1557,7 @@
           ascending: true
         }
       )
+
       .order(
         'created_at',
         {
@@ -1301,22 +1595,71 @@
 
         item.innerHTML = `
 
-          <img
-            src="${escapeHtml(image.image_url)}"
-            alt="Допълнителна снимка ${index + 1}"
-          >
+          <div class="existing-gallery-image-wrap">
+
+            <img
+              src="${escapeHtml(image.image_url)}"
+              alt="Допълнителна снимка ${index + 1}"
+            >
+
+          </div>
 
           <div class="existing-gallery-caption">
             Снимка ${index + 1}
           </div>
 
+          <button
+            type="button"
+            class="gallery-delete-button"
+            data-id="${image.id}"
+            data-url="${escapeHtml(image.image_url)}"
+          >
+            🗑️ Изтрий
+          </button>
+
         `;
 
 
-        existingGalleryGrid.appendChild(item);
+        existingGalleryGrid.appendChild(
+          item
+        );
 
       }
     );
+
+
+    /*
+      Свързваме бутоните за изтриване.
+    */
+
+    existingGalleryGrid
+      .querySelectorAll(
+        '.gallery-delete-button'
+      )
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            'click',
+            function() {
+
+              const imageId =
+                this.dataset.id;
+
+              const imageUrl =
+                this.dataset.url;
+
+
+              deleteGalleryImage(
+                imageId,
+                imageUrl
+              );
+
+            }
+          );
+
+        }
+      );
 
 
     existingGallery.style.display =
@@ -2058,7 +2401,7 @@
 
 
   /* ========================= */
-  /* ИЗТРИВАНЕ */
+  /* ИЗТРИВАНЕ НА НОВИНА */
   /* ========================= */
 
   async function deleteNews(id) {
@@ -2073,6 +2416,133 @@
       return;
     }
 
+
+    /*
+      Първо зареждаме галерията,
+      за да можем да изтрием и файловете.
+    */
+
+    const {
+      data: galleryImages,
+      error: galleryError
+    } = await supabase
+
+      .from('news_images')
+
+      .select(`
+        id,
+        image_url
+      `)
+
+      .eq(
+        'news_id',
+        id
+      );
+
+
+    if (galleryError) {
+
+      console.error(
+        'Gallery load before news delete:',
+        galleryError
+      );
+
+      alert(
+        'Новината не беше изтрита, защото галерията не можа да бъде проверена.'
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Изтриваме файловете от Storage.
+    */
+
+    for (
+      const image of galleryImages || []
+    ) {
+
+      const storagePath =
+        getStoragePathFromUrl(
+          image.image_url
+        );
+
+
+      if (!storagePath) {
+        continue;
+      }
+
+
+      const {
+        error: storageError
+      } = await supabase
+
+        .storage
+
+        .from(STORAGE_BUCKET)
+
+        .remove([
+          storagePath
+        ]);
+
+
+      if (storageError) {
+
+        console.error(
+          'Storage delete error:',
+          storageError
+        );
+
+        alert(
+          'Новината не беше изтрита, защото снимка от галерията не можа да бъде изтрита.'
+        );
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      Изтриваме записите в news_images.
+    */
+
+    const {
+      error: imagesDeleteError
+    } = await supabase
+
+      .from('news_images')
+
+      .delete()
+
+      .eq(
+        'news_id',
+        id
+      );
+
+
+    if (imagesDeleteError) {
+
+      console.error(
+        imagesDeleteError
+      );
+
+      alert(
+        'Грешка при изтриването на галерията: ' +
+        imagesDeleteError.message
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Накрая изтриваме самата новина.
+    */
 
     const {
       error
