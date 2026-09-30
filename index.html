@@ -718,6 +718,64 @@
         }
 
         /* =========================================
+           ТЕМИ НА ФОКУС
+        ========================================= */
+
+        .focus-topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .focus-topic {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .focus-topic:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .focus-topic-category {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .focus-topic-title {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            line-height: 1.25;
+            font-weight: 600;
+        }
+
+        .focus-topic:hover .focus-topic-title {
+            color: var(--accent-color);
+        }
+
+        .focus-topic-date {
+            display: block;
+            margin-top: 0.3rem;
+            font-size: 0.68rem;
+            color: #777;
+        }
+
+        .focus-loading {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            color: #777;
+        }
+
+        /* =========================================
            QUOTE
         ========================================= */
 
@@ -1475,10 +1533,6 @@
 
                 </div>
 
-                <!-- =========================================
-                     ПОСЛЕДНИ НОВИНИ
-                ========================================= -->
-
                 <div class="sidebar-box">
 
                     <h4 class="sidebar-title">
@@ -1517,33 +1571,27 @@
 
                 </div>
 
-                <div class="sidebar-box">
+                <!-- =========================================
+                     ТЕМИ НА ФОКУС
+                ========================================= -->
+
+                <div
+                    class="sidebar-box"
+                    id="focus-topics-box"
+                >
 
                     <h4 class="sidebar-title">
                         Теми на фокус
                     </h4>
 
-                    <div class="tags-container">
+                    <div
+                        id="focus-topics"
+                        class="focus-topics-list"
+                    >
 
-                        <a href="#" class="tag">
-                            #Иновации
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Дизайн
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Икономика
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Анализи
-                        </a>
-
-                        <a href="#" class="tag">
-                            #Екология
-                        </a>
+                        <div class="focus-loading">
+                            Зареждане...
+                        </div>
 
                     </div>
 
@@ -2930,6 +2978,124 @@
         }
 
         /* =========================================
+           ТЕМИ НА ФОКУС
+        ========================================= */
+
+        async function loadFocusTopics() {
+
+            const box =
+                document.getElementById(
+                    'focus-topics-box'
+                );
+
+            const container =
+                document.getElementById(
+                    'focus-topics'
+                );
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+                    .from('news')
+                    .select(`
+                        id,
+                        title,
+                        category,
+                        created_at,
+                        is_featured
+                    `)
+                    .eq(
+                        'status',
+                        'published'
+                    )
+                    .eq(
+                        'is_featured',
+                        true
+                    )
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(5);
+
+            if (error) {
+
+                console.error(
+                    'Focus topics Supabase error:',
+                    error
+                );
+
+                if (box) {
+                    box.style.display = 'none';
+                }
+
+                return;
+            }
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                if (box) {
+                    box.style.display = 'none';
+                }
+
+                return;
+            }
+
+            container.innerHTML =
+                data
+                    .map(
+                        news => {
+
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
+
+                            const date =
+                                news.created_at
+                                    ? new Date(
+                                        news.created_at
+                                    ).toLocaleDateString(
+                                        'bg-BG'
+                                    )
+                                    : '';
+
+                            return `
+                                <a
+                                    href="${articleUrl}"
+                                    class="focus-topic"
+                                >
+
+                                    <span class="focus-topic-category">
+                                        ${escapeHtml(
+                                            news.category ||
+                                            'Новини'
+                                        )}
+                                    </span>
+
+                                    <span class="focus-topic-title">
+                                        ${escapeHtml(
+                                            news.title
+                                        )}
+                                    </span>
+
+                                    <span class="focus-topic-date">
+                                        ${date}
+                                    </span>
+
+                                </a>
+                            `;
+                        }
+                    )
+                    .join('');
+        }
+
+        /* =========================================
            HERO
         ========================================= */
 
@@ -3283,6 +3449,8 @@
         loadPopularNews();
 
         loadLatestNews();
+
+        loadFocusTopics();
 
         loadHero();
 
