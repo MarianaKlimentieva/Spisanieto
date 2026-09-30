@@ -184,6 +184,10 @@
       font-style: italic;
     }
 
+    .editor-button u {
+      text-decoration: underline;
+    }
+
     .editor-button.link-button {
       font-size: 18px;
     }
@@ -213,6 +217,39 @@
 
     .editor-content p {
       margin: 0 0 16px;
+    }
+
+    .editor-content h2 {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      line-height: 1.3;
+      margin: 25px 0 12px;
+    }
+
+    .editor-content h3 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      line-height: 1.35;
+      margin: 20px 0 10px;
+    }
+
+    .editor-content ul,
+    .editor-content ol {
+      margin: 0 0 16px;
+      padding-left: 28px;
+    }
+
+    .editor-content li {
+      margin-bottom: 6px;
+    }
+
+    .editor-content blockquote {
+      margin: 20px 0;
+      padding: 15px 20px;
+      border-left: 4px solid #8c1d40;
+      background: #f7f4ef;
+      color: #555;
+      font-style: italic;
     }
 
     .editor-content a {
@@ -728,7 +765,7 @@
 
 
       <!-- ========================= -->
-      <!-- НОВ РЕДАКТОР -->
+      <!-- РЕДАКТОР НА ТЕКСТА -->
       <!-- ========================= -->
 
       <label>
@@ -757,6 +794,51 @@
 
         <button
           type="button"
+          class="editor-button"
+          data-command="underline"
+          title="Подчертан текст"
+        >
+          <u>U</u>
+        </button>
+
+        <button
+          type="button"
+          class="editor-button"
+          data-format="h2"
+          title="Междинно заглавие"
+        >
+          H2
+        </button>
+
+        <button
+          type="button"
+          class="editor-button"
+          data-format="h3"
+          title="Малко заглавие"
+        >
+          H3
+        </button>
+
+        <button
+          type="button"
+          class="editor-button"
+          data-command="insertUnorderedList"
+          title="Списък"
+        >
+          •
+        </button>
+
+        <button
+          type="button"
+          class="editor-button"
+          data-command="insertOrderedList"
+          title="Номериран списък"
+        >
+          1.
+        </button>
+
+        <button
+          type="button"
           class="editor-button link-button"
           id="addLink"
           title="Добави линк"
@@ -773,6 +855,15 @@
           🔓
         </button>
 
+        <button
+          type="button"
+          class="editor-button"
+          data-format="blockquote"
+          title="Цитат"
+        >
+          ❝
+        </button>
+
       </div>
 
 
@@ -785,7 +876,13 @@
 
 
       <div class="editor-help">
-        Маркирай дума или изречение и използвай <strong>B</strong>, <em>I</em> или 🔗 за линк.
+        Маркирай дума или изречение и използвай
+        <strong>B</strong>,
+        <em>I</em>,
+        <u>U</u>,
+        H2, H3,
+        списък,
+        🔗 за линк или ❝ за цитат.
       </div>
 
 
@@ -1109,12 +1206,12 @@
 
 
   /* ========================= */
-  /* БУТОНИ B / I */
+  /* БУТОНИ НА РЕДАКТОРА */
   /* ========================= */
 
   document
     .querySelectorAll(
-      '.editor-button[data-command]'
+      '.editor-button[data-command], .editor-button[data-format]'
     )
     .forEach(button => {
 
@@ -1134,14 +1231,36 @@
 
           restoreSelection();
 
+
           const command =
             this.dataset.command;
 
-          document.execCommand(
-            command,
-            false,
-            null
-          );
+
+          const format =
+            this.dataset.format;
+
+
+          if (command) {
+
+            document.execCommand(
+              command,
+              false,
+              null
+            );
+
+          }
+
+
+          if (format) {
+
+            document.execCommand(
+              'formatBlock',
+              false,
+              format
+            );
+
+          }
+
 
           contentEditor.focus();
 
@@ -1255,11 +1374,6 @@
       );
 
 
-      /*
-        Отваряне в нов раздел
-        и безопасни rel атрибути.
-      */
-
       contentEditor
         .querySelectorAll('a')
         .forEach(link => {
@@ -1351,8 +1465,7 @@
 
         return `
           <p>
-            ${paragraph
-              .replace(/\n/g, '<br>')}
+            ${paragraph.replace(/\n/g, '<br>')}
           </p>
         `;
 
@@ -1375,13 +1488,22 @@
           'b',
           'em',
           'i',
-          'a'
+          'u',
+          'a',
+          'h2',
+          'h3',
+          'ul',
+          'ol',
+          'li',
+          'blockquote'
         ],
+
         ALLOWED_ATTR: [
           'href',
           'target',
           'rel'
         ],
+
         ALLOW_DATA_ATTR: false
       }
     );
@@ -1508,19 +1630,29 @@
           'gallery-preview-item';
 
 
-        item.innerHTML = `
+        const img =
+          document.createElement('img');
 
-          <img
-            src="${previewUrl}"
-            alt="${escapeHtml(file.name)}"
-          >
+        img.src =
+          previewUrl;
 
-          <div class="gallery-preview-name">
-            ${escapeHtml(file.name)}
-          </div>
+        img.alt =
+          file.name;
 
-        `;
 
+        const name =
+          document.createElement('div');
+
+        name.className =
+          'gallery-preview-name';
+
+        name.textContent =
+          file.name;
+
+
+        item.appendChild(img);
+
+        item.appendChild(name);
 
         galleryPreview.appendChild(item);
 
@@ -2082,31 +2214,70 @@
           'existing-gallery-item';
 
 
-        item.innerHTML = `
+        const imageWrap =
+          document.createElement('div');
 
-          <div class="existing-gallery-image-wrap">
+        imageWrap.className =
+          'existing-gallery-image-wrap';
 
-            <img
-              src="${escapeHtml(image.image_url)}"
-              alt="Допълнителна снимка ${index + 1}"
-            >
 
-          </div>
+        const img =
+          document.createElement('img');
 
-          <div class="existing-gallery-caption">
-            Снимка ${index + 1}
-          </div>
+        img.src =
+          image.image_url;
 
-          <button
-            type="button"
-            class="gallery-delete-button"
-            data-id="${image.id}"
-            data-url="${escapeHtml(image.image_url)}"
-          >
-            🗑️ Изтрий
-          </button>
+        img.alt =
+          `Допълнителна снимка ${index + 1}`;
 
-        `;
+
+        imageWrap.appendChild(img);
+
+
+        const caption =
+          document.createElement('div');
+
+        caption.className =
+          'existing-gallery-caption';
+
+        caption.textContent =
+          `Снимка ${index + 1}`;
+
+
+        const deleteButton =
+          document.createElement('button');
+
+        deleteButton.type =
+          'button';
+
+        deleteButton.className =
+          'gallery-delete-button';
+
+        deleteButton.dataset.id =
+          image.id;
+
+        deleteButton.textContent =
+          '🗑️ Изтрий';
+
+
+        deleteButton.addEventListener(
+          'click',
+          function() {
+
+            deleteGalleryImage(
+              image.id,
+              image.image_url
+            );
+
+          }
+        );
+
+
+        item.appendChild(imageWrap);
+
+        item.appendChild(caption);
+
+        item.appendChild(deleteButton);
 
 
         existingGalleryGrid.appendChild(
@@ -2115,36 +2286,6 @@
 
       }
     );
-
-
-    existingGalleryGrid
-      .querySelectorAll(
-        '.gallery-delete-button'
-      )
-      .forEach(
-        button => {
-
-          button.addEventListener(
-            'click',
-            function() {
-
-              const imageId =
-                this.dataset.id;
-
-              const imageUrl =
-                this.dataset.url;
-
-
-              deleteGalleryImage(
-                imageId,
-                imageUrl
-              );
-
-            }
-          );
-
-        }
-      );
 
 
     existingGallery.style.display =
@@ -2421,14 +2562,6 @@
       data.category || '';
 
 
-    /*
-      Ако новината вече има HTML,
-      зареждаме него.
-
-      Ако е стара новина,
-      използваме стария обикновен текст.
-    */
-
     if (
       data.content_html &&
       data.content_html.trim()
@@ -2656,18 +2789,9 @@
           .value;
 
 
-      /*
-        HTML версията на текста.
-      */
-
       const content_html =
         getEditorHtml();
 
-
-      /*
-        Обикновен текст за старите функции
-        и съвместимост.
-      */
 
       const contentText =
         getEditorText();
@@ -2684,6 +2808,36 @@
         document
           .getElementById('is_featured')
           .checked;
+
+
+      if (!title) {
+
+        message.textContent =
+          'Моля, въведи заглавие.';
+
+        saveButton.disabled =
+          false;
+
+        document.getElementById('title').focus();
+
+        return;
+
+      }
+
+
+      if (!category) {
+
+        message.textContent =
+          'Моля, избери категория.';
+
+        saveButton.disabled =
+          false;
+
+        document.getElementById('category').focus();
+
+        return;
+
+      }
 
 
       if (!contentText) {
