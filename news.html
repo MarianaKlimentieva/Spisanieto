@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Всички новини – СПИСАНИЕТО.</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        :root {
+
+            --bg-color: #f7f6f2;
+            --text-color: #111111;
+            --accent-color: #a21f5a;
+            --border-color: #e2dfd7;
+
+            --font-serif:
+                'Cormorant Garamond',
+                Georgia,
+                serif;
+
+            --font-sans:
+                'Plus Jakarta Sans',
+                sans-serif;
+        }
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
+        .top-bar {
+
+            max-width: 1200px;
+            margin: 0 auto;
+
+            padding:
+                0.8rem
+                1.5rem
+                0.3rem;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+
+            color: #666;
+
+            border-bottom:
+                1px solid
+                var(--border-color);
+
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+
+        .top-bar-right {
+
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+
+            text-align: center;
+
+            padding:
+                1.5rem
+                1rem
+                1rem;
+        }
+
+
+        .logo {
+
+            font-family: var(--font-serif);
+
+            font-size: 3.8rem;
+            font-weight: 600;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            color: var(--text-color);
+
+            text-decoration: none;
+
+            display: inline-block;
+
+            line-height: 1;
+        }
+
+
+        .logo-dot {
+            color: var(--accent-color);
+        }
+
+
+        .tagline {
+
+            font-family: var(--font-serif);
+
+            font-style: italic;
+
+            font-size: 1.15rem;
+
+            color: #555;
+
+            margin-top: 0.4rem;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
+        nav {
+
+            border-top:
+                1px solid
+                var(--border-color);
+
+            border-bottom:
+                1px solid
+                var(--border-color);
+
+            margin-bottom: 2.5rem;
+        }
+
+
+        .nav-container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                0
+                1.5rem;
+        }
+
+
+        nav ul {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 2.5rem;
+
+            list-style: none;
+
+            padding: 0.8rem 0;
+
+            flex-wrap: wrap;
+
+            margin: 0 auto;
+        }
+
+
+        nav a {
+
+            text-decoration: none;
+
+            color: var(--text-color);
+
+            font-weight: 500;
+
+            font-size: 0.75rem;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            transition:
+                color
+                0.2s;
+        }
+
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                0
+                1.5rem;
+        }
+
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+
+            margin-bottom: 2.5rem;
+
+            border-bottom:
+                1px solid
+                var(--text-color);
+
+            padding-bottom: 1rem;
+        }
+
+
+        .page-title {
+
+            font-family: var(--font-serif);
+
+            font-size: 2.7rem;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            line-height: 1.1;
+        }
+
+
+        .page-description {
+
+            margin-top: 0.5rem;
+
+            color: #666;
+
+            font-size: 0.9rem;
+        }
+
+
+        /* =========================================
+           NEWS GRID
+        ========================================= */
+
+        .news-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+
+            gap:
+                2.5rem
+                2rem;
+
+            margin-bottom: 4rem;
+        }
+
+
+        .news-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+
+        .news-image-link {
+
+            display: block;
+
+            text-decoration: none;
+
+            overflow: hidden;
+
+            border-radius: 4px;
+
+            margin-bottom: 1rem;
+
+            background: #ddd;
+        }
+
+
+        .news-image {
+
+            width: 100%;
+
+            height: 230px;
+
+            object-fit: cover;
+
+            display: block;
+
+            transition:
+                transform
+                0.35s
+                ease,
+
+                opacity
+                0.25s
+                ease;
+        }
+
+
+        .news-image-link:hover
+        .news-image {
+
+            transform: scale(1.025);
+
+            opacity: 0.93;
+        }
+
+
+        .news-category {
+
+            display: inline-block;
+
+            align-self: flex-start;
+
+            font-size: 0.65rem;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            color: #fff;
+
+            background:
+                var(--accent-color);
+
+            padding:
+                4px
+                9px;
+
+            margin-bottom: 0.55rem;
+        }
+
+
+        .news-title {
+
+            font-family:
+                var(--font-serif);
+
+            font-size: 1.55rem;
+
+            font-weight: 600;
+
+            line-height: 1.2;
+
+            color: var(--text-color);
+
+            text-decoration: none;
+
+            display: block;
+
+            margin-bottom: 0.45rem;
+        }
+
+
+        .news-title:hover {
+
+            color:
+                var(--accent-color);
+        }
+
+
+        .news-subtitle {
+
+            font-size: 0.85rem;
+
+            color: #555;
+
+            line-height: 1.5;
+
+            margin-bottom: 0.55rem;
+        }
+
+
+        .news-meta {
+
+            font-size: 0.7rem;
+
+            color: #777;
+
+            margin-top: auto;
+
+            padding-top: 0.35rem;
+        }
+
+
+        /* =========================================
+           LOADING / EMPTY / ERROR
+        ========================================= */
+
+        .status-message {
+
+            grid-column:
+                1 / -1;
+
+            text-align: center;
+
+            padding:
+                4rem
+                1rem;
+
+            color: #777;
+
+            font-family:
+                var(--font-serif);
+
+            font-size: 1.25rem;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            border-top:
+                1px solid
+                var(--border-color);
+
+            margin-top: 3rem;
+
+            padding:
+                2rem
+                1.5rem;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 0.75rem;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .footer-logo {
+
+            font-family:
+                var(--font-serif);
+
+            font-size: 1.8rem;
+
+            font-weight: 600;
+
+            color: var(--text-color);
+
+            margin-bottom: 0.3rem;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .news-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 2rem 1.5rem;
+            }
+
+            .news-image {
+
+                height: 210px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .top-bar {
+
+                justify-content: center;
+
+                text-align: center;
+            }
+
+
+            .top-bar-right {
+
+                gap: 0.8rem;
+            }
+
+
+            .logo {
+
+                font-size: 2.8rem;
+
+                letter-spacing: 2px;
+            }
+
+
+            .tagline {
+
+                font-size: 1rem;
+            }
+
+
+            nav ul {
+
+                gap:
+                    0.9rem
+                    1.2rem;
+            }
+
+
+            nav a {
+
+                font-size: 0.65rem;
+            }
+
+
+            .container {
+
+                padding:
+                    0
+                    1rem;
+            }
+
+
+            .page-title {
+
+                font-size: 2.1rem;
+            }
+
+
+            .news-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 2.5rem;
+            }
+
+
+            .news-image {
+
+                height: 240px;
+            }
+
+
+            .news-title {
+
+                font-size: 1.45rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="top-bar">
+
+        <span id="current-date">
+            СПИСАНИЕТО.
+        </span>
+
+        <div class="top-bar-right">
+
+            <span>
+                Всичко важно. На едно място.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <header>
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            СПИСАНИЕТО<span class="logo-dot">.</span>
+        </a>
+
+        <div class="tagline">
+            Всичко важно. На едно място.
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================= -->
+
+    <nav>
+
+        <div class="nav-container">
+
+            <ul>
+
+                <li>
+                    <a href="index.html">
+                        Начало
+                    </a>
+                </li>
+
+                <li>
+                    <a href="news.html">
+                        Новини
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html?category=Политика">
+                        Политика
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html?category=Свят">
+                        Свят
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html?category=Анализи">
+                        Анализи
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html?category=Лайфстайл">
+                        Лайфстайл
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#about">
+                        За нас
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         CONTENT
+    ========================================= -->
+
+    <main class="container">
+
+        <div class="page-header">
+
+            <h1 class="page-title">
+                Всички новини
+            </h1>
+
+            <p class="page-description">
+                Последните публикувани материали в „СПИСАНИЕТО.“
+            </p>
+
+        </div>
+
+
+        <section
+            class="news-grid"
+            id="all-news"
+        >
+
+            <div class="status-message">
+                Зареждане на новините...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            СПИСАНИЕТО<span class="logo-dot">.</span>
+        </div>
+
+        <div>
+            Всичко важно. На едно място.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         SUPABASE
+    ========================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        const SUPABASE_URL =
+            'https://hxvflentlaktgwimsevc.supabase.co';
+
+
+        const SUPABASE_ANON_KEY =
+            'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
+
+
+        const supabase =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return '';
+
+            }
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    '&amp;'
+                )
+
+                .replace(
+                    /</g,
+                    '&lt;'
+                )
+
+                .replace(
+                    />/g,
+                    '&gt;'
+                )
+
+                .replace(
+                    /"/g,
+                    '&quot;'
+                )
+
+                .replace(
+                    /'/g,
+                    '&#039;'
+                );
+        }
+
+
+        /* =========================================
+           DATE
+        ========================================= */
+
+        function updateDate() {
+
+            const now =
+                new Date();
+
+            document.getElementById(
+                'current-date'
+            ).textContent =
+                now.toLocaleDateString(
+                    'bg-BG'
+                );
+
+        }
+
+
+        /* =========================================
+           LOAD ALL NEWS
+        ========================================= */
+
+        async function loadAllNews() {
+
+            const container =
+                document.getElementById(
+                    'all-news'
+                );
+
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+
+                    .from('news')
+
+                    .select(`
+                        id,
+                        title,
+                        subtitle,
+                        category,
+                        image_url,
+                        author,
+                        created_at
+                    `)
+
+                    .eq(
+                        'status',
+                        'published'
+                    )
+
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    'News Supabase error:',
+                    error
+                );
+
+
+                container.innerHTML = `
+
+                    <div class="status-message">
+
+                        Възникна проблем
+                        при зареждането
+                        на новините.
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="status-message">
+
+                        Все още няма
+                        публикувани новини.
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML =
+
+                data
+                    .map(
+                        news => {
+
+                            const image =
+                                news.image_url ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';
+
+
+                            const category =
+                                news.category ||
+                                'Новини';
+
+
+                            const articleUrl =
+                                `article.html?id=${encodeURIComponent(news.id)}`;
+
+
+                            const date =
+                                news.created_at
+
+                                    ? new Date(
+                                        news.created_at
+                                    ).toLocaleDateString(
+                                        'bg-BG'
+                                    )
+
+                                    : '';
+
+
+                            return `
+
+                                <article
+                                    class="news-card"
+                                >
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="news-image-link"
+                                    >
+
+                                        <img
+                                            src="${escapeHtml(image)}"
+                                            class="news-image"
+                                            alt="${escapeHtml(news.title)}"
+                                            loading="lazy"
+                                            onerror="
+                                                this.onerror=null;
+                                                this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';
+                                            "
+                                        >
+
+                                    </a>
+
+
+                                    <span
+                                        class="news-category"
+                                    >
+                                        ${escapeHtml(category)}
+                                    </span>
+
+
+                                    <a
+                                        href="${articleUrl}"
+                                        class="news-title"
+                                    >
+                                        ${escapeHtml(news.title)}
+                                    </a>
+
+
+                                    ${
+                                        news.subtitle
+                                            ? `
+                                                <div
+                                                    class="news-subtitle"
+                                                >
+                                                    ${escapeHtml(
+                                                        news.subtitle
+                                                    )}
+                                                </div>
+                                            `
+                                            : ''
+                                    }
+
+
+                                    <div
+                                        class="news-meta"
+                                    >
+
+                                        ${
+                                            news.author
+                                                ? `${escapeHtml(news.author)} · `
+                                                : ''
+                                        }
+
+                                        ${date}
+
+                                    </div>
+
+                                </article>
+
+                            `;
+
+                        }
+                    )
+                    .join('');
+
+        }
+
+
+        /* =========================================
+           START
+        ========================================= */
+
+        updateDate();
+
+        loadAllNews();
+
+    </script>
+
+
+</body>
+</html>
