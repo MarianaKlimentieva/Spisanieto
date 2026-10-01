@@ -387,7 +387,7 @@
     }
 
     /* ========================= */
-    /* НА ФОКУС */
+    /* ИЗБРАНА / ФОКУС */
     /* ========================= */
 
     .featured-box {
@@ -398,13 +398,18 @@
       border-radius: 5px;
     }
 
-    .featured-box label {
+    .featured-option {
       margin: 0;
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
       font-size: 16px;
+      font-weight: bold;
+    }
+
+    .featured-option + .featured-option {
+      margin-top: 16px;
     }
 
     .featured-box input {
@@ -412,10 +417,11 @@
       margin: 0;
       transform: scale(1.15);
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .featured-help {
-      margin-top: 8px;
+      margin-top: 5px;
       margin-left: 28px;
       color: #777;
       font-size: 13px;
@@ -512,6 +518,17 @@
     .featured-label {
       display: inline-block;
       background: #8c1d40;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      margin-top: 8px;
+      margin-right: 5px;
+    }
+
+    .focus-label {
+      display: inline-block;
+      background: #222;
       color: white;
       padding: 4px 8px;
       border-radius: 3px;
@@ -980,14 +997,30 @@
 
       <div class="featured-box">
 
-        <label>
+        <label class="featured-option">
 
           <input
             type="checkbox"
             id="is_featured"
           >
 
-          🎯 На фокус
+          ⭐ Избрана новина
+
+        </label>
+
+        <div class="featured-help">
+          Маркирай тази новина като избрана новина.
+        </div>
+
+
+        <label class="featured-option">
+
+          <input
+            type="checkbox"
+            id="is_focus"
+          >
+
+          🎯 Тема на фокус
 
         </label>
 
@@ -1151,6 +1184,9 @@
 
   const featuredCheckbox =
     document.getElementById('is_featured');
+
+  const focusCheckbox =
+    document.getElementById('is_focus');
 
 
   let editingId = null;
@@ -2262,6 +2298,7 @@
         content,
         author,
         is_featured,
+        is_focus,
         views,
         status,
         created_at,
@@ -2349,7 +2386,19 @@
                 ? `
 
                   <span class="featured-label">
-                    🎯 На фокус
+                    ⭐ Избрана новина
+                  </span>
+
+                `
+                : ''
+              }
+
+              ${
+                news.is_focus
+                ? `
+
+                  <span class="focus-label">
+                    🎯 Тема на фокус
                   </span>
 
                 `
@@ -2441,6 +2490,7 @@
         content_html,
         author,
         is_featured,
+        is_focus,
         status
       `)
       .eq('id', id)
@@ -2499,6 +2549,9 @@
 
     featuredCheckbox.checked =
       data.is_featured === true;
+
+    focusCheckbox.checked =
+      data.is_focus === true;
 
     imageFile.value =
       '';
@@ -2581,6 +2634,9 @@
       'СПИСАНИЕТО.';
 
     featuredCheckbox.checked =
+      false;
+
+    focusCheckbox.checked =
       false;
 
     contentEditor.innerHTML =
@@ -2677,6 +2733,9 @@
       const is_featured =
         featuredCheckbox.checked;
 
+      const is_focus =
+        focusCheckbox.checked;
+
       if (!title) {
 
         message.textContent =
@@ -2771,6 +2830,9 @@
               is_featured:
                 is_featured,
 
+              is_focus:
+                is_focus,
+
               updated_at:
                 new Date().toISOString()
 
@@ -2850,6 +2912,9 @@
 
             is_featured:
               is_featured,
+
+            is_focus:
+              is_focus,
 
             views:
               0
