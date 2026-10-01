@@ -796,7 +796,7 @@
             'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
 
 
-        const supabase =
+        const supabaseClient =
             window.supabase.createClient(
                 SUPABASE_URL,
                 SUPABASE_ANON_KEY
@@ -882,7 +882,7 @@
                 data,
                 error
             } =
-                await supabase
+                await supabaseClient
 
                     .from('news')
 
