@@ -1407,10 +1407,6 @@
         </div>
     </nav>
 
-    <!-- =========================================
-         SEARCH MODAL
-    ========================================= -->
-
     <div
         id="searchModal"
         class="search-modal"
@@ -2997,7 +2993,7 @@
 
         /* =========================================
            ТЕМИ НА ФОКУС
-           ИЗПОЛЗВА ОТДЕЛНОТО ПОЛЕ is_focus
+           ИЗПОЛЗВА is_focus + image_url
         ========================================= */
 
         async function loadFocusTopics() {
@@ -3089,9 +3085,17 @@
                                     )
                                     : '';
 
+                            /*
+                             * ВАЖНО:
+                             * Използваме image_url директно,
+                             * по същия начин както при "Акценти".
+                             */
+
                             const image =
-                                news.image_url ||
-                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
+                                news.image_url &&
+                                String(news.image_url).trim()
+                                    ? String(news.image_url).trim()
+                                    : 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
 
                             return `
                                 <a
@@ -3103,6 +3107,11 @@
                                         src="${escapeHtml(image)}"
                                         class="focus-topic-image"
                                         alt="${escapeHtml(news.title)}"
+                                        loading="lazy"
+                                        onerror="
+                                            this.onerror=null;
+                                            this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
+                                        "
                                     >
 
                                     <span class="focus-topic-category">
