@@ -740,6 +740,20 @@
             padding-bottom: 0;
         }
 
+        .focus-topic-image {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .focus-topic:hover .focus-topic-image {
+            opacity: 0.92;
+        }
+
         .focus-topic-category {
             display: block;
             font-size: 0.65rem;
@@ -1288,6 +1302,10 @@
 
             .container {
                 padding: 0 1rem;
+            }
+
+            .focus-topic-image {
+                height: 150px;
             }
         }
     </style>
@@ -2979,6 +2997,7 @@
 
         /* =========================================
            ТЕМИ НА ФОКУС
+           ИЗПОЛЗВА ОТДЕЛНОТО ПОЛЕ is_focus
         ========================================= */
 
         async function loadFocusTopics() {
@@ -3004,14 +3023,15 @@
                         title,
                         category,
                         created_at,
-                        is_featured
+                        image_url,
+                        is_focus
                     `)
                     .eq(
                         'status',
                         'published'
                     )
                     .eq(
-                        'is_featured',
+                        'is_focus',
                         true
                     )
                     .order(
@@ -3048,6 +3068,10 @@
                 return;
             }
 
+            if (box) {
+                box.style.display = '';
+            }
+
             container.innerHTML =
                 data
                     .map(
@@ -3065,11 +3089,21 @@
                                     )
                                     : '';
 
+                            const image =
+                                news.image_url ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
+
                             return `
                                 <a
                                     href="${articleUrl}"
                                     class="focus-topic"
                                 >
+
+                                    <img
+                                        src="${escapeHtml(image)}"
+                                        class="focus-topic-image"
+                                        alt="${escapeHtml(news.title)}"
+                                    >
 
                                     <span class="focus-topic-category">
                                         ${escapeHtml(
