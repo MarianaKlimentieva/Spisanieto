@@ -48,10 +48,6 @@
             max-width: 100%;
         }
 
-        /* =========================================
-           TOP BAR
-        ========================================= */
-
         .top-bar {
             max-width: 1200px;
             margin: 0 auto;
@@ -74,10 +70,6 @@
             align-items: center;
         }
 
-        /* =========================================
-           BANNER
-        ========================================= */
-
         .top-banner {
             max-width: 1200px;
             margin: 1rem auto 0.5rem;
@@ -92,10 +84,6 @@
             border: 1px solid var(--border-color);
             display: block;
         }
-
-        /* =========================================
-           HEADER
-        ========================================= */
 
         header {
             text-align: center;
@@ -127,10 +115,6 @@
             margin-top: 0.4rem;
             letter-spacing: 0.5px;
         }
-
-        /* =========================================
-           NAVIGATION
-        ========================================= */
 
         nav {
             border-top: 1px solid var(--border-color);
@@ -183,10 +167,6 @@
             color: var(--accent-color);
             transform: scale(1.1);
         }
-
-        /* =========================================
-           SEARCH MODAL
-        ========================================= */
 
         .search-modal {
             display: none;
@@ -328,7 +308,6 @@
         }
 
         @media (max-width: 600px) {
-
             .search-modal {
                 padding: 3vh 0.8rem 1rem;
             }
@@ -361,19 +340,11 @@
             }
         }
 
-        /* =========================================
-           CONTAINER
-        ========================================= */
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
-
-        /* =========================================
-           HERO
-        ========================================= */
 
         .hero {
             position: relative;
@@ -508,10 +479,6 @@
             color: #fff;
         }
 
-        /* =========================================
-           СТРЕЛКИ
-        ========================================= */
-
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -541,10 +508,6 @@
             right: 18px;
         }
 
-        /* =========================================
-           MAIN LAYOUT
-        ========================================= */
-
         .main-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -561,10 +524,6 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
         }
-
-        /* =========================================
-           CARDS
-        ========================================= */
 
         .grid-2 {
             display: grid;
@@ -614,10 +573,6 @@
             color: #555;
         }
 
-        /* =========================================
-           SIDEBAR
-        ========================================= */
-
         .sidebar-box {
             background: #efece6;
             padding: 1.5rem;
@@ -665,10 +620,6 @@
         .popular-text:hover {
             color: var(--accent-color);
         }
-
-        /* =========================================
-           ПОСЛЕДНИ НОВИНИ
-        ========================================= */
 
         .latest-list {
             list-style: none;
@@ -748,6 +699,7 @@
             border-radius: 4px;
             margin-bottom: 0.75rem;
             transition: opacity 0.2s, transform 0.2s;
+            background: #ddd;
         }
 
         .focus-topic:hover .focus-topic-image {
@@ -789,10 +741,6 @@
             color: #777;
         }
 
-        /* =========================================
-           QUOTE
-        ========================================= */
-
         .quote-box {
             font-family: var(--font-serif);
             font-style: italic;
@@ -803,10 +751,6 @@
             margin: 1rem 0 0.5rem;
             color: #333;
         }
-
-        /* =========================================
-           NEWSLETTER
-        ========================================= */
 
         .newsletter-form input[type="email"] {
             width: 100%;
@@ -834,10 +778,6 @@
             background: var(--accent-color);
         }
 
-        /* =========================================
-           TAGS
-        ========================================= */
-
         .tags-container {
             display: flex;
             flex-wrap: wrap;
@@ -860,10 +800,6 @@
             color: #fff;
             border-color: var(--accent-color);
         }
-
-        /* =========================================
-           OPINIONS
-        ========================================= */
 
         .opinion-section {
             background: #efece6;
@@ -941,10 +877,6 @@
             color: #666;
         }
 
-        /* =========================================
-           PHOTO GALLERY
-        ========================================= */
-
         .photo-gallery-section {
             padding: 2rem 0 3rem;
             margin-bottom: 2rem;
@@ -982,10 +914,6 @@
             font-weight: 600;
             color: var(--text-color);
         }
-
-        /* =========================================
-           VIDEO
-        ========================================= */
 
         .video-section {
             background: var(--accent-color);
@@ -1044,10 +972,6 @@
             color: var(--accent-color);
         }
 
-        /* =========================================
-           LIFESTYLE
-        ========================================= */
-
         .lifestyle-section {
             background: #ffffff;
             padding: 3rem 0;
@@ -1074,10 +998,6 @@
             font-size: 1.1rem;
             margin-top: 0.5rem;
         }
-
-        /* =========================================
-           MODAL
-        ========================================= */
 
         .modal {
             display: none;
@@ -1119,10 +1039,6 @@
         .close-btn:hover {
             color: var(--accent-color);
         }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
 
         footer {
             background: #111;
@@ -1189,12 +1105,7 @@
             padding: 2rem 0;
         }
 
-        /* =========================================
-           MOBILE
-        ========================================= */
-
         @media (max-width: 850px) {
-
             .main-layout {
                 grid-template-columns: 1fr;
             }
@@ -1271,7 +1182,6 @@
         }
 
         @media (max-width: 500px) {
-
             .hero {
                 height: 500px;
             }
@@ -2994,6 +2904,10 @@
         /* =========================================
            ТЕМИ НА ФОКУС
            ИЗПОЛЗВА is_focus + image_url
+
+           ВАЖНА ПРОМЯНА:
+           Няма limit(5), за да не изчезват
+           по-старите маркирани новини.
         ========================================= */
 
         async function loadFocusTopics() {
@@ -3020,7 +2934,8 @@
                         category,
                         created_at,
                         image_url,
-                        is_focus
+                        is_focus,
+                        status
                     `)
                     .eq(
                         'status',
@@ -3035,8 +2950,7 @@
                         {
                             ascending: false
                         }
-                    )
-                    .limit(5);
+                    );
 
             if (error) {
 
@@ -3085,17 +2999,16 @@
                                     )
                                     : '';
 
-                            /*
-                             * ВАЖНО:
-                             * Използваме image_url директно,
-                             * по същия начин както при "Акценти".
-                             */
+                            const imageUrl =
+                                news.image_url
+                                    ? String(
+                                        news.image_url
+                                    ).trim()
+                                    : '';
 
                             const image =
-                                news.image_url &&
-                                String(news.image_url).trim()
-                                    ? String(news.image_url).trim()
-                                    : 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
+                                imageUrl ||
+                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
 
                             return `
                                 <a
