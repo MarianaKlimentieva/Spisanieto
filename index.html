@@ -1613,83 +1613,23 @@
 
         </div>
 
-    </section>
+   <section class="opinion-section">
 
-    <section class="opinion-section">
+    <div class="opinion-header">
+        <h3>Мнения &amp; Коментари</h3>
+    </div>
 
-        <div class="opinion-header">
+    <div class="opinion-grid" id="opinions-container">
 
-            <h3>
-                Мнения &amp; Коментари
-            </h3>
-
+        <div class="opinion-card">
+            <p class="opinion-quote">
+                Зареждане...
+            </p>
         </div>
 
-        <div class="opinion-grid">
+    </div>
 
-            <div class="opinion-card">
-
-                <p class="opinion-quote">
-                    „Дигиталният свят ни дава скорост, но именно задълбоченият текст е този, който ни връща фокуса.“
-                </p>
-
-                <div class="opinion-author-box">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                        class="opinion-avatar"
-                        alt="Автор"
-                    >
-
-                    <div>
-
-                        <div class="opinion-author-name">
-                            Мария Илиева
-                        </div>
-
-                        <div class="opinion-author-title">
-                            Главен редактор
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="opinion-card">
-
-                <p class="opinion-quote">
-                    „Бъдещето принадлежи на изданията, които залагат на автентичността и чистия редакционен стил.“
-                </p>
-
-                <div class="opinion-author-box">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
-                        class="opinion-avatar"
-                        alt="Автор"
-                    >
-
-                    <div>
-
-                        <div class="opinion-author-name">
-                            Иван Петров
-                        </div>
-
-                        <div class="opinion-author-title">
-                            Икономически анализатор
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
     <div class="lifestyle-section">
 
@@ -3398,6 +3338,65 @@
         );
 
     </script>
+<script>
+async function loadOpinions() {
+    const container = document.getElementById('opinions-container');
 
+    if (!container) return;
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('opinions')
+            .select('quote, author_name, author_title, avatar_url')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+
+        container.innerHTML = data.map(opinion => `
+            <div class="opinion-card">
+
+                <p class="opinion-quote">
+                    „${opinion.quote}“
+                </p>
+
+                <div class="opinion-author-box">
+
+                    ${opinion.avatar_url ? `
+                        <img
+                            src="${opinion.avatar_url}"
+                            class="opinion-avatar"
+                            alt="${opinion.author_name || 'Автор'}"
+                        >
+                    ` : ''}
+
+                    <div>
+                        <div class="opinion-author-name">
+                            ${opinion.author_name || ''}
+                        </div>
+
+                        <div class="opinion-author-title">
+                            ${opinion.author_title || ''}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('Грешка при зареждане на мнения:', error);
+        container.innerHTML = '';
+    }
+}
+
+loadOpinions();
+</script>
 </body>
 </html>
