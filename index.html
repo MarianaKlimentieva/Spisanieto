@@ -3345,7 +3345,7 @@ async function loadOpinions() {
     if (!container) return;
 
     try {
-        const { data, error } = await supabaseClient
+        const { data, error } = await supabase
             .from('opinions')
             .select('quote, author_name, author_title, avatar_url')
             .eq('published', true)
