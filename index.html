@@ -3341,12 +3341,16 @@
     </script>
 <script>
 async function loadOpinions() {
+    const opinionsClient = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
     const container = document.getElementById('opinions-container');
 
     if (!container) return;
 
     try {
-        const { data, error } = await window.supabase
+       const { data, error } = await opinionsClient
             .from('opinions')
             .select('quote, author_name, author_title, avatar_url')
             .eq('published', true)
