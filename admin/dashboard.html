@@ -589,6 +589,10 @@
 
     .opinion-form textarea {
       min-height: 170px;
+      resize: vertical;
+      cursor: text;
+      user-select: text;
+      -webkit-user-select: text;
     }
 
     .opinion-current-image {
@@ -1274,8 +1278,11 @@
 
       <textarea
         id="opinionQuote"
+        name="opinionQuote"
         placeholder="Въведете мнение или цитат"
         required
+        autocomplete="off"
+        spellcheck="true"
       ></textarea>
 
 
@@ -1286,8 +1293,10 @@
       <input
         type="text"
         id="opinionAuthor"
+        name="opinionAuthor"
         placeholder="Име на автора"
         required
+        autocomplete="off"
       >
 
 
@@ -3732,9 +3741,7 @@
 
 
   /* ===================================================== */
-  /* ===================================================== */
   /* МНЕНИЯ & КОМЕНТАРИ */
-  /* ===================================================== */
   /* ===================================================== */
 
 
@@ -4029,6 +4036,14 @@
       data.avatar_url || '';
 
 
+    /*
+      ВАЖНО:
+      Използваме стандартното .value на textarea.
+      Няма contenteditable, няма selection,
+      няма execCommand и нищо не блокира
+      Backspace / Delete / Ctrl+A.
+    */
+
     opinionQuote.value =
       data.quote || '';
 
@@ -4092,6 +4107,27 @@
       behavior: 'smooth',
       block: 'start'
     });
+
+
+    /*
+      Фокусираме директно полето за текста.
+      Така можеш веднага да пишеш, да триеш,
+      да използваш Backspace, Delete и Ctrl+A.
+    */
+
+    setTimeout(
+      function() {
+
+        opinionQuote.focus();
+
+        opinionQuote.setSelectionRange(
+          opinionQuote.value.length,
+          opinionQuote.value.length
+        );
+
+      },
+      300
+    );
 
   }
 
@@ -4238,10 +4274,6 @@
           currentOpinionAvatarUrl || null;
 
 
-        /* ========================= */
-        /* НОВА СНИМКА */
-        /* ========================= */
-
         if (selectedAvatar) {
 
           opinionMessage.textContent =
@@ -4301,9 +4333,6 @@
 
           }
 
-
-          /* Изтриваме старата снимка,
-             ако е заменена с нова */
 
           if (
             selectedAvatar &&
@@ -4438,8 +4467,6 @@
 
     try {
 
-      /* Първо намираме снимката */
-
       const {
         data,
         error: loadError
@@ -4471,8 +4498,6 @@
       }
 
 
-      /* Изтриваме снимката от Storage */
-
       if (
         data &&
         data.avatar_url
@@ -4495,8 +4520,6 @@
 
       }
 
-
-      /* Изтриваме записа */
 
       const {
         error
