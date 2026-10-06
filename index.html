@@ -3341,10 +3341,14 @@
     </script>
 <script>
 async function loadOpinions() {
+    const { createClient } = await import(
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    );
+
     const opinionsClient = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+        'https://hxvflentlaktgwimsevc.supabase.co',
+        'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY'
+    );
     const container = document.getElementById('opinions-container');
 
     if (!container) return;
