@@ -872,11 +872,6 @@
             color: var(--text-color);
         }
 
-        .opinion-author-title {
-            font-size: 0.75rem;
-            color: #666;
-        }
-
         .photo-gallery-section {
             padding: 2rem 0 3rem;
             margin-bottom: 2rem;
@@ -913,63 +908,6 @@
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-color);
-        }
-
-        .video-section {
-            background: var(--accent-color);
-            color: #fff;
-            padding: 4rem 0;
-            margin-bottom: 3rem;
-        }
-
-        .video-container-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .video-wrapper iframe,
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            object-fit: cover;
-        }
-
-        .video-info h3 {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            color: #fff;
-        }
-
-        .video-info p {
-            color: #f2e6ec;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .video-info .category {
-            background: #ffffff;
-            color: var(--accent-color);
         }
 
         .lifestyle-section {
@@ -1104,37 +1042,35 @@
             color: #666;
             padding: 2rem 0;
         }
+
         .highlights-more {
-    text-align: left;
-    margin-top: 2rem;
-}
+            text-align: left;
+            margin-top: 2rem;
+        }
 
-.highlights-more-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid #000;
-    width: 100%;
-}
+        .highlights-more-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #000;
+            width: 100%;
+        }
 
-.highlights-more-button span {
-    margin-left: 0.1rem;
-}
+        .highlights-more-button span {
+            margin-left: 0.1rem;
+        }
 
         @media (max-width: 850px) {
+
             .main-layout {
                 grid-template-columns: 1fr;
             }
 
             .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .video-container-inner {
                 grid-template-columns: 1fr;
             }
 
@@ -1202,6 +1138,7 @@
         }
 
         @media (max-width: 500px) {
+
             .hero {
                 height: 500px;
             }
@@ -1244,11 +1181,13 @@
 <body>
 
     <div class="top-bar">
+
         <span id="current-date">
             ЗАРЕЖДАНЕ НА ДАТА...
         </span>
 
         <div class="top-bar-right">
+
             <span>
                 София 22°C ☀️
             </span>
@@ -1256,17 +1195,22 @@
             <span id="current-time">
                 00:00:00
             </span>
+
         </div>
+
     </div>
 
     <div class="top-banner">
+
         <img
             src="banner.jpg"
             alt="Банер Списанието"
         >
+
     </div>
 
     <header>
+
         <a
             href="index.html"
             class="logo"
@@ -1277,9 +1221,11 @@
         <div class="tagline">
             Всичко важно. На едно място.
         </div>
+
     </header>
 
     <nav>
+
         <div class="nav-container">
 
             <ul>
@@ -1335,6 +1281,7 @@
             </span>
 
         </div>
+
     </nav>
 
     <div
@@ -1445,13 +1392,16 @@
                     </p>
 
                 </div>
-                                <div class="highlights-more">
+
+                <div class="highlights-more">
+
                     <a
                         href="news.html"
                         class="highlights-more-button"
                     >
                         Виж всички <span>→</span>
                     </a>
+
                 </div>
 
             </div>
@@ -1523,10 +1473,6 @@
 
                 </div>
 
-                <!-- =========================================
-                     ТЕМИ НА ФОКУС
-                ========================================= -->
-
                 <div
                     class="sidebar-box"
                     id="focus-topics-box"
@@ -1549,87 +1495,38 @@
 
                 </div>
 
-               
-
             </aside>
 
         </div>
 
-       
-
     </div>
 
-    <section class="video-section">
+    <section class="opinion-section">
 
-        <div class="video-container-inner">
+        <div class="opinion-header">
 
-            <div class="video-wrapper">
+            <h3>
+                Мнения &amp; Коментари
+            </h3>
 
-                <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="Видео"
-                    allowfullscreen
-                ></iframe>
+        </div>
 
-            </div>
+        <div
+            class="opinion-grid"
+            id="opinions-container"
+        >
 
-            <div class="video-info">
+            <div class="opinion-card">
 
-                <span
-                    class="category"
-                    style="margin-bottom:1rem;"
-                >
-                    ВИДЕО
-                </span>
-
-                <h3>
-                    Поглед отблизо: Разговор за изкуството, медиите и бъдещето
-                </h3>
-
-                <p>
-                    Гледайте специалното ни видео интервю с акценти от седмицата и анализи на водещи експерти в областта на културата и технологиите.
+                <p class="opinion-quote">
+                    Зареждане...
                 </p>
 
-                <a
-                    href="javascript:void(0)"
-                    onclick="
-                        alert(
-                            'Всички видео епизоди ще бъдат достъпни скоро!'
-                        )
-                    "
-                    style="
-                        color:#fff;
-                        font-size:0.85rem;
-                        text-transform:uppercase;
-                        letter-spacing:1.5px;
-                        font-weight:600;
-                        text-decoration:underline;
-                    "
-                >
-                    Вижте всички видео материали →
-                </a>
-
             </div>
 
         </div>
 
-   <section class="opinion-section">
-
-    <div class="opinion-header">
-        <h3>Мнения &amp; Коментари</h3>
-    </div>
-
-    <div class="opinion-grid" id="opinions-container">
-
-        <div class="opinion-card">
-            <p class="opinion-quote">
-                Зареждане...
-            </p>
-        </div>
-
-    </div>
-
-</section>
+    </section>
 
     <div class="lifestyle-section">
 
@@ -1914,6 +1811,7 @@
                 SUPABASE_URL,
                 SUPABASE_PUBLISHABLE_KEY
             );
+
         window.supabaseClient = supabase;
 
         /* =========================================
@@ -2440,6 +2338,7 @@
                         closeSearchModal();
 
                     }
+
                 }
             );
 
@@ -2786,11 +2685,6 @@
 
         /* =========================================
            ТЕМИ НА ФОКУС
-           ИЗПОЛЗВА is_focus + image_url
-
-           ВАЖНА ПРОМЯНА:
-           Няма limit(5), за да не изчезват
-           по-старите маркирани новини.
         ========================================= */
 
         async function loadFocusTopics() {
@@ -3221,6 +3115,7 @@
                             'active'
                         );
                     }
+
                 }
             );
         }
@@ -3335,77 +3230,145 @@
                     modal.style.display =
                         'none';
                 }
+
             }
         );
 
     </script>
-<script>
-async function loadOpinions() {
-    const { createClient } = await import(
-        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-    );
 
-    const opinionsClient = createClient(
-        'https://hxvflentlaktgwimsevc.supabase.co',
-        'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY'
-    );
-    const container = document.getElementById('opinions-container');
+    <script>
 
-    if (!container) return;
+        /* =========================================
+           МНЕНИЯ & КОМЕНТАРИ
+        ========================================= */
 
-    try {
-       const { data, error } = await opinionsClient
-            .from('opinions')
-            .select('quote, author_name, author_title, avatar_url')
-            .eq('published', true)
-            .order('created_at', { ascending: false });
+        async function loadOpinions() {
 
-        if (error) throw error;
+            const {
+                createClient
+            } =
+                await import(
+                    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+                );
 
-        if (!data || data.length === 0) {
-            container.innerHTML = '';
-            return;
+            const opinionsClient =
+                createClient(
+                    'https://hxvflentlaktgwimsevc.supabase.co',
+                    'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY'
+                );
+
+            const container =
+                document.getElementById(
+                    'opinions-container'
+                );
+
+            if (!container) {
+                return;
+            }
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await opinionsClient
+                        .from('opinions')
+                        .select(
+                            'quote, author_name, avatar_url'
+                        )
+                        .eq(
+                            'published',
+                            true
+                        )
+                        .order(
+                            'created_at',
+                            {
+                                ascending: false
+                            }
+                        );
+
+                if (error) {
+                    throw error;
+                }
+
+                if (
+                    !data ||
+                    data.length === 0
+                ) {
+
+                    container.innerHTML = '';
+
+                    return;
+                }
+
+                container.innerHTML =
+                    data
+                        .map(
+                            opinion => `
+
+                                <div class="opinion-card">
+
+                                    <p class="opinion-quote">
+                                        „${escapeHtml(
+                                            opinion.quote || ''
+                                        )}“
+                                    </p>
+
+                                    <div class="opinion-author-box">
+
+                                        ${
+                                            opinion.avatar_url
+                                                ? `
+                                                    <img
+                                                        src="${escapeHtml(
+                                                            opinion.avatar_url
+                                                        )}"
+                                                        class="opinion-avatar"
+                                                        alt="${escapeHtml(
+                                                            opinion.author_name ||
+                                                            'Автор'
+                                                        )}"
+                                                    >
+                                                `
+                                                : ''
+                                        }
+
+                                        <div>
+
+                                            <div class="opinion-author-name">
+                                                ${escapeHtml(
+                                                    opinion.author_name ||
+                                                    ''
+                                                )}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            `
+                        )
+                        .join('');
+
+            } catch (error) {
+
+                console.error(
+                    'Грешка при зареждане на мнения:',
+                    error
+                );
+
+                container.innerHTML = '';
+
+            }
+
         }
 
-        container.innerHTML = data.map(opinion => `
-            <div class="opinion-card">
+        loadOpinions();
 
-                <p class="opinion-quote">
-                    „${opinion.quote}“
-                </p>
+    </script>
 
-                <div class="opinion-author-box">
-
-                    ${opinion.avatar_url ? `
-                        <img
-                            src="${opinion.avatar_url}"
-                            class="opinion-avatar"
-                            alt="${opinion.author_name || 'Автор'}"
-                        >
-                    ` : ''}
-
-                    <div>
-                        <div class="opinion-author-name">
-                            ${opinion.author_name || ''}
-                        </div>
-
-                        <div class="opinion-author-title">
-                            ${opinion.author_title || ''}
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        `).join('');
-
-    } catch (error) {
-        console.error('Грешка при зареждане на мнения:', error);
-        container.innerHTML = '';
-    }
-}
-
-loadOpinions();
-</script>
 </body>
 </html>
