@@ -3236,26 +3236,14 @@
 
     </script>
 
+    <!-- =========================================
+         МНЕНИЯ & КОМЕНТАРИ
+         Използва вече създадения Supabase client
+    ========================================= -->
+
     <script>
 
-        /* =========================================
-           МНЕНИЯ & КОМЕНТАРИ
-        ========================================= */
-
         async function loadOpinions() {
-
-            const {
-                createClient
-            } =
-                await import(
-                    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-                );
-
-            const opinionsClient =
-                createClient(
-                    'https://hxvflentlaktgwimsevc.supabase.co',
-                    'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY'
-                );
 
             const container =
                 document.getElementById(
@@ -3272,7 +3260,7 @@
                     data,
                     error
                 } =
-                    await opinionsClient
+                    await supabase
                         .from('opinions')
                         .select(
                             'quote, author_name, avatar_url'
@@ -3289,7 +3277,23 @@
                         );
 
                 if (error) {
-                    throw error;
+
+                    console.error(
+                        'Грешка при зареждане на мнения:',
+                        error
+                    );
+
+                    container.innerHTML = `
+                        <div class="opinion-card">
+
+                            <p class="opinion-quote">
+                                Мненията временно не могат да бъдат заредени.
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
                 }
 
                 if (
@@ -3305,51 +3309,56 @@
                 container.innerHTML =
                     data
                         .map(
-                            opinion => `
+                            opinion => {
 
-                                <div class="opinion-card">
+                                return `
 
-                                    <p class="opinion-quote">
-                                        „${escapeHtml(
-                                            opinion.quote || ''
-                                        )}“
-                                    </p>
+                                    <div class="opinion-card">
 
-                                    <div class="opinion-author-box">
+                                        <p class="opinion-quote">
+                                            „${escapeHtml(
+                                                opinion.quote || ''
+                                            )}“
+                                        </p>
 
-                                        ${
-                                            opinion.avatar_url
-                                                ? `
-                                                    <img
-                                                        src="${escapeHtml(
-                                                            opinion.avatar_url
-                                                        )}"
-                                                        class="opinion-avatar"
-                                                        alt="${escapeHtml(
-                                                            opinion.author_name ||
-                                                            'Автор'
-                                                        )}"
-                                                    >
-                                                `
-                                                : ''
-                                        }
+                                        <div class="opinion-author-box">
 
-                                        <div>
+                                            ${
+                                                opinion.avatar_url
+                                                    ? `
+                                                        <img
+                                                            src="${escapeHtml(
+                                                                opinion.avatar_url
+                                                            )}"
+                                                            class="opinion-avatar"
+                                                            alt="${escapeHtml(
+                                                                opinion.author_name ||
+                                                                'Автор'
+                                                            )}"
+                                                            loading="lazy"
+                                                        >
+                                                    `
+                                                    : ''
+                                            }
 
-                                            <div class="opinion-author-name">
-                                                ${escapeHtml(
-                                                    opinion.author_name ||
-                                                    ''
-                                                )}
+                                            <div>
+
+                                                <div class="opinion-author-name">
+                                                    ${escapeHtml(
+                                                        opinion.author_name ||
+                                                        ''
+                                                    )}
+                                                </div>
+
                                             </div>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                `;
 
-                            `
+                            }
                         )
                         .join('');
 
@@ -3360,7 +3369,15 @@
                     error
                 );
 
-                container.innerHTML = '';
+                container.innerHTML = `
+                    <div class="opinion-card">
+
+                        <p class="opinion-quote">
+                            Мненията временно не могат да бъдат заредени.
+                        </p>
+
+                    </div>
+                `;
 
             }
 
