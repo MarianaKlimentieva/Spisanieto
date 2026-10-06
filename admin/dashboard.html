@@ -583,6 +583,147 @@
       padding: 20px 0;
     }
 
+    /* ========================= */
+    /* МНЕНИЯ */
+    /* ========================= */
+
+    .opinion-form textarea {
+      min-height: 170px;
+    }
+
+    .opinion-current-image {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .opinion-current-image img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      display: block;
+    }
+
+    .opinion-image-preview {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .opinion-image-preview img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      display: block;
+    }
+
+    .opinions-admin-list {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .opinion-admin-item {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+      background: #fff;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .opinion-admin-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #eee;
+      border: 1px solid #ddd;
+      flex-shrink: 0;
+    }
+
+    .opinion-admin-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .opinion-admin-quote {
+      font-family: Georgia, serif;
+      font-size: 19px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .opinion-admin-author {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .opinion-admin-status {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .opinion-admin-status.published {
+      color: #287a3d;
+      font-weight: bold;
+    }
+
+    .opinion-admin-status.unpublished {
+      color: #9b0000;
+      font-weight: bold;
+    }
+
+    .opinion-admin-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 120px;
+    }
+
+    .opinion-edit-button,
+    .opinion-delete-button {
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .opinion-edit-button {
+      background: #111;
+      color: white;
+    }
+
+    .opinion-edit-button:hover {
+      background: #333;
+    }
+
+    .opinion-delete-button {
+      background: #eee;
+      color: #9b0000;
+    }
+
+    .opinion-delete-button:hover {
+      background: #f3dede;
+    }
+
+    #opinionMessage {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .opinion-section-divider {
+      height: 1px;
+      background: #eee;
+      margin: 35px 0 25px;
+    }
+
     @media (max-width: 700px) {
 
       header {
@@ -637,6 +778,24 @@
         min-width: 130px;
       }
 
+      .opinion-admin-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .opinion-admin-avatar {
+        width: 100px;
+        height: 100px;
+      }
+
+      .opinion-admin-actions {
+        flex-direction: row;
+      }
+
+      .opinion-admin-actions button {
+        flex: 1;
+      }
+
     }
 
   </style>
@@ -657,6 +816,10 @@
 
 <main>
 
+
+  <!-- ========================= -->
+  <!-- НОВИНА -->
+  <!-- ========================= -->
 
   <div class="panel">
 
@@ -933,6 +1096,7 @@
           class="editor-align"
           title="Подравняване на текста"
         >
+
           <option value="">
             Подравняване
           </option>
@@ -952,6 +1116,7 @@
           <option value="justifyFull">
             ↔ Двустранно
           </option>
+
         </select>
 
       </div>
@@ -1058,6 +1223,9 @@
   </div>
 
 
+  <!-- ========================= -->
+  <!-- ПУБЛИКУВАНИ НОВИНИ -->
+  <!-- ========================= -->
 
   <div class="panel">
 
@@ -1077,6 +1245,163 @@
 
       <div class="loading">
         Зареждане на новините...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- МНЕНИЯ И КОМЕНТАРИ -->
+  <!-- ========================= -->
+
+  <div class="panel">
+
+    <h2 id="opinionFormTitle">
+      Мнения &amp; Коментари
+    </h2>
+
+
+    <form
+      id="opinionForm"
+      class="opinion-form"
+    >
+
+      <label for="opinionQuote">
+        Мнение / цитат
+      </label>
+
+      <textarea
+        id="opinionQuote"
+        placeholder="Въведете мнение или цитат"
+        required
+      ></textarea>
+
+
+      <label for="opinionAuthor">
+        Име на автора
+      </label>
+
+      <input
+        type="text"
+        id="opinionAuthor"
+        placeholder="Име на автора"
+        required
+      >
+
+
+      <label for="opinionAvatar">
+        Снимка на автора
+      </label>
+
+      <input
+        type="file"
+        id="opinionAvatar"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+      >
+
+      <div class="image-help">
+        Снимката е по желание.
+      </div>
+
+
+      <div
+        id="opinionCurrentImage"
+        class="opinion-current-image"
+      >
+
+        <div class="current-image-title">
+          Текуща снимка:
+        </div>
+
+        <img
+          id="opinionCurrentImagePreview"
+          src=""
+          alt="Текуща снимка на автора"
+        >
+
+      </div>
+
+
+      <div
+        id="opinionImagePreview"
+        class="opinion-image-preview"
+      >
+
+        <div class="current-image-title">
+          Нова снимка:
+        </div>
+
+        <img
+          id="opinionImagePreviewImage"
+          src=""
+          alt="Преглед на снимката"
+        >
+
+      </div>
+
+
+      <div class="featured-box">
+
+        <label class="featured-option">
+
+          <input
+            type="checkbox"
+            id="opinionPublished"
+            checked
+          >
+
+          Публикувано
+
+        </label>
+
+        <div class="featured-help">
+          Ако е отметнато, мнението ще се показва на началната страница.
+        </div>
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="save"
+        id="opinionSaveButton"
+      >
+        Добави мнение
+      </button>
+
+
+      <button
+        type="button"
+        class="cancel"
+        id="opinionCancelButton"
+        style="display:none;"
+      >
+        Отказ
+      </button>
+
+
+      <div id="opinionMessage"></div>
+
+    </form>
+
+
+    <div class="opinion-section-divider"></div>
+
+
+    <h2>
+      Добавени мнения
+    </h2>
+
+
+    <div
+      id="opinionsAdminList"
+      class="opinions-admin-list"
+    >
+
+      <div class="loading">
+        Зареждане на мненията...
       </div>
 
     </div>
@@ -1115,6 +1440,10 @@
   const STORAGE_BUCKET =
     'news-images';
 
+
+  /* ========================= */
+  /* НОВИНИ - DOM */
+  /* ========================= */
 
   const form =
     document.getElementById('newsForm');
@@ -1189,12 +1518,78 @@
     document.getElementById('is_focus');
 
 
+  /* ========================= */
+  /* МНЕНИЯ - DOM */
+  /* ========================= */
+
+  const opinionForm =
+    document.getElementById('opinionForm');
+
+  const opinionQuote =
+    document.getElementById('opinionQuote');
+
+  const opinionAuthor =
+    document.getElementById('opinionAuthor');
+
+  const opinionAvatar =
+    document.getElementById('opinionAvatar');
+
+  const opinionPublished =
+    document.getElementById('opinionPublished');
+
+  const opinionSaveButton =
+    document.getElementById('opinionSaveButton');
+
+  const opinionCancelButton =
+    document.getElementById('opinionCancelButton');
+
+  const opinionMessage =
+    document.getElementById('opinionMessage');
+
+  const opinionsAdminList =
+    document.getElementById('opinionsAdminList');
+
+  const opinionFormTitle =
+    document.getElementById('opinionFormTitle');
+
+  const opinionCurrentImage =
+    document.getElementById('opinionCurrentImage');
+
+  const opinionCurrentImagePreview =
+    document.getElementById(
+      'opinionCurrentImagePreview'
+    );
+
+  const opinionImagePreview =
+    document.getElementById(
+      'opinionImagePreview'
+    );
+
+  const opinionImagePreviewImage =
+    document.getElementById(
+      'opinionImagePreviewImage'
+    );
+
+
   let editingId = null;
 
   let currentImageUrl = '';
 
   let savedSelection = null;
 
+
+  /* ========================= */
+  /* МНЕНИЯ - STATE */
+  /* ========================= */
+
+  let editingOpinionId = null;
+
+  let currentOpinionAvatarUrl = '';
+
+
+  /* ========================= */
+  /* ПРОВЕРКА НА ВХОДА */
+  /* ========================= */
 
   const {
     data: { session }
@@ -1208,6 +1603,10 @@
 
   }
 
+
+  /* ========================= */
+  /* ПОМОЩНИ ФУНКЦИИ */
+  /* ========================= */
 
   function escapeHtml(value) {
 
@@ -1241,6 +1640,10 @@
 
   }
 
+
+  /* ========================= */
+  /* РЕДАКТОР */
+  /* ========================= */
 
   function saveSelection() {
 
@@ -1643,6 +2046,10 @@
   }
 
 
+  /* ========================= */
+  /* ОСНОВНА СНИМКА НА НОВИНА */
+  /* ========================= */
+
   imageFile.addEventListener(
     'change',
     function() {
@@ -1691,6 +2098,10 @@
     }
   );
 
+
+  /* ========================= */
+  /* ГАЛЕРИЯ */
+  /* ========================= */
 
   galleryFiles.addEventListener(
     'change',
@@ -1750,6 +2161,10 @@
     }
   );
 
+
+  /* ========================= */
+  /* КАЧВАНЕ НА СНИМКА */
+  /* ========================= */
 
   async function uploadImage(file) {
 
@@ -1871,6 +2286,134 @@
   }
 
 
+  /* ========================= */
+  /* КАЧВАНЕ НА СНИМКА НА АВТОР */
+  /* ========================= */
+
+  async function uploadOpinionImage(file) {
+
+    if (!file) {
+      return null;
+    }
+
+    if (!file.type.startsWith('image/')) {
+
+      throw new Error(
+        'Избраният файл не е изображение.'
+      );
+
+    }
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/gif'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+
+      throw new Error(
+        'Позволени са JPG, PNG, WEBP и GIF изображения.'
+      );
+
+    }
+
+    const maxSize =
+      10 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+
+      throw new Error(
+        'Снимката е прекалено голяма. Максималният размер е 10 MB.'
+      );
+
+    }
+
+    const extension =
+      file.name.includes('.')
+        ? file.name
+            .split('.')
+            .pop()
+            .toLowerCase()
+        : 'jpg';
+
+    const safeExtension =
+      extension === 'jpeg'
+        ? 'jpg'
+        : extension;
+
+    const uniqueName =
+      Date.now() +
+      '-' +
+      crypto.randomUUID() +
+      '.' +
+      safeExtension;
+
+    const filePath =
+      'opinions/' +
+      uniqueName;
+
+    const {
+      data,
+      error
+    } = await supabase
+      .storage
+      .from(STORAGE_BUCKET)
+      .upload(
+        filePath,
+        file,
+        {
+          cacheControl: '31536000',
+          contentType: file.type,
+          upsert: false
+        }
+      );
+
+    if (error) {
+
+      console.error(
+        'Opinion avatar upload error:',
+        error
+      );
+
+      throw new Error(
+        'Снимката на автора не можа да бъде качена: ' +
+        error.message
+      );
+
+    }
+
+    const {
+      data: publicData
+    } =
+      supabase
+        .storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(
+          data.path
+        );
+
+    if (
+      !publicData ||
+      !publicData.publicUrl
+    ) {
+
+      throw new Error(
+        'Снимката е качена, но не беше получен публичен URL.'
+      );
+
+    }
+
+    return publicData.publicUrl;
+
+  }
+
+
+  /* ========================= */
+  /* ПЪТ ДО СНИМКА В STORAGE */
+  /* ========================= */
+
   function getStoragePathFromUrl(
     imageUrl
   ) {
@@ -1910,6 +2453,53 @@
 
   }
 
+
+  /* ========================= */
+  /* ИЗТРИВАНЕ НА STORAGE ФАЙЛ */
+  /* ========================= */
+
+  async function deleteStorageImage(
+    imageUrl
+  ) {
+
+    const storagePath =
+      getStoragePathFromUrl(
+        imageUrl
+      );
+
+    if (!storagePath) {
+      return;
+    }
+
+    const {
+      error
+    } = await supabase
+      .storage
+      .from(STORAGE_BUCKET)
+      .remove([
+        storagePath
+      ]);
+
+    if (error) {
+
+      console.error(
+        'Storage delete error:',
+        error
+      );
+
+      throw new Error(
+        'Снимката не можа да бъде изтрита от хранилището: ' +
+        error.message
+      );
+
+    }
+
+  }
+
+
+  /* ========================= */
+  /* ГАЛЕРИЯ - КАЧВАНЕ */
+  /* ========================= */
 
   async function uploadGalleryImages(
     newsId,
@@ -2019,6 +2609,10 @@
 
   }
 
+
+  /* ========================= */
+  /* ИЗТРИВАНЕ НА ГАЛЕРИЯ */
+  /* ========================= */
 
   async function deleteGalleryImage(
     imageId,
@@ -2140,6 +2734,10 @@
 
   }
 
+
+  /* ========================= */
+  /* ЗАРЕЖДАНЕ НА ГАЛЕРИЯ */
+  /* ========================= */
 
   async function loadGallery(
     newsId
@@ -2278,6 +2876,10 @@
 
   }
 
+
+  /* ========================= */
+  /* ЗАРЕЖДАНЕ НА НОВИНИ */
+  /* ========================= */
 
   async function loadNews() {
 
@@ -2470,6 +3072,10 @@
   }
 
 
+  /* ========================= */
+  /* РЕДАКТИРАНЕ НА НОВИНА */
+  /* ========================= */
+
   async function startEdit(id) {
 
     message.textContent =
@@ -2620,6 +3226,10 @@
   );
 
 
+  /* ========================= */
+  /* НОВА НОВИНА */
+  /* ========================= */
+
   function resetForm() {
 
     editingId = null;
@@ -2686,6 +3296,10 @@
 
   }
 
+
+  /* ========================= */
+  /* ЗАПАЗВАНЕ НА НОВИНА */
+  /* ========================= */
 
   form.addEventListener(
     'submit',
@@ -2975,6 +3589,10 @@
   );
 
 
+  /* ========================= */
+  /* ИЗТРИВАНЕ НА НОВИНА */
+  /* ========================= */
+
   async function deleteNews(id) {
 
     const confirmed =
@@ -3113,6 +3731,833 @@
   }
 
 
+  /* ===================================================== */
+  /* ===================================================== */
+  /* МНЕНИЯ & КОМЕНТАРИ */
+  /* ===================================================== */
+  /* ===================================================== */
+
+
+  /* ========================= */
+  /* СНИМКА НА АВТОР - PREVIEW */
+  /* ========================= */
+
+  opinionAvatar.addEventListener(
+    'change',
+    function() {
+
+      const file =
+        this.files[0];
+
+      if (!file) {
+
+        opinionImagePreview.style.display =
+          'none';
+
+        opinionImagePreviewImage.src =
+          '';
+
+        return;
+
+      }
+
+      if (!file.type.startsWith('image/')) {
+
+        opinionMessage.textContent =
+          'Моля, избери файл с изображение.';
+
+        this.value = '';
+
+        opinionImagePreview.style.display =
+          'none';
+
+        return;
+
+      }
+
+      const previewUrl =
+        URL.createObjectURL(file);
+
+      opinionImagePreviewImage.src =
+        previewUrl;
+
+      opinionImagePreview.style.display =
+        'block';
+
+      opinionMessage.textContent =
+        '';
+
+    }
+  );
+
+
+  /* ========================= */
+  /* ЗАРЕЖДАНЕ НА МНЕНИЯ */
+  /* ========================= */
+
+  async function loadOpinionsAdmin() {
+
+    opinionsAdminList.innerHTML =
+      '<div class="loading">Зареждане на мненията...</div>';
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from('opinions')
+      .select(`
+        id,
+        quote,
+        author_name,
+        avatar_url,
+        published,
+        created_at
+      `)
+      .order(
+        'created_at',
+        {
+          ascending: false
+        }
+      );
+
+    if (error) {
+
+      console.error(
+        'Opinions load error:',
+        error
+      );
+
+      opinionsAdminList.innerHTML =
+        `
+          <div class="empty">
+            Грешка при зареждането на мненията.
+            <br><br>
+            ${escapeHtml(error.message)}
+          </div>
+        `;
+
+      return;
+
+    }
+
+    if (!data || data.length === 0) {
+
+      opinionsAdminList.innerHTML =
+        `
+          <div class="empty">
+            Все още няма добавени мнения.
+          </div>
+        `;
+
+      return;
+
+    }
+
+
+    opinionsAdminList.innerHTML =
+      data.map(opinion => {
+
+        const avatar =
+          opinion.avatar_url ||
+          'https://ui-avatars.com/api/?name=' +
+          encodeURIComponent(
+            opinion.author_name || 'Автор'
+          ) +
+          '&background=f0ece7&color=333';
+
+
+        const statusClass =
+          opinion.published
+            ? 'published'
+            : 'unpublished';
+
+
+        const statusText =
+          opinion.published
+            ? 'Публикувано'
+            : 'Скрито';
+
+
+        return `
+
+          <div class="opinion-admin-item">
+
+            <img
+              class="opinion-admin-avatar"
+              src="${escapeHtml(avatar)}"
+              alt="${escapeHtml(opinion.author_name || 'Автор')}"
+            >
+
+
+            <div class="opinion-admin-content">
+
+              <div class="opinion-admin-quote">
+                „${escapeHtml(opinion.quote)}“
+              </div>
+
+              <div class="opinion-admin-author">
+                ${escapeHtml(opinion.author_name)}
+              </div>
+
+              <div
+                class="opinion-admin-status ${statusClass}"
+              >
+                ${statusText}
+                &nbsp; • &nbsp;
+                ${formatDate(opinion.created_at)}
+              </div>
+
+            </div>
+
+
+            <div class="opinion-admin-actions">
+
+              <button
+                type="button"
+                class="opinion-edit-button"
+                data-opinion-id="${opinion.id}"
+              >
+                ✏️ Редактирай
+              </button>
+
+              <button
+                type="button"
+                class="opinion-delete-button"
+                data-opinion-id="${opinion.id}"
+              >
+                🗑️ Изтрий
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join('');
+
+
+    document
+      .querySelectorAll('.opinion-edit-button')
+      .forEach(button => {
+
+        button.addEventListener(
+          'click',
+          function() {
+
+            const id =
+              this.dataset.opinionId;
+
+            startOpinionEdit(id);
+
+          }
+        );
+
+      });
+
+
+    document
+      .querySelectorAll('.opinion-delete-button')
+      .forEach(button => {
+
+        button.addEventListener(
+          'click',
+          function() {
+
+            const id =
+              this.dataset.opinionId;
+
+            deleteOpinion(id);
+
+          }
+        );
+
+      });
+
+  }
+
+
+  /* ========================= */
+  /* РЕДАКТИРАНЕ НА МНЕНИЕ */
+  /* ========================= */
+
+  async function startOpinionEdit(id) {
+
+    opinionMessage.textContent =
+      'Зареждане на мнението...';
+
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from('opinions')
+      .select(`
+        id,
+        quote,
+        author_name,
+        avatar_url,
+        published
+      `)
+      .eq(
+        'id',
+        id
+      )
+      .single();
+
+
+    if (error) {
+
+      console.error(
+        'Opinion edit load error:',
+        error
+      );
+
+      opinionMessage.textContent =
+        'Грешка при зареждането на мнението.';
+
+      return;
+
+    }
+
+
+    editingOpinionId =
+      data.id;
+
+
+    currentOpinionAvatarUrl =
+      data.avatar_url || '';
+
+
+    opinionQuote.value =
+      data.quote || '';
+
+
+    opinionAuthor.value =
+      data.author_name || '';
+
+
+    opinionPublished.checked =
+      data.published === true;
+
+
+    opinionAvatar.value =
+      '';
+
+
+    opinionImagePreview.style.display =
+      'none';
+
+
+    opinionImagePreviewImage.src =
+      '';
+
+
+    if (currentOpinionAvatarUrl) {
+
+      opinionCurrentImagePreview.src =
+        currentOpinionAvatarUrl;
+
+      opinionCurrentImage.style.display =
+        'block';
+
+    } else {
+
+      opinionCurrentImagePreview.src =
+        '';
+
+      opinionCurrentImage.style.display =
+        'none';
+
+    }
+
+
+    opinionFormTitle.textContent =
+      'Редактиране на мнение';
+
+
+    opinionSaveButton.textContent =
+      'Запази промените';
+
+
+    opinionCancelButton.style.display =
+      'inline-block';
+
+
+    opinionMessage.textContent =
+      '';
+
+
+    opinionForm.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+  }
+
+
+  /* ========================= */
+  /* НОВО МНЕНИЕ / RESET */
+  /* ========================= */
+
+  function resetOpinionForm() {
+
+    editingOpinionId =
+      null;
+
+
+    currentOpinionAvatarUrl =
+      '';
+
+
+    opinionForm.reset();
+
+
+    opinionPublished.checked =
+      true;
+
+
+    opinionAvatar.value =
+      '';
+
+
+    opinionCurrentImage.style.display =
+      'none';
+
+
+    opinionCurrentImagePreview.src =
+      '';
+
+
+    opinionImagePreview.style.display =
+      'none';
+
+
+    opinionImagePreviewImage.src =
+      '';
+
+
+    opinionFormTitle.textContent =
+      'Мнения & Коментари';
+
+
+    opinionSaveButton.textContent =
+      'Добави мнение';
+
+
+    opinionCancelButton.style.display =
+      'none';
+
+
+    opinionMessage.textContent =
+      '';
+
+  }
+
+
+  opinionCancelButton.addEventListener(
+    'click',
+    function() {
+
+      resetOpinionForm();
+
+    }
+  );
+
+
+  /* ========================= */
+  /* ЗАПАЗВАНЕ НА МНЕНИЕ */
+  /* ========================= */
+
+  opinionForm.addEventListener(
+    'submit',
+    async function(event) {
+
+      event.preventDefault();
+
+
+      opinionSaveButton.disabled =
+        true;
+
+
+      opinionMessage.textContent =
+        editingOpinionId
+          ? 'Запазване на промените...'
+          : 'Добавяне на мнението...';
+
+
+      const quote =
+        opinionQuote.value.trim();
+
+
+      const authorName =
+        opinionAuthor.value.trim();
+
+
+      const published =
+        opinionPublished.checked;
+
+
+      if (!quote) {
+
+        opinionMessage.textContent =
+          'Моля, въведи мнение или цитат.';
+
+        opinionSaveButton.disabled =
+          false;
+
+        opinionQuote.focus();
+
+        return;
+
+      }
+
+
+      if (!authorName) {
+
+        opinionMessage.textContent =
+          'Моля, въведи име на автора.';
+
+        opinionSaveButton.disabled =
+          false;
+
+        opinionAuthor.focus();
+
+        return;
+
+      }
+
+
+      try {
+
+        const selectedAvatar =
+          opinionAvatar.files[0];
+
+
+        let avatarUrl =
+          currentOpinionAvatarUrl || null;
+
+
+        /* ========================= */
+        /* НОВА СНИМКА */
+        /* ========================= */
+
+        if (selectedAvatar) {
+
+          opinionMessage.textContent =
+            'Качване на снимката на автора...';
+
+
+          avatarUrl =
+            await uploadOpinionImage(
+              selectedAvatar
+            );
+
+        }
+
+
+        /* ========================= */
+        /* РЕДАКТИРАНЕ */
+        /* ========================= */
+
+        if (editingOpinionId) {
+
+          const {
+            error
+          } = await supabase
+            .from('opinions')
+            .update({
+
+              quote:
+                quote,
+
+              author_name:
+                authorName,
+
+              avatar_url:
+                avatarUrl,
+
+              published:
+                published
+
+            })
+            .eq(
+              'id',
+              editingOpinionId
+            );
+
+
+          if (error) {
+
+            console.error(
+              'Opinion update error:',
+              error
+            );
+
+            throw new Error(
+              'Грешка при редактирането: ' +
+              error.message
+            );
+
+          }
+
+
+          /* Изтриваме старата снимка,
+             ако е заменена с нова */
+
+          if (
+            selectedAvatar &&
+            currentOpinionAvatarUrl &&
+            currentOpinionAvatarUrl !== avatarUrl
+          ) {
+
+            try {
+
+              await deleteStorageImage(
+                currentOpinionAvatarUrl
+              );
+
+            } catch (storageError) {
+
+              console.warn(
+                'Старата снимка не можа да бъде изтрита:',
+                storageError
+              );
+
+            }
+
+          }
+
+
+          opinionMessage.textContent =
+            'Мнението е редактирано успешно!';
+
+
+          resetOpinionForm();
+
+
+          await loadOpinionsAdmin();
+
+
+          return;
+
+        }
+
+
+        /* ========================= */
+        /* НОВО МНЕНИЕ */
+        /* ========================= */
+
+        const {
+          error
+        } = await supabase
+          .from('opinions')
+          .insert({
+
+            quote:
+              quote,
+
+            author_name:
+              authorName,
+
+            avatar_url:
+              avatarUrl,
+
+            published:
+              published
+
+          });
+
+
+        if (error) {
+
+          console.error(
+            'Opinion insert error:',
+            error
+          );
+
+          throw new Error(
+            'Грешка при добавянето: ' +
+            error.message
+          );
+
+        }
+
+
+        opinionMessage.textContent =
+          'Мнението е добавено успешно!';
+
+
+        resetOpinionForm();
+
+
+        await loadOpinionsAdmin();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        opinionMessage.textContent =
+          error.message ||
+          'Възникна грешка.';
+
+
+      } finally {
+
+        opinionSaveButton.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+  /* ========================= */
+  /* ИЗТРИВАНЕ НА МНЕНИЕ */
+  /* ========================= */
+
+  async function deleteOpinion(id) {
+
+    const confirmed =
+      confirm(
+        'Сигурни ли сте, че искате да изтриете това мнение?'
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    opinionMessage.textContent =
+      'Изтриване на мнението...';
+
+
+    try {
+
+      /* Първо намираме снимката */
+
+      const {
+        data,
+        error: loadError
+      } = await supabase
+        .from('opinions')
+        .select(`
+          id,
+          avatar_url
+        `)
+        .eq(
+          'id',
+          id
+        )
+        .single();
+
+
+      if (loadError) {
+
+        console.error(
+          'Opinion before delete error:',
+          loadError
+        );
+
+        throw new Error(
+          'Мнението не можа да бъде заредено: ' +
+          loadError.message
+        );
+
+      }
+
+
+      /* Изтриваме снимката от Storage */
+
+      if (
+        data &&
+        data.avatar_url
+      ) {
+
+        try {
+
+          await deleteStorageImage(
+            data.avatar_url
+          );
+
+        } catch (storageError) {
+
+          console.warn(
+            'Снимката не можа да бъде изтрита:',
+            storageError
+          );
+
+        }
+
+      }
+
+
+      /* Изтриваме записа */
+
+      const {
+        error
+      } = await supabase
+        .from('opinions')
+        .delete()
+        .eq(
+          'id',
+          id
+        );
+
+
+      if (error) {
+
+        console.error(
+          'Opinion delete error:',
+          error
+        );
+
+        throw new Error(
+          'Грешка при изтриването: ' +
+          error.message
+        );
+
+      }
+
+
+      if (
+        editingOpinionId === id
+      ) {
+
+        resetOpinionForm();
+
+      }
+
+
+      opinionMessage.textContent =
+        'Мнението е изтрито успешно.';
+
+
+      await loadOpinionsAdmin();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      opinionMessage.textContent =
+        error.message ||
+        'Мнението не можа да бъде изтрито.';
+
+    }
+
+  }
+
+
+  /* ========================= */
+  /* ИЗХОД */
+  /* ========================= */
+
   logout.addEventListener(
     'click',
     async function() {
@@ -3126,7 +4571,13 @@
   );
 
 
+  /* ========================= */
+  /* ПЪРВОНАЧАЛНО ЗАРЕЖДАНЕ */
+  /* ========================= */
+
   await loadNews();
+
+  await loadOpinionsAdmin();
 
 </script>
 
