@@ -5319,9 +5319,77 @@
 
 
         loadOpinions();
+               setTimeout(function () {
+
+            const container =
+                document.getElementById(
+                    'opinions-container'
+                );
+
+            const moreButton =
+                document.getElementById(
+                    'opinions-more-button'
+                );
+
+            if (!container || !moreButton) {
+                return;
+            }
+
+
+            const cards =
+                container.querySelectorAll(
+                    '.opinion-card'
+                );
+
+
+            /* Първоначално показваме само 3 мнения */
+
+            cards.forEach(function (card, index) {
+
+                if (index >= 3) {
+                    card.style.display = 'none';
+                }
+
+            });
+
+
+            /* Ако има 3 или по-малко мнения,
+               скриваме бутона */
+
+            if (cards.length <= 3) {
+
+                moreButton.parentElement.style.display =
+                    'none';
+
+                return;
+            }
+
+
+            /* При натискане на „Виж всички“ */
+
+            moreButton.addEventListener(
+                'click',
+                function () {
+
+                    cards.forEach(function (card) {
+
+                        card.style.display = 'flex';
+
+                    });
+
+
+                    moreButton.parentElement.style.display =
+                        'none';
+
+                }
+            );
+
+        }, 500);
 
     </script>
 
 
 </body>
 </html>
+
+
