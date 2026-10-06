@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -667,10 +668,6 @@
             font-size: 0.68rem;
             color: #777;
         }
-
-        /* =========================================
-           ТЕМИ НА ФОКУС
-        ========================================= */
 
         .focus-topics-list {
             display: flex;
@@ -3238,7 +3235,7 @@
 
     <!-- =========================================
          МНЕНИЯ & КОМЕНТАРИ
-         Използва вече създадения Supabase client
+         ИЗПОЛЗВА ВЕЧЕ СЪЗДАДЕНИЯ SUPABASE CLIENT
     ========================================= -->
 
     <script>
@@ -3254,13 +3251,70 @@
                 return;
             }
 
+            /*
+             * ВАЖНО:
+             * Основният Supabase client е създаден
+             * в type="module" скрипта.
+             *
+             * Затова тук използваме:
+             *
+             * window.supabaseClient
+             *
+             * а не директно "supabase".
+             */
+
+            const opinionsClient =
+                window.supabaseClient;
+
+            if (!opinionsClient) {
+
+                console.error(
+                    'Supabase client не е наличен.'
+                );
+
+                container.innerHTML = `
+                    <div class="opinion-card">
+
+                        <p class="opinion-quote">
+                            Мненията временно не могат да бъдат заредени.
+                        </p>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+            /*
+             * Отделна функция за защита на текста.
+             * Не използваме escapeHtml() от module скрипта,
+             * защото той е в друга JavaScript област.
+             */
+
+            function opinionEscapeHtml(value) {
+
+                if (
+                    value === null ||
+                    value === undefined
+                ) {
+                    return '';
+                }
+
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
             try {
 
                 const {
                     data,
                     error
                 } =
-                    await supabase
+                    await opinionsClient
                         .from('opinions')
                         .select(
                             'quote, author_name, avatar_url'
@@ -3279,7 +3333,7 @@
                 if (error) {
 
                     console.error(
-                        'Грешка при зареждане на мнения:',
+                        'Грешка от Supabase при зареждане на мнения:',
                         error
                     );
 
@@ -3311,30 +3365,38 @@
                         .map(
                             opinion => {
 
+                                const quote =
+                                    opinionEscapeHtml(
+                                        opinion.quote || ''
+                                    );
+
+                                const author =
+                                    opinionEscapeHtml(
+                                        opinion.author_name || ''
+                                    );
+
+                                const avatar =
+                                    opinionEscapeHtml(
+                                        opinion.avatar_url || ''
+                                    );
+
                                 return `
 
                                     <div class="opinion-card">
 
                                         <p class="opinion-quote">
-                                            „${escapeHtml(
-                                                opinion.quote || ''
-                                            )}“
+                                            „${quote}“
                                         </p>
 
                                         <div class="opinion-author-box">
 
                                             ${
-                                                opinion.avatar_url
+                                                avatar
                                                     ? `
                                                         <img
-                                                            src="${escapeHtml(
-                                                                opinion.avatar_url
-                                                            )}"
+                                                            src="${avatar}"
                                                             class="opinion-avatar"
-                                                            alt="${escapeHtml(
-                                                                opinion.author_name ||
-                                                                'Автор'
-                                                            )}"
+                                                            alt="${author || 'Автор'}"
                                                             loading="lazy"
                                                         >
                                                     `
@@ -3344,10 +3406,7 @@
                                             <div>
 
                                                 <div class="opinion-author-name">
-                                                    ${escapeHtml(
-                                                        opinion.author_name ||
-                                                        ''
-                                                    )}
+                                                    ${author}
                                                 </div>
 
                                             </div>
@@ -3389,3 +3448,4 @@
 
 </body>
 </html>
+```
