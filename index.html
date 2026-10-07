@@ -1649,20 +1649,26 @@
 
         .opinion-avatar {
 
-            width: 90px;
+    grid-column: 1;
 
-            height: 90px;
+    grid-row: 1 / span 2;
 
-            border-radius: 50%;
+    width: 90px;
 
-            object-fit: cover;
+    height: 90px;
 
-            border:
-                2px solid
-                rgba(162, 31, 90, 0.15);
+    border-radius: 50%;
 
-            flex-shrink: 0;
-        }
+    object-fit: cover;
+
+    border:
+        2px solid
+        rgba(162, 31, 90, 0.15);
+
+    flex-shrink: 0;
+
+    align-self: center;
+}
 
 
         .opinion-author-name {
