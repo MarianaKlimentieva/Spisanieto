@@ -1505,23 +1505,18 @@
 
 
         .opinion-grid {
+    display: grid;
 
-            display: grid;
+    grid-template-columns: 1fr;
 
-            grid-template-columns:
-                repeat(
-                    3,
-                    minmax(0, 1fr)
-                );
+    gap: 14px;
 
-            gap: 14px;
+    width: 100%;
 
-            width: 100%;
+    margin: 0;
 
-            margin: 0;
-
-            padding: 0;
-        }
+    padding: 0;
+}
 
 
         .opinion-card {
