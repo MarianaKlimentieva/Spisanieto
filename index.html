@@ -1537,13 +1537,15 @@
 
     min-height: 150px;
 
-    display: flex;
+    display: grid;
 
-    flex-direction: row;
+    grid-template-columns:
+        90px
+        minmax(0, 1fr);
 
-    align-items: stretch;
+    column-gap: 24px;
 
-    justify-content: space-between;
+    align-items: center;
 
     overflow: hidden;
 
@@ -1556,7 +1558,6 @@
         box-shadow 0.25s ease,
         border-color 0.25s ease;
 }
-
 
 .opinion-card::before {
 
