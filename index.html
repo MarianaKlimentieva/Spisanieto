@@ -5066,271 +5066,272 @@ padding-left: 18px;
          SUPABASE LOADER
     ========================================= -->
 
-    <script>
+   ```html
+<script>
 
-        async function loadOpinions() {
+async function loadOpinions() {
 
-            const container =
-                document.getElementById(
-                    'opinions-container'
+    const container =
+        document.getElementById(
+            'opinions-container'
+        );
+
+    const moreButton =
+        document.getElementById(
+            'opinions-more-button'
+        );
+
+    if (!container) {
+        return;
+    }
+
+    let attempts = 0;
+
+    while (
+        !window.supabaseClient &&
+        attempts < 50
+    ) {
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    100
+                )
+        );
+
+        attempts++;
+    }
+
+    const opinionsClient =
+        window.supabaseClient;
+
+    if (!opinionsClient) {
+
+        console.error(
+            'Supabase client не може да бъде зареден.'
+        );
+
+        container.innerHTML = `
+            <div class="opinion-card">
+                <p class="opinion-quote">
+                    Мненията временно не могат да бъдат заредени.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    function opinionEscapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '';
+        }
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await opinionsClient
+                .from('opinions')
+                .select(
+                    'quote, author_name, avatar_url, created_at'
+                )
+                .eq(
+                    'published',
+                    true
+                )
+                .order(
+                    'created_at',
+                    {
+                        ascending: false
+                    }
                 );
 
+        if (error) {
 
-            if (!container) {
-                return;
+            console.error(
+                'Грешка от Supabase при зареждане на мнения:',
+                error
+            );
+
+            container.innerHTML = `
+                <div class="opinion-card">
+                    <p class="opinion-quote">
+                        Мненията временно не могат да бъдат заредени.
+                    </p>
+                </div>
+            `;
+
+            if (moreButton) {
+                moreButton.parentElement.style.display =
+                    'none';
             }
 
+            return;
+        }
 
-            let attempts = 0;
+        if (
+            !data ||
+            data.length === 0
+        ) {
 
+            container.innerHTML = '';
 
-            while (
-                !window.supabaseClient &&
-                attempts < 50
-            ) {
-
-                await new Promise(
-                    resolve =>
-                        setTimeout(
-                            resolve,
-                            100
-                        )
-                );
-
-
-                attempts++;
+            if (moreButton) {
+                moreButton.parentElement.style.display =
+                    'none';
             }
 
+            return;
+        }
 
-            const opinionsClient =
-                window.supabaseClient;
+        container.innerHTML =
+            data.map(
+                function(opinion, index) {
 
-
-            if (!opinionsClient) {
-
-                console.error(
-                    'Supabase client не можа да бъде зареден.'
-                );
-
-
-                container.innerHTML = `
-
-                    <div class="opinion-card">
-
-                        <p class="opinion-quote">
-                            Мненията временно не могат да бъдат заредени.
-                        </p>
-
-                    </div>
-
-                `;
-
-                return;
-            }
-
-
-            function opinionEscapeHtml(value) {
-
-                if (
-                    value === null ||
-                    value === undefined
-                ) {
-                    return '';
-                }
-
-
-                return String(value)
-
-                    .replace(
-                        /&/g,
-                        '&amp;'
-                    )
-
-                    .replace(
-                        /</g,
-                        '&lt;'
-                    )
-
-                    .replace(
-                        />/g,
-                        '&gt;'
-                    )
-
-                    .replace(
-                        /"/g,
-                        '&quot;'
-                    )
-
-                    .replace(
-                        /'/g,
-                        '&#039;'
-                    );
-            }
-
-
-            try {
-
-                const {
-                    data,
-                    error
-                } =
-                    await opinionsClient
-
-                        .from('opinions')
-
-                        .select(
-                            'quote, author_name, avatar_url'
-                        )
-
-                        .eq(
-                            'published',
-                            true
-                        )
-
-                        .order(
-                            'created_at',
-                            {
-                                ascending: false
-                            }
+                    const quote =
+                        opinionEscapeHtml(
+                            opinion.quote || ''
                         );
 
+                    const author =
+                        opinionEscapeHtml(
+                            opinion.author_name || ''
+                        );
 
-                if (error) {
+                    const avatar =
+                        opinionEscapeHtml(
+                            opinion.avatar_url || ''
+                        );
 
-                    console.error(
-                        'Грешка от Supabase при зареждане на мнения:',
-                        error
-                    );
-
-
-                    container.innerHTML = `
-
-                        <div class="opinion-card">
+                    return `
+                        <div
+                            class="opinion-card"
+                            ${index >= 3
+                                ? 'style="display:none;"'
+                                : ''
+                            }
+                        >
 
                             <p class="opinion-quote">
-                                Мненията временно не могат да бъдат заредени.
+                                „${quote}“
                             </p>
 
-                        </div>
+                            <div class="opinion-author-box">
 
-                    `;
+                                ${
+                                    avatar
+                                        ? `
+                                            <img
+                                                src="${avatar}"
+                                                class="opinion-avatar"
+                                                alt="${author || 'Автор'}"
+                                                loading="lazy"
+                                            >
+                                        `
+                                        : ''
+                                }
 
-                    return;
-                }
-
-
-                if (
-                    !data ||
-                    data.length === 0
-                ) {
-
-                    container.innerHTML = '';
-
-                    return;
-                }
-
-
-                container.innerHTML =
-                    data
-
-                        .map(
-                            opinion => {
-
-                                const quote =
-                                    opinionEscapeHtml(
-                                        opinion.quote || ''
-                                    );
-
-
-                                const author =
-                                    opinionEscapeHtml(
-                                        opinion.author_name || ''
-                                    );
-
-
-                                const avatar =
-                                    opinionEscapeHtml(
-                                        opinion.avatar_url || ''
-                                    );
-
-
-                                return `
-
-                                    <div class="opinion-card">
-
-                                        <p class="opinion-quote">
-                                            „${quote}“
-                                        </p>
-
-
-                                        <div class="opinion-author-box">
-
-                                            ${
-                                                avatar
-
-                                                    ? `
-
-                                                        <img
-                                                            src="${avatar}"
-                                                            class="opinion-avatar"
-                                                            alt="${author || 'Автор'}"
-                                                            loading="lazy"
-                                                        >
-
-                                                    `
-
-                                                    : ''
-                                            }
-                                                                                        <div>
-                                                <div class="opinion-author-name">
-                                                    ${author}
-                                                </div>
-                                            </div>
-
-
-                                            <div>
-
-                                                <div class="opinion-author-name">
-                                                    ${author}
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
+                                <div>
+                                    <div class="opinion-author-name">
+                                        ${author}
                                     </div>
+                                </div>
 
-                                `;
+                            </div>
 
-                            }
-                        )
+                        </div>
+                    `;
+                }
+            ).join('');
 
-                        .join('');
-
-
-            } catch (error) {
-
-                console.error(
-                    'Грешка при зареждане на мнения:',
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <div class="opinion-card">
-
-                        <p class="opinion-quote">
-                            Мненията временно не могат да бъдат заредени.
-                        </p>
-
-                    </div>
-
-                `;
-
-            }
-
+        if (!moreButton) {
+            return;
         }
+
+        if (data.length <= 3) {
+
+            moreButton.parentElement.style.display =
+                'none';
+
+        } else {
+
+            moreButton.parentElement.style.display =
+                'block';
+
+            moreButton.style.display =
+                'flex';
+
+            const newButton =
+                moreButton.cloneNode(true);
+
+            moreButton.parentNode.replaceChild(
+                newButton,
+                moreButton
+            );
+
+            newButton.addEventListener(
+                'click',
+                function() {
+
+                    const hiddenCards =
+                        container.querySelectorAll(
+                            '.opinion-card[style*="display:none"]'
+                        );
+
+                    hiddenCards.forEach(
+                        function(card) {
+                            card.style.display =
+                                'flex';
+                        }
+                    );
+
+                    newButton.parentElement.style.display =
+                        'none';
+                }
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Грешка при зареждане на мнения:',
+            error
+        );
+
+        container.innerHTML = `
+            <div class="opinion-card">
+                <p class="opinion-quote">
+                    Мненията временно не могат да бъдат заредени.
+                </p>
+            </div>
+        `;
+
+        if (moreButton) {
+            moreButton.parentElement.style.display =
+                'none';
+        }
+    }
+}
+
+loadOpinions();
+
+</script>
+```
 
 
         loadOpinions();
