@@ -2450,6 +2450,92 @@
             }
 
         }
+        /* =========================================
+   ВДЪХНОВЕНИЕ — МОДА И ТЕНДЕНЦИИ
+========================================= */
+
+.inspiration-feature-section {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.inspiration-section-heading {
+    margin-bottom: 28px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 12px;
+}
+
+.inspiration-section-heading span {
+    display: block;
+    margin-bottom: 5px;
+
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: var(--accent-color);
+}
+
+.inspiration-section-heading h3 {
+    margin: 0;
+
+    font-family: var(--font-serif);
+    font-size: 38px;
+    line-height: 1.05;
+    font-weight: 600;
+
+    color: #111;
+}
+
+.inspiration-fashion-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(280px, 1fr);
+
+    gap: 28px;
+
+    width: 100%;
+}
+
+.inspiration-fashion-loading {
+    grid-column: 1 / -1;
+
+    padding: 50px 20px;
+
+    text-align: center;
+
+    font-family: var(--font-sans);
+    font-size: 14px;
+
+    color: #777;
+}
+
+
+/* -----------------------------------------
+   RESPONSIVE
+----------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .inspiration-feature-section {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .inspiration-section-heading h3 {
+        font-size: 32px;
+    }
+
+    .inspiration-fashion-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+}
 
     </style>
 
