@@ -5442,6 +5442,366 @@ loadOpinions();
         }, 500);
 
     </script>
+               <script>
+async function loadFashionInspiration() {
+
+    const container =
+        document.getElementById(
+            'inspiration-fashion-container'
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    let attempts = 0;
+
+    while (
+        !window.supabaseClient &&
+        attempts < 50
+    ) {
+
+        await new Promise(
+            function(resolve) {
+                setTimeout(
+                    resolve,
+                    100
+                );
+            }
+        );
+
+        attempts++;
+    }
+
+
+    const client =
+        window.supabaseClient;
+
+
+    if (!client) {
+
+        console.error(
+            'Supabase client не може да бъде зареден.'
+        );
+
+        container.innerHTML = `
+            <div class="inspiration-fashion-loading">
+                Публикациите временно не могат да бъдат заредени.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    function fashionEscapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return '';
+        }
+
+
+        return String(value)
+            .replace(
+                /&/g,
+                '&amp;'
+            )
+            .replace(
+                /</g,
+                '&lt;'
+            )
+            .replace(
+                />/g,
+                '&gt;'
+            )
+            .replace(
+                /"/g,
+                '&quot;'
+            )
+            .replace(
+                /'/g,
+                '&#039;'
+            );
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await client
+
+                .from('news')
+
+                .select(`
+                    id,
+                    title,
+                    subtitle,
+                    image_url,
+                    category,
+                    created_at
+                `)
+
+                .eq(
+                    'status',
+                    'published'
+                )
+
+                .eq(
+                    'category',
+                    'Мода и тенденции'
+                )
+
+                .order(
+                    'created_at',
+                    {
+                        ascending: false
+                    }
+                )
+
+                .limit(3);
+
+
+        if (error) {
+
+            console.error(
+                'Грешка при зареждане на Мода и тенденции:',
+                error
+            );
+
+            container.innerHTML = `
+                <div class="inspiration-fashion-loading">
+                    Публикациите временно не могат да бъдат заредени.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="inspiration-fashion-loading">
+                    Все още няма публикувани материали в тази рубрика.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const fallbackImage =
+            'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1200&q=80';
+
+
+        const lead =
+            data[0];
+
+
+        const smaller =
+            data.slice(
+                1,
+                3
+            );
+
+
+        function articleUrl(id) {
+
+            return (
+                'article.html?id=' +
+                encodeURIComponent(id)
+            );
+        }
+
+
+        function formatFashionDate(date) {
+
+            if (!date) {
+                return '';
+            }
+
+
+            const d =
+                new Date(date);
+
+
+            if (
+                Number.isNaN(
+                    d.getTime()
+                )
+            ) {
+
+                return '';
+            }
+
+
+            return d.toLocaleDateString(
+                'bg-BG',
+                {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }
+            );
+        }
+
+
+        container.innerHTML = `
+
+            <article class="inspiration-fashion-lead">
+
+                <a
+                    href="${articleUrl(lead.id)}"
+                    class="inspiration-fashion-lead-link"
+                >
+
+                    <div class="inspiration-fashion-lead-image">
+
+                        <img
+                            src="${fashionEscapeHtml(
+                                lead.image_url ||
+                                fallbackImage
+                            )}"
+                            alt="${fashionEscapeHtml(
+                                lead.title
+                            )}"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+
+                    <div class="inspiration-fashion-lead-content">
+
+                        <span class="inspiration-fashion-category">
+                            Мода и тенденции
+                        </span>
+
+                        <h4>
+                            ${fashionEscapeHtml(
+                                lead.title
+                            )}
+                        </h4>
+
+                        ${
+                            lead.subtitle
+                                ? `
+                                    <p>
+                                        ${fashionEscapeHtml(
+                                            lead.subtitle
+                                        )}
+                                    </p>
+                                `
+                                : ''
+                        }
+
+                        <time>
+                            ${formatFashionDate(
+                                lead.created_at
+                            )}
+                        </time>
+
+                    </div>
+
+                </a>
+
+            </article>
+
+
+            <div class="inspiration-fashion-small-list">
+
+                ${smaller.map(
+                    function(news) {
+
+                        return `
+
+                            <article class="inspiration-fashion-small">
+
+                                <a
+                                    href="${articleUrl(
+                                        news.id
+                                    )}"
+                                    class="inspiration-fashion-small-link"
+                                >
+
+                                    <div class="inspiration-fashion-small-image">
+
+                                        <img
+                                            src="${fashionEscapeHtml(
+                                                news.image_url ||
+                                                fallbackImage
+                                            )}"
+                                            alt="${fashionEscapeHtml(
+                                                news.title
+                                            )}"
+                                            loading="lazy"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="inspiration-fashion-small-content">
+
+                                        <span>
+                                            Мода и тенденции
+                                        </span>
+
+                                        <h5>
+                                            ${fashionEscapeHtml(
+                                                news.title
+                                            )}
+                                        </h5>
+
+                                        <time>
+                                            ${formatFashionDate(
+                                                news.created_at
+                                            )}
+                                        </time>
+
+                                    </div>
+
+                                </a>
+
+                            </article>
+
+                        `;
+
+                    }
+                ).join('')}
+
+            </div>
+
+        `;
+
+    } catch (error) {
+
+        console.error(
+            'Грешка при зареждане на Мода и тенденции:',
+            error
+        );
+
+        container.innerHTML = `
+            <div class="inspiration-fashion-loading">
+                Публикациите временно не могат да бъдат заредени.
+            </div>
+        `;
+    }
+}
+
+
+loadFashionInspiration();
+</script> 
 
 
 </body>
