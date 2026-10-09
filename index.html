@@ -2536,26 +2536,76 @@
     }
 
 }
+```css
 /* =========================================
    ВДЪХНОВЕНИЕ — МОДА И ТЕНДЕНЦИИ
-   EDITORIAL STYLE
+   EDITORIAL PHOTO GRID
 ========================================= */
+
+.inspiration-feature-section {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.inspiration-section-heading {
+    margin-bottom: 18px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 12px;
+}
+
+.inspiration-fashion-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    width: 100%;
+    align-items: stretch;
+}
+
+.inspiration-fashion-loading {
+    grid-column: 1 / -1;
+    padding: 50px 20px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #777;
+}
+
+/* ГОЛЯМО ВОДЕЩО КАРЕ */
 
 .inspiration-fashion-lead {
     margin: 0;
+    min-width: 0;
 }
 
 .inspiration-fashion-lead-link {
     display: block;
-    color: #111;
+    position: relative;
+    height: 100%;
+    min-height: 420px;
+    overflow: hidden;
+    color: #fff;
     text-decoration: none;
+    background: #222;
 }
 
 .inspiration-fashion-lead-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
     overflow: hidden;
-    background: #eee;
+}
+
+.inspiration-fashion-lead-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.25) 45%,
+        rgba(0, 0, 0, 0.02) 100%
+    );
 }
 
 .inspiration-fashion-lead-image img {
@@ -2563,182 +2613,205 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s ease;
 }
 
 .inspiration-fashion-lead-link:hover
 .inspiration-fashion-lead-image img {
-    transform: scale(1.03);
+    transform: scale(1.04);
 }
 
 .inspiration-fashion-lead-content {
-    padding-top: 18px;
+    position: absolute;
+    z-index: 2;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    padding: 0;
+    color: #fff;
 }
 
 .inspiration-fashion-category {
     display: block;
-
-    margin-bottom: 8px;
-
+    margin-bottom: 10px;
     font-family: var(--font-sans);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-
-    color: var(--accent-color);
+    color: #fff;
 }
 
 .inspiration-fashion-lead-content h4 {
     margin: 0;
-
     font-family: var(--font-serif);
-    font-size: 34px;
+    font-size: clamp(27px, 2.5vw, 38px);
     line-height: 1.08;
     font-weight: 600;
-
-    color: #111;
+    color: #fff;
 }
 
-.inspiration-fashion-lead-content p {
-    margin: 12px 0 0;
-
-    max-width: 720px;
-
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.6;
-
-    color: #555;
-}
-
+.inspiration-fashion-lead-content p,
 .inspiration-fashion-lead-content time {
-    display: block;
-
-    margin-top: 14px;
-
-    font-family: var(--font-sans);
-    font-size: 11px;
-
-    color: #888;
+    display: none;
 }
 
-
-/* -----------------------------------------
-   ПО-МАЛКИТЕ МАТЕРИАЛИ
------------------------------------------ */
+/* ЧЕТИРИ МАЛКИ КАРЕТА */
 
 .inspiration-fashion-small-list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    min-width: 0;
 }
 
 .inspiration-fashion-small {
     margin: 0;
+    min-width: 0;
+    min-height: 0;
 }
 
 .inspiration-fashion-small-link {
-    display: grid;
-
-    grid-template-columns: 150px 1fr;
-
-    gap: 18px;
-
-    color: #111;
+    display: block;
+    position: relative;
+    height: 100%;
+    min-height: 200px;
+    overflow: hidden;
+    color: #fff;
     text-decoration: none;
+    background: #222;
 }
 
 .inspiration-fashion-small-image {
-    width: 150px;
-    height: 105px;
-
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    background: #eee;
+}
+
+.inspiration-fashion-small-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.18) 65%,
+        rgba(0, 0, 0, 0.02) 100%
+    );
 }
 
 .inspiration-fashion-small-image img {
+    display: block;
     width: 100%;
     height: 100%;
-
-    display: block;
-
     object-fit: cover;
-
     transition: transform 0.5s ease;
 }
 
 .inspiration-fashion-small-link:hover
 .inspiration-fashion-small-image img {
-    transform: scale(1.04);
+    transform: scale(1.05);
 }
 
 .inspiration-fashion-small-content {
-    padding-top: 2px;
+    position: absolute;
+    z-index: 2;
+    left: 14px;
+    right: 14px;
+    bottom: 15px;
+    padding: 0;
 }
 
 .inspiration-fashion-small-content span {
     display: block;
-
     margin-bottom: 6px;
-
     font-family: var(--font-sans);
     font-size: 9px;
     font-weight: 600;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-
-    color: var(--accent-color);
+    color: #fff;
 }
 
 .inspiration-fashion-small-content h5 {
     margin: 0;
-
     font-family: var(--font-serif);
-    font-size: 22px;
-    line-height: 1.15;
+    font-size: clamp(17px, 1.5vw, 23px);
+    line-height: 1.12;
     font-weight: 600;
-
-    color: #111;
+    color: #fff;
 }
 
 .inspiration-fashion-small-content time {
-    display: block;
-
-    margin-top: 9px;
-
-    font-family: var(--font-sans);
-    font-size: 10px;
-
-    color: #888;
+    display: none;
 }
 
-
-/* -----------------------------------------
-   МОБИЛНА ВЕРСИЯ
------------------------------------------ */
+/* МОБИЛНА ВЕРСИЯ */
 
 @media (max-width: 768px) {
+    .inspiration-feature-section {
+        margin-top: 45px;
+        margin-bottom: 45px;
+    }
+
+    .inspiration-fashion-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .inspiration-fashion-lead-link {
+        min-height: 380px;
+    }
+
+    .inspiration-fashion-lead-content {
+        left: 18px;
+        right: 18px;
+        bottom: 20px;
+    }
 
     .inspiration-fashion-lead-content h4 {
         font-size: 29px;
     }
 
-    .inspiration-fashion-small-link {
-        grid-template-columns: 120px 1fr;
-        gap: 14px;
+    .inspiration-fashion-small-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: auto;
+        gap: 8px;
     }
 
-    .inspiration-fashion-small-image {
-        width: 120px;
-        height: 90px;
+    .inspiration-fashion-small-link {
+        min-height: 190px;
+    }
+
+    .inspiration-fashion-small-content {
+        left: 10px;
+        right: 10px;
+        bottom: 12px;
     }
 
     .inspiration-fashion-small-content h5 {
-        font-size: 19px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 420px) {
+    .inspiration-fashion-lead-link {
+        min-height: 330px;
     }
 
+    .inspiration-fashion-small-link {
+        min-height: 165px;
+    }
+
+    .inspiration-fashion-small-content h5 {
+        font-size: 16px;
+    }
 }
+```
+
     </style>
 
 </head>
