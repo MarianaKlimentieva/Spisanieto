@@ -521,7 +521,6 @@ function renderTopics() {
     <article class="topic-card">
       <a href="${articleUrl(article.id)}">
         <img src="${escapeHtml(article.image_url || FALLBACK_IMAGE)}" alt="${escapeHtml(article.title)}" loading="lazy">
-        <div class="eyebrow" style="margin-top:13px">${escapeHtml(article.category || 'Мода и тенденции')}</div>
         <h3>${escapeHtml(article.title)}</h3>
         <p>${escapeHtml(excerpt(article))}</p>
       </a>
