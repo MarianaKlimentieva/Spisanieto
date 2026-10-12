@@ -341,7 +341,88 @@ h1, h2, h3, p { margin-top: 0; }
   text-align: center;
   font: 500 28px var(--serif);
 }
-.site-footer span { color: var(--accent); }
+.site-footer {
+  margin-top: 48px;
+  padding: 48px 0 24px;
+  background: #8c1d40;
+  color: #f7eaf0;
+  text-align: left;
+  border-top: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+}
+
+.footer-container {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.footer-logo {
+  display: block;
+  margin-bottom: 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.footer-dot {
+  color: #f3c5d6;
+}
+
+.footer-about {
+  max-width: 480px;
+  color: #f0dce4;
+  line-height: 1.8;
+}
+
+.footer-about p {
+  margin: 0 0 10px;
+}
+
+.footer-tagline {
+  margin-top: 16px;
+  color: #fff;
+  font-family: 'Great Vibes', cursive;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.footer-column h4 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 23px;
+}
+
+.footer-column p {
+  margin: 0 0 10px;
+}
+
+.site-footer a {
+  color: #f7eaf0;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+  color: #f0dce4;
+  font-size: 12px;
+}
 @media (max-width: 700px) {
   .site-header { padding: 22px 18px 0; }
   .nav { gap: 14px 18px; }
