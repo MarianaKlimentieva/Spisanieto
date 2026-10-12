@@ -477,7 +477,7 @@ function renderHero() {
     </a>
     <div class="hero-panel">
       <div class="eyebrow">${escapeHtml(article.category || 'Мода и тенденции')}</div>
-      <div class="meta"><time>${formatDate(article.created_at)}</time></div>
+      
       <h2><a href="${articleUrl(article.id)}">${escapeHtml(article.title)}</a></h2>
       ${article.subtitle ? `<p>${escapeHtml(article.subtitle)}</p>` : ''}
       <a class="read-more" href="${articleUrl(article.id)}">Прочети повече →</a>
