@@ -183,8 +183,16 @@ h1, h2, h3, p { margin-top: 0; }
   gap: 22px;
   margin: 34px 0 55px;
 }
-.topic-card { min-width: 0; }
-.topic-card a { display: block; }
+.topic-card {
+  min-width: 0;
+  position: relative;
+}
+
+.topic-card a {
+  display: block;
+  position: relative;
+  text-decoration: none;
+}
 .topic-card img {
   width: 100%;
   aspect-ratio: 1.48;
