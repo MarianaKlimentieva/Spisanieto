@@ -480,7 +480,7 @@ function renderHero() {
       
       <h2><a href="${articleUrl(article.id)}">${escapeHtml(article.title)}</a></h2>
       ${article.subtitle ? `<p>${escapeHtml(article.subtitle)}</p>` : ''}
-      <a class="read-more" href="${articleUrl(article.id)}">Прочети повече →</a>
+    
     </div>
     ${slides.length > 1 ? `<div class="hero-controls"><button type="button" id="prev-slide" aria-label="Предишна публикация">←</button><button type="button" id="next-slide" aria-label="Следваща публикация">→</button></div>` : ''}
   `;
