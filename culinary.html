@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -5,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Кулинарно изкуство | СПИСАНИЕТО.</title>
 <meta name="description" content="Кулинарно изкуство, рецепти, вкусове и истории от света на храната в СПИСАНИЕТО.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -71,9 +73,7 @@ button { font: inherit; }
 }
 
 .logo span,
-.footer-logo span {
-  color: var(--accent);
-}
+.footer-logo span { color: var(--accent); }
 
 .tagline {
   margin-top: 8px;
@@ -118,47 +118,9 @@ button { font: inherit; }
   right: 0;
 }
 
-/* PAGE INTRO */
+/* SECTIONS */
 
-.page-head {
-  padding: 30px 0 17px;
-  text-align: center;
-}
-
-.kicker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: var(--accent);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.kicker:before,
-.kicker:after {
-  content: "";
-  height: 2px;
-  width: 26px;
-  background: var(--accent);
-}
-
-h1 {
-  font: 600 clamp(38px, 5vw, 55px)/1.05 var(--serif);
-  margin: 5px 0 8px;
-  letter-spacing: -.7px;
-}
-
-.intro {
-  max-width: 650px;
-  margin: 0 auto;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.section { padding: 18px 0 38px; }
+.section { padding: 30px 0 38px; }
 
 .section-title {
   display: flex;
@@ -190,73 +152,45 @@ h1 {
   margin-bottom: 3px;
 }
 
-/* TOP FEATURED ARTICLES */
+/* COOKMAG-INSPIRED TOP CAROUSEL */
 
-.featured-rail {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
+.carousel-section {
+  padding-top: 26px;
 }
 
-.rail-card {
-  min-width: 0;
-  background: #fff;
-  border-bottom: 4px solid var(--accent);
-  transition: transform .2s;
+.carousel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.rail-card:hover { transform: translateY(-3px); }
-
-.rail-image-wrap {
-  position: relative;
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  background: #e8e1db;
-}
-
-.rail-image {
-  height: 100%;
-  transition: transform .4s;
-}
-
-.rail-card:hover .rail-image { transform: scale(1.04); }
-
-.rail-label {
-  position: absolute;
-  left: 9px;
-  bottom: 9px;
-  background: var(--accent);
-  color: #fff;
-  padding: 4px 7px;
-  font-size: 8px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-}
-
-.rail-copy { padding: 11px 12px 13px; }
-
-.rail-copy h3 {
+.carousel-heading h2 {
   margin: 0;
-  font: 600 21px/1.08 var(--serif);
+  font: 600 31px/1.05 var(--serif);
 }
 
-.date {
-  display: block;
-  color: var(--muted);
-  font-size: 9px;
-  margin-top: 8px;
+.carousel-heading .section-label {
+  margin-bottom: 4px;
 }
 
-.rail-controls { display: flex; gap: 6px; }
+.rail-controls {
+  display: flex;
+  gap: 7px;
+  flex-shrink: 0;
+}
 
 .arrow {
-  width: 31px;
-  height: 31px;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--accent);
-  background: transparent;
+  background: #fff;
   color: var(--accent);
   cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  transition: background .2s, color .2s;
 }
 
 .arrow:hover {
@@ -264,9 +198,104 @@ h1 {
   color: #fff;
 }
 
-/* MAIN EDITORIAL LAYOUT */
+.carousel-window {
+  overflow: hidden;
+  width: 100%;
+}
 
-.editorial { padding: 8px 0 45px; }
+.featured-rail {
+  display: flex;
+  gap: 15px;
+  transition: transform .45s ease;
+  will-change: transform;
+}
+
+.rail-card {
+  position: relative;
+  display: block;
+  flex: 0 0 calc((100% - 60px) / 5);
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: #ded6d0;
+  isolation: isolate;
+}
+
+.rail-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,.02) 25%,
+    rgba(0,0,0,.08) 42%,
+    rgba(0,0,0,.78) 100%
+  );
+  pointer-events: none;
+}
+
+.rail-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s ease;
+  z-index: 0;
+}
+
+.rail-card:hover .rail-image {
+  transform: scale(1.06);
+}
+
+.rail-label {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  z-index: 2;
+  padding: 5px 8px;
+  color: #fff;
+  background: var(--accent);
+  font-size: 8px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  max-width: calc(100% - 26px);
+}
+
+.rail-copy {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 22px 15px 16px;
+  color: #fff;
+}
+
+.rail-copy h3 {
+  margin: 0;
+  color: #fff;
+  font: 600 clamp(19px, 2vw, 25px)/1.05 var(--serif);
+  text-shadow: 0 1px 8px rgba(0,0,0,.3);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rail-copy .date {
+  display: block;
+  color: rgba(255,255,255,.85);
+  font-size: 9px;
+  margin-top: 9px;
+}
+
+/* EDITORIAL LAYOUT */
+
+.editorial { padding: 18px 0 45px; }
 
 .editorial-grid {
   display: grid;
@@ -282,20 +311,21 @@ h1 {
   margin-bottom: 22px;
 }
 
-.lead-card:nth-child(1) { transform: translateY(0); }
-
 .lead-card:nth-child(2) {
   transform: translateY(22px);
   margin-bottom: 44px;
 }
 
 .lead-img {
-  aspect-ratio: 1.45/1;
+  aspect-ratio: 1.45 / 1;
   overflow: hidden;
   background: #e8e1db;
 }
 
-.lead-img img { height: 100%; transition: transform .4s; }
+.lead-img img {
+  height: 100%;
+  transition: transform .4s;
+}
 
 .lead-card:hover .lead-img img { transform: scale(1.035); }
 
@@ -320,6 +350,13 @@ h1 {
   font-size: 11px;
 }
 
+.date {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  margin-top: 8px;
+}
+
 .small-card {
   grid-column: span 2;
   display: grid;
@@ -329,17 +366,20 @@ h1 {
   border-top: 2px solid var(--accent);
 }
 
-.small-card:nth-child(3) { grid-column: 1/span 2; }
-.small-card:nth-child(4) { grid-column: 3/span 2; }
-.small-card:nth-child(5) { grid-column: 5/span 2; }
+.small-card:nth-child(3) { grid-column: 1 / span 2; }
+.small-card:nth-child(4) { grid-column: 3 / span 2; }
+.small-card:nth-child(5) { grid-column: 5 / span 2; }
 
 .small-img {
-  aspect-ratio: 4/5;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #e8e1db;
 }
 
-.small-img img { height: 100%; transition: transform .4s; }
+.small-img img {
+  height: 100%;
+  transition: transform .4s;
+}
 
 .small-card:hover .small-img img { transform: scale(1.04); }
 
@@ -373,12 +413,15 @@ h1 {
 .article-card { min-width: 0; }
 
 .article-image {
-  aspect-ratio: 1.15/1;
+  aspect-ratio: 1.15 / 1;
   overflow: hidden;
   background: #e8e1db;
 }
 
-.article-image img { height: 100%; transition: transform .4s; }
+.article-image img {
+  height: 100%;
+  transition: transform .4s;
+}
 
 .article-card:hover .article-image img { transform: scale(1.04); }
 
@@ -486,8 +529,13 @@ h1 {
   color: #fff;
 }
 
+.page-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
 .status {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
   padding: 28px 20px;
   background: #fff;
   border: 1px solid var(--line);
@@ -552,8 +600,7 @@ h1 {
 /* RESPONSIVE */
 
 @media(max-width:950px) {
-  .featured-rail { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .rail-card:nth-child(n+4) { display: none; }
+  .rail-card { flex-basis: calc((100% - 30px) / 3); }
 
   .latest-layout {
     grid-template-columns: minmax(0, 1fr) 235px;
@@ -564,7 +611,9 @@ h1 {
 
   .small-card:nth-child(3),
   .small-card:nth-child(4),
-  .small-card:nth-child(5) { grid-column: span 2; }
+  .small-card:nth-child(5) {
+    grid-column: span 2;
+  }
 }
 
 @media(max-width:650px) {
@@ -577,17 +626,21 @@ h1 {
     gap: 19px;
   }
 
-  .page-head { padding-top: 24px; }
+  .carousel-section { padding-top: 18px; }
 
-  .section-title h2 { font-size: 27px; }
+  .carousel-heading h2 { font-size: 27px; }
 
-  .featured-rail {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+  .rail-card { flex-basis: calc((100% - 12px) / 2); }
+
+  .rail-copy { padding: 20px 11px 12px; }
+
+  .rail-copy h3 { font-size: 21px; }
+
+  .rail-label {
+    top: 9px;
+    left: 9px;
+    font-size: 7px;
   }
-
-  .rail-card:nth-child(n+3) { display: none; }
-  .rail-copy h3 { font-size: 20px; }
 
   .editorial-grid {
     grid-template-columns: 1fr;
@@ -637,16 +690,27 @@ h1 {
 }
 
 @media(max-width:420px) {
+  .rail-card { flex-basis: 82%; }
+
+  .rail-copy h3 { font-size: 25px; }
+
   .latest-grid { grid-template-columns: 1fr; }
-  .article-image { aspect-ratio: 1.4/1; }
+
+  .article-image { aspect-ratio: 1.4 / 1; }
+
   .sidebar { grid-template-columns: 1fr; }
 
   .section-title small {
     max-width: 100px;
     text-align: right;
   }
+}
 
-  .rail-copy h3 { font-size: 18px; }
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
@@ -670,28 +734,24 @@ h1 {
 </header>
 
 <main>
-  <section class="container page-head">
-    <div class="kicker">Вдъхновение и вкус</div>
-    <h1>Кулинарно изкуство</h1>
-    <p class="intro">
-      Истории за храната, продуктите и хората зад добрия вкус.
-      Открийте нови идеи, вдъхновение и любопитни кулинарни открития.
-    </p>
-  </section>
-
-  <section class="container section">
-    <div class="section-title">
+  <!-- КАРУСЕЛЪТ ЗАПОЧВА ВЕДНАГА ПОД МЕНЮТО -->
+  <section class="container carousel-section">
+    <div class="carousel-heading">
       <div>
         <span class="section-label">Подбрано за вас</span>
         <h2>Във фокуса</h2>
       </div>
+
       <div class="rail-controls">
-        <button class="arrow" id="rail-prev" aria-label="Предишни публикации">‹</button>
-        <button class="arrow" id="rail-next" aria-label="Следващи публикации">›</button>
+        <button class="arrow" id="rail-prev" aria-label="Предишна публикация">‹</button>
+        <button class="arrow" id="rail-next" aria-label="Следваща публикация">›</button>
       </div>
     </div>
-    <div class="featured-rail" id="featured-rail">
-      <div class="status">Зареждаме кулинарните истории…</div>
+
+    <div class="carousel-window">
+      <div class="featured-rail" id="featured-rail">
+        <div class="status">Зареждаме кулинарните истории…</div>
+      </div>
     </div>
   </section>
 
@@ -703,6 +763,7 @@ h1 {
       </div>
       <small>Храна · Хора · Традиции</small>
     </div>
+
     <div class="editorial-grid" id="editorial-grid">
       <div class="status">Зареждаме публикациите…</div>
     </div>
@@ -783,6 +844,8 @@ const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80';
 
 const PAGE_SIZE = 9;
+const CAROUSEL_VISIBLE_DESKTOP = 5;
+
 let articles = [];
 let page = 1;
 let railOffset = 0;
@@ -854,7 +917,7 @@ function cardImage(article, className = '') {
   `;
 }
 
-/* TOP FEATURED ARTICLES */
+/* TOP CAROUSEL */
 
 function renderRail() {
   const root = document.getElementById('featured-rail');
@@ -866,28 +929,75 @@ function renderRail() {
         Все още няма публикувани кулинарни истории.
       </div>
     `;
+    root.style.transform = 'none';
     return;
   }
 
-  const visible = [];
-
-  for (let i = 0; i < Math.min(5, articles.length); i++) {
-    visible.push(articles[(railOffset + i) % articles.length]);
-  }
-
-  root.innerHTML = visible.map(article => `
+  root.innerHTML = articles.map(article => `
     <a class="rail-card" href="${url(article)}">
-      <div class="rail-image-wrap">
-        ${cardImage(article, 'rail-image')}
-        <span class="rail-label">${cat(article)}</span>
-      </div>
+      ${cardImage(article, 'rail-image')}
+
+      <span class="rail-label">${cat(article)}</span>
+
       <div class="rail-copy">
         <h3>${esc(article.title)}</h3>
         <span class="date">${date(article.created_at)}</span>
       </div>
     </a>
   `).join('');
+
+  updateRailPosition();
 }
+
+function visibleRailCards() {
+  if (window.matchMedia('(max-width: 420px)').matches) return 1;
+  if (window.matchMedia('(max-width: 650px)').matches) return 2;
+  if (window.matchMedia('(max-width: 950px)').matches) return 3;
+  return CAROUSEL_VISIBLE_DESKTOP;
+}
+
+function updateRailPosition() {
+  const root = document.getElementById('featured-rail');
+  if (!root || !root.children.length || !articles.length) return;
+
+  const cards = Array.from(root.querySelectorAll('.rail-card'));
+  if (!cards.length) return;
+
+  const visible = visibleRailCards();
+  const maxOffset = Math.max(0, cards.length - visible);
+
+  railOffset = Math.min(railOffset, maxOffset);
+
+  const firstCard = cards[0];
+  const cardWidth = firstCard.getBoundingClientRect().width;
+  const styles = window.getComputedStyle(root);
+  const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+
+  root.style.transform =
+    `translateX(-${railOffset * (cardWidth + gap)}px)`;
+
+  document.getElementById('rail-prev').disabled = railOffset === 0;
+  document.getElementById('rail-next').disabled = railOffset >= maxOffset;
+}
+
+function moveRail(direction) {
+  const maxOffset = Math.max(0, articles.length - visibleRailCards());
+
+  railOffset += direction;
+  railOffset = Math.max(0, Math.min(railOffset, maxOffset));
+
+  updateRailPosition();
+}
+
+document.getElementById('rail-prev').addEventListener('click', () => {
+  moveRail(-1);
+});
+
+document.getElementById('rail-next').addEventListener('click', () => {
+  moveRail(1);
+});
+
+window.addEventListener('resize', updateRailPosition);
 
 /* MAIN EDITORIAL LAYOUT */
 
@@ -1072,23 +1182,7 @@ function renderLatest() {
   });
 }
 
-/* FEATURED RAIL CONTROLS */
-
-document.getElementById('rail-prev').addEventListener('click', () => {
-  if (articles.length > 1) {
-    railOffset = (railOffset - 1 + articles.length) % articles.length;
-    renderRail();
-  }
-});
-
-document.getElementById('rail-next').addEventListener('click', () => {
-  if (articles.length > 1) {
-    railOffset = (railOffset + 1) % articles.length;
-    renderRail();
-  }
-});
-
-/* LOAD FROM SUPABASE */
+/* LOAD PUBLISHED ARTICLES FROM SUPABASE */
 
 async function loadArticles() {
   try {
@@ -1102,6 +1196,8 @@ async function loadArticles() {
     if (error) throw error;
 
     articles = data || [];
+    railOffset = 0;
+    page = 1;
 
     renderRail();
     renderEditorial();
