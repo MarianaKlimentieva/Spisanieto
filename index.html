@@ -3065,6 +3065,7 @@ color: #171717;
 }
 
 
+
 /* =========================================
    АРТ — АСИМЕТРИЧНА METRO МОЗАЙКА
 ========================================= */
@@ -3087,7 +3088,7 @@ color: #171717;
     grid-row: span 2;
 }
 
-/* Различни размери за картите */
+/* Първите пет карти — различни размери */
 .culture-metro-card:nth-child(1) {
     grid-column: span 2;
     grid-row: span 4;
@@ -3100,7 +3101,7 @@ color: #171717;
 
 .culture-metro-card:nth-child(3) {
     grid-column: span 1;
-    grid-row: span 2;
+    grid-row: span 3;
 }
 
 .culture-metro-card:nth-child(4) {
@@ -3113,7 +3114,7 @@ color: #171717;
     grid-row: span 3;
 }
 
-/* Следващите публикации продължават мозайката */
+/* Следващите карти — редуващи се размери */
 .culture-metro-card:nth-child(n+6) {
     grid-column: span 1;
     grid-row: span 2;
@@ -3141,14 +3142,15 @@ color: #171717;
 
 .culture-metro-card:nth-child(7n+10) {
     grid-column: span 1;
-    grid-row: span 2;
+    grid-row: span 3;
 }
 
 .culture-metro-card:nth-child(7n+11) {
     grid-column: span 1;
-    grid-row: span 3;
+    grid-row: span 2;
 }
 
+/* Линк и снимка */
 .culture-metro-card a {
     position: absolute;
     inset: 0;
@@ -3169,6 +3171,7 @@ color: #171717;
     transform: scale(1.04);
 }
 
+/* Градиент за четимост на заглавията */
 .culture-metro-card::after {
     position: absolute;
     inset: 25% 0 0;
@@ -3182,6 +3185,7 @@ color: #171717;
     pointer-events: none;
 }
 
+/* Заглавия върху снимките */
 .culture-metro-card-copy {
     position: absolute;
     z-index: 2;
@@ -3209,6 +3213,7 @@ color: #171717;
     font-size: 34px;
 }
 
+/* Съобщения при зареждане */
 .culture-metro-loading,
 .culture-metro-empty {
     padding: 24px 0;
@@ -3217,6 +3222,7 @@ color: #171717;
     font-size: 14px;
 }
 
+/* Линк към всички публикации */
 .culture-metro-view-all {
     margin-top: 24px;
     padding-bottom: 12px;
@@ -3264,6 +3270,7 @@ color: #171717;
         gap: 10px;
     }
 
+    /* Основно правило за мобилните карти */
     .culture-metro-card:nth-child(n) {
         grid-column: span 1;
         grid-row: span 2;
@@ -3277,6 +3284,16 @@ color: #171717;
     .culture-metro-card:nth-child(2) {
         grid-column: span 2;
         grid-row: span 2;
+    }
+
+    .culture-metro-card:nth-child(3) {
+        grid-column: span 1;
+        grid-row: span 2;
+    }
+
+    .culture-metro-card:nth-child(4) {
+        grid-column: span 1;
+        grid-row: span 3;
     }
 
     .culture-metro-card:nth-child(5) {
@@ -3309,7 +3326,7 @@ color: #171717;
         font-size: 17px;
     }
 }
-    </style>
+</style>
 
 </head>
 
