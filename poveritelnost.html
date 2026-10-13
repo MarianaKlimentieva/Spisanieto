@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Поверителност и бисквитки | СПИСАНИЕТО.</title>
+    <meta name="description" content="Информация за поверителността, личните данни и бисквитките на сайта СПИСАНИЕТО.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f7f6f2;
+            --text-color: #111111;
+            --accent-color: #a21f5a;
+            --border-color: #e2dfd7;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            line-height: 1.8;
+        }
+
+        a {
+            color: var(--accent-color);
+        }
+
+        .top-line {
+            max-width: 1200px;
+            margin: auto;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 16px 24px;
+        }
+
+        .logo {
+            display: inline-block;
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 7vw, 3.8rem);
+            font-weight: 600;
+            letter-spacing: 3px;
+            line-height: 1.1;
+        }
+
+        .logo-dot {
+            color: var(--accent-color);
+        }
+
+        .tagline {
+            margin-top: 8px;
+            color: var(--accent-color);
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+        }
+
+        nav {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px 32px;
+            padding: 14px 20px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        main {
+            width: min(900px, calc(100% - 36px));
+            margin: 58px auto 80px;
+        }
+
+        .eyebrow {
+            color: var(--accent-color);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1, h2 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 {
+            margin: 12px 0 18px;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .intro {
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .notice {
+            margin: 28px 0;
+            padding: 18px 22px;
+            border-left: 3px solid var(--accent-color);
+            background: #fff;
+            font-size: 0.9rem;
+        }
+
+        section {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border-color);
+            scroll-margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 14px;
+            font-size: clamp(1.7rem, 4vw, 2.2rem);
+        }
+
+        h3 {
+            margin: 22px 0 8px;
+            font-size: 1rem;
+        }
+
+        p {
+            margin-bottom: 14px;
+        }
+
+        ul.content-list {
+            padding-left: 24px;
+            margin: 12px 0 18px;
+        }
+
+        .updated {
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.8rem;
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--border-color);
+            background: #f0eee8;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: auto;
+            padding: 28px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .footer-dot {
+            color: var(--accent-color);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 22px;
+        }
+
+        .footer-links a {
+            color: #555;
+            font-size: 0.8rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            width: 100%;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
+            color: #777;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 600px) {
+            .top-line {
+                text-align: center;
+            }
+
+            main {
+                margin-top: 36px;
+                margin-bottom: 50px;
+            }
+
+            .footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-line">Независима онлайн медия</div>
+
+    <header>
+        <a class="logo" href="index.html">
+            СПИСАНИЕТО<span class="logo-dot">.</span>
+        </a>
+        <div class="tagline">Всичко важно. На едно място.</div>
+    </header>
+
+    <nav aria-label="Главна навигация">
+        <ul>
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="index.html">Новини</a></li>
+            <li><a href="fashion.html">Мода и тенденции</a></li>
+            <li><a href="culinary.html">Кулинарно изкуство</a></li>
+            <li><a href="index.html">За нас</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="eyebrow">Информация за читателите</div>
+        <h1>Поверителност и бисквитки</h1>
+
+        <p class="intro">
+            За „СПИСАНИЕТО.“ уважението към личното пространство
+            и отговорното отношение към информацията са важни.
+            На тази страница обясняваме основните принципи,
+            свързани с личните данни и технологиите за съхраняване
+            на информация при използването на сайта.
+        </p>
+
+        <div class="notice">
+            <strong>Важно:</strong> тази политика трябва да бъде
+            съобразена с действително използваните услуги, настройки
+            и технологии на сайта преди окончателното ѝ публикуване.
+        </div>
+
+        <section id="privacy">
+            <h2>1. Политика за поверителност</h2>
+
+            <p>
+                „СПИСАНИЕТО.“ се стреми да обработва лични данни
+                законосъобразно, добросъвестно и прозрачно,
+                в съответствие с приложимото законодателство
+                за защита на личните данни.
+            </p>
+
+            <h3>Каква информация може да бъде обработвана?</h3>
+            <p>
+                В зависимост от начина, по който използвате сайта,
+                могат да бъдат обработвани данни, които предоставяте
+                доброволно, например когато се свързвате с редакцията,
+                както и техническа информация, необходима за
+                функционирането и сигурността на сайта.
+            </p>
+
+            <h3>За какви цели?</h3>
+            <ul class="content-list">
+                <li>За отговор на запитвания и съобщения.</li>
+                <li>За поддържане на нормалната работа и сигурността на сайта.</li>
+                <li>За установяване и отстраняване на технически проблеми.</li>
+                <li>За изпълнение на приложими законови задължения.</li>
+            </ul>
+
+            <h3>Предоставяне на информация на трети страни</h3>
+            <p>
+                Сайтът използва външни технологични услуги за
+                публикуване и обслужване на съдържанието. В зависимост
+                от конкретната услуга е възможно определени технически
+                данни да бъдат обработвани от съответния доставчик
+                съгласно неговите условия и политики за поверителност.
+            </p>
+
+            <h3>Вашите права</h3>
+            <p>
+                В зависимост от приложимото законодателство имате
+                право да поискате достъп до личните си данни,
+                коригиране или изтриване, ограничаване на обработването,
+                както и да упражните други приложими права.
+                Имате право и да подадете жалба до компетентния
+                надзорен орган.
+            </p>
+        </section>
+
+        <section id="cookies">
+            <h2>2. Политика за бисквитките</h2>
+
+            <p>
+                Бисквитките са малки файлове, които могат да се
+                съхраняват в браузъра на устройството ви при
+                посещение на даден уебсайт. Подобни технологии
+                могат да се използват за основни функции,
+                запомняне на настройки, анализ или други цели.
+            </p>
+
+            <h3>Какви бисквитки може да има на сайта?</h3>
+            <p>
+                В зависимост от използваните технологии сайтът
+                или неговите доставчици могат да използват:
+            </p>
+            <ul class="content-list">
+                <li>
+                    <strong>Необходими технологии</strong> —
+                    когато са нужни за сигурността или основното
+                    функциониране на услугата.
+                </li>
+                <li>
+                    <strong>Функционални технологии</strong> —
+                    за запомняне на избрани настройки, когато
+                    такива функции са налични.
+                </li>
+                <li>
+                    <strong>Аналитични технологии</strong> —
+                    само ако са внедрени инструменти за анализ
+                    на посещенията и използването на сайта.
+                </li>
+                <li>
+                    <strong>Технологии на външни услуги</strong> —
+                    когато съдържание или функции се предоставят
+                    от трети страни.
+                </li>
+            </ul>
+
+            <p>
+                Този списък описва възможни категории, а не потвърждава,
+                че всички те се използват от „СПИСАНИЕТО.“.
+                Конкретните технологии трябва да бъдат установени
+                според действителната конфигурация на сайта.
+            </p>
+
+            <h3>Как можете да управлявате бисквитките?</h3>
+            <p>
+                Можете да преглеждате и управлявате бисквитките
+                чрез настройките на браузъра си. Ограничаването
+                на някои от тях може да повлияе на работата
+                на определени функции или външни услуги.
+            </p>
+
+            <p>
+                Когато законът изисква предварително съгласие
+                за определени бисквитки или подобни технологии,
+                те не трябва да се активират преди получаването
+                на необходимото съгласие.
+            </p>
+        </section>
+
+        <section id="contact">
+            <h2>3. Въпроси и контакт</h2>
+
+            <p>
+                Ако имате въпроси относно поверителността,
+                личните данни или тази политика, можете да
+                се свържете с редакцията:
+            </p>
+
+            <p>
+                <strong>„СПИСАНИЕТО.“</strong><br>
+                Имейл:
+                <a href="mailto:bgvip.pr@gmail.com">
+                    bgvip.pr@gmail.com
+                </a>
+            </p>
+
+            <p>
+                Ако изпратите съобщение, включвайте само информация,
+                необходима за разглеждането на запитването ви.
+            </p>
+        </section>
+
+        <p class="updated">
+            Последна актуализация: 13 октомври 2026 г.
+        </p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <a class="footer-logo" href="index.html">
+                СПИСАНИЕТО<span class="footer-dot">.</span>
+            </a>
+
+            <div class="footer-links">
+                <a href="index.html">Начало</a>
+                <a href="mailto:bgvip.pr@gmail.com">Контакти</a>
+                <a href="poveritelnost.html">Поверителност и бисквитки</a>
+            </div>
+
+            <div class="copyright">
+                © <span id="current-year">2026</span>
+                СПИСАНИЕТО. Всички права запазени.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+</html>
