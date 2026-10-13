@@ -56,6 +56,8 @@ button { font: inherit; }
 .site-header {
   background: #fff;
   border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 10;
 }
 
 .brand-row {
@@ -118,6 +120,128 @@ button { font: inherit; }
   right: 0;
 }
 
+/* BLACK TOP CAROUSEL */
+
+.carousel-section {
+  position: relative;
+  width: 100%;
+  padding: 30px 0 24px;
+  background: #080808;
+  color: #fff;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  width: min(var(--width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.carousel-window {
+  width: 100%;
+  overflow: hidden;
+}
+
+.featured-rail {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  transition: transform .5s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
+
+.rail-card {
+  position: relative;
+  display: block;
+  flex: 0 0 calc((100% - 54px) / 4);
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #1b1b1b;
+  isolation: isolate;
+}
+
+.rail-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 42%,
+    rgba(0,0,0,.12) 55%,
+    rgba(0,0,0,.86) 100%
+  );
+  pointer-events: none;
+}
+
+.rail-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .65s ease;
+  z-index: 0;
+}
+
+.rail-card:hover .rail-image {
+  transform: scale(1.055);
+}
+
+.rail-copy {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 20px 23px;
+  color: #fff;
+}
+
+.rail-copy h3 {
+  margin: 0;
+  color: #fff;
+  font: 600 clamp(23px, 2.15vw, 31px)/1.02 var(--serif);
+  letter-spacing: -.25px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rail-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.42);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font: 400 25px/1 var(--sans);
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+.arrow:hover:not(:disabled) {
+  background: #fff;
+  border-color: #fff;
+  color: #111;
+}
+
+.arrow:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
 /* SECTIONS */
 
 .section { padding: 30px 0 38px; }
@@ -152,150 +276,9 @@ button { font: inherit; }
   margin-bottom: 3px;
 }
 
-/* COOKMAG-INSPIRED TOP CAROUSEL */
-
-.carousel-section {
-  padding-top: 26px;
-}
-
-.carousel-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.carousel-heading h2 {
-  margin: 0;
-  font: 600 31px/1.05 var(--serif);
-}
-
-.carousel-heading .section-label {
-  margin-bottom: 4px;
-}
-
-.rail-controls {
-  display: flex;
-  gap: 7px;
-  flex-shrink: 0;
-}
-
-.arrow {
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--accent);
-  background: #fff;
-  color: var(--accent);
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-  transition: background .2s, color .2s;
-}
-
-.arrow:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
-.carousel-window {
-  overflow: hidden;
-  width: 100%;
-}
-
-.featured-rail {
-  display: flex;
-  gap: 15px;
-  transition: transform .45s ease;
-  will-change: transform;
-}
-
-.rail-card {
-  position: relative;
-  display: block;
-  flex: 0 0 calc((100% - 60px) / 5);
-  min-width: 0;
-  overflow: hidden;
-  aspect-ratio: 3 / 4;
-  background: #ded6d0;
-  isolation: isolate;
-}
-
-.rail-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,.02) 25%,
-    rgba(0,0,0,.08) 42%,
-    rgba(0,0,0,.78) 100%
-  );
-  pointer-events: none;
-}
-
-.rail-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .55s ease;
-  z-index: 0;
-}
-
-.rail-card:hover .rail-image {
-  transform: scale(1.06);
-}
-
-.rail-label {
-  position: absolute;
-  top: 13px;
-  left: 13px;
-  z-index: 2;
-  padding: 5px 8px;
-  color: #fff;
-  background: var(--accent);
-  font-size: 8px;
-  line-height: 1.3;
-  font-weight: 800;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  max-width: calc(100% - 26px);
-}
-
-.rail-copy {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 22px 15px 16px;
-  color: #fff;
-}
-
-.rail-copy h3 {
-  margin: 0;
-  color: #fff;
-  font: 600 clamp(19px, 2vw, 25px)/1.05 var(--serif);
-  text-shadow: 0 1px 8px rgba(0,0,0,.3);
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.rail-copy .date {
-  display: block;
-  color: rgba(255,255,255,.85);
-  font-size: 9px;
-  margin-top: 9px;
-}
-
 /* EDITORIAL LAYOUT */
 
-.editorial { padding: 18px 0 45px; }
+.editorial { padding: 30px 0 45px; }
 
 .editorial-grid {
   display: grid;
@@ -600,7 +583,9 @@ button { font: inherit; }
 /* RESPONSIVE */
 
 @media(max-width:950px) {
-  .rail-card { flex-basis: calc((100% - 30px) / 3); }
+  .rail-card {
+    flex-basis: calc((100% - 36px) / 3);
+  }
 
   .latest-layout {
     grid-template-columns: minmax(0, 1fr) 235px;
@@ -617,7 +602,10 @@ button { font: inherit; }
 }
 
 @media(max-width:650px) {
-  .container { width: calc(100% - 28px); }
+  .container,
+  .carousel-inner {
+    width: calc(100% - 28px);
+  }
 
   .brand-row { min-height: 95px; }
 
@@ -626,20 +614,26 @@ button { font: inherit; }
     gap: 19px;
   }
 
-  .carousel-section { padding-top: 18px; }
+  .carousel-section {
+    padding: 20px 0 17px;
+  }
 
-  .carousel-heading h2 { font-size: 27px; }
+  .featured-rail { gap: 12px; }
 
-  .rail-card { flex-basis: calc((100% - 12px) / 2); }
+  .rail-card {
+    flex-basis: calc((100% - 12px) / 2);
+    aspect-ratio: 3 / 4;
+  }
 
-  .rail-copy { padding: 20px 11px 12px; }
+  .rail-copy { padding: 22px 13px 15px; }
 
-  .rail-copy h3 { font-size: 21px; }
+  .rail-copy h3 { font-size: 25px; }
 
-  .rail-label {
-    top: 9px;
-    left: 9px;
-    font-size: 7px;
+  .rail-controls { margin-top: 14px; }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
   }
 
   .editorial-grid {
@@ -690,9 +684,12 @@ button { font: inherit; }
 }
 
 @media(max-width:420px) {
-  .rail-card { flex-basis: 82%; }
+  .rail-card {
+    flex-basis: 88%;
+    aspect-ratio: 4 / 5;
+  }
 
-  .rail-copy h3 { font-size: 25px; }
+  .rail-copy h3 { font-size: 28px; }
 
   .latest-grid { grid-template-columns: 1fr; }
 
@@ -734,23 +731,18 @@ button { font: inherit; }
 </header>
 
 <main>
-  <!-- КАРУСЕЛЪТ ЗАПОЧВА ВЕДНАГА ПОД МЕНЮТО -->
-  <section class="container carousel-section">
-    <div class="carousel-heading">
-      <div>
-        <span class="section-label">Подбрано за вас</span>
-        <h2>Във фокуса</h2>
+  <!-- ГОЛЯМ КАРУСЕЛ НА ЧЕРЕН ФОН -->
+  <section class="carousel-section" aria-label="Избрани кулинарни публикации">
+    <div class="carousel-inner">
+      <div class="carousel-window">
+        <div class="featured-rail" id="featured-rail">
+          <div class="status">Зареждаме кулинарните истории…</div>
+        </div>
       </div>
 
       <div class="rail-controls">
-        <button class="arrow" id="rail-prev" aria-label="Предишна публикация">‹</button>
-        <button class="arrow" id="rail-next" aria-label="Следваща публикация">›</button>
-      </div>
-    </div>
-
-    <div class="carousel-window">
-      <div class="featured-rail" id="featured-rail">
-        <div class="status">Зареждаме кулинарните истории…</div>
+        <button class="arrow" id="rail-prev" aria-label="Предишни публикации">‹</button>
+        <button class="arrow" id="rail-next" aria-label="Следващи публикации">›</button>
       </div>
     </div>
   </section>
@@ -814,7 +806,7 @@ button { font: inherit; }
         <div class="footer-tagline">Всичко важно. На едно място.</div>
       </div>
 
-      <nav class="footer-nav">
+      <nav class="footer-nav" aria-label="Навигация във футъра">
         <a href="index.html">Начало</a>
         <a href="category.html">Мода и тенденции</a>
         <a href="culinary.html">Кулинарно изкуство</a>
@@ -844,7 +836,6 @@ const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80';
 
 const PAGE_SIZE = 9;
-const CAROUSEL_VISIBLE_DESKTOP = 5;
 
 let articles = [];
 let page = 1;
@@ -917,7 +908,7 @@ function cardImage(article, className = '') {
   `;
 }
 
-/* TOP CAROUSEL */
+/* TOP CAROUSEL — САМО СНИМКА И БЯЛО ЗАГЛАВИЕ */
 
 function renderRail() {
   const root = document.getElementById('featured-rail');
@@ -930,18 +921,17 @@ function renderRail() {
       </div>
     `;
     root.style.transform = 'none';
+    document.getElementById('rail-prev').disabled = true;
+    document.getElementById('rail-next').disabled = true;
     return;
   }
 
-  root.innerHTML = articles.map(article => `
-    <a class="rail-card" href="${url(article)}">
+  root.innerHTML = articles.map((article, index) => `
+    <a class="rail-card" href="${url(article)}" aria-label="${esc(article.title)}">
       ${cardImage(article, 'rail-image')}
-
-      <span class="rail-label">${cat(article)}</span>
 
       <div class="rail-copy">
         <h3>${esc(article.title)}</h3>
-        <span class="date">${date(article.created_at)}</span>
       </div>
     </a>
   `).join('');
@@ -953,7 +943,7 @@ function visibleRailCards() {
   if (window.matchMedia('(max-width: 420px)').matches) return 1;
   if (window.matchMedia('(max-width: 650px)').matches) return 2;
   if (window.matchMedia('(max-width: 950px)').matches) return 3;
-  return CAROUSEL_VISIBLE_DESKTOP;
+  return 4;
 }
 
 function updateRailPosition() {
@@ -966,7 +956,7 @@ function updateRailPosition() {
   const visible = visibleRailCards();
   const maxOffset = Math.max(0, cards.length - visible);
 
-  railOffset = Math.min(railOffset, maxOffset);
+  railOffset = Math.max(0, Math.min(railOffset, maxOffset));
 
   const firstCard = cards[0];
   const cardWidth = firstCard.getBoundingClientRect().width;
@@ -999,7 +989,7 @@ document.getElementById('rail-next').addEventListener('click', () => {
 
 window.addEventListener('resize', updateRailPosition);
 
-/* MAIN EDITORIAL LAYOUT */
+/* EDITORIAL LAYOUT */
 
 function renderEditorial() {
   const root = document.getElementById('editorial-grid');
