@@ -3067,8 +3067,10 @@ color: #171717;
 
 
 
+<style>
 /* =========================================
    АРТ — METRO МОЗАЙКА БЕЗ ПРОЛУКИ
+   Фон: сиво-бежов #d9d7d2
 ========================================= */
 
 .culture-metro-grid {
@@ -3077,256 +3079,16 @@ color: #171717;
     grid-auto-rows: 100px;
     grid-auto-flow: dense;
     gap: 0;
+    padding: 8px;
+    background: #d9d7d2;
+    border-radius: 3px;
+    box-sizing: border-box;
 }
 
 .culture-metro-card {
-    position: relative;
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-    background: #e9e5df;
-    grid-column: span 1;
-    grid-row: span 2;
-}
+   
 
-/* Първите пет карти */
-.culture-metro-card:nth-child(1) {
-    grid-column: span 2;
-    grid-row: span 4;
-}
 
-.culture-metro-card:nth-child(2) {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-.culture-metro-card:nth-child(3) {
-    grid-column: span 1;
-    grid-row: span 3;
-}
-
-.culture-metro-card:nth-child(4) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
-
-.culture-metro-card:nth-child(5) {
-    grid-column: span 2;
-    grid-row: span 3;
-}
-
-/* Редуване на размерите при следващите карти */
-.culture-metro-card:nth-child(n+6) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
-
-.culture-metro-card:nth-child(7n+6) {
-    grid-column: span 2;
-    grid-row: span 3;
-}
-
-.culture-metro-card:nth-child(7n+7) {
-    grid-column: span 1;
-    grid-row: span 3;
-}
-
-.culture-metro-card:nth-child(7n+8) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
-
-.culture-metro-card:nth-child(7n+9) {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-.culture-metro-card:nth-child(7n+10) {
-    grid-column: span 1;
-    grid-row: span 3;
-}
-
-.culture-metro-card:nth-child(7n+11) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
-
-/* Снимки и линкове */
-.culture-metro-card a {
-    position: absolute;
-    inset: 0;
-    display: block;
-    color: #fff;
-    text-decoration: none;
-}
-
-.culture-metro-card img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.culture-metro-card:hover img {
-    transform: scale(1.04);
-}
-
-/* Градиент за четимост */
-.culture-metro-card::after {
-    position: absolute;
-    inset: 25% 0 0;
-    z-index: 1;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 0, 0, 0.78) 100%
-    );
-    content: "";
-    pointer-events: none;
-}
-
-/* Заглавия върху снимките */
-.culture-metro-card-copy {
-    position: absolute;
-    z-index: 2;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: 16px;
-}
-
-.culture-metro-card:nth-child(1) .culture-metro-card-copy {
-    padding: 24px;
-}
-
-.culture-metro-card-title {
-    margin: 0;
-    color: #fff;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.15;
-    overflow-wrap: anywhere;
-}
-
-.culture-metro-card:nth-child(1) .culture-metro-card-title {
-    font-size: 34px;
-}
-
-/* Съобщения */
-.culture-metro-loading,
-.culture-metro-empty {
-    padding: 24px 0;
-    color: #77736f;
-    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
-    font-size: 14px;
-}
-
-/* Виж всички */
-.culture-metro-view-all {
-    margin-top: 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #171717;
-    text-align: right;
-}
-
-.culture-metro-view-all a {
-    color: #8c1d40;
-    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-/* Таблет */
-@media (min-width: 601px) and (max-width: 900px) {
-    .culture-metro-grid {
-        grid-auto-rows: 90px;
-        gap: 0;
-    }
-
-    .culture-metro-card-title {
-        font-size: 19px;
-    }
-
-    .culture-metro-card:nth-child(1) .culture-metro-card-title {
-        font-size: 29px;
-    }
-}
-
-/* Телефон */
-@media (max-width: 600px) {
-    .culture-metro-section {
-        padding: 32px 0;
-    }
-
-    .culture-metro-heading h3 {
-        font-size: 32px;
-    }
-
-    .culture-metro-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 85px;
-        gap: 0;
-    }
-
-    .culture-metro-card:nth-child(n) {
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-
-    .culture-metro-card:nth-child(1) {
-        grid-column: span 2;
-        grid-row: span 3;
-    }
-
-    .culture-metro-card:nth-child(2) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-    .culture-metro-card:nth-child(3) {
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-
-    .culture-metro-card:nth-child(4) {
-        grid-column: span 1;
-        grid-row: span 3;
-    }
-
-    .culture-metro-card:nth-child(5) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-    .culture-metro-card-copy,
-    .culture-metro-card:nth-child(1) .culture-metro-card-copy {
-        padding: 13px;
-    }
-
-    .culture-metro-card-title {
-        font-size: 18px;
-    }
-
-    .culture-metro-card:nth-child(1) .culture-metro-card-title {
-        font-size: 28px;
-    }
-}
-
-/* Много малък телефон */
-@media (max-width: 380px) {
-    .culture-metro-grid {
-        grid-auto-rows: 80px;
-        gap: 0;
-    }
-
-    .culture-metro-card-title {
-        font-size: 17px;
-    }
-}
-</style>
 
 </head>
 
