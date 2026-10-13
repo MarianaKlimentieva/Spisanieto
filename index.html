@@ -6503,6 +6503,94 @@ async function loadCulinaryArt() {
 loadCulinaryArt();
 
 
+async function loadCultureMetro() {
+    const container = document.getElementById('culture-metro-container');
+    if (!container) return;
+
+    let attempts = 0;
+
+    while (!window.supabaseClient && attempts < 50) {
+        await new Promise(function(resolve) {
+            setTimeout(resolve, 100);
+        });
+        attempts++;
+    }
+
+    const client = window.supabaseClient;
+
+    if (!client) {
+        container.innerHTML =
+            '<div class="culture-metro-empty">Публикациите временно не могат да бъдат заредени.</div>';
+        return;
+    }
+
+    function cultureEscapeHtml(value) {
+        if (value === null || value === undefined) return '';
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function cultureArticleCard(news) {
+        const image = news.image_url ||
+            'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
+
+        return `
+            <article class="culture-metro-card">
+                <a href="article.html?id=${encodeURIComponent(news.id)}">
+                    <img
+                        src="${cultureEscapeHtml(image)}"
+                        alt="${cultureEscapeHtml(news.title)}"
+                        loading="lazy"
+                    >
+                    <div class="culture-metro-card-copy">
+                        <h4 class="culture-metro-card-title">
+                            ${cultureEscapeHtml(news.title)}
+                        </h4>
+                    </div>
+                </a>
+            </article>
+        `;
+    }
+
+    try {
+        const { data, error } = await client
+            .from('news')
+            .select('id,title,image_url,category,created_at')
+            .eq('status', 'published')
+            .eq('category', 'Книги и култура')
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            container.innerHTML =
+                '<div class="culture-metro-empty">Очаквайте нови публикации в „АРТ“.</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="culture-metro-grid">
+                ${data.map(function(news) {
+                    return cultureArticleCard(news);
+                }).join('')}
+            </div>
+        `;
+
+    } catch (error) {
+        console.error('Грешка при зареждане на АРТ:', error);
+
+        container.innerHTML =
+            '<div class="culture-metro-empty">Възникна проблем при зареждането на публикациите.</div>';
+    }
+}
+
+loadCultureMetro();
 loadFashionInspiration();
 </script> 
 
