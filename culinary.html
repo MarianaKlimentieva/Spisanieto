@@ -269,6 +269,55 @@
 #latest .article-copy h3 a:hover,
 #latest .article-card:hover .article-copy h3 a{color:#8c1d40}
 #latest .article-copy h3 a:focus-visible{color:#8c1d40;outline:2px solid #8c1d40;outline-offset:3px}
+
+/* The Voux-inspired horizontal carousel for the three stories below “Истории с вкус” */
+.editorial-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:0 22px}
+.editorial-grid .editorial-carousel{grid-column:1/-1;min-width:0;margin-top:4px;position:relative}
+.editorial-carousel-tools{display:flex;justify-content:flex-end;gap:7px;margin:0 0 12px}
+.editorial-carousel-tools .arrow{width:34px;height:34px;border-color:#8c1d40;color:#8c1d40;background:transparent}
+.editorial-carousel-tools .arrow:hover{background:#8c1d40;color:#fff}
+.editorial-carousel-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:2px 2px 18px}
+.editorial-carousel-track::-webkit-scrollbar{display:none}
+.editorial-carousel-track .small-card{flex:0 0 calc((100% - 40px)/3);min-width:0;display:flex;flex-direction:column;grid-column:auto;padding:0 0 13px;border:0;border-bottom:5px solid #8c1d40;background:#fff;box-shadow:0 7px 22px rgba(40,18,26,.10);scroll-snap-align:start;transition:transform .25s,box-shadow .25s}
+.editorial-carousel-track .small-card:hover{transform:translateY(-4px);box-shadow:0 13px 27px rgba(40,18,26,.16)}
+.editorial-carousel-track .small-img{width:100%;aspect-ratio:1.2/1;height:auto;overflow:hidden;background:#e8e1db}
+.editorial-carousel-track .small-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.editorial-carousel-track .small-card:hover .small-img img{transform:scale(1.045)}
+.editorial-carousel-track .small-copy{padding:17px 18px 10px}
+.editorial-carousel-track .small-copy:before{content:"";display:block;width:30px;height:3px;background:#8c1d40;margin-bottom:10px}
+.editorial-carousel-track .small-copy h3{font:600 clamp(22px,2vw,28px)/1.04 var(--serif);margin:0;transition:color .2s}
+.editorial-carousel-track .small-card:hover .small-copy h3{color:#8c1d40}
+@media(max-width:950px){.editorial-carousel-track .small-card{flex-basis:calc((100% - 20px)/2)}}
+@media(max-width:650px){.editorial-grid{grid-template-columns:1fr;gap:15px}.editorial-grid .editorial-carousel{grid-column:1;margin-top:0}.editorial-carousel-tools{margin-bottom:8px}.editorial-carousel-track{gap:13px;padding-bottom:15px}.editorial-carousel-track .small-card{flex-basis:82%;border-bottom-width:5px}.editorial-carousel-track .small-img{aspect-ratio:1.15/1}.editorial-carousel-track .small-copy{padding:14px 15px 10px}.editorial-carousel-track .small-copy h3{font-size:25px}}
+
+
+
+/* The Voux-style photo cards: translucent caption over image, burgundy hover */
+.editorial-carousel-track .small-card{
+  position:relative!important;isolation:isolate;overflow:hidden;aspect-ratio:4/5;min-height:290px;
+  flex:0 0 calc((100% - 40px)/3);padding:0!important;border:0!important;background:#21171b!important;
+  box-shadow:0 5px 18px rgba(25,8,14,.12)!important;scroll-snap-align:start;
+  transition:transform .28s ease,box-shadow .28s ease!important;
+}
+.editorial-carousel-track .small-card>a{position:absolute;inset:0;display:block;z-index:0}
+.editorial-carousel-track .small-card .small-img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;overflow:hidden;background:#31252a}
+.editorial-carousel-track .small-card .small-img:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,10,12,.02) 25%,rgba(15,10,12,.18) 48%,rgba(15,10,12,.76) 100%);transition:background .28s ease}
+.editorial-carousel-track .small-card .small-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.editorial-carousel-track .small-card .small-copy{position:absolute;z-index:1;left:0;right:0;bottom:0;padding:20px 20px 21px!important;background:rgba(29,22,25,.48);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-top:1px solid rgba(255,255,255,.3);transition:background .28s ease,transform .28s ease;}
+.editorial-carousel-track .small-card .small-copy:before{content:"";display:block;width:34px;height:3px;background:#fff;margin:0 0 12px;transition:width .28s ease}
+.editorial-carousel-track .small-card .small-copy .category{display:none!important}
+.editorial-carousel-track .small-card .small-copy h3{font:600 clamp(21px,1.8vw,27px)/1.08 var(--serif);margin:0;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.25);transition:color .2s ease}
+.editorial-carousel-track .small-card .small-copy h3 a{color:#fff;text-decoration:none}
+.editorial-carousel-track .small-card:hover{transform:translateY(-6px)!important;box-shadow:0 15px 30px rgba(45,9,25,.24)!important}
+.editorial-carousel-track .small-card:hover .small-img img{transform:scale(1.06)}
+.editorial-carousel-track .small-card:hover .small-img:after{background:linear-gradient(180deg,rgba(140,29,64,.04) 15%,rgba(140,29,64,.28) 45%,rgba(140,29,64,.88) 100%)}
+.editorial-carousel-track .small-card:hover .small-copy{background:rgba(140,29,64,.88);transform:translateY(-2px)}
+.editorial-carousel-track .small-card:hover .small-copy:before{width:52px}
+.editorial-carousel-track .small-card:hover .small-copy h3,.editorial-carousel-track .small-card:hover .small-copy h3 a{color:#fff}
+@media(max-width:950px){.editorial-carousel-track .small-card{flex-basis:calc((100% - 20px)/2);min-height:300px}}
+@media(max-width:650px){.editorial-carousel-track .small-card{flex:0 0 82%;min-height:340px;aspect-ratio:4/5}.editorial-carousel-track .small-card .small-copy{padding:17px 16px 18px!important}.editorial-carousel-track .small-card .small-copy h3{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.editorial-carousel-track .small-card,.editorial-carousel-track .small-img img,.editorial-carousel-track .small-copy{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -333,7 +382,11 @@ function renderEditorial(){
  if(!articles.length){root.innerHTML='<div class="status">Няма публикувани материали в категория „Кулинарно изкуство“.</div>';return;}
  const lead=articles.slice(5,7),small=articles.slice(7,10);
  if(!lead.length&&!small.length){root.innerHTML='<div class="status">Още истории ще бъдат добавени скоро.</div>';return;}
- root.innerHTML=lead.map(a=>`<article class="lead-card"><a href="${url(a)}"><div class="lead-img">${cardImage(a)}</div></a><div class="lead-copy"><div class="category">${cat(a)}</div><h3><a href="${url(a)}">${esc(a.title)}</a></h3>${a.subtitle?`<p>${subtitle(a)}</p>`:''}</div></article>`).join('')+small.map(a=>`<article class="small-card"><a href="${url(a)}"><div class="small-img">${cardImage(a)}</div></a><div class="small-copy"><div class="category">${cat(a)}</div><h3><a href="${url(a)}">${esc(a.title)}</a></h3></div></article>`).join('');
+ const leadHtml=lead.map(a=>`<article class="lead-card"><a href="${url(a)}"><div class="lead-img">${cardImage(a)}</div></a><div class="lead-copy"><div class="category">${cat(a)}</div><h3><a href="${url(a)}">${esc(a.title)}</a></h3>${a.subtitle?`<p>${subtitle(a)}</p>`:''}</div></article>`).join('');
+ const smallHtml=small.map(a=>`<article class="small-card"><a href="${url(a)}"><div class="small-img">${cardImage(a)}</div></a><div class="small-copy"><div class="category">${cat(a)}</div><h3><a href="${url(a)}">${esc(a.title)}</a></h3></div></article>`).join('');
+ root.innerHTML=leadHtml+(small.length?`<div class="editorial-carousel"><div class="editorial-carousel-tools"><button class="arrow" type="button" id="editorial-prev" aria-label="Предишни истории">‹</button><button class="arrow" type="button" id="editorial-next" aria-label="Следващи истории">›</button></div><div class="editorial-carousel-track" id="editorial-carousel-track">${smallHtml}</div></div>`:'');
+ const track=document.getElementById('editorial-carousel-track');
+ if(track){document.getElementById('editorial-prev').addEventListener('click',()=>track.scrollBy({left:-track.clientWidth*.85,behavior:'smooth'}));document.getElementById('editorial-next').addEventListener('click',()=>track.scrollBy({left:track.clientWidth*.85,behavior:'smooth'}));}
 }
 function renderPopular(){
  const root=document.getElementById('popular-list'),items=articles.slice(0,5);
