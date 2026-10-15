@@ -649,24 +649,30 @@
                 );
         }
 
-
-        .hero-content {
+     
+.hero-content {
     position: absolute;
     left: 5rem;
     bottom: 2.5rem;
     z-index: 5;
-    padding: 1.2rem 1.6rem;
+    padding: 0.7rem 1.2rem;
     color: #FFFFFF;
     pointer-events: none;
 
     width: fit-content;
     max-width: calc(100% - 10rem);
 
-    background: rgba(15, 15, 18, 0.68);
+    background: rgba(20, 20, 24, 0.45);
     border-left: 3px solid var(--accent-color);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
     border-radius: 3px;
 }
+
+.hero-content .category,
+.hero-subtitle {
+    display: none;
+}
+
 
 
 
