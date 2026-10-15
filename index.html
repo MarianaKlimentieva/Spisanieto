@@ -810,11 +810,15 @@
     transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 
-.carousel-btn:hover {
-    background: var(--accent-color);
-    color: #FFFFFF;
+.carousel-btn:hover,
+.carousel-btn:focus,
+.carousel-btn:active {
+    background: #a21f5a !important;
+    color: #FFFFFF !important;
+    border-color: #a21f5a;
     transform: translateY(-50%) scale(1.05);
 }
+
 
 .prev-btn {
     left: 18px;
