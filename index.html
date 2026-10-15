@@ -1268,17 +1268,18 @@
 
 
         .focus-topic-title {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.12rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: color 0.2s ease;
+}
 
-            display: block;
-
-            font-family: var(--font-serif);
-
-            font-size: 1.1rem;
-
-            line-height: 1.25;
-
-            font-weight: 600;
-        }
+.focus-topic:hover .focus-topic-title {
+    color: var(--accent-color);
+}
 
 
         .focus-topic:hover
