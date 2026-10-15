@@ -392,8 +392,8 @@ function renderPopular(){
  root.innerHTML=items.length?items.map((a,i)=>`<a class="popular-item" href="${url(a)}"><span class="popular-number">${String(i+1).padStart(2,'0')}</span><h3>${esc(a.title)}</h3></a>`).join(''):'<p>Няма публикувани статии.</p>';
 }
 function renderLatest(){
- const root=document.getElementById('latest-grid'),pager=document.getElementById('pagination'),count=document.getElementById('article-count');
- count.textContent=articles.length?`${articles.length} ${articles.length===1?'публикация':'публикации'}`:'';
+const root=document.getElementById('latest-grid'),pager=document.getElementById('pagination');
+
  if(!articles.length){root.innerHTML='<div class="status"><strong>Очаквайте скоро</strong>Все още няма публикувани материали в категория „Кулинарно изкуство“.</div>';pager.innerHTML='';return;}
  const pages=Math.ceil(articles.length/PAGE_SIZE);page=Math.min(page,pages);
  root.innerHTML=articles.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE).map(a=>`<article class="article-card"><a href="${url(a)}"><div class="article-image">${cardImage(a)}</div></a><div class="article-copy"><div class="category">${cat(a)}</div><h3><a href="${url(a)}">${esc(a.title)}</a></h3>${a.subtitle?`<p>${subtitle(a)}</p>`:''}</div></article>`).join('');
