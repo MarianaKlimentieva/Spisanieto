@@ -136,7 +136,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 1rem;
+            /* Център на надписа в свободното поле вляво от химикалката */
+            box-sizing: border-box;
+            padding: 1rem 38% 1rem 1rem;
             background: linear-gradient(
                 to bottom,
                 rgba(0, 0, 0, 0.10),
@@ -2359,7 +2361,8 @@
 
             .top-banner header {
                 inset: 0 1rem;
-                padding: 0.75rem 0.5rem;
+                /* На тесен екран запазваме надписа в свободната лява зона */
+                padding: 0.75rem 22% 0.75rem 0.5rem;
             }
 
             .logo {
