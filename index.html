@@ -1199,18 +1199,19 @@
 
 
         .focus-topic {
+    display: block;
+    text-decoration: none;
+    color: var(--text-color);
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+}
 
-            display: block;
-
-            text-decoration: none;
-
-            color: var(--text-color);
-
-            padding-bottom: 1rem;
-
-            border-bottom:
-                1px solid var(--border-color);
-        }
+.focus-topic:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
 
 
         .focus-topic:last-child {
