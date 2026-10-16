@@ -1024,5 +1024,42 @@
     </script>
 
 
+<script>
+    /* =========================================
+       DATE / TIME
+    ========================================= */
+
+    function updateDateTime() {
+        const now = new Date();
+
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+
+        const dateElement = document.getElementById('current-date');
+        if (dateElement) {
+            dateElement.textContent =
+                now.toLocaleDateString('bg-BG', options).toUpperCase();
+        }
+
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            timeElement.textContent =
+                now.toLocaleTimeString('bg-BG');
+        }
+
+        const yearElement = document.getElementById('current-year');
+        if (yearElement) {
+            yearElement.textContent = now.getFullYear();
+        }
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+
 </body>
 </html>
