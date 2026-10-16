@@ -996,6 +996,34 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             color: #555;
         }
 
+/* ЕФЕКТ ПРИ ПОСОЧВАНЕ НА КАРЕТАТА В АКЦЕНТИ */
+
+#highlights .card {
+    padding: 0.8rem;
+    border-radius: 4px;
+    transition: background-color 0.25s ease;
+}
+
+#highlights .card:hover {
+    background-color: #F0F0F0;
+}
+
+#highlights .card-title {
+    transition: color 0.25s ease;
+}
+
+#highlights .card:hover .card-title {
+    color: var(--accent-color);
+}
+
+#highlights .card-img {
+    transition: opacity 0.25s ease;
+}
+
+#highlights .card:hover .card-img {
+    opacity: 0.94;
+}
+
 
         /* =========================================
            HIGHLIGHTS MORE
