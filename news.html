@@ -453,6 +453,30 @@
             padding-top: 0.35rem;
         }
 
+        
+/* ЕФЕКТ ПРИ ПОСОЧВАНЕ НА КАРЕТАТА */
+
+.news-card {
+    padding: 0.8rem;
+    border: 1px solid #D0D2D6;
+    border-radius: 4px;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.news-card:hover {
+    background-color: #F0F0F0;
+    border-color: #B8BBC2;
+}
+
+.news-card .news-title {
+    transition: color 0.25s ease;
+}
+
+.news-card:hover .news-title {
+    color: var(--accent-color);
+}
+
+
 
         /* =========================================
            LOADING / EMPTY / ERROR
