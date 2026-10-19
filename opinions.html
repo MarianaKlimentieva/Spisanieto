@@ -678,14 +678,47 @@
             </p>
         </header>
 
-        <!-- Следващата стъпка е да добавим карусела и списъка с мнения. -->
-        <section id="opinions-carousel" aria-label="Избрани мнения">
-            <p>Място за карусела с мнения.</p>
+     
+        <!-- КАРУСЕЛ С ИЗБРАНИ МНЕНИЯ -->
+        <section class="opinions-carousel-section" aria-label="Избрани мнения">
+            <div class="opinions-section-heading">
+                <span class="eyebrow">ИЗБОР НА РЕДАКЦИЯТА</span>
+                <h2>Гласове и гледни точки</h2>
+            </div>
+
+            <div class="opinion-feature">
+                <div class="opinion-feature-copy" id="opinion-feature-content">
+                    <p class="opinion-status">Зареждане на мненията...</p>
+                </div>
+
+                <div class="opinion-feature-side">
+                    <div class="opinion-quote-mark">“</div>
+                    <p>Различни гледни точки към темите, които имат значение.</p>
+                </div>
+            </div>
+
+            <div class="opinion-carousel-controls">
+                <button class="opinion-control" id="opinion-prev"
+                    type="button" aria-label="Предишно мнение">‹</button>
+                <span id="opinion-counter">0 / 0</span>
+                <button class="opinion-control" id="opinion-next"
+                    type="button" aria-label="Следващо мнение">›</button>
+            </div>
         </section>
 
-        <section id="opinions-list" aria-label="Всички мнения">
-            <p>Място за всички мнения.</p>
+        <!-- ВСИЧКИ МНЕНИЯ -->
+        <section class="opinions-list-section" aria-label="Всички мнения">
+            <div class="opinions-section-heading">
+                <span class="eyebrow">АРХИВ</span>
+                <h2>Всички мнения</h2>
+            </div>
+
+            <div class="opinions-list" id="opinions-list">
+                <p class="opinion-status">Зареждане на мненията...</p>
+            </div>
         </section>
+    </main>
+
     </main>
 
     <footer class="site-footer">
