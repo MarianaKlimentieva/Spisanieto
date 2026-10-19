@@ -62,24 +62,18 @@
             max-width: 100%;
         }
 
-/* =========================================
-   TOP BAR — ДАТА И ЧАС
-========================================= */
-.top-bar {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0.8rem 1.5rem 0.3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #666;
-    border-bottom: 1px solid var(--border-color);
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
+<!-- =========================================
+     TOP BAR
+========================================= -->
+<div class="top-bar">
+    <span id="current-date">ЗАРЕЖДАНЕ НА ДАТА...</span>
+
+    <div class="top-bar-right">
+        <span id="sofia-weather">ЗАРЕЖДАНЕ НА ВРЕМЕТО...</span>
+        <span id="current-time">00:00:00</span>
+    </div>
+</div>
+
 
 .top-bar-right {
     display: flex;
