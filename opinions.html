@@ -826,6 +826,155 @@
         setInterval(updateDateTime, 1000);
         loadSofiaWeather();
         setInterval(loadSofiaWeather, 15 * 60 * 1000);
+        
+        
+        // =========================================
+        // МНЕНИЯ И КОМЕНТАРИ
+        // =========================================
+
+        (async function loadOpinionsPage() {
+            const feature = document.getElementById('opinion-feature-content');
+            const list = document.getElementById('opinions-list');
+            const counter = document.getElementById('opinion-counter');
+            const prevButton = document.getElementById('opinion-prev');
+            const nextButton = document.getElementById('opinion-next');
+
+            if (!feature || !list || !window.supabaseClient) return;
+
+            let opinions = [];
+            let currentIndex = 0;
+
+            function escapeHTML(value) {
+                return String(value ?? '').replace(/[&<>"']/g, function (char) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#39;'
+                    }[char];
+                });
+            }
+
+            function getInitials(name) {
+                return String(name || '?')
+                    .trim()
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map(part => part.charAt(0))
+                    .join('')
+                    .toUpperCase();
+            }
+
+            function getAvatar(name, url, className) {
+                if (url) {
+                    return `<img class="${className}" src="${escapeHTML(url)}" alt="Снимка на ${escapeHTML(name)}" loading="lazy" onerror="this.outerHTML='<span class=&quot;${className} opinion-avatar-placeholder&quot;>${escapeHTML(getInitials(name))}</span>'">`;
+                }
+
+                return `<span class="${className} opinion-avatar-placeholder">${escapeHTML(getInitials(name))}</span>`;
+            }
+
+            function formatDate(dateValue) {
+                if (!dateValue) return '';
+                const date = new Date(dateValue);
+                if (Number.isNaN(date.getTime())) return '';
+
+                return date.toLocaleDateString('bg-BG', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
+
+            function renderFeature() {
+                if (!opinions.length) return;
+
+                const opinion = opinions[currentIndex];
+                const name = opinion.author_name || 'Автор';
+                const date = formatDate(opinion.created_at);
+
+                feature.innerHTML = `
+                    <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
+                    <div class="opinion-feature-author">
+                        ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
+                        <div>
+                            <div class="opinion-feature-author-name">${escapeHTML(name)}</div>
+                            ${date ? `<span class="opinion-feature-date">${escapeHTML(date)}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                if (counter) {
+                    counter.textContent = `${currentIndex + 1} / ${opinions.length}`;
+                }
+
+                if (prevButton) prevButton.disabled = opinions.length < 2;
+                if (nextButton) nextButton.disabled = opinions.length < 2;
+            }
+
+            function renderList() {
+                if (!opinions.length) {
+                    list.innerHTML = '<p class="opinion-status">Все още няма публикувани мнения.</p>';
+                    feature.innerHTML = '<p class="opinion-status">Все още няма публикувани мнения.</p>';
+                    if (counter) counter.textContent = '0 / 0';
+                    if (prevButton) prevButton.disabled = true;
+                    if (nextButton) nextButton.disabled = true;
+                    return;
+                }
+
+                list.innerHTML = opinions.map(opinion => {
+                    const name = opinion.author_name || 'Автор';
+                    const date = formatDate(opinion.created_at);
+
+                    return `
+                        <article class="opinion-list-card">
+                            ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
+                            <div>
+                                <p class="opinion-list-quote">„${escapeHTML(opinion.quote)}“</p>
+                                <div class="opinion-list-author">${escapeHTML(name)}</div>
+                                ${date ? `<div class="opinion-list-date">${escapeHTML(date)}</div>` : ''}
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                renderFeature();
+            }
+
+            if (prevButton) {
+                prevButton.addEventListener('click', function () {
+                    if (!opinions.length) return;
+                    currentIndex = (currentIndex - 1 + opinions.length) % opinions.length;
+                    renderFeature();
+                });
+            }
+
+            if (nextButton) {
+                nextButton.addEventListener('click', function () {
+                    if (!opinions.length) return;
+                    currentIndex = (currentIndex + 1) % opinions.length;
+                    renderFeature();
+                });
+            }
+
+            try {
+                const { data, error } = await window.supabaseClient
+                    .from('opinions')
+                    .select('id, quote, author_name, avatar_url, created_at')
+                    .eq('published', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                opinions = (data || []).filter(item => item.quote && item.quote.trim());
+                renderList();
+            } catch (error) {
+                console.error('Грешка при зареждане на мненията:', error);
+                feature.innerHTML = '<p class="opinion-status">Мненията не могат да бъдат заредени в момента. Опитайте отново по-късно.</p>';
+                list.innerHTML = '<p class="opinion-status">Мненията не могат да бъдат заредени в момента.</p>';
+            }
+        })();
+
     </script>
 
 </body>
