@@ -424,10 +424,23 @@
 }
 #opinion-feature-content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
     align-items: stretch;
+    width: 100%;
     min-width: 0;
     min-height: 350px;
+}
+
+#opinion-feature-content > .opinion-feature-topic-image {
+    width: 100%;
+    min-width: 0;
+    min-height: 350px;
+}
+
+#opinion-feature-content > .opinion-feature-content {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
 }
 
 .opinion-feature-content {
