@@ -4400,23 +4400,39 @@
 
       try {
 
+       
         const selectedAvatar =
           opinionAvatar.files[0];
 
+        const selectedTopicImage =
+          opinionTopicImage.files[0];
 
         let avatarUrl =
           currentOpinionAvatarUrl || null;
 
+        let topicImageUrl =
+          currentOpinionTopicImageUrl || null;
 
         if (selectedAvatar) {
 
           opinionMessage.textContent =
             'Качване на снимката на автора...';
 
-
           avatarUrl =
             await uploadOpinionImage(
               selectedAvatar
+            );
+
+        }
+
+        if (selectedTopicImage) {
+
+          opinionMessage.textContent =
+            'Качване на тематичната снимка...';
+
+          topicImageUrl =
+            await uploadOpinionImage(
+              selectedTopicImage
             );
 
         }
