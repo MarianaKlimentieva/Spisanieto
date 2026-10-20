@@ -4171,6 +4171,35 @@
     currentOpinionAvatarUrl =
       data.avatar_url || '';
 
+    currentOpinionTopicImageUrl =
+      data.image_url || '';
+
+    opinionTopicImage.value = '';
+
+    opinionTopicImagePreview.style.display =
+      'none';
+
+    opinionTopicImagePreviewImage.src =
+      '';
+
+    if (currentOpinionTopicImageUrl) {
+
+      opinionCurrentTopicImagePreview.src =
+        currentOpinionTopicImageUrl;
+
+      opinionCurrentTopicImage.style.display =
+        'block';
+
+    } else {
+
+      opinionCurrentTopicImagePreview.src =
+        '';
+
+      opinionCurrentTopicImage.style.display =
+        'none';
+
+    }
+
 
     /*
       ВАЖНО:
