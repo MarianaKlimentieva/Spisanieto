@@ -447,9 +447,26 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
     min-width: 0;
     padding: clamp(24px, 4vw, 48px);
     background: #681638;
+    overflow-wrap: break-word;
+}
+
+.opinion-feature-quote {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 32px;
+    color: #fff;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(28px, 3.4vw, 43px);
+    font-weight: 500;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    word-break: normal;
 }
         .opinion-feature-copy {
     display: flex;
