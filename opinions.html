@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -309,18 +310,18 @@
             margin-bottom: 64px;
         }
 
-        /* Външна рамка на карусела */
+        /* Външна сива рамка на карусела */
 
-       .opinion-feature {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    overflow: hidden;
-    border: 1px solid #c8c8c8;
-    border-radius: 8px;
-    background: #681638;
-    color: #fff;
-}
+        .opinion-feature {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid #c8c8c8;
+            border-radius: 8px;
+            background: #681638;
+            color: #fff;
+        }
 
         /* Снимката и текстът се подреждат един под друг */
 
@@ -367,7 +368,7 @@
             overflow-wrap: anywhere;
         }
 
-        /* Цитат в карусела — по-умерен размер и курсив */
+        /* Цитат в карусела */
 
         .opinion-feature-quote {
             display: block;
@@ -540,8 +541,6 @@
                 padding: 2.5rem 1.2rem 1.5rem;
             }
 
-            /* Вертикална подредба и на мобилни устройства */
-
             #opinion-feature-content {
                 display: flex;
                 flex-direction: column;
@@ -575,8 +574,6 @@
                 padding: 28px 24px;
                 overflow-wrap: anywhere;
             }
-
-            /* По-компактен курсивен цитат на телефон */
 
             .opinion-feature-quote {
                 display: block;
@@ -898,6 +895,23 @@
 
             let opinions = [];
             let currentIndex = 0;
+            let opinionAutoplayTimer = null;
+
+            // Автоматична смяна на мненията на всеки 6 секунди
+
+            function startOpinionAutoplay() {
+                if (opinionAutoplayTimer) {
+                    clearInterval(opinionAutoplayTimer);
+                    opinionAutoplayTimer = null;
+                }
+
+                if (opinions.length < 2) return;
+
+                opinionAutoplayTimer = setInterval(function () {
+                    currentIndex = (currentIndex + 1) % opinions.length;
+                    renderFeature();
+                }, 6000);
+            }
 
             function escapeHTML(value) {
                 return String(value ?? '').replace(/[&<>"']/g, function (char) {
@@ -1018,14 +1032,22 @@
                 }).join('');
 
                 renderFeature();
+
+                // Стартиране на автоматичното въртене след зареждането
+                startOpinionAutoplay();
             }
+
+            // Ръчно превключване със стрелките
 
             if (prevButton) {
                 prevButton.addEventListener('click', function () {
                     if (!opinions.length) return;
 
-                    currentIndex = (currentIndex - 1 + opinions.length) % opinions.length;
+                    currentIndex =
+                        (currentIndex - 1 + opinions.length) % opinions.length;
+
                     renderFeature();
+                    startOpinionAutoplay();
                 });
             }
 
@@ -1033,8 +1055,11 @@
                 nextButton.addEventListener('click', function () {
                     if (!opinions.length) return;
 
-                    currentIndex = (currentIndex + 1) % opinions.length;
+                    currentIndex =
+                        (currentIndex + 1) % opinions.length;
+
                     renderFeature();
+                    startOpinionAutoplay();
                 });
             }
 
