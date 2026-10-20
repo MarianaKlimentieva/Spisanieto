@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -208,6 +209,8 @@
             font-size: .95rem;
         }
 
+        /* FOOTER */
+
         .site-footer {
             background: #681638;
             color: #f0dce4;
@@ -276,6 +279,245 @@
             font-size: 12px;
         }
 
+        /* МНЕНИЯ И КОМЕНТАРИ */
+
+        .opinions-section-heading {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e2dfd7;
+            padding-bottom: 16px;
+        }
+
+        .opinions-section-heading .eyebrow {
+            display: block;
+            margin-bottom: 8px;
+            color: #a21f5a;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .opinions-section-heading h2 {
+            margin: 0;
+            color: #111;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(32px, 4vw, 46px);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .opinions-carousel-section {
+            margin-bottom: 64px;
+        }
+
+        /* Външна рамка на карусела */
+        .opinion-feature {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #681638;
+            color: #fff;
+        }
+
+        /* Вътрешна подредба: голяма снимка + текст */
+        #opinion-feature-content {
+            display: grid;
+            grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+            align-items: stretch;
+            width: 100%;
+            min-width: 0;
+            min-height: 350px;
+        }
+
+        .opinion-feature-topic-image {
+            min-width: 0;
+            min-height: 350px;
+            overflow: hidden;
+            background: #e8e4e6;
+        }
+
+        .opinion-feature-topic-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            max-height: none;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Текстова част */
+        .opinion-feature-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 0;
+            padding: clamp(24px, 4vw, 48px);
+            background: #681638;
+            overflow-wrap: break-word;
+        }
+
+        .opinion-feature-quote {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            margin: 0 0 32px;
+            color: #fff;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(28px, 3.1vw, 40px);
+            font-weight: 500;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .opinion-feature-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .opinion-feature-avatar,
+        .opinion-list-avatar {
+            width: 64px;
+            height: 64px;
+            flex: 0 0 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .opinion-feature-author-name {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .opinion-feature-date {
+            display: block;
+            margin-top: 5px;
+            color: #e5cbd5;
+            font-size: 12px;
+        }
+
+        /* Контроли на карусела */
+        .opinion-carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 18px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .opinion-control {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d8d5d8;
+            border-radius: 50%;
+            background: #fff;
+            color: #681638;
+            cursor: pointer;
+            font-size: 22px;
+            transition: background .2s, color .2s;
+        }
+
+        .opinion-control:hover {
+            background: #681638;
+            color: #fff;
+        }
+
+        .opinion-control:disabled {
+            cursor: default;
+            opacity: .4;
+        }
+
+        /* Списък с всички мнения */
+        .opinions-list-section {
+            margin-top: 56px;
+        }
+
+        .opinions-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .opinion-list-card {
+            display: grid;
+            grid-template-columns: 80px minmax(0, 1fr);
+            align-items: start;
+            gap: 24px;
+            padding: 30px;
+            border: 1px solid #e2dfd7;
+            border-radius: 8px;
+            background: #fff;
+            transition: border-color .2s;
+        }
+
+        .opinion-list-card:nth-child(even) {
+            background: #f1f0f2;
+        }
+
+        .opinion-list-card:hover {
+            border-color: #a21f5a;
+        }
+
+        .opinion-list-avatar {
+            width: 76px;
+            height: 76px;
+            flex-basis: 76px;
+        }
+
+        .opinion-list-quote {
+            margin: 0 0 20px;
+            color: #454545;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(22px, 2.5vw, 30px);
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .opinion-list-author {
+            color: #681638;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .opinion-list-date {
+            margin-top: 5px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .opinion-status {
+            margin: 0;
+            padding: 24px 0;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .opinion-avatar-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e8dce2;
+            color: #681638;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        /* TABLET И МОБИЛНИ УСТРОЙСТВА */
         @media (max-width: 700px) {
             .footer-grid {
                 grid-template-columns: 1fr;
@@ -284,6 +526,51 @@
 
             .site-footer {
                 padding: 2.5rem 1.2rem 1.5rem;
+            }
+
+            #opinion-feature-content {
+                grid-template-columns: minmax(0, 1fr);
+                min-height: 0;
+            }
+
+            .opinion-feature-topic-image {
+                height: 240px;
+                min-height: 0;
+            }
+
+            .opinion-feature-topic-image img {
+                width: 100%;
+                height: 240px;
+                min-height: 0;
+                max-height: 240px;
+                object-fit: cover;
+            }
+
+            .opinion-feature-content {
+                width: 100%;
+                min-width: 0;
+                padding: 28px 24px;
+            }
+
+            .opinion-feature-quote {
+                font-size: clamp(27px, 6vw, 34px);
+                line-height: 1.3;
+            }
+
+            .opinion-list-card {
+                grid-template-columns: 54px minmax(0, 1fr);
+                gap: 16px;
+                padding: 20px 16px;
+            }
+
+            .opinion-list-avatar {
+                width: 54px;
+                height: 54px;
+                flex-basis: 54px;
+            }
+
+            .opinion-list-quote {
+                font-size: 23px;
             }
         }
 
@@ -359,359 +646,11 @@
             .top-banner .tagline {
                 font-size: 1.45rem;
             }
+
+            .opinion-feature-content {
+                padding: 24px 18px;
+            }
         }
-        
-/* МНЕНИЯ И КОМЕНТАРИ */
-
-.opinions-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 48px 24px 72px;
-}
-
-.opinions-section-heading {
-    margin-bottom: 24px;
-    border-bottom: 1px solid #e2dfd7;
-    padding-bottom: 16px;
-}
-
-.opinions-section-heading .eyebrow {
-    display: block;
-    margin-bottom: 8px;
-    color: #a21f5a;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.opinions-section-heading h2 {
-    margin: 0;
-    color: #111;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(32px, 4vw, 46px);
-    font-weight: 600;
-    line-height: 1.1;
-}
-
-.opinions-carousel-section {
-    margin-bottom: 64px;
-}
-
-.opinion-feature {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    min-height: 350px;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #681638;
-    color: #fff;
-}
-.opinion-feature-topic-image {
-    min-width: 0;
-    min-height: 350px;
-    overflow: hidden;
-    background: #e8e4e6;
-}
-
-.opinion-feature-topic-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    max-height: 480px;
-    object-fit: cover;
-}
-#opinion-feature-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-    align-items: stretch;
-    width: 100%;
-    min-width: 0;
-    min-height: 350px;
-}
-
-#opinion-feature-content > .opinion-feature-topic-image {
-    width: 100%;
-    min-width: 0;
-    min-height: 350px;
-}
-
-#opinion-feature-content > .opinion-feature-content {
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-}
-
-.opinion-feature-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    padding: clamp(24px, 4vw, 48px);
-    background: #681638;
-    overflow-wrap: break-word;
-}
-
-.opinion-feature-quote {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0 0 32px;
-    color: #fff;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(28px, 3.4vw, 43px);
-    font-weight: 500;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-    word-break: normal;
-}
-        .opinion-feature-copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: clamp(28px, 5vw, 60px);
-}
-
-.opinion-feature-quote {
-    margin: 0 0 32px;
-    color: #fff;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(28px, 3.4vw, 43px);
-    font-weight: 500;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-}
-
-.opinion-feature-author {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.opinion-feature-avatar,
-.opinion-list-avatar {
-    width: 64px;
-    height: 64px;
-    flex: 0 0 64px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.opinion-feature-author-name {
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.opinion-feature-date {
-    display: block;
-    margin-top: 5px;
-    color: #e5cbd5;
-    font-size: 12px;
-}
-
-.opinion-feature-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 36px;
-    background: #f0edf0;
-    color: #681638;
-}
-
-.opinion-quote-mark {
-    height: 100px;
-    font-family: Georgia, serif;
-    font-size: 150px;
-    line-height: 1;
-    opacity: 0.8;
-}
-
-.opinion-feature-side p {
-    margin: 12px 0 0;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 25px;
-    line-height: 1.35;
-}
-
-.opinion-carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-    margin-top: 18px;
-    color: #666;
-    font-size: 13px;
-}
-
-.opinion-control {
-    display: inline-flex;
-    width: 42px;
-    height: 42px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #d8d5d8;
-    border-radius: 50%;
-    background: #fff;
-    color: #681638;
-    cursor: pointer;
-    font-size: 22px;
-    transition: background 0.2s, color 0.2s;
-}
-
-.opinion-control:hover {
-    background: #681638;
-    color: #fff;
-}
-
-.opinion-control:disabled {
-    cursor: default;
-    opacity: 0.4;
-}
-
-.opinions-list-section {
-    margin-top: 56px;
-}
-
-.opinions-list {
-    display: grid;
-    gap: 16px;
-}
-
-.opinion-list-card {
-    display: grid;
-    grid-template-columns: 80px minmax(0, 1fr);
-    align-items: start;
-    gap: 24px;
-    padding: 30px;
-    border: 1px solid #e2dfd7;
-    border-radius: 8px;
-    background: #fff;
-    transition: border-color 0.2s;
-}
-
-.opinion-list-card:nth-child(even) {
-    background: #f1f0f2;
-}
-
-.opinion-list-card:hover {
-    border-color: #a21f5a;
-}
-
-.opinion-list-avatar {
-    width: 76px;
-    height: 76px;
-    flex-basis: 76px;
-}
-
-.opinion-list-quote {
-    margin: 0 0 20px;
-    color: #454545;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(22px, 2.5vw, 30px);
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-}
-
-.opinion-list-author {
-    color: #681638;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.opinion-list-date {
-    margin-top: 5px;
-    color: #777;
-    font-size: 12px;
-}
-
-.opinion-status {
-    margin: 0;
-    padding: 24px 0;
-    color: #666;
-    line-height: 1.6;
-}
-
-.opinion-avatar-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #e8dce2;
-    color: #681638;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 25px;
-    font-weight: 600;
-}
-
-@media (max-width: 700px) {
-    .opinions-page {
-        padding: 30px 16px 48px;
-    }
-
-   .opinion-feature {
-    grid-template-columns: 1fr;
-}
-
-#opinion-feature-content {
-    grid-template-columns: 1fr;
-    min-height: 0;
-}
-
-.opinion-feature-topic-image {
-    min-height: 0;
-    height: 240px;
-}
-
-.opinion-feature-topic-image img {
-    min-height: 0;
-    height: 240px;
-    max-height: 240px;
-}
-
-.opinion-feature-content {
-    padding: 28px 24px;
-}
-
-    .opinion-feature-copy {
-        padding: 28px 24px;
-    }
-
-    .opinion-feature-side {
-        min-height: 150px;
-        padding: 20px 24px 28px;
-    }
-
-    .opinion-quote-mark {
-        height: 65px;
-        font-size: 100px;
-    }
-
-    .opinion-feature-side p {
-        margin-top: 4px;
-        font-size: 21px;
-    }
-
-    .opinion-list-card {
-        grid-template-columns: 54px minmax(0, 1fr);
-        gap: 16px;
-        padding: 20px 16px;
-    }
-
-    .opinion-list-avatar {
-        width: 54px;
-        height: 54px;
-        flex-basis: 54px;
-    }
-
-    .opinion-list-quote {
-        font-size: 23px;
-    }
-}
-
     </style>
 </head>
 
@@ -745,7 +684,14 @@
                 <li><a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">ЛАЙФСТАЙЛ</a></li>
                 <li><a href="javascript:void(0)" onclick="openAboutModal()">ЗА НАС</a></li>
             </ul>
-            <span class="search-icon" onclick="openSearchModal()" title="Търсене" aria-label="Търсене" role="button" tabindex="0">🔍</span>
+            <span
+                class="search-icon"
+                onclick="openSearchModal()"
+                title="Търсене"
+                aria-label="Търсене"
+                role="button"
+                tabindex="0"
+            >🔍</span>
         </div>
     </nav>
 
@@ -758,29 +704,36 @@
             </p>
         </header>
 
-          
-<!-- КАРУСЕЛ С ИЗБРАНИ МНЕНИЯ -->
-<section class="opinions-carousel-section" aria-label="Избрани мнения">
-    <div class="opinions-section-heading">
-        <span class="eyebrow">ИЗБОР НА РЕДАКЦИЯТА</span>
-        <h2>Гласове и гледни точки</h2>
-    </div>
+        <!-- КАРУСЕЛ С ИЗБРАНИ МНЕНИЯ -->
+        <section class="opinions-carousel-section" aria-label="Избрани мнения">
+            <div class="opinions-section-heading">
+                <span class="eyebrow">ИЗБОР НА РЕДАКЦИЯТА</span>
+                <h2>Гласове и гледни точки</h2>
+            </div>
 
-    <div class="opinion-feature">
-        <div id="opinion-feature-content">
-            <p class="opinion-status">Зареждане на мненията...</p>
-        </div>
-    </div>
+            <div class="opinion-feature">
+                <div id="opinion-feature-content">
+                    <p class="opinion-status">Зареждане на мненията...</p>
+                </div>
+            </div>
 
-    <div class="opinion-carousel-controls">
-        <button class="opinion-control" id="opinion-prev"
-            type="button" aria-label="Предишно мнение">‹</button>
-        <span id="opinion-counter">0 / 0</span>
-        <button class="opinion-control" id="opinion-next"
-            type="button" aria-label="Следващо мнение">›</button>
-    </div>
-</section>
+            <div class="opinion-carousel-controls">
+                <button
+                    class="opinion-control"
+                    id="opinion-prev"
+                    type="button"
+                    aria-label="Предишно мнение"
+                >‹</button>
 
+                <span id="opinion-counter">0 / 0</span>
+
+                <button
+                    class="opinion-control"
+                    id="opinion-next"
+                    type="button"
+                    aria-label="Следващо мнение"
+                >›</button>
+            </div>
         </section>
 
         <!-- ВСИЧКИ МНЕНИЯ -->
@@ -796,8 +749,6 @@
         </section>
     </main>
 
- 
-
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-grid">
@@ -809,6 +760,7 @@
                         <div class="footer-tagline">Всичко важно. На едно място.</div>
                     </div>
                 </div>
+
                 <div class="footer-column">
                     <h4>Рубрики</h4>
                     <p><a href="index.html">Новини</a></p>
@@ -816,6 +768,7 @@
                     <p><a href="index.html?category=%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B8">Анализи</a></p>
                     <p><a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">Лайфстайл</a></p>
                 </div>
+
                 <div class="footer-column">
                     <h4>За нас</h4>
                     <p><a href="javascript:void(0)" onclick="openAboutModal()">Редакция</a></p>
@@ -826,6 +779,7 @@
                     <p><a href="mailto:bgvip.pr@gmail.com">bgvip.pr@gmail.com</a></p>
                 </div>
             </div>
+
             <div class="footer-bottom">
                 &copy; <span id="current-year">2026</span> СПИСАНИЕТО. Всички права запазени.
             </div>
@@ -833,9 +787,11 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
         const SUPABASE_URL = 'https://hxvflentlaktgwimsevc.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
+
         window.supabaseClient = window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_ANON_KEY
@@ -878,13 +834,16 @@
                     'https://api.open-meteo.com/v1/forecast?latitude=42.6977&longitude=23.3219&current=temperature_2m,weather_code&timezone=Europe%2FSofia'
                 );
 
-                if (!response.ok) throw new Error('Weather request failed');
+                if (!response.ok) {
+                    throw new Error('Weather request failed');
+                }
 
                 const data = await response.json();
                 const temperature = Math.round(data.current.temperature_2m);
                 const code = data.current.weather_code;
 
                 let icon = '☀️';
+
                 if ([1, 2].includes(code)) icon = '🌤️';
                 else if (code === 3) icon = '☁️';
                 else if ([45, 48].includes(code)) icon = '🌫️';
@@ -903,11 +862,8 @@
         setInterval(updateDateTime, 1000);
         loadSofiaWeather();
         setInterval(loadSofiaWeather, 15 * 60 * 1000);
-        
-        
-        // =========================================
+
         // МНЕНИЯ И КОМЕНТАРИ
-        // =========================================
 
         (async function loadOpinionsPage() {
             const feature = document.getElementById('opinion-feature-content');
@@ -945,7 +901,13 @@
 
             function getAvatar(name, url, className) {
                 if (url) {
-                    return `<img class="${className}" src="${escapeHTML(url)}" alt="Снимка на ${escapeHTML(name)}" loading="lazy" onerror="this.outerHTML='<span class=&quot;${className} opinion-avatar-placeholder&quot;>${escapeHTML(getInitials(name))}</span>'">`;
+                    return `<img
+                        class="${className}"
+                        src="${escapeHTML(url)}"
+                        alt="Снимка на ${escapeHTML(name)}"
+                        loading="lazy"
+                        onerror="this.outerHTML='<span class=&quot;${className} opinion-avatar-placeholder&quot;>${escapeHTML(getInitials(name))}</span>'
+                    >`;
                 }
 
                 return `<span class="${className} opinion-avatar-placeholder">${escapeHTML(getInitials(name))}</span>`;
@@ -953,6 +915,7 @@
 
             function formatDate(dateValue) {
                 if (!dateValue) return '';
+
                 const date = new Date(dateValue);
                 if (Number.isNaN(date.getTime())) return '';
 
@@ -963,54 +926,55 @@
                 });
             }
 
-           
-function renderFeature() {
-    if (!opinions.length) return;
+            function renderFeature() {
+                if (!opinions.length) return;
 
-    const opinion = opinions[currentIndex];
-    const name = opinion.author_name || 'Автор';
-    const date = formatDate(opinion.created_at);
+                const opinion = opinions[currentIndex];
+                const name = opinion.author_name || 'Автор';
+                const date = formatDate(opinion.created_at);
 
-    const topicImage = opinion.image_url
-        ? `<div class="opinion-feature-topic-image">
-               <img
-                   src="${escapeHTML(opinion.image_url)}"
-                   alt="${escapeHTML('Тематична снимка към мнението на ' + name)}"
-               >
-           </div>`
-        : '';
+                const topicImage = opinion.image_url
+                    ? `<div class="opinion-feature-topic-image">
+                           <img
+                               src="${escapeHTML(opinion.image_url)}"
+                               alt="${escapeHTML('Тематична снимка към мнението на ' + name)}"
+                           >
+                       </div>`
+                    : '';
 
-    feature.innerHTML = `
-        ${topicImage}
+                feature.innerHTML = `
+                    ${topicImage}
 
-        <div class="opinion-feature-content">
-            <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
+                    <div class="opinion-feature-content">
+                        <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
 
-            <div class="opinion-feature-author">
-                ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
-                <div>
-                    <div class="opinion-feature-author-name">${escapeHTML(name)}</div>
-                    ${date ? `<span class="opinion-feature-date">${escapeHTML(date)}</span>` : ''}
-                </div>
-            </div>
-        </div>
-    `;
+                        <div class="opinion-feature-author">
+                            ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
+                            <div>
+                                <div class="opinion-feature-author-name">${escapeHTML(name)}</div>
+                                ${date ? `<span class="opinion-feature-date">${escapeHTML(date)}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
 
-    if (counter) {
-        counter.textContent = `${currentIndex + 1} / ${opinions.length}`;
-    }
+                if (counter) {
+                    counter.textContent = `${currentIndex + 1} / ${opinions.length}`;
+                }
 
-    if (prevButton) prevButton.disabled = opinions.length < 2;
-    if (nextButton) nextButton.disabled = opinions.length < 2;
-}
+                if (prevButton) prevButton.disabled = opinions.length < 2;
+                if (nextButton) nextButton.disabled = opinions.length < 2;
+            }
 
             function renderList() {
                 if (!opinions.length) {
                     list.innerHTML = '<p class="opinion-status">Все още няма публикувани мнения.</p>';
                     feature.innerHTML = '<p class="opinion-status">Все още няма публикувани мнения.</p>';
+
                     if (counter) counter.textContent = '0 / 0';
                     if (prevButton) prevButton.disabled = true;
                     if (nextButton) nextButton.disabled = true;
+
                     return;
                 }
 
@@ -1021,6 +985,7 @@ function renderFeature() {
                     return `
                         <article class="opinion-list-card">
                             ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
+
                             <div>
                                 <p class="opinion-list-quote">„${escapeHTML(opinion.quote)}“</p>
                                 <div class="opinion-list-author">${escapeHTML(name)}</div>
@@ -1036,6 +1001,7 @@ function renderFeature() {
             if (prevButton) {
                 prevButton.addEventListener('click', function () {
                     if (!opinions.length) return;
+
                     currentIndex = (currentIndex - 1 + opinions.length) % opinions.length;
                     renderFeature();
                 });
@@ -1044,6 +1010,7 @@ function renderFeature() {
             if (nextButton) {
                 nextButton.addEventListener('click', function () {
                     if (!opinions.length) return;
+
                     currentIndex = (currentIndex + 1) % opinions.length;
                     renderFeature();
                 });
@@ -1052,21 +1019,24 @@ function renderFeature() {
             try {
                 const { data, error } = await window.supabaseClient
                     .from('opinions')
-                   .select('id, quote, author_name, avatar_url, image_url, created_at')
+                    .select('id, quote, author_name, avatar_url, image_url, created_at')
                     .eq('published', true)
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                opinions = (data || []).filter(item => item.quote && item.quote.trim());
+                opinions = (data || []).filter(
+                    item => item.quote && item.quote.trim()
+                );
+
                 renderList();
             } catch (error) {
                 console.error('Грешка при зареждане на мненията:', error);
+
                 feature.innerHTML = '<p class="opinion-status">Мненията не могат да бъдат заредени в момента. Опитайте отново по-късно.</p>';
                 list.innerHTML = '<p class="opinion-status">Мненията не могат да бъдат заредени в момента.</p>';
             }
         })();
-
     </script>
 
 </body>
