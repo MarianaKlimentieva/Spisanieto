@@ -1366,6 +1366,56 @@
       </div>
 
 
+      <div class="opinion-topic-image-field">
+
+        <label for="opinionTopicImage">
+          Голяма тематична снимка
+        </label>
+
+        <input
+          type="file"
+          id="opinionTopicImage"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+        >
+
+        <div class="image-help">
+          Тази снимка ще се показва в карусела отделно от портрета на автора.
+        </div>
+
+        <div
+          id="opinionCurrentTopicImage"
+          class="opinion-current-image"
+          style="display:none;"
+        >
+          <div class="current-image-title">
+            Текуща тематична снимка:
+          </div>
+
+          <img
+            id="opinionCurrentTopicImagePreview"
+            src=""
+            alt="Текуща тематична снимка"
+          >
+        </div>
+
+        <div
+          id="opinionTopicImagePreview"
+          class="opinion-image-preview"
+          style="display:none;"
+        >
+          <div class="current-image-title">
+            Нова тематична снимка:
+          </div>
+
+          <img
+            id="opinionTopicImagePreviewImage"
+            src=""
+            alt="Преглед на тематичната снимка"
+          >
+        </div>
+
+      </div>
+
       <div class="featured-box">
 
         <label class="featured-option">
