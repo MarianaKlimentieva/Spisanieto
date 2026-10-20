@@ -960,7 +960,7 @@
             try {
                 const { data, error } = await window.supabaseClient
                     .from('opinions')
-                    .select('id, quote, author_name, avatar_url, created_at')
+                   .select('id, quote, author_name, avatar_url, image_url, created_at')
                     .eq('published', true)
                     .order('created_at', { ascending: false });
 
