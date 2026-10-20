@@ -886,31 +886,46 @@
                 });
             }
 
-            function renderFeature() {
-                if (!opinions.length) return;
+           
+function renderFeature() {
+    if (!opinions.length) return;
 
-                const opinion = opinions[currentIndex];
-                const name = opinion.author_name || 'Автор';
-                const date = formatDate(opinion.created_at);
+    const opinion = opinions[currentIndex];
+    const name = opinion.author_name || 'Автор';
+    const date = formatDate(opinion.created_at);
 
-                feature.innerHTML = `
-                    <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
-                    <div class="opinion-feature-author">
-                        ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
-                        <div>
-                            <div class="opinion-feature-author-name">${escapeHTML(name)}</div>
-                            ${date ? `<span class="opinion-feature-date">${escapeHTML(date)}</span>` : ''}
-                        </div>
-                    </div>
-                `;
+    const topicImage = opinion.image_url
+        ? `<div class="opinion-feature-topic-image">
+               <img
+                   src="${escapeHTML(opinion.image_url)}"
+                   alt="${escapeHTML('Тематична снимка към мнението на ' + name)}"
+               >
+           </div>`
+        : '';
 
-                if (counter) {
-                    counter.textContent = `${currentIndex + 1} / ${opinions.length}`;
-                }
+    feature.innerHTML = `
+        ${topicImage}
 
-                if (prevButton) prevButton.disabled = opinions.length < 2;
-                if (nextButton) nextButton.disabled = opinions.length < 2;
-            }
+        <div class="opinion-feature-content">
+            <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
+
+            <div class="opinion-feature-author">
+                ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
+                <div>
+                    <div class="opinion-feature-author-name">${escapeHTML(name)}</div>
+                    ${date ? `<span class="opinion-feature-date">${escapeHTML(date)}</span>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+
+    if (counter) {
+        counter.textContent = `${currentIndex + 1} / ${opinions.length}`;
+    }
+
+    if (prevButton) prevButton.disabled = opinions.length < 2;
+    if (nextButton) nextButton.disabled = opinions.length < 2;
+}
 
             function renderList() {
                 if (!opinions.length) {
