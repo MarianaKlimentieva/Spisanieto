@@ -3879,6 +3879,58 @@
     }
   );
 
+  /* ========================= */
+  /* ТЕМАТИЧНА СНИМКА - PREVIEW */
+  /* ========================= */
+
+  opinionTopicImage.addEventListener(
+    'change',
+    function() {
+
+      const file =
+        this.files[0];
+
+      if (!file) {
+
+        opinionTopicImagePreview.style.display =
+          'none';
+
+        opinionTopicImagePreviewImage.src =
+          '';
+
+        return;
+
+      }
+
+      if (!file.type.startsWith('image/')) {
+
+        opinionMessage.textContent =
+          'Моля, избери файл с изображение.';
+
+        this.value = '';
+
+        opinionTopicImagePreview.style.display =
+          'none';
+
+        return;
+
+      }
+
+      const previewUrl =
+        URL.createObjectURL(file);
+
+      opinionTopicImagePreviewImage.src =
+        previewUrl;
+
+      opinionTopicImagePreview.style.display =
+        'block';
+
+      opinionMessage.textContent =
+        '';
+
+    }
+  );
+
 
   /* ========================= */
   /* ЗАРЕЖДАНЕ НА МНЕНИЯ */
