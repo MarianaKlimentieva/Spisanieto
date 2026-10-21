@@ -650,6 +650,20 @@ function renderHero() {
     });
   });
 }
+let heroAutoSlide;
+
+function startHeroAutoSlide() {
+  clearInterval(heroAutoSlide);
+
+  heroAutoSlide = setInterval(() => {
+    const slidesCount = Math.min(5, allArticles.length);
+
+    if (slidesCount > 1) {
+      currentSlide = (currentSlide + 1) % slidesCount;
+      renderHero();
+    }
+  }, 5000);
+}
 
 function renderTopics() {
   const grid = document.getElementById('topic-grid');
