@@ -492,14 +492,13 @@
         }
 
         .opinion-list-quote {
-    margin: 0 0 20px;
-    color: #454545;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(22px, 2.5vw, 30px);
-    font-style: italic;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-}
+            margin: 0 0 20px;
+            color: #454545;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(22px, 2.5vw, 30px);
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
 
         .opinion-list-author {
             color: #681638;
@@ -844,16 +843,16 @@
     
 
         /* Курсив за самите мнения – в карусела и в списъка */
-        .opinion-feature .opinion-feature-quote,
-        .opinions-list .opinion-list-card .opinion-list-quote,
-        .opinions-list .opinion-list-quote {
+        .opinion-feature-quote,
+        .opinion-list-quote {
             font-style: italic !important;
             font-family: "Cormorant Garamond", Georgia, serif !important;
         }
 
-        /* Осигурява курсив и на динамично заредените мнения в общия списък. */
-        #opinions-list .opinion-list-quote {
-            font-style: oblique 12deg !important;
+        /* Гарантиран курсив за цитатите в карусела и списъка */
+        #opinion-feature-content .opinion-feature-quote,
+        #opinions-list .opinion-list-card .opinion-list-quote {
+            font-style: italic !important;
         }
 
     </style>
@@ -1218,7 +1217,7 @@
                     ${topicImage}
 
                     <div class="opinion-feature-content">
-                        <p class="opinion-feature-quote">„${escapeHTML(opinion.quote)}“</p>
+                        <p class="opinion-feature-quote" style="font-style: italic !important;">„${escapeHTML(opinion.quote)}“</p>
 
                         <div class="opinion-feature-author">
                             ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
@@ -1262,7 +1261,7 @@
                             ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
 
                             <div>
-                                <p class="opinion-list-quote">„${escapeHTML(opinion.quote)}“</p>
+                                <p class="opinion-list-quote" style="font-style: italic !important;">„${escapeHTML(opinion.quote)}“</p>
                                 <div class="opinion-list-author">${escapeHTML(name)}</div>
                                 ${date ? `<div class="opinion-list-date">${escapeHTML(date)}</div>` : ''}
 
