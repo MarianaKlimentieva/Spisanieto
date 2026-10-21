@@ -780,6 +780,66 @@
     font-style: italic !important;
 }
 
+/* БУТОНИ ЗА СПОДЕЛЯНЕ НА ВСЯКО МНЕНИЕ */
+.opinion-share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.opinion-share a,
+.opinion-share button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    background: #FFFFFF;
+    color: #444444;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color .2s, background-color .2s, border-color .2s;
+}
+
+.opinion-share a:hover,
+.opinion-share button:hover {
+    color: #FFFFFF;
+    background: #681638;
+    border-color: #681638;
+}
+
+.opinion-share-label {
+    color: #777777;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 2px;
+}
+
+.opinion-share button:focus-visible,
+.opinion-share a:focus-visible {
+    outline: 2px solid #a21f5a;
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .opinion-share {
+        gap: 6px;
+    }
+
+    .opinion-share a,
+    .opinion-share button {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+}
+
     </style>
 </head>
 
@@ -1178,18 +1238,59 @@
                     const name = opinion.author_name || 'Автор';
                     const date = formatDate(opinion.created_at);
 
+                    const shareUrl = `${window.location.origin}${window.location.pathname}#opinion-${encodeURIComponent(opinion.id)}`;
+                    const shareText = `Мнение на ${name}: „${opinion.quote}“`;
+
                     return `
-                        <article class="opinion-list-card">
+                        <article class="opinion-list-card" id="opinion-${escapeHTML(opinion.id)}">
                             ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
 
                             <div>
                                 <p class="opinion-list-quote">„${escapeHTML(opinion.quote)}“</p>
                                 <div class="opinion-list-author">${escapeHTML(name)}</div>
                                 ${date ? `<div class="opinion-list-date">${escapeHTML(date)}</div>` : ''}
+
+                                <div class="opinion-share" aria-label="Споделяне на мнението">
+                                    <span class="opinion-share-label">Сподели:</span>
+                                    <a
+                                        href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Сподели във Facebook"
+                                    >Facebook</a>
+                                    <a
+                                        href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Сподели в X"
+                                    >X</a>
+                                    <a
+                                        href="viber://forward?text=${encodeURIComponent(shareText + ' ' + shareUrl)}"
+                                        aria-label="Сподели във Viber"
+                                    >Viber</a>
+                                    <button
+                                        type="button"
+                                        data-copy-opinion="${escapeHTML(opinion.id)}"
+                                    >Копирай линк</button>
+                                </div>
                             </div>
                         </article>
                     `;
                 }).join('');
+
+                list.querySelectorAll('[data-copy-opinion]').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const opinionId = button.dataset.copyOpinion;
+                        const shareUrl = `${window.location.origin}${window.location.pathname}#opinion-${encodeURIComponent(opinionId)}`;
+
+                        try {
+                            await navigator.clipboard.writeText(shareUrl);
+                            button.textContent = 'Линкът е копиран!';
+                        } catch (error) {
+                            window.prompt('Копирай линка към мнението:', shareUrl);
+                        }
+                    });
+                });
 
                 renderFeature();
 
