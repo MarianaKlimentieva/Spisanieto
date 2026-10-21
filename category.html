@@ -252,9 +252,19 @@ h1, h2, h3, p { margin-top: 0; }
   display: grid;
   grid-template-columns: minmax(220px, 38%) minmax(0, 1fr);
   gap: clamp(22px, 4vw, 48px);
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 24px;
+  margin-bottom: 18px;
+  border: 1px solid #E2E4E7;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
+
+.news-item:hover {
+  background: #F0F0F0;
+  border-color: #B8BBC2;
+}
+
 .news-image {
   display: block;
   width: 100%;
