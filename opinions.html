@@ -768,10 +768,16 @@
                 font-size: 27px;
             }
         }     
-/* Курсив за текста на мненията */
-.opinion-list-quote,
-.opinion-feature-quote {
-    font-style: italic;
+/* Курсив за всички мнения и коментари */
+.opinion-card p,
+.opinion-card blockquote,
+.opinion-card .opinion-text,
+.opinion-card .opinion-content,
+.opinion-feature p,
+.opinion-feature blockquote,
+.opinion-feature .opinion-text,
+.opinion-feature .opinion-content {
+    font-style: italic !important;
 }
 
 /* БУТОНИ ЗА СПОДЕЛЯНЕ НА ВСЯКО МНЕНИЕ */
@@ -833,6 +839,15 @@
         font-size: 10px;
     }
 }
+
+    
+
+        /* Курсив за самите мнения – в карусела и в списъка */
+        .opinion-feature-quote,
+        .opinion-list-quote {
+            font-style: italic !important;
+            font-family: "Cormorant Garamond", Georgia, serif !important;
+        }
 
     </style>
 </head>
