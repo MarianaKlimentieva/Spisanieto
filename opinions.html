@@ -843,10 +843,16 @@
     
 
         /* Курсив за самите мнения – в карусела и в списъка */
-        .opinion-feature-quote,
-        .opinion-list-quote {
+        .opinion-feature .opinion-feature-quote,
+        .opinions-list .opinion-list-card .opinion-list-quote,
+        .opinions-list .opinion-list-quote {
             font-style: italic !important;
             font-family: "Cormorant Garamond", Georgia, serif !important;
+        }
+
+        /* Осигурява курсив и на динамично заредените мнения в общия списък. */
+        #opinions-list .opinion-list-quote {
+            font-style: oblique 12deg !important;
         }
 
     </style>
