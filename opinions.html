@@ -844,30 +844,18 @@
 
     
 
-        /* Курсив за самите мнения – в карусела и в списъка */
-        .opinion-feature-quote,
-        .opinion-list-quote {
-            font-style: italic !important;
-            font-family: "Cormorant Garamond", Georgia, serif !important;
-        }
-
-        /* Гарантиран курсив за цитатите в карусела и списъка */
-        #opinion-feature-content .opinion-feature-quote,
-        #opinions-list .opinion-list-card .opinion-list-quote {
-            font-style: italic !important;
-        }
-/* ПРИНУДИТЕЛЕН КУРСИВ ЗА ТЕКСТА НА МНЕНИЯТА */
-p.opinion-feature-quote,
-p.opinion-list-quote {
+       /* Курсив за самите мнения */
+#opinions-list .opinion-list-quote {
     font-family: "Cormorant Garamond", Georgia, serif !important;
-    font-style: oblique 12deg !important;
+    font-style: italic !important;
     font-weight: 400 !important;
 }
 
-/* Курсив и за вложените елементи, ако има такива */
-p.opinion-feature-quote *,
-p.opinion-list-quote * {
-    font-style: oblique 12deg !important;
+/* Курсив за избраното мнение в карусела */
+#opinion-feature-content .opinion-feature-quote {
+    font-family: "Cormorant Garamond", Georgia, serif !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
 }
     </style>
 </head>
