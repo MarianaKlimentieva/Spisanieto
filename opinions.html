@@ -1238,7 +1238,7 @@
                     const name = opinion.author_name || 'Автор';
                     const date = formatDate(opinion.created_at);
 
-                    const shareUrl = `${window.location.origin}${window.location.pathname}#opinion-${encodeURIComponent(opinion.id)}`;
+                    const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}`;
                     const shareText = `Мнение на ${name}: „${opinion.quote}“`;
 
                     return `
@@ -1281,7 +1281,7 @@
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
-                        const shareUrl = `${window.location.origin}${window.location.pathname}#opinion-${encodeURIComponent(opinionId)}`;
+                        const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}`;
 
                         try {
                             await navigator.clipboard.writeText(shareUrl);
