@@ -643,12 +643,14 @@ function renderHero() {
     currentSlide = (currentSlide + 1) % slides.length;
     renderHero();
   });
-  dots.querySelectorAll('[data-slide]').forEach(button => {
+   dots.querySelectorAll('[data-slide]').forEach(button => {
     button.addEventListener('click', () => {
       currentSlide = Number(button.dataset.slide);
       renderHero();
     });
   });
+
+  startHeroAutoSlide();
 }
 let heroAutoSlide;
 
