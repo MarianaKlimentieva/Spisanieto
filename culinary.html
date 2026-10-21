@@ -374,6 +374,32 @@ body { background: #FFFFFF; color: #111111; }
   .site-footer .footer-container { width:calc(100% - 32px); }
 }
 
+
+/* Търсене — същата лупа и прозорец като в началната страница */
+.homepage-nav .nav-container{position:relative}
+.search-icon{display:inline-grid;place-items:center;flex:0 0 auto;width:36px;height:36px;margin-left:12px;border:0;background:transparent;color:#111;font-size:19px;cursor:pointer;transition:color .2s,transform .2s}
+.search-icon:hover{color:#a21f5a;transform:scale(1.08)}
+.search-modal{display:none;position:fixed;z-index:3000;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:8vh 1.5rem 2rem}
+.search-modal.active{display:flex}
+.search-modal-content{width:100%;max-width:900px;background:#fff;border:1px solid #E2E4E7;border-radius:8px;box-shadow:0 15px 50px rgba(0,0,0,.25);overflow:hidden}
+.search-header{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;border-bottom:1px solid #E2E4E7;background:#fff}
+.search-header-icon{font-size:1.2rem;color:#a21f5a}
+.search-input{flex:1;min-width:0;border:0;outline:none;background:transparent;font:400 16px var(--sans);color:#111}
+.search-input::placeholder{color:#999}
+.search-close{border:0;background:transparent;color:#666;font-size:30px;line-height:1;cursor:pointer;padding:0 4px}
+.search-close:hover{color:#a21f5a}
+.search-results{max-height:65vh;overflow-y:auto;padding:1.2rem 1.4rem}
+.search-status{color:#666;font-size:12px;padding:0 0 12px}
+.search-result{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:13px 0;border-bottom:1px solid #E2E4E7;color:#111}
+.search-result:last-child{border-bottom:0}
+.search-result-image{width:130px;height:88px;object-fit:cover;border-radius:3px}
+.search-result-category{display:inline-block;background:#a21f5a;color:#fff;padding:3px 7px;margin-bottom:6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px}
+.search-result-title{font:600 24px/1.08 var(--serif);margin-bottom:6px}
+.search-result:hover .search-result-title{color:#a21f5a}
+.search-result-date{font-size:10px;color:#777}
+.search-empty{text-align:center;padding:2rem 1rem;color:#666;font:500 21px/1.3 var(--serif)}
+@media(max-width:650px){.homepage-nav .nav-container{padding-right:42px}.search-icon{position:absolute;right:4px;top:50%;transform:translateY(-50%);margin:0;width:34px;height:34px}.search-icon:hover{transform:translateY(-50%) scale(1.08)}.search-modal{padding:5vh .7rem 1rem}.search-header{gap:.6rem;padding:.9rem}.search-results{padding:1rem}.search-result{grid-template-columns:92px minmax(0,1fr);gap:11px}.search-result-image{width:92px;height:76px}.search-result-title{font-size:20px}}
+
 </style>
 </head>
 <body>
@@ -403,8 +429,20 @@ body { background: #FFFFFF; color: #111111; }
       <li><a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">ЛАЙФСТАЙЛ</a></li>
       <li><a href="index.html#about">ЗА НАС</a></li>
     </ul>
+    <button class="search-icon" type="button" onclick="openSearchModal()" title="Търсене" aria-label="Търсене">🔍</button>
   </div>
 </nav>
+
+<div id="searchModal" class="search-modal" role="dialog" aria-modal="true" aria-label="Търсене в сайта">
+  <div class="search-modal-content">
+    <div class="search-header">
+      <span class="search-header-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="searchInput" class="search-input" placeholder="Какво търсите?" autocomplete="off">
+      <button type="button" class="search-close" onclick="closeSearchModal()" aria-label="Затвори">&times;</button>
+    </div>
+    <div id="searchResults" class="search-results"><div class="search-empty">Започнете да пишете, за да търсите в публикациите.</div></div>
+  </div>
+</div>
 <main>
   <section class="hero-stage">
     <div class="hero-backdrop" aria-hidden="true"></div>
@@ -524,6 +562,44 @@ async function loadArticles(){
  }
 }
 loadArticles();
+</script>
+
+
+<script>
+(function(){
+  const modal=document.getElementById('searchModal');
+  const input=document.getElementById('searchInput');
+  const results=document.getElementById('searchResults');
+  let searchTimer=null;
+  window.openSearchModal=function(){
+    modal.classList.add('active');document.body.style.overflow='hidden';
+    results.innerHTML='<div class="search-empty">Започнете да пишете, за да търсите в публикациите.</div>';
+    setTimeout(()=>input.focus(),80);
+  };
+  window.closeSearchModal=function(){modal.classList.remove('active');document.body.style.overflow='';};
+  function safeText(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+  function formatDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleDateString('bg-BG');}
+  async function searchNews(){
+    const term=input.value.trim();
+    if(term.length<2){results.innerHTML='<div class="search-empty">Въведете поне 2 символа за търсене.</div>';return;}
+    results.innerHTML='<div class="search-status">Търсене за „'+safeText(term)+'“…</div>';
+    try{
+      const {data,error}=await supabaseClient.from('news').select('id,title,subtitle,content,category,image_url,author,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
+      if(error)throw error;
+      const words=term.toLocaleLowerCase('bg-BG').split(/\s+/).filter(Boolean);
+      const matches=(data||[]).filter(item=>{const hay=[item.title,item.subtitle,item.content,item.category,item.author].filter(Boolean).join(' ').toLocaleLowerCase('bg-BG');return words.every(word=>hay.includes(word));});
+      if(!matches.length){results.innerHTML='<div class="search-empty">Няма намерени публикации за „'+safeText(term)+'“.</div>';return;}
+      results.innerHTML='<div class="search-status">Намерени '+matches.length+' '+(matches.length===1?'резултат':'резултата')+' за „'+safeText(term)+'“</div>'+matches.map(item=>{
+        const image=item.image_url||'';const articleUrl='article.html?id='+encodeURIComponent(item.id);
+        return '<a class="search-result" href="'+articleUrl+'">'+(image?'<img class="search-result-image" src="'+safeText(image)+'" alt="" loading="lazy">':'<div class="search-result-image" style="background:#f0f0f0"></div>')+'<div><span class="search-result-category">'+safeText(item.category||'Новини')+'</span><div class="search-result-title">'+safeText(item.title||'Без заглавие')+'</div><div class="search-result-date">'+safeText(formatDate(item.created_at))+(item.author?' · '+safeText(item.author):'')+'</div></div></a>';
+      }).join('');
+    }catch(error){console.error('Грешка при търсене:',error);results.innerHTML='<div class="search-empty">Възникна проблем при търсенето. Моля, опитайте отново.</div>';}
+  }
+  input.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(searchNews,300);});
+  input.addEventListener('keydown',event=>{if(event.key==='Escape')window.closeSearchModal();if(event.key==='Enter'){clearTimeout(searchTimer);searchNews();}});
+  modal.addEventListener('click',event=>{if(event.target===modal)window.closeSearchModal();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&modal.classList.contains('active'))window.closeSearchModal();});
+})();
 </script>
 
 <script>
