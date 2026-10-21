@@ -854,7 +854,19 @@
         #opinions-list .opinion-list-card .opinion-list-quote {
             font-style: italic !important;
         }
+/* ПРИНУДИТЕЛЕН КУРСИВ ЗА ТЕКСТА НА МНЕНИЯТА */
+p.opinion-feature-quote,
+p.opinion-list-quote {
+    font-family: "Cormorant Garamond", Georgia, serif !important;
+    font-style: oblique 12deg !important;
+    font-weight: 400 !important;
+}
 
+/* Курсив и за вложените елементи, ако има такива */
+p.opinion-feature-quote *,
+p.opinion-list-quote * {
+    font-style: oblique 12deg !important;
+}
     </style>
 </head>
 
