@@ -6,7 +6,7 @@
 
     <title>Новина — СПИСАНИЕТО.</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -90,16 +90,6 @@
             color: var(--accent-color);
             font-weight: 600;
             margin-bottom: 0.8rem;
-        }
-
-        .article-category-tagline {
-            display: none;
-            margin: -0.25rem 0 1.4rem;
-            color: var(--accent-color);
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.6rem, 3.2vw, 2.15rem);
-            font-weight: 400;
-            line-height: 1.35;
         }
 
         .article-title {
@@ -481,7 +471,6 @@
     <div id="article" style="display:none;">
 
         <div class="article-meta" id="article-meta"></div>
-        <p class="article-category-tagline" id="article-category-tagline">Книги, култура и истории за хората и идеите, които ни вдъхновяват.</p>
 
         <h1 class="article-title" id="article-title"></h1>
 
@@ -830,13 +819,11 @@ async function loadArticle() {
 
 
     const articleCategory = data.category || 'Новини';
-    const isArtCategory = /книг|култур/i.test(articleCategory);
 
     document.getElementById('article-meta').textContent =
-        isArtCategory ? 'Арт' : articleCategory;
-
-    document.getElementById('article-category-tagline').style.display =
-        isArtCategory ? 'block' : 'none';
+        /книг|култур/i.test(articleCategory)
+            ? 'Арт'
+            : articleCategory;
 
 
     document.getElementById(
