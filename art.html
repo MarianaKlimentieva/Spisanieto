@@ -3559,7 +3559,30 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
 
 
 
-        /* Слоган на страницата „Арт“ */
+        /* Заглавието „Арт“ е в същия стил като секциите „Мода и тенденции“ и „Акценти“ */
+        .art-page-heading > h1 {
+            margin: 0;
+            font-family: var(--font-serif);
+            font-size: 38px;
+            line-height: 1.05;
+            font-style: normal;
+            font-weight: 600;
+            color: #111111;
+        }
+
+        @media (max-width: 768px) {
+            .art-page-heading > h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .art-page-heading > h1 {
+                font-size: 28px;
+            }
+        }
+
+        /* Слоганът на страницата „Арт“ използва шрифта на основния слоган */
         .art-page-heading > p {
             font-family: 'Great Vibes', cursive;
             font-style: normal;
