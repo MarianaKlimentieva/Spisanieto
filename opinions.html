@@ -1219,7 +1219,7 @@
                     ${topicImage}
 
                     <div class="opinion-feature-content">
-                        <p class="opinion-feature-quote" style="font-style: italic !important;">„${escapeHTML(opinion.quote)}“</p>
+                        <p class="opinion-feature-quote"><em style="font-style: italic !important; font-weight: 400;">„${escapeHTML(opinion.quote)}“</em></p>
 
                         <div class="opinion-feature-author">
                             ${getAvatar(name, opinion.avatar_url, 'opinion-feature-avatar')}
@@ -1263,7 +1263,7 @@
                             ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
 
                             <div>
-                                <p class="opinion-list-quote" style="font-style: italic !important;">„${escapeHTML(opinion.quote)}“</p>
+                                <p class="opinion-list-quote"><em style="font-style: italic !important; font-weight: 400;">„${escapeHTML(opinion.quote)}“</em></p>
                                 <div class="opinion-list-author">${escapeHTML(name)}</div>
                                 ${date ? `<div class="opinion-list-date">${escapeHTML(date)}</div>` : ''}
 
