@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Арт | СПИСАНИЕТО.</title>
+<title>Книги и култура | СПИСАНИЕТО.</title>
 <meta name="description" content="Изкуство, изложби, кино, театър, музика и книги в СПИСАНИЕТО.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -734,13 +734,13 @@ h1, h2, h3, p { margin-top: 0; }
 <main class="page art-page">
   <section class="section-heading art-heading">
     <div>
-      <div class="eyebrow">Изкуство · Култура · Вдъхновение</div>
-      <h1 id="page-title">Арт</h1>
+      <div class="eyebrow">Литература · Изкуство · Култура</div>
+      <h1 id="page-title">Книги и култура</h1>
     </div>
     <p>Истории, които оставят следа.</p>
   </section>
 
-  <section id="all-news" aria-label="Публикации в категория Арт">
+  <section id="all-news" aria-label="Публикации в категориите Книги и Култура">
     <div id="metro-grid" class="metro-grid">
       <div class="status">Зареждане на публикациите...</div>
     </div>
@@ -860,7 +860,7 @@ function renderMetro() {
   const pageArticles = allArticles.slice(start, start + PAGE_SIZE);
 
   if (!allArticles.length) {
-    grid.innerHTML = '<div class="status metro-empty">Все още няма публикувани материали в рубрика „Арт“.</div>';
+    grid.innerHTML = '<div class="status metro-empty">Все още няма публикувани материали в рубриките „Книги“ и „Култура“.</div>';
     pagination.innerHTML = '';
     return;
   }
@@ -870,7 +870,7 @@ function renderMetro() {
       <a href="${articleUrl(article.id)}" aria-label="${escapeHtml(article.title)}">
         <img src="${escapeHtml(article.image_url || FALLBACK_IMAGE)}" alt="${escapeHtml(article.title)}" loading="lazy">
         <div class="metro-card-copy">
-          <div class="eyebrow">${escapeHtml(article.category || 'Арт')}</div>
+          <div class="eyebrow">${escapeHtml(article.category || 'Култура')}</div>
           <h2>${escapeHtml(article.title)}</h2>
           <div class="metro-date">${formatDate(article.created_at)}</div>
         </div>
@@ -901,7 +901,7 @@ async function loadCategory() {
       .from('news')
       .select('id,title,subtitle,image_url,category,created_at')
       .eq('status', 'published')
-      .eq('category', 'Арт')
+      .in('category', ['Книги', 'Култура'])
       .order('created_at', { ascending: false });
 
     if (error) throw error;
@@ -941,7 +941,7 @@ function searchCategoryArticles(event) {
       <article class="metro-card">
         <a href="${articleUrl(article.id)}" aria-label="${escapeHtml(article.title)}">
           <img src="${escapeHtml(article.image_url || FALLBACK_IMAGE)}" alt="${escapeHtml(article.title)}" loading="lazy">
-          <div class="metro-card-copy"><div class="eyebrow">${escapeHtml(article.category || 'Арт')}</div><h2>${escapeHtml(article.title)}</h2><div class="metro-date">${formatDate(article.created_at)}</div></div>
+          <div class="metro-card-copy"><div class="eyebrow">${escapeHtml(article.category || 'Култура')}</div><h2>${escapeHtml(article.title)}</h2><div class="metro-date">${formatDate(article.created_at)}</div></div>
         </a>
       </article>`).join('');
     document.getElementById('all-news').scrollIntoView({ behavior: 'smooth', block: 'start' });
