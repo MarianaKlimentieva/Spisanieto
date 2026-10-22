@@ -545,6 +545,7 @@ h1, h2, h3, p { margin-top: 0; }
   justify-content: center;
   align-items: center;
   padding: 0 1.5rem;
+  position: relative;
 }
 .homepage-nav ul {
   display: flex;
@@ -567,6 +568,54 @@ h1, h2, h3, p { margin-top: 0; }
   cursor: pointer;
 }
 .homepage-nav a:hover { color: #a21f5a; }
+.search-icon {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #111;
+  cursor: pointer;
+}
+.search-icon:hover { color: #a21f5a; }
+.search-icon svg { width: 21px; height: 21px; }
+.search-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.58);
+  padding: 20px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.search-modal.is-open { display: flex; }
+.search-modal-box {
+  position: relative;
+  width: min(560px, 100%);
+  margin-top: 12vh;
+  padding: 28px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(0,0,0,.2);
+}
+.search-modal-box h2 { margin: 0 0 18px; font-family: var(--serif); font-size: 30px; }
+.search-form { display: flex; gap: 8px; }
+.search-form input { min-width: 0; flex: 1; padding: 12px; border: 1px solid #d5d5d5; font: inherit; }
+.search-form button { border: 0; padding: 0 18px; background: #a21f5a; color: #fff; cursor: pointer; font: inherit; }
+.search-close { position: absolute; top: 8px; right: 12px; border: 0; background: transparent; font-size: 28px; cursor: pointer; color: #444; }
+@media (max-width: 700px) {
+  .search-icon { right: .45rem; width: 28px; height: 28px; }
+  .homepage-nav .nav-container { padding-right: 2.3rem; }
+  .search-modal-box { padding: 24px 18px; }
+  .search-form button { padding: 0 12px; }
+}
 @media (max-width: 700px) {
   .top-bar {
     justify-content: center;
@@ -614,8 +663,22 @@ h1, h2, h3, p { margin-top: 0; }
       <li><a href="index.html?category=%D0%9B%D0%B0%D0%B9%D1%84%D1%81%D1%82%D0%B0%D0%B9%D0%BB">ЛАЙФСТАЙЛ</a></li>
       <li><a href="index.html#about">ЗА НАС</a></li>
     </ul>
+    <button class="search-icon" type="button" onclick="openCategorySearch()" aria-label="Отвори търсенето" title="Търсене">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+    </button>
   </div>
 </nav>
+
+<div class="search-modal" id="category-search-modal" role="dialog" aria-modal="true" aria-labelledby="category-search-title" onclick="if(event.target===this) closeCategorySearch()">
+  <div class="search-modal-box">
+    <button class="search-close" type="button" onclick="closeCategorySearch()" aria-label="Затвори търсенето">×</button>
+    <h2 id="category-search-title">Търсене</h2>
+    <form class="search-form" onsubmit="return searchCategoryArticles(event)">
+      <input id="category-search-input" type="search" placeholder="Въведете дума или заглавие..." aria-label="Търсене в публикациите" required>
+      <button type="submit">Търси</button>
+    </form>
+  </div>
+</div>
 
 <main class="page">
   <section class="section-heading">
@@ -906,6 +969,44 @@ async function loadCategory() {
 }
 
 loadCategory();
+
+function openCategorySearch() {
+  const modal = document.getElementById('category-search-modal');
+  modal.classList.add('is-open');
+  setTimeout(() => document.getElementById('category-search-input').focus(), 50);
+}
+function closeCategorySearch() {
+  document.getElementById('category-search-modal').classList.remove('is-open');
+}
+function searchCategoryArticles(event) {
+  event.preventDefault();
+  const query = document.getElementById('category-search-input').value.trim().toLocaleLowerCase('bg-BG');
+  if (!query) return false;
+  const matches = (allArticles || []).filter(article =>
+    [article.title, article.subtitle, article.category].filter(Boolean).join(' ').toLocaleLowerCase('bg-BG').includes(query)
+  );
+  closeCategorySearch();
+  const newsList = document.getElementById('news-list');
+  const hero = document.getElementById('hero');
+  const topicGrid = document.getElementById('topic-grid');
+  if (!matches.length) {
+    newsList.innerHTML = '<div class="status">Няма намерени публикации за „' + escapeHtml(query) + '“.</div>';
+    hero.innerHTML = '';
+    topicGrid.innerHTML = '';
+  } else {
+    hero.innerHTML = '';
+    topicGrid.innerHTML = '';
+    newsList.innerHTML = matches.map(article => `
+      <article class="news-item">
+        <a class="news-thumb" href="article.html?id=${encodeURIComponent(article.id)}"><img class="news-image" src="${escapeHtml(article.image_url || FALLBACK_IMAGE)}" alt="${escapeHtml(article.title)}" loading="lazy"></a>
+        <div class="news-copy"><h3><a href="article.html?id=${encodeURIComponent(article.id)}">${escapeHtml(article.title)}</a></h3>
+        ${article.subtitle ? `<p>${escapeHtml(article.subtitle)}</p>` : ''}</div>
+      </article>`).join('');
+    document.getElementById('all-news').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  return false;
+}
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeCategorySearch(); });
 </script>
 
 <script>
