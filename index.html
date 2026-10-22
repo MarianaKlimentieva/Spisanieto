@@ -253,25 +253,37 @@
         }
 
 
-        .search-icon {
-
-            cursor: pointer;
-
-            font-size: 1rem;
-
-            transition:
-                transform 0.2s,
-                color 0.2s;
-
-            padding: 0.4rem;
+        .nav-container {
+            position: relative;
         }
 
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
 
         .search-icon:hover {
-
             color: var(--accent-color);
+            transform: translateY(-50%) scale(1.08);
+        }
 
-            transform: scale(1.1);
+        .search-icon svg {
+            width: 21px;
+            height: 21px;
+            display: block;
         }
 
 
@@ -3532,6 +3544,18 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         font-size: 17px;
     }
 }
+        @media (max-width: 650px) {
+            .nav-container {
+                padding-right: 42px;
+            }
+
+            .search-icon {
+                right: 0.45rem;
+                width: 28px;
+                height: 28px;
+            }
+        }
+
 </style>
 </head>
 
@@ -3661,14 +3685,18 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             </ul>
 
 
-            <span
+            <button
                 class="search-icon"
+                type="button"
                 onclick="openSearchModal()"
                 title="Търсене"
                 aria-label="Търсене"
             >
-                🔍
-            </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                    <path d="m16 16 5 5"></path>
+                </svg>
+            </button>
 
         </div>
 
