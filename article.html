@@ -10,10 +10,10 @@
 
     <style>
         :root {
-            --bg-color: #f7f6f2;
+            --bg-color: #ffffff;
             --text-color: #111111;
             --accent-color: #a21f5a;
-            --border-color: #e2dfd7;
+            --border-color: #e2e4e7;
             --font-serif: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
         }
@@ -74,6 +74,13 @@
             max-width: 820px;
             margin: 3rem auto 5rem;
             padding: 0 1.5rem;
+        }
+
+        /* Фонът на текста във всички новини остава бял/прозрачен. */
+        .article-body,
+        .article-body * {
+            background: transparent !important;
+            background-color: transparent !important;
         }
 
         .article-meta {
@@ -242,7 +249,7 @@
             display: block;
             overflow: hidden;
             border-radius: 2px;
-            background: #eee;
+            background: #ffffff;
             cursor: pointer;
         }
 
@@ -811,10 +818,12 @@ async function loadArticle() {
     }
 
 
-    document.getElementById(
-        'article-meta'
-    ).textContent =
-        data.category || 'Новини';
+    const articleCategory = data.category || 'Новини';
+
+    document.getElementById('article-meta').textContent =
+        /книг|култур/i.test(articleCategory)
+            ? 'Арт'
+            : articleCategory;
 
 
     document.getElementById(
@@ -1050,10 +1059,9 @@ async function loadArticle() {
         );
 
 
-   const sharePreviewUrl =
+    const sharePreviewUrl =
         'https://spisanieto-share.spisanieto-news.workers.dev/?id=' +
         encodeURIComponent(articleId);
-
 
 
     const encodedSharePreviewUrl =
