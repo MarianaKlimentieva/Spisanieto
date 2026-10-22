@@ -1294,7 +1294,10 @@
                         </article>
                     `;
                 }).join('');
-
+list.querySelectorAll('.opinion-list-quote').forEach(quote => {
+    quote.style.setProperty('font-style', 'italic', 'important');
+    quote.style.setProperty('font-family', '"Cormorant Garamond", Georgia, serif', 'important');
+});
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
