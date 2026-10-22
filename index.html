@@ -6873,7 +6873,7 @@ async function loadCultureMetro() {
             .from('news')
             .select('id,title,image_url,category,created_at')
             .eq('status', 'published')
-            .in('category', ['Книги', 'Култура'])
+            .or('category.ilike.%Книг%,category.ilike.%Култур%')
             .order('created_at', { ascending: false })
             .limit(20);
 
