@@ -4100,7 +4100,7 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         </div>
 
         <div class="culture-metro-view-all">
-            <a href="category.html?category=Книги%20и%20култура">
+            <a href="art.html">
                 Виж всички <span aria-hidden="true">→</span>
             </a>
         </div>
@@ -6873,7 +6873,7 @@ async function loadCultureMetro() {
             .from('news')
             .select('id,title,image_url,category,created_at')
             .eq('status', 'published')
-            .eq('category', 'Книги и култура')
+            .in('category', ['Книги', 'Култура'])
             .order('created_at', { ascending: false })
             .limit(20);
 
