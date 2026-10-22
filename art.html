@@ -4223,7 +4223,18 @@ const root = document.getElementById('art-articles');
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
 function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
-function renderCard(a) { const img = a.image_url || FALLBACK_IMAGE; return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(a.category || 'Арт')}</div><h2>${esc(a.title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`; }
+
+function renderCard(a) {
+    const img = a.image_url || FALLBACK_IMAGE;
+    const category = (a.category || 'Арт')
+        .replace(/книги/gi, '')
+        .replace(/култура/gi, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+    return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(category || 'Арт')}</div><h2>${esc(a.title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
+}
+
 try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
