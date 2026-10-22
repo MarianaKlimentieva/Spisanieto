@@ -3916,7 +3916,7 @@ function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;',
 function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
 function renderCard(a) { const img = a.image_url || FALLBACK_IMAGE; return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(a.category || 'Арт')}</div><h2>${esc(a.title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`; }
 try {
-  const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').in('category',['Книги','Култура']).order('created_at',{ascending:false});
+  const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
   if (!data || !data.length) { root.innerHTML = '<div class="art-status">Все още няма публикувани материали в рубриката „Арт“.</div>'; }
   else { root.innerHTML = data.map(renderCard).join(''); }
