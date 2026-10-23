@@ -241,7 +241,9 @@
             margin-bottom: 0.5rem;
         }
 
-        .article-body p:first-of-type::first-letter {
+        /* Голямата бордо буква се прилага към първия непразен абзац.
+           Така празният абзац пред вградено видео не отнема ефекта. */
+        .article-body p.article-lead::first-letter {
             font-family: var(--font-serif);
             font-size: 4.2rem;
             float: left;
@@ -1073,6 +1075,20 @@ async function loadArticle() {
         body.innerHTML =
             '<p>Съдържанието на новината не е налично.</p>';
 
+    }
+
+    /* Маркираме първия абзац с реален текст, като пропускаме
+       празните абзаци и видеата, които са добавени преди текста. */
+    body.querySelectorAll('p.article-lead').forEach(paragraph => {
+        paragraph.classList.remove('article-lead');
+    });
+
+    const firstTextParagraph = Array.from(body.querySelectorAll('p')).find(paragraph =>
+        paragraph.textContent.replace(/\u00a0/g, ' ').trim().length > 0
+    );
+
+    if (firstTextParagraph) {
+        firstTextParagraph.classList.add('article-lead');
     }
 
 
