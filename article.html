@@ -6,7 +6,7 @@
 
     <title>Новина — СПИСАНИЕТО.</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -92,6 +92,16 @@
             margin-bottom: 0.8rem;
         }
 
+        .article-category-tagline {
+            display: none;
+            margin: -0.25rem 0 1.4rem;
+            color: var(--accent-color);
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.6rem, 3.2vw, 2.15rem);
+            font-weight: 400;
+            line-height: 1.35;
+        }
+
         .article-title {
             font-family: var(--font-serif);
             font-size: 3.2rem;
@@ -174,6 +184,36 @@
 
         .article-body a:hover {
             opacity: 0.75;
+        }
+
+        /* ==========================================
+           ВИДЕО В ТЕКСТА НА НОВИНАТА
+           ========================================== */
+
+        .article-body .article-video-embed {
+            position: relative;
+            width: 100%;
+            margin: 2.4rem 0;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .article-body .article-video-embed iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+            border: 0;
+        }
+
+        .article-body video.article-video-file {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 620px;
+            margin: 2.4rem 0;
+            background: #111;
         }
 
         .article-body h2 {
@@ -471,6 +511,7 @@
     <div id="article" style="display:none;">
 
         <div class="article-meta" id="article-meta"></div>
+        <p class="article-category-tagline" id="article-category-tagline">Книги, култура и истории за хората и идеите, които ни вдъхновяват.</p>
 
         <h1 class="article-title" id="article-title"></h1>
 
@@ -672,7 +713,7 @@ const articleId = params.get('id');
 
 function sanitizeArticleHtml(html) {
 
-    return DOMPurify.sanitize(
+    const cleanHtml = DOMPurify.sanitize(
         html || '',
         {
             ALLOWED_TAGS: [
@@ -690,19 +731,107 @@ function sanitizeArticleHtml(html) {
                 'ul',
                 'ol',
                 'li',
-                'blockquote'
+                'blockquote',
+                'iframe',
+                'video',
+                'source'
             ],
 
             ALLOWED_ATTR: [
                 'href',
                 'target',
                 'rel',
-                'style'
+                'style',
+                'src',
+                'type',
+                'class',
+                'title',
+                'allow',
+                'allowfullscreen',
+                'frameborder',
+                'loading',
+                'referrerpolicy',
+                'width',
+                'height',
+                'controls',
+                'playsinline',
+                'preload',
+                'poster'
             ],
 
             ALLOW_DATA_ATTR: false
         }
     );
+
+    /* Приемаме само YouTube embed адреси за iframe. */
+    const container = document.createElement('div');
+    container.innerHTML = cleanHtml;
+
+    container.querySelectorAll('iframe').forEach(frame => {
+        try {
+            const frameUrl = new URL(frame.getAttribute('src') || '');
+            const validHost = [
+                'www.youtube-nocookie.com',
+                'youtube-nocookie.com'
+            ].includes(frameUrl.hostname);
+            const validPath = /^\/embed\/[A-Za-z0-9_-]{11}\/?$/.test(frameUrl.pathname);
+
+            if (frameUrl.protocol !== 'https:' || !validHost || !validPath) {
+                frame.remove();
+                return;
+            }
+
+            frame.setAttribute('title', 'YouTube видео');
+            frame.setAttribute('loading', 'lazy');
+            frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            frame.setAttribute('allowfullscreen', '');
+            frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        } catch (error) {
+            frame.remove();
+        }
+    });
+
+    /* Приемаме качени файлове само от нашия Supabase Storage bucket. */
+    function isApprovedVideoUrl(value) {
+        try {
+            const videoUrl = new URL(value || '', window.location.href);
+            const storageOrigin = new URL(SUPABASE_URL).origin;
+            return videoUrl.protocol === 'https:' &&
+                videoUrl.origin === storageOrigin &&
+                videoUrl.pathname.startsWith('/storage/v1/object/public/news-images/news/video-');
+        } catch (error) {
+            return false;
+        }
+    }
+
+    container.querySelectorAll('video').forEach(video => {
+        const ownSrc = video.getAttribute('src');
+        if (ownSrc && !isApprovedVideoUrl(ownSrc)) {
+            video.removeAttribute('src');
+        }
+
+        video.querySelectorAll('source').forEach(source => {
+            if (!isApprovedVideoUrl(source.getAttribute('src'))) {
+                source.remove();
+            }
+        });
+
+        const hasValidOwnSrc = isApprovedVideoUrl(video.getAttribute('src'));
+        const hasValidSource = Array.from(video.querySelectorAll('source'))
+            .some(source => isApprovedVideoUrl(source.getAttribute('src')));
+
+        if (!hasValidOwnSrc && !hasValidSource) {
+            video.remove();
+            return;
+        }
+
+        video.setAttribute('controls', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('preload', 'metadata');
+        video.classList.add('article-video-file');
+    });
+
+    return container.innerHTML;
 
 }
 
@@ -819,11 +948,13 @@ async function loadArticle() {
 
 
     const articleCategory = data.category || 'Новини';
+    const isArtCategory = /книг|култур/i.test(articleCategory);
 
     document.getElementById('article-meta').textContent =
-        /книг|култур/i.test(articleCategory)
-            ? 'Арт'
-            : articleCategory;
+        isArtCategory ? 'Арт' : articleCategory;
+
+    document.getElementById('article-category-tagline').style.display =
+        isArtCategory ? 'block' : 'none';
 
 
     document.getElementById(
