@@ -3557,314 +3557,213 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             }
         }
 
-/* =========================================
-   ART — METRO MOSAIC DESIGN
-   Променя само оформлението на art.html
-   ========================================= */
 
-.art-page {
-    width: min(1440px, calc(100% - 48px));
-    margin: 0 auto;
-    padding: 42px 0 70px;
-    color: #111111;
-}
 
-.art-page-heading {
-    margin: 0 0 34px;
-    padding: 0 0 18px;
-    border-bottom: 1px solid #e2e4e7;
-}
-.art-page-heading p {
-    max-width: 900px;
-    margin: 12px 0 0;
-    color: #a21f5a;
-    font-family: 'Great Vibes', cursive;
-    font-style: normal;
-    font-size: clamp(2.2rem, 4vw, 3rem);
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.2;
-}
-/* Основна мозайка */
-.art-articles-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-flow: dense;
-    grid-auto-rows: 145px;
-    gap: 12px;
-    align-items: stretch;
-}
+        /* Заглавието „Арт“ е в същия стил като секциите „Мода и тенденции“ и „Акценти“ */
+        .art-page-heading > h1 {
+            margin: 0;
+            font-family: var(--font-serif);
+            font-size: 38px;
+            line-height: 1.05;
+            font-style: normal;
+            font-weight: 600;
+            color: #111111;
+        }
 
-/* Карта на публикацията */
-.art-article-card {
-    min-width: 0;
-    min-height: 0;
-    margin: 0;
-    background: #ffffff;
-    overflow: visible;
-}
+        @media (max-width: 768px) {
+            .art-page-heading > h1 {
+                font-size: 32px;
+            }
+        }
 
-.art-article-card > a {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    color: inherit;
-    text-decoration: none;
-    background: #ffffff;
-}
+        @media (max-width: 420px) {
+            .art-page-heading > h1 {
+                font-size: 28px;
+            }
+        }
 
-/* Снимка */
-.art-article-card img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    flex: 1 1 auto;
-    object-fit: cover;
-    transition: transform 0.45s ease, filter 0.45s ease;
-}
+        /* =========================================
+           ART — JUSTIFIED GRID, вдъхновена от Milieu Grid Home
+           Изображенията запазват пропорциите си и се подреждат в редове.
+        ========================================= */
+        .art-page {
+            width: min(1280px, calc(100% - 56px));
+            margin: 0 auto 48px;
+            color: #111111;
+        }
 
-/* Бял панел под снимката, леко застъпващ я */
-.art-article-copy {
-    position: relative;
-    z-index: 1;
-    flex: 0 0 auto;
-    width: calc(100% - 28px);
-    margin: -36px 0 0;
-    padding: 17px 18px 18px;
-    background: #ffffff;
-    border-top: 2px solid #a21f5a;
-}
+        .art-page-heading {
+            margin: 34px 0 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #C8C8C8;
+        }
 
-.art-article-category {
-    margin: 0 0 8px;
-    color: #a21f5a;
-    font-family: "Plus Jakarta Sans", Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: 1.1px;
-    text-transform: uppercase;
-}
+        .art-articles-grid {
+            display: block;
+            width: 100%;
+            margin: 0 0 24px;
+        }
 
-.art-article-copy h2 {
-    margin: 0;
-    color: #111111;
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(20px, 1.8vw, 27px);
-    font-weight: 600;
-    line-height: 1.13;
-    transition: color 0.25s ease;
-}
+        .art-justified-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            width: 100%;
+            margin: 0 0 28px;
+        }
 
-.art-article-copy time {
-    display: block;
-    margin-top: 11px;
-    color: #777777;
-    font-family: "Plus Jakarta Sans", Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-}
+        .art-article-card {
+            flex: 0 0 auto;
+            min-width: 0;
+            margin: 0;
+            background: transparent;
+        }
 
-/* Разнообразни размери на картите */
-.art-article-card:nth-child(1) {
-    grid-column: span 2;
-    grid-row: span 3;
-}
+        .art-article-card > a {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
+        }
 
-.art-article-card:nth-child(1) img {
-    min-height: 330px;
-}
+        .art-article-image-wrap {
+            width: 100%;
+            height: var(--art-image-height, 230px);
+            overflow: hidden;
+            background: #EEEEEE;
+        }
 
-.art-article-card:nth-child(1) .art-article-copy {
-    width: calc(100% - 42px);
-    margin-top: -48px;
-    padding: 22px 24px 23px;
-}
+        .art-article-card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .45s ease, opacity .3s ease;
+        }
 
-.art-article-card:nth-child(1) .art-article-copy h2 {
-    font-size: clamp(28px, 3vw, 42px);
-}
+        .art-article-card > a:hover img {
+            transform: scale(1.035);
+            opacity: .94;
+        }
 
-.art-article-card:nth-child(2) {
-    grid-column: span 2;
-    grid-row: span 2;
-}
+        .art-article-copy {
+            padding: 13px 5px 0;
+            text-align: center;
+        }
 
-.art-article-card:nth-child(2) img {
-    min-height: 210px;
-}
+        .art-article-category {
+            margin: 0 0 6px;
+            color: var(--accent-color);
+            font-family: var(--font-sans);
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
 
-.art-article-card:nth-child(3),
-.art-article-card:nth-child(4) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
+        .art-article-copy h2 {
+            margin: 0;
+            color: #171717;
+            font-family: var(--font-serif);
+            font-size: clamp(18px, 1.65vw, 24px);
+            font-weight: 600;
+            line-height: 1.12;
+            transition: color .2s ease;
+            overflow-wrap: anywhere;
+        }
 
-.art-article-card:nth-child(n+5) {
-    grid-column: span 1;
-    grid-row: span 2;
-}
+        .art-article-card > a:hover .art-article-copy h2 {
+            color: var(--accent-color);
+        }
 
-/* Редуване на широки и тесни карти в следващите редове */
-.art-article-card:nth-child(6n+5) {
-    grid-column: span 2;
-}
+        .art-article-copy time {
+            display: block;
+            margin-top: 7px;
+            color: #888888;
+            font-family: var(--font-sans);
+            font-size: 9px;
+            line-height: 1.4;
+            letter-spacing: .06em;
+        }
 
-.art-article-card:nth-child(6n+5) img {
-    min-height: 210px;
-}
+        .art-status {
+            padding: 36px 20px;
+            color: #666666;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 14px;
+        }
 
-/* Hover ефект */
-.art-article-card > a:hover .art-article-copy h2 {
-    color: #a21f5a;
-}
+        @media (max-width: 900px) {
+            .art-page {
+                width: calc(100% - 36px);
+            }
 
-.art-article-card > a:hover img {
-    filter: brightness(0.93);
-}
+            .art-justified-row {
+                gap: 10px;
+                margin-bottom: 23px;
+            }
 
-@media (min-width: 1200px) {
-    .art-articles-grid {
-        grid-auto-rows: 155px;
-        gap: 14px;
-    }
-}
+            .art-article-copy {
+                padding: 10px 3px 0;
+            }
 
-@media (max-width: 900px) {
-    .art-page {
-        width: calc(100% - 32px);
-        padding-top: 32px;
-    }
+            .art-article-copy h2 {
+                font-size: clamp(17px, 2.15vw, 21px);
+            }
+        }
 
-    .art-articles-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 150px;
-        gap: 12px;
-    }
+        @media (max-width: 600px) {
+            .art-page {
+                width: calc(100% - 24px);
+                margin-bottom: 34px;
+            }
 
-    .art-article-card:nth-child(1) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
+            .art-page-heading {
+                margin: 26px 0 20px;
+                padding-bottom: 12px;
+            }
 
-    .art-article-card:nth-child(1) img {
-        min-height: 230px;
-    }
+            .art-justified-row {
+                gap: 8px;
+                margin-bottom: 22px;
+            }
 
-    .art-article-card:nth-child(2) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
+            .art-article-copy {
+                padding: 9px 2px 0;
+            }
 
-    .art-article-card:nth-child(3),
-    .art-article-card:nth-child(4),
-    .art-article-card:nth-child(n+5) {
-        grid-column: span 1;
-        grid-row: span 2;
-    }
+            .art-article-category {
+                margin-bottom: 5px;
+                font-size: 8px;
+                letter-spacing: .08em;
+            }
 
-    .art-article-card:nth-child(6n+5) {
-        grid-column: span 2;
-    }
+            .art-article-copy h2 {
+                font-size: clamp(15px, 3.6vw, 19px);
+                line-height: 1.12;
+            }
 
-    .art-article-copy {
-        width: calc(100% - 18px);
-        margin-top: -26px;
-        padding: 13px 13px 15px;
-    }
+            .art-article-copy time {
+                margin-top: 6px;
+                font-size: 8px;
+            }
+        }
 
-    .art-article-card:nth-child(1) .art-article-copy {
-        width: calc(100% - 26px);
-        margin-top: -32px;
-        padding: 17px 18px;
-    }
-}
-
-@media (max-width: 560px) {
-    .art-page {
-        width: calc(100% - 24px);
-        padding: 26px 0 45px;
-    }
-
-    .art-page-heading {
-        margin-bottom: 22px;
-        padding-bottom: 14px;
-    }
-
-    .art-page-heading h1 {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: 38px;
-    line-height: 1.1;
-    font-weight: 600;
-    color: #111111;
-    letter-spacing: 0;
-}
-
-    .art-articles-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 115px;
-        gap: 9px;
-    }
-
-    .art-article-card:nth-child(1),
-    .art-article-card:nth-child(2) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-    .art-article-card:nth-child(1) img,
-    .art-article-card:nth-child(2) img {
-        min-height: 175px;
-    }
-
-    .art-article-card:nth-child(3),
-    .art-article-card:nth-child(4),
-    .art-article-card:nth-child(n+5) {
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-
-    .art-article-card:nth-child(6n+5) {
-        grid-column: span 2;
-    }
-
-    .art-article-copy {
-        width: calc(100% - 12px);
-        margin-top: -19px;
-        padding: 11px 10px 12px;
-        border-top-width: 2px;
-    }
-
-    .art-article-category {
-        margin-bottom: 6px;
-        font-size: 9px;
-        letter-spacing: 0.6px;
-    }
-
-    .art-article-copy h2 {
-        font-size: 19px;
-        line-height: 1.12;
-    }
-
-    .art-article-copy time {
-        margin-top: 8px;
-        font-size: 9px;
-    }
-
-    .art-article-card:nth-child(1) .art-article-copy {
-        width: calc(100% - 18px);
-        margin-top: -25px;
-        padding: 13px 14px 15px;
-    }
-
-    .art-article-card:nth-child(1) .art-article-copy h2 {
-        font-size: 27px;
-    }
-}
-
+        /* Слоганът на страницата „Арт“ използва шрифта на основния слоган */
+        .art-page-heading > p {
+            font-family: 'Great Vibes', cursive;
+            font-style: normal;
+            font-weight: 400;
+            color: var(--accent-color);
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            line-height: 1.2;
+            letter-spacing: 0;
+            margin-top: 0.5rem;
+        }
 </style>
 </head>
 
@@ -4222,26 +4121,99 @@ const root = document.getElementById('art-articles');
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
 function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
-
-
 function renderCard(a) {
-    const img = a.image_url || FALLBACK_IMAGE;
-    const cleanTitle = (a.title || '')
-        .replace(/книги/gi, '')
-        .replace(/култура/gi, '')
-        .replace(/\s{2,}/g, ' ')
-        .replace(/^\s*и\s+/i, '')
-        .trim();
-
-    return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(cleanTitle)}" loading="lazy"><div class="art-article-copy"><h2>${esc(cleanTitle)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
+  const img = a.image_url || FALLBACK_IMAGE;
+  const title = a.title || '';
+  return `<article class="art-article-card">
+    <a href="article.html?id=${encodeURIComponent(a.id)}">
+      <div class="art-article-image-wrap">
+        <img src="${esc(img)}" alt="${esc(title)}" loading="eager" decoding="async">
+      </div>
+      <div class="art-article-copy">
+        <div class="art-article-category">${esc(a.category || 'Арт')}</div>
+        <h2>${esc(title)}</h2>
+        <time>${fmtDate(a.created_at)}</time>
+      </div>
+    </a>
+  </article>`;
 }
 
+function arrangeJustifiedGrid() {
+  const cards = Array.from(root.querySelectorAll('.art-article-card'));
+  if (!cards.length || !root.clientWidth) return;
 
+  const viewport = window.innerWidth;
+  const targetHeight = viewport <= 600 ? 155 : viewport <= 900 ? 195 : 235;
+  const gap = viewport <= 600 ? 8 : viewport <= 900 ? 10 : 14;
+  const availableWidth = root.clientWidth;
+  const ratioOf = card => {
+    const img = card.querySelector('img');
+    if (img && img.naturalWidth && img.naturalHeight) {
+      return Math.min(2.25, Math.max(0.68, img.naturalWidth / img.naturalHeight));
+    }
+    return 1.42;
+  };
+
+  const rows = [];
+  let items = [];
+  let ratioSum = 0;
+
+  cards.forEach((card, index) => {
+    const ratio = ratioOf(card);
+    items.push({ card, ratio });
+    ratioSum += ratio;
+
+    const provisionalHeight = (availableWidth - gap * (items.length - 1)) / ratioSum;
+    const isLastCard = index === cards.length - 1;
+    if ((provisionalHeight <= targetHeight && items.length >= 2) || isLastCard) {
+      rows.push({ items, ratioSum, last: isLastCard });
+      items = [];
+      ratioSum = 0;
+    }
+  });
+
+  const rowNodes = rows.map(row => {
+    const rowNode = document.createElement('div');
+    rowNode.className = 'art-justified-row';
+    rowNode.style.gap = `${gap}px`;
+
+    const isShortLastRow = row.last && row.items.length < 3;
+    let imageHeight;
+    if (isShortLastRow) {
+      imageHeight = Math.min(targetHeight, (availableWidth - gap * (row.items.length - 1)) / row.ratioSum);
+    } else {
+      imageHeight = (availableWidth - gap * (row.items.length - 1)) / row.ratioSum;
+      imageHeight = Math.min(targetHeight, imageHeight);
+    }
+
+    row.items.forEach(({ card, ratio }) => {
+      card.style.width = `${Math.max(80, ratio * imageHeight)}px`;
+      card.style.setProperty('--art-image-height', `${imageHeight}px`);
+      rowNode.appendChild(card);
+    });
+    return rowNode;
+  });
+
+  root.replaceChildren(...rowNodes);
+}
+
+let gridResizeFrame = null;
+window.addEventListener('resize', () => {
+  if (gridResizeFrame) cancelAnimationFrame(gridResizeFrame);
+  gridResizeFrame = requestAnimationFrame(arrangeJustifiedGrid);
+});
 try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
   if (!data || !data.length) { root.innerHTML = '<div class="art-status">Все още няма публикувани материали в рубриката „Арт“.</div>'; }
-  else { root.innerHTML = data.map(renderCard).join(''); }
+  else {
+    root.innerHTML = data.map(renderCard).join('');
+    root.querySelectorAll('.art-article-card img').forEach(img => {
+      img.addEventListener('load', arrangeJustifiedGrid, { once: false });
+      img.addEventListener('error', arrangeJustifiedGrid, { once: false });
+    });
+    arrangeJustifiedGrid();
+  }
 } catch (e) { console.error('Грешка при зареждане на АРТ:', e); root.innerHTML = '<div class="art-status">Публикациите временно не могат да бъдат заредени. Моля, опитайте отново по-късно.</div>'; }
 </script>
 <script>
