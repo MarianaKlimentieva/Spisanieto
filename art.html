@@ -3864,7 +3864,56 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         font-size: 27px;
     }
 }
+/* =========================================
+   ART — БЕЛИ РАЗДЕЛИТЕЛИ И СИВА ПОДЛОЖКА
+========================================= */
 
+.art-articles-grid {
+    gap: 16px;
+    padding-bottom: 18px;
+
+    /* Белите пролуки се запазват,
+       а в самия край има светлосива лента */
+    background: linear-gradient(
+        to bottom,
+        #FFFFFF 0%,
+        #FFFFFF calc(100% - 18px),
+        #E2E4E7 calc(100% - 18px),
+        #E2E4E7 100%
+    );
+}
+
+/* Таблет */
+@media (max-width: 900px) {
+    .art-articles-grid {
+        gap: 14px;
+        padding-bottom: 16px;
+
+        background: linear-gradient(
+            to bottom,
+            #FFFFFF 0%,
+            #FFFFFF calc(100% - 16px),
+            #E2E4E7 calc(100% - 16px),
+            #E2E4E7 100%
+        );
+    }
+}
+
+/* Телефон */
+@media (max-width: 560px) {
+    .art-articles-grid {
+        gap: 11px;
+        padding-bottom: 12px;
+
+        background: linear-gradient(
+            to bottom,
+            #FFFFFF 0%,
+            #FFFFFF calc(100% - 12px),
+            #E2E4E7 calc(100% - 12px),
+            #E2E4E7 100%
+        );
+    }
+}
 </style>
 </head>
 
