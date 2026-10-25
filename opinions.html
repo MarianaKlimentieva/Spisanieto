@@ -514,6 +514,32 @@
             font-size: 12px;
         }
 
+
+        /* БРОЯЧ НА ПОСЕЩЕНИЯТА ЗА ВСЯКО МНЕНИЕ */
+        .opinion-list-stats {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            color: #777;
+            font-family: "Plus Jakarta Sans", Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .opinion-list-stats svg {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            color: #a21f5a;
+        }
+
+        .opinion-list-stats-count {
+            font-variant-numeric: tabular-nums;
+            color: #681638;
+            font-weight: 600;
+        }
+
         .opinion-status {
             margin: 0;
             padding: 24px 0;
@@ -1239,6 +1265,58 @@
                 if (nextButton) nextButton.disabled = opinions.length < 2;
             }
 
+            const countedOpinionViews = new Set();
+            let opinionViewsObserver = null;
+
+            function observeOpinionViews() {
+                if (opinionViewsObserver) {
+                    opinionViewsObserver.disconnect();
+                    opinionViewsObserver = null;
+                }
+
+                if (!('IntersectionObserver' in window)) return;
+
+                opinionViewsObserver = new IntersectionObserver(async entries => {
+                    for (const entry of entries) {
+                        if (!entry.isIntersecting || entry.intersectionRatio < 0.35) continue;
+
+                        const card = entry.target;
+                        const opinionId = card.dataset.opinionView;
+                        if (!opinionId || countedOpinionViews.has(opinionId)) continue;
+
+                        countedOpinionViews.add(opinionId);
+                        opinionViewsObserver.unobserve(card);
+
+                        const countElement = card.querySelector('.opinion-list-stats-count');
+                        const previousCount = Math.max(0, Number(countElement?.textContent) || 0);
+
+                        try {
+                            const { data, error } = await window.supabaseClient.rpc(
+                                'increment_opinion_views',
+                                { opinion_id: String(opinionId) }
+                            );
+
+                            if (error) throw error;
+
+                            if (countElement) {
+                                const newCount = Number(data);
+                                countElement.textContent = Number.isFinite(newCount) && newCount >= 0
+                                    ? String(newCount)
+                                    : String(previousCount + 1);
+                            }
+                        } catch (error) {
+                            // Ако броячът временно не работи, текстът на мнението остава достъпен.
+                            countedOpinionViews.delete(opinionId);
+                            console.error('Неуспешно отчитане на посещение за мнение:', error);
+                        }
+                    }
+                }, { threshold: [0.35] });
+
+                list.querySelectorAll('[data-opinion-view]').forEach(card => {
+                    opinionViewsObserver.observe(card);
+                });
+            }
+
             function renderList() {
                 if (!opinions.length) {
                     list.innerHTML = '<p class="opinion-status">Все още няма публикувани мнения.</p>';
@@ -1259,13 +1337,22 @@
                     const shareText = `Мнение на ${name}: „${opinion.quote}“`;
 
                     return `
-                        <article class="opinion-list-card" id="opinion-${escapeHTML(opinion.id)}">
+                        <article class="opinion-list-card" id="opinion-${escapeHTML(opinion.id)}" data-opinion-view="${escapeHTML(opinion.id)}">
                             ${getAvatar(name, opinion.avatar_url, 'opinion-list-avatar')}
 
                             <div>
                                 <p class="opinion-list-quote"><em style="font-style: italic !important; font-weight: 400;">„${escapeHTML(opinion.quote)}“</em></p>
                                 <div class="opinion-list-author">${escapeHTML(name)}</div>
                                 ${date ? `<div class="opinion-list-date">${escapeHTML(date)}</div>` : ''}
+
+                                <div class="opinion-list-stats" aria-label="Посещения на мнението" title="Брой посещения">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span class="opinion-list-stats-count">${Math.max(0, Number(opinion.views) || 0)}</span>
+                                    <span>посещения</span>
+                                </div>
 
                                 <div class="opinion-share" aria-label="Споделяне на мнението">
                                     <span class="opinion-share-label">Сподели:</span>
@@ -1298,6 +1385,8 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
     quote.style.setProperty('font-style', 'italic', 'important');
     quote.style.setProperty('font-family', '"Cormorant Garamond", Georgia, serif', 'important');
 });
+                observeOpinionViews();
+
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
@@ -1347,7 +1436,7 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
             try {
                 const { data, error } = await window.supabaseClient
                     .from('opinions')
-                    .select('id, quote, author_name, avatar_url, image_url, created_at')
+                    .select('id, quote, author_name, avatar_url, image_url, created_at, views')
                     .eq('published', true)
                     .order('created_at', { ascending: false });
 
