@@ -783,11 +783,13 @@ function sanitizeArticleHtml(html) {
                 return;
             }
 
-            frame.setAttribute('title', 'YouTube видео');
-            frame.setAttribute('loading', 'lazy');
-            frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-            frame.setAttribute('allowfullscreen', '');
-            frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            /* Не добавяме iframe със src директно: така YouTube не се зарежда
+               преди читателят да даде разрешение. */
+            const wrapper = document.createElement('div');
+            wrapper.className = 'article-video-embed sp-youtube-embed';
+            wrapper.setAttribute('aria-label', 'Вградено видео от YouTube');
+            wrapper.setAttribute('data-youtube-src', frameUrl.href);
+            frame.replaceWith(wrapper);
         } catch (error) {
             frame.remove();
         }
@@ -1091,6 +1093,10 @@ async function loadArticle() {
         firstTextParagraph.classList.add('article-lead');
     }
 
+    /* Cookie manager-ът обработва YouTube плейсхолдърите след визуализацията. */
+    window.dispatchEvent(new CustomEvent('spisanieto:article-content-ready', {
+        detail: { root: body }
+    }));
 
     const gallery =
         document.getElementById(
@@ -1391,5 +1397,7 @@ loadArticle();
 
 </script>
 
+
+<script src="cookie-consent.js"></script>
 </body>
 </html>
