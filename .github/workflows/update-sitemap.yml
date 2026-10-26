@@ -1,0 +1,176 @@
+
+name: Update sitemap
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate sitemap from Supabase
+        env:
+          SUPABASE_URL: https://hxvflentlaktgwimsevc.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const SITE = 'https://spisanieto.bg';
+          const API = `${process.env.SUPABASE_URL}/rest/v1/news`;
+          const KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+
+          function escapeXml(value) {
+            return String(value)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&apos;');
+          }
+
+          async function main() {
+            const sitemapPath = 'sitemap.xml';
+            const oldXml = fs.existsSync(sitemapPath)
+              ? fs.readFileSync(sitemapPath, 'utf8')
+              : '';
+
+            const staticUrls = new Set([`${SITE}/`]);
+
+            for (const match of oldXml.matchAll(
+              /<loc>([\s\S]*?)<\/loc>/g
+            )) {
+              try {
+                const url = new URL(
+                  match[1].replace(/&amp;/g, '&').trim()
+                );
+
+                if (url.origin !== SITE) continue;
+
+                if (
+                  url.pathname === '/article.html' &&
+                  url.searchParams.has('id')
+                ) continue;
+
+                url.hash = '';
+                staticUrls.add(url.href);
+              } catch {}
+            }
+
+            const news = [];
+            let offset = 0;
+            const pageSize = 1000;
+
+            while (true) {
+              const url = new URL(API);
+
+              url.searchParams.set(
+                'select',
+                'id,created_at,updated_at'
+              );
+              url.searchParams.set('status', 'eq.published');
+              url.searchParams.set('order', 'id.asc');
+              url.searchParams.set('limit', String(pageSize));
+              url.searchParams.set('offset', String(offset));
+
+              const response = await fetch(url, {
+                headers: {
+                  apikey: KEY,
+                  Authorization: `Bearer ${KEY}`
+                }
+              });
+
+              if (!response.ok) {
+                throw new Error(
+                  `Supabase error ${response.status}: ` +
+                  await response.text()
+                );
+              }
+
+              const rows = await response.json();
+
+              if (!Array.isArray(rows)) {
+                throw new Error('Unexpected Supabase response.');
+              }
+
+              news.push(...rows);
+
+              if (rows.length < pageSize) break;
+              offset += rows.length;
+            }
+
+            if (news.length === 0) {
+              throw new Error(
+                'No published news returned. Sitemap was not overwritten.'
+              );
+            }
+
+            const entries = [...staticUrls].map(loc => ({ loc }));
+
+            for (const item of news) {
+              if (item.id == null) continue;
+
+              const url = new URL('/article.html', SITE);
+              url.searchParams.set('id', String(item.id));
+
+              const date = item.updated_at || item.created_at;
+              const timestamp = date ? new Date(date) : null;
+
+              entries.push({
+                loc: url.href,
+                lastmod: timestamp &&
+                  !Number.isNaN(timestamp.getTime())
+                  ? timestamp.toISOString()
+                  : ''
+              });
+            }
+
+            entries.sort((a, b) => a.loc.localeCompare(b.loc));
+
+            const body = entries.map(item =>
+              [
+                '  <url>',
+                `    <loc>${escapeXml(item.loc)}</loc>`,
+                item.lastmod
+                  ? `    <lastmod>${escapeXml(item.lastmod)}</lastmod>`
+                  : '',
+                '  </url>'
+              ].filter(Boolean).join('\n')
+            ).join('\n');
+
+            const xml =
+              '<?xml version="1.0" encoding="UTF-8"?>\n' +
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+              body + '\n</urlset>\n';
+
+            fs.writeFileSync(sitemapPath, xml, 'utf8');
+            console.log(`Generated sitemap with ${entries.length} URLs.`);
+          }
+
+          main().catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Save sitemap changes
+        run: |
+          if git diff --quiet -- sitemap.xml; then
+            echo "Sitemap is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "Update sitemap from published news"
+          git push
