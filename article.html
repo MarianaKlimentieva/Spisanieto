@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Новина — СПИСАНИЕТО.</title>
+    <meta name="description" content="Новини, анализи и истории от България и света — СПИСАНИЕТО.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="СПИСАНИЕТО.">
+    <meta property="og:locale" content="bg_BG">
+    <meta property="og:title" content="Новина — СПИСАНИЕТО.">
+    <meta property="og:description" content="Новини, анализи и истории от България и света — СПИСАНИЕТО.">
+    <meta property="og:image" content="https://spisanieto.bg/banner.jpg">
+    <meta property="og:url" content="https://spisanieto.bg/article.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Новина — СПИСАНИЕТО.">
+    <meta name="twitter:description" content="Новини, анализи и истории от България и света — СПИСАНИЕТО.">
+    <meta name="twitter:image" content="https://spisanieto.bg/banner.jpg">
+    <link rel="canonical" href="https://spisanieto.bg/article.html">
+    <script type="application/ld+json" id="article-jsonld">{}</script>
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -713,6 +728,86 @@ const params = new URLSearchParams(
 const articleId = params.get('id');
 
 
+function setMeta(selector, attribute, value) {
+    let element = document.querySelector(selector);
+    if (!element) {
+        element = document.createElement('meta');
+        const match = selector.match(/^(meta)\[(name|property)="([^"]+)"\]$/);
+        if (match) element.setAttribute(match[2], match[3]);
+        document.head.appendChild(element);
+    }
+    element.setAttribute(attribute, value || '');
+}
+
+
+function textOnly(value) {
+    const holder = document.createElement('div');
+    holder.innerHTML = value || '';
+    return (holder.textContent || holder.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+
+function applyArticleSeo(data) {
+    const seoTitle = (data.seo_title || data.title || 'Новина').trim();
+    const pageTitle = seoTitle.includes('СПИСАНИЕТО.') ? seoTitle : `${seoTitle} — СПИСАНИЕТО.`;
+    const description = (data.seo_description || data.subtitle || textOnly(data.content_html || data.content).slice(0, 160) || 'Новини, анализи и истории от България и света — СПИСАНИЕТО.').trim();
+    const image = data.seo_image_url || data.image_url || 'https://spisanieto.bg/banner.jpg';
+    const canonicalUrl = new URL(window.location.href);
+    canonicalUrl.hash = '';
+    canonicalUrl.search = '';
+    if (articleId) canonicalUrl.searchParams.set('id', articleId);
+
+    document.title = pageTitle;
+    setMeta('meta[name="description"]', 'content', description);
+    setMeta('meta[property="og:type"]', 'content', 'article');
+    setMeta('meta[property="og:site_name"]', 'content', 'СПИСАНИЕТО.');
+    setMeta('meta[property="og:locale"]', 'content', 'bg_BG');
+    setMeta('meta[property="og:title"]', 'content', pageTitle);
+    setMeta('meta[property="og:description"]', 'content', description);
+    setMeta('meta[property="og:image"]', 'content', image);
+    setMeta('meta[property="og:url"]', 'content', canonicalUrl.href);
+    setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+    setMeta('meta[name="twitter:title"]', 'content', pageTitle);
+    setMeta('meta[name="twitter:description"]', 'content', description);
+    setMeta('meta[name="twitter:image"]', 'content', image);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl.href;
+
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: data.title || seoTitle,
+        name: seoTitle,
+        description,
+        image: [image],
+        datePublished: data.created_at || undefined,
+        dateModified: data.updated_at || data.created_at || undefined,
+        author: {
+            '@type': 'Person',
+            name: data.author || 'СПИСАНИЕТО.'
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'СПИСАНИЕТО.'
+        },
+        articleSection: data.category || undefined,
+        inLanguage: 'bg-BG',
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': canonicalUrl.href
+        }
+    };
+    const jsonLd = document.getElementById('article-jsonld');
+    if (jsonLd) jsonLd.textContent = JSON.stringify(structuredData);
+}
+
+
 function sanitizeArticleHtml(html) {
 
     const cleanHtml = DOMPurify.sanitize(
@@ -902,6 +997,11 @@ async function loadArticle() {
                 category,
                 image_url,
                 created_at,
+                updated_at,
+                author,
+                seo_title,
+                seo_description,
+                seo_image_url,
                 views
             `)
             .eq('id', articleId)
@@ -1280,9 +1380,7 @@ async function loadArticle() {
         'block';
 
 
-    document.title =
-        data.title +
-        ' — СПИСАНИЕТО.';
+    applyArticleSeo(data);
 
 }
 
