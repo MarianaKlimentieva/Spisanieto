@@ -779,6 +779,9 @@ function applyArticleSeo(data) {
     }
     canonical.href = canonicalUrl.href;
 
+    const authorName = (data.author || 'СПИСАНИЕТО.').trim();
+    const isSiteAuthor = /^СПИСАНИЕТО\.?$/i.test(authorName);
+
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
@@ -788,13 +791,18 @@ function applyArticleSeo(data) {
         image: [image],
         datePublished: data.created_at || undefined,
         dateModified: data.updated_at || data.created_at || undefined,
-        author: {
+        author: isSiteAuthor ? {
+            '@type': 'Organization',
+            name: 'СПИСАНИЕТО.',
+            url: 'https://spisanieto.bg/'
+        } : {
             '@type': 'Person',
-            name: data.author || 'СПИСАНИЕТО.'
+            name: authorName
         },
         publisher: {
             '@type': 'Organization',
-            name: 'СПИСАНИЕТО.'
+            name: 'СПИСАНИЕТО.',
+            url: 'https://spisanieto.bg/'
         },
         articleSection: data.category || undefined,
         inLanguage: 'bg-BG',
