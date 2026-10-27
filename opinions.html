@@ -1404,7 +1404,7 @@ if (targetId.startsWith('opinion-')) {
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
-                       const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}&v=2`;
+                       const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}&v=3`;
 
                         try {
                             await navigator.clipboard.writeText(shareUrl);
