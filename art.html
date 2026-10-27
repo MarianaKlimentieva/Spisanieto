@@ -4258,6 +4258,33 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         @media (max-width: 600px) {
             .art-articles-grid { gap: 6px !important; padding: 6px !important; }
         }
+    
+
+        /* По-четливи бели заглавия върху снимките: тъмна прозрачна подложка */
+        .art-article-card::after {
+            content: "" !important;
+            position: absolute !important;
+            inset: 0 !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            background: linear-gradient(180deg, rgba(0,0,0,.02) 25%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.82) 100%) !important;
+        }
+        .art-article-copy {
+            z-index: 2 !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.18) 15%, rgba(0,0,0,.72) 100%) !important;
+            padding: 22px 18px 18px !important;
+        }
+        .art-article-card .art-article-copy h2,
+        .art-article-card h2 {
+            color: #fff !important;
+            font-weight: 600 !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,.95), 0 0 12px rgba(0,0,0,.7) !important;
+        }
+        .art-article-card .art-article-copy time {
+            color: rgba(255,255,255,.92) !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,.9) !important;
+        }
+
     </style>
 </head>
 
