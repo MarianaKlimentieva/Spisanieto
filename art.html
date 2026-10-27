@@ -4210,7 +4210,55 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             }
         }
 
-</style>
+
+        /* Видими сиви разделители между картите, както в мозайката на началната страница */
+        .art-articles-grid {
+            background: #D5D8DD !important;
+            gap: 8px !important;
+            padding: 8px !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+        .art-article-card {
+            border: 0 !important;
+            outline: 0 !important;
+            box-shadow: none !important;
+            background: #E2E4E7 !important;
+        }
+        .art-article-card > a {
+            border: 0 !important;
+            outline: 0 !important;
+        }
+        @media (max-width: 900px) {
+            .art-articles-grid { padding: 6px !important; gap: 6px !important; }
+        }
+        @media (max-width: 600px) {
+            .art-articles-grid { padding: 5px !important; gap: 5px !important; }
+        }
+
+
+        /* Заглавията върху снимките са с бели букви като на началната страница */
+        .art-article-card .art-article-copy h2,
+        .art-article-card h2 {
+            color: #fff !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .45);
+        }
+
+
+
+        /* Финална настройка: бели разделители като в мозайката на началната страница */
+        .art-articles-grid {
+            background: #FFFFFF !important;
+            gap: 8px !important;
+            padding: 8px !important;
+        }
+        .art-article-card {
+            background: #E2E4E7 !important;
+        }
+        @media (max-width: 600px) {
+            .art-articles-grid { gap: 6px !important; padding: 6px !important; }
+        }
+    </style>
 </head>
 
 
