@@ -4146,6 +4146,70 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             }
         }
 
+
+
+        /* Финален изглед на картите — центрирана снимка и размит фон отстрани */
+        .art-article-card {
+            isolation: isolate;
+            background: #222;
+        }
+        .art-article-card::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            z-index: 0;
+            background-image: var(--art-image);
+            background-size: cover;
+            background-position: center;
+            filter: blur(18px);
+            transform: scale(1.06);
+            opacity: .92;
+        }
+        .art-article-card > a {
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(0,0,0,.10);
+        }
+        .art-article-card img {
+            position: relative;
+            z-index: 0;
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            object-position: center;
+            flex: 0 1 auto;
+            margin: 0 auto;
+            transition: transform .4s ease;
+        }
+        .art-article-card:hover img {
+            transform: scale(1.025);
+        }
+        .art-article-card::after {
+            z-index: 1;
+            inset: 58% 0 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.88));
+        }
+        .art-article-copy {
+            z-index: 2;
+            padding: 18px;
+        }
+        .art-article-card:nth-child(1) .art-article-copy {
+            padding: 24px;
+        }
+        @media (max-width: 600px) {
+            .art-article-card img {
+                max-width: 100%;
+            }
+            .art-article-copy,
+            .art-article-card:nth-child(1) .art-article-copy {
+                padding: 13px;
+            }
+        }
+
 </style>
 </head>
 
