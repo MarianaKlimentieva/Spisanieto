@@ -1391,7 +1391,7 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
-                        const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}`;
+                       const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}&v=2`;
 
                         try {
                             await navigator.clipboard.writeText(shareUrl);
