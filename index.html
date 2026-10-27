@@ -7207,5 +7207,71 @@ setInterval(loadSofiaWeather, 15 * 60 * 1000);
 
 
 <script src="cookie-consent.js"></script>
+<script>
+(function () {
+    function updateArtBackgrounds(root) {
+        const cards = [];
+
+        if (
+            root instanceof Element &&
+            root.matches('.culture-metro-card')
+        ) {
+            cards.push(root);
+        }
+
+        if (root.querySelectorAll) {
+            cards.push(
+                ...root.querySelectorAll('.culture-metro-card')
+            );
+        }
+
+        cards.forEach(card => {
+            const img = card.querySelector('img');
+
+            if (!img) return;
+
+            const src = img.currentSrc || img.getAttribute('src');
+
+            if (!src) return;
+
+            card.style.setProperty(
+                '--culture-image',
+                `url(${JSON.stringify(src)})`
+            );
+        });
+    }
+
+    function initArtBackgrounds() {
+        updateArtBackgrounds(document);
+
+        const section =
+            document.querySelector('.culture-metro-section') ||
+            document.body;
+
+        const observer = new MutationObserver(records => {
+            records.forEach(record => {
+                updateArtBackgrounds(record.target);
+            });
+        });
+
+        observer.observe(section, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['src']
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener(
+            'DOMContentLoaded',
+            initArtBackgrounds,
+            { once: true }
+        );
+    } else {
+        initArtBackgrounds();
+    }
+})();
+</script>
 </body>
 </html>
