@@ -3733,6 +3733,128 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             letter-spacing: 0;
             margin-top: 0.5rem;
         }
+        /* =========================================
+   АРТ — МОЗАЙКА В СТИЛА НА НАЧАЛНАТА СТРАНИЦА
+========================================= */
+
+.art-articles-grid {
+    gap: 8px;
+    background: #FFFFFF;
+}
+
+/* Рамка и основа на всяка публикация */
+.art-article-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid #C9CDD3;
+    background: #E2E4E7;
+}
+
+/* Размазан фон от същата снимка */
+.art-article-card::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    z-index: 0;
+    background-image: var(--art-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(12px);
+    transform: scale(1.08);
+    opacity: 0.88;
+    pointer-events: none;
+}
+
+/* Линкът и снимката */
+.art-article-card > a {
+    z-index: 1;
+}
+
+.art-article-card img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    background: transparent;
+    transform: none;
+    transition: none;
+}
+
+/* Леко затъмняване за четливост */
+.art-article-card > a::after {
+    content: "";
+    position: absolute;
+    inset: 20% 0 0;
+    z-index: 2;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.12) 35%,
+        rgba(0, 0, 0, 0.45) 100%
+    );
+    pointer-events: none;
+}
+
+/* Заглавия върху полупрозрачна подложка */
+.art-article-copy {
+    z-index: 3;
+    padding: clamp(14px, 2vw, 26px);
+    background: rgba(18, 20, 25, 0.42);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.art-article-card h2 {
+    color: #FFFFFF;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.art-article-category {
+    color: #FFD9E8;
+}
+
+.art-article-card time {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Без приближаване, което изрязва снимката */
+.art-article-card:hover img {
+    transform: none;
+}
+
+.art-article-card:hover .art-article-copy {
+    background: rgba(18, 20, 25, 0.54);
+}
+
+/* Телефон */
+@media (max-width: 760px) {
+    .art-articles-grid {
+        gap: 6px;
+    }
+
+    .art-article-copy {
+        padding: 12px;
+        background: rgba(18, 20, 25, 0.48);
+    }
+}
+
+@media (max-width: 420px) {
+    .art-articles-grid {
+        gap: 5px;
+    }
+
+    .art-article-copy {
+        padding: 10px;
+    }
+}
 </style>
 </head>
 
