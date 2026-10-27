@@ -1,0 +1,263 @@
+/* Mobile fix for the ORIGINAL spisanieto.bg opinions block.
+   Add after all existing responsive rules. Keep inline display:none intact. */
+@media (max-width: 900px) {
+  .main-layout:has(.opinion-section) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-layout:has(.opinion-section) > div {
+    min-width: 0;
+  }
+
+  .opinion-section {
+    padding-inline: 0;
+  }
+
+  .opinion-section .opinion-grid {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .opinion-section .opinion-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 16px 12px 22px;
+    column-gap: 0;
+  }
+
+  .opinion-section .opinion-author-box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    order: -1;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    margin: 0 0 18px;
+  }
+
+  .opinion-section .opinion-avatar,
+  .opinion-section .opinion-author-name,
+  .opinion-section .opinion-quote {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .opinion-section .opinion-avatar {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 420px;
+    align-self: stretch;
+    object-fit: contain;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .opinion-section .opinion-author-name {
+    margin: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .opinion-section .opinion-quote {
+    display: block;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    column-count: 1;
+    float: none;
+    max-height: none;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 600px) {
+  .opinion-section {
+    margin-inline: -1rem;
+  }
+
+  .opinion-section .opinion-header {
+    padding-inline: 1rem;
+  }
+}
+
+/* The separate original opinions.html list and its currently rendered carousel.
+   Scoped to the component; inline display:none and [hidden] remain hidden.
+   No styles apply above 900px. */
+@media (max-width: 900px) {
+  main.container:has(.opinions-list-section) .page-title {
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  .opinions-list-section,
+  .opinions-carousel-section,
+  .opinions-list {
+    min-width: 0;
+  }
+
+  .opinions-list .opinion-list-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 16px 12px 22px;
+  }
+
+  .opinions-list .opinion-list-card > .opinion-list-avatar {
+    display: block;
+    flex: none;
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 420px;
+    margin: 0;
+    border-radius: 0;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .opinions-list .opinion-list-card > .opinion-avatar-placeholder {
+    display: grid;
+    min-height: 90px;
+    place-items: center;
+  }
+
+  .opinions-list .opinion-list-card > div {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .opinions-list .opinion-list-quote {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    max-height: none;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    column-count: 1;
+  }
+
+  .opinions-list .opinion-share {
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #opinion-feature-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .opinions-carousel-section .opinion-feature-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 24px 12px;
+  }
+
+  /* If there is no topic image, use the author portrait above the quote.
+     With a topic image, the existing compact author footer stays unchanged. */
+  #opinion-feature-content:not(:has(.opinion-feature-topic-image)) .opinion-feature-author {
+    order: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 0 18px;
+  }
+
+  #opinion-feature-content:not(:has(.opinion-feature-topic-image)) .opinion-feature-author > .opinion-feature-avatar {
+    display: block;
+    flex: none;
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 420px;
+    aspect-ratio: auto 16 / 9;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+  }
+
+  #opinion-feature-content:not(:has(.opinion-feature-topic-image)) .opinion-feature-author > .opinion-avatar-placeholder {
+    display: grid;
+    min-height: 90px;
+    place-items: center;
+  }
+
+  #opinion-feature-content:not(:has(.opinion-feature-topic-image)) .opinion-feature-author > div {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .opinions-carousel-section .opinion-feature-quote {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  /* Reserve space before loading=lazy supplies natural dimensions.
+     The loaded image keeps its natural ratio; object-fit:contain prevents crop. */
+  .opinion-section img.opinion-avatar,
+  .opinions-list img.opinion-list-avatar {
+    aspect-ratio: auto 16 / 9;
+  }
+
+  /* Hidden carousel states and initially hidden load-more cards stay hidden. */
+  .opinion-section [hidden],
+  .opinions-list [hidden],
+  .opinions-carousel-section [hidden] {
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .opinions-list-section,
+  .opinions-carousel-section {
+    margin-inline: -1rem;
+  }
+
+  .opinions-list-section .opinions-section-heading,
+  .opinions-carousel-section .opinion-carousel-controls {
+    padding-inline: 1rem;
+  }
+}
