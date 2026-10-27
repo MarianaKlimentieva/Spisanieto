@@ -3804,6 +3804,53 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         transition: none;
     }
 }
+        /* =========================================
+   АРТ — ЗАГЛАВИЯ ВЪРХУ СНИМКИТЕ
+========================================= */
+
+.culture-metro-card-copy {
+    position: absolute;
+    z-index: 3;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 16px 18px;
+
+    /* Прозрачна подложка */
+    background: rgba(18, 20, 25, 0.42);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.culture-metro-card-title {
+    margin: 0;
+    color: #FFFFFF;
+    font-weight: 600;
+    line-height: 1.18;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Лек ефект при посочване с мишката */
+.culture-metro-card:hover .culture-metro-card-copy {
+    background: rgba(18, 20, 25, 0.56);
+}
+
+/* По-компактно на телефон */
+@media (max-width: 600px) {
+    .culture-metro-card-copy {
+        padding: 11px 12px;
+        background: rgba(18, 20, 25, 0.48);
+    }
+
+    .culture-metro-card-title {
+        font-size: 18px;
+        line-height: 1.15;
+    }
+}
 </style>
     <link rel="stylesheet" href="mobile-opinions-fix.css?v=20261025-4">
 </head>
