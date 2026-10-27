@@ -1387,7 +1387,20 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
     quote.style.setProperty('font-family', '"Cormorant Garamond", Georgia, serif', 'important');
 });
                 observeOpinionViews();
+const targetId = decodeURIComponent(window.location.hash.slice(1));
 
+if (targetId.startsWith('opinion-')) {
+    setTimeout(() => {
+        const target = document.getElementById(targetId);
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }, 250);
+}
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
