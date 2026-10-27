@@ -3722,6 +3722,88 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         transition: none;
     }
 }
+        /* =========================================
+   АРТ — ПЛЪТНА МОЗАЙКА С РАМКИ
+========================================= */
+
+.culture-metro-grid {
+    gap: 8px;
+    padding: 8px;
+    background: #FFFFFF;
+}
+
+.culture-metro-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid #C9CDD3;
+    background: #E2E4E7;
+}
+
+/* Размазан фон от същата снимка */
+.culture-metro-card::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    z-index: 0;
+    background-image: var(--culture-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(12px);
+    transform: scale(1.08);
+    opacity: 0.88;
+    pointer-events: none;
+}
+
+/* Оригиналната снимка остава цяла и центрирана */
+.culture-metro-card img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    background: transparent;
+    transform: none;
+}
+
+/* Потъмняване в долната част за четливи заглавия */
+.culture-metro-card::after {
+    content: "";
+    position: absolute;
+    inset: 35% 0 0;
+    z-index: 2;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.18) 35%,
+        rgba(0, 0, 0, 0.88) 100%
+    );
+    pointer-events: none;
+}
+
+/* Заглавието остава над снимката */
+.culture-metro-card-copy {
+    z-index: 3;
+}
+
+/* Разделители за по-малки екрани */
+@media (max-width: 600px) {
+    .culture-metro-grid {
+        gap: 5px;
+        padding: 5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .culture-metro-card img {
+        transition: none;
+    }
+}
 </style>
     <link rel="stylesheet" href="mobile-opinions-fix.css?v=20261025-4">
 </head>
