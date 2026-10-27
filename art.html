@@ -4217,7 +4217,34 @@ try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
   if (!data || !data.length) { root.innerHTML = '<div class="art-status">Все още няма публикувани материали в рубриката „Арт“.</div>'; }
-  else { root.innerHTML = data.map(renderCard).join(''); }
+  else {
+    root.innerHTML = data.map(renderCard).join('');
+
+    root.querySelectorAll('.art-article-card').forEach(card => {
+        const img = card.querySelector('img');
+
+        if (!img) return;
+
+        const setArtBackground = () => {
+            const src = img.currentSrc || img.src;
+
+            if (!src) return;
+
+            card.style.setProperty(
+                '--art-image',
+                `url(${JSON.stringify(src)})`
+            );
+        };
+
+        if (img.complete && img.naturalWidth > 0) {
+            setArtBackground();
+        } else {
+            img.addEventListener('load', setArtBackground, {
+                once: true
+            });
+        }
+    });
+}
 } catch (e) { console.error('Грешка при зареждане на АРТ:', e); root.innerHTML = '<div class="art-status">Публикациите временно не могат да бъдат заредени. Моля, опитайте отново по-късно.</div>'; }
 </script>
 <script>
