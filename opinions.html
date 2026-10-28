@@ -1334,7 +1334,7 @@
                     const name = opinion.author_name || 'Автор';
                     const date = formatDate(opinion.created_at);
 
-                   const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}&v=3`;
+                  const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}`;
                     const shareText = `Мнение на ${name}: „${opinion.quote}“`;
 
                     return `
