@@ -3851,6 +3851,54 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         line-height: 1.15;
     }
 }
+        
+/* АРТ — четливи бели заглавия върху прозрачна подложка */
+.culture-metro-section .culture-metro-card .culture-metro-card-copy {
+    position: absolute !important;
+    z-index: 5 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 16px 18px !important;
+
+    background: rgba(0, 0, 0, 0.62) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(5px) !important;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.culture-metro-section .culture-metro-card .culture-metro-card-title {
+    margin: 0 !important;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9) !important;
+}
+
+.culture-metro-section .culture-metro-card:nth-child(1) .culture-metro-card-title {
+    font-size: 34px !important;
+}
+
+.culture-metro-section .culture-metro-card:hover .culture-metro-card-copy {
+    background: rgba(0, 0, 0, 0.72) !important;
+}
+
+@media (max-width: 600px) {
+    .culture-metro-section .culture-metro-card .culture-metro-card-copy {
+        padding: 10px 12px !important;
+        background: rgba(0, 0, 0, 0.68) !important;
+    }
+
+    .culture-metro-section .culture-metro-card .culture-metro-card-title {
+        font-size: 18px !important;
+    }
+}
+
 </style>
     <link rel="stylesheet" href="mobile-opinions-fix.css?v=20261025-4">
 </head>
