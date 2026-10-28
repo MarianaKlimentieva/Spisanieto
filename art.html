@@ -4569,6 +4569,98 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
     .art-article-card img { transition: none !important; }
 }
 
+
+/* КРАЙНА КОРЕКЦИЯ: заглавията в АРТ да са ясно бели и четими */
+.art-articles-grid .art-article-card > a .art-article-copy {
+    background: rgba(0, 0, 0, 0.78) !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(5px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.42) !important;
+}
+.art-articles-grid .art-article-card > a .art-article-copy h2,
+.art-articles-grid .art-article-card > a .art-article-copy h2 * {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: 0 1px 2px #000, 0 0 8px rgba(0,0,0,.9) !important;
+    filter: none !important;
+}
+.art-articles-grid .art-article-card > a .art-article-copy .art-article-category,
+.art-articles-grid .art-article-card > a .art-article-copy time {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    opacity: 1 !important;
+    text-shadow: 0 1px 3px #000 !important;
+}
+.art-articles-grid .art-article-card > a { color: #fff !important; }
+.art-articles-grid .art-article-card:hover > a .art-article-copy {
+    background: rgba(0, 0, 0, 0.84) !important;
+}
+
+
+
+/* КОРЕКЦИЯ НА МОЗАЙКАТА — стабилни пропорции на компютър */
+.art-page {
+    width: min(1280px, calc(100% - 48px)) !important;
+}
+.art-articles-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-auto-rows: clamp(118px, 11vw, 158px) !important;
+    grid-auto-flow: dense !important;
+    gap: 8px !important;
+    padding: 8px !important;
+    align-items: stretch !important;
+}
+.art-article-card { min-width: 0 !important; min-height: 0 !important; }
+.art-article-card:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+.art-article-card:nth-child(8n + 1) { grid-column: span 2; grid-row: span 2; }
+.art-article-card:nth-child(8n + 2) { grid-column: span 2; grid-row: span 1; }
+.art-article-card:nth-child(8n + 3) { grid-column: span 1; grid-row: span 2; }
+.art-article-card:nth-child(8n + 4) { grid-column: span 1; grid-row: span 1; }
+.art-article-card:nth-child(8n + 5) { grid-column: span 2; grid-row: span 2; }
+.art-article-card:nth-child(8n + 6) { grid-column: span 1; grid-row: span 1; }
+.art-article-card:nth-child(8n + 7) { grid-column: span 1; grid-row: span 1; }
+.art-article-card:nth-child(8n + 8) { grid-column: span 2; grid-row: span 1; }
+
+@media (max-width: 900px) {
+    .art-page { width: calc(100% - 28px) !important; }
+    .art-articles-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-auto-rows: 112px !important;
+        gap: 6px !important;
+        padding: 6px !important;
+    }
+    .art-article-card:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+    .art-article-card:nth-child(6n + 1) { grid-column: span 2; grid-row: span 2; }
+    .art-article-card:nth-child(6n + 2) { grid-column: span 1; grid-row: span 1; }
+    .art-article-card:nth-child(6n + 3) { grid-column: span 1; grid-row: span 1; }
+    .art-article-card:nth-child(6n + 4) { grid-column: span 1; grid-row: span 2; }
+    .art-article-card:nth-child(6n + 5) { grid-column: span 1; grid-row: span 1; }
+    .art-article-card:nth-child(6n + 6) { grid-column: span 1; grid-row: span 1; }
+}
+@media (max-width: 600px) {
+    .art-page { width: calc(100% - 20px) !important; }
+    .art-articles-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-auto-rows: 85px !important;
+        gap: 5px !important;
+        padding: 5px !important;
+    }
+    .art-article-card:nth-child(n) { grid-column: span 1; grid-row: span 2; }
+    .art-article-card:nth-child(5n + 1),
+    .art-article-card:nth-child(5n + 4) { grid-column: span 2; grid-row: span 2; }
+    .art-article-card:nth-child(1) { grid-row: span 3; }
+    .art-article-card .art-article-copy { padding: 10px 12px !important; }
+    .art-article-card .art-article-copy h2,
+    .art-article-card h2 { font-size: 17px !important; }
+    .art-article-card:nth-child(1) .art-article-copy h2,
+    .art-article-card:nth-child(1) h2 { font-size: 28px !important; }
+}
+
 </style>
 </head>
 
