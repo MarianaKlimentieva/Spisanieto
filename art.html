@@ -3873,59 +3873,563 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         }
 
 
+        /* =========================================
+           АРТ — ДИЗАЙН ЕДНО КЪМ ЕДНО С МОЗАЙКАТА
+           ОТ НАЧАЛНАТА СТРАНИЦА
+        ========================================= */
+        .art-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 48px;
+            padding: 52px 1.5rem 0;
+            box-sizing: border-box;
+        }
 
-        /* FINAL FIX: заглавията в „Арт“ — чисто бели и четливи, без промяна на мозайката */
-        .art-articles-grid .art-article-card > a::after {
-            z-index: 1 !important;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.16) 35%, rgba(0,0,0,.88) 100%) !important;
-            pointer-events: none !important;
+        .art-page-heading {
+            margin: 0 0 26px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #d9d6d0;
         }
-        .art-articles-grid .art-article-card .art-article-copy {
-            z-index: 2 !important;
-            background: rgba(0, 0, 0, .62) !important;
-            -webkit-backdrop-filter: blur(5px) !important;
-            backdrop-filter: blur(5px) !important;
-            border-top: 1px solid rgba(255,255,255,.28) !important;
-            opacity: 1 !important;
-            filter: none !important;
+
+        .art-page-heading > h1 {
+            margin: 0;
+            color: #171717;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 38px;
+            font-weight: 600;
+            line-height: 1.1;
         }
-        .art-articles-grid .art-article-card .art-article-copy .art-article-category,
-        .art-articles-grid .art-article-card .art-article-copy h2,
-        .art-articles-grid .art-article-card .art-article-copy time {
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
-            opacity: 1 !important;
-            text-shadow: 0 1px 5px rgba(0,0,0,.95) !important;
-            filter: none !important;
+
+        .art-articles-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-auto-rows: 100px;
+            grid-auto-flow: dense;
+            gap: 0;
+            padding: 8px;
+            margin-bottom: 24px;
+            background: #E2E4E7;
+            border-radius: 3px;
+            box-sizing: border-box;
+            align-items: stretch;
         }
-        .art-articles-grid .art-article-card .art-article-copy h2 {
-            font-weight: 700 !important;
+
+        .art-article-card {
+            position: relative;
+            min-width: 0;
+            min-height: 0;
+            overflow: hidden;
+            background: #E2E4E7;
+            grid-column: span 1;
+            grid-row: span 2;
+            border: 0;
+            border-radius: 0;
+            isolation: auto;
         }
-        .art-articles-grid .art-article-card:hover .art-article-copy {
-            background: rgba(0, 0, 0, .72) !important;
+
+        .art-article-card:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 4;
         }
-        @media (max-width: 760px) {
-            .art-articles-grid .art-article-card .art-article-copy {
-                background: rgba(0, 0, 0, .68) !important;
+
+        .art-article-card:nth-child(2) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .art-article-card:nth-child(3) {
+            grid-column: span 1;
+            grid-row: span 3;
+        }
+
+        .art-article-card:nth-child(4) {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .art-article-card:nth-child(5) {
+            grid-column: span 2;
+            grid-row: span 3;
+        }
+
+        .art-article-card:nth-child(n+6) {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .art-article-card:nth-child(7n+6) {
+            grid-column: span 2;
+            grid-row: span 3;
+        }
+
+        .art-article-card:nth-child(7n+7) {
+            grid-column: span 1;
+            grid-row: span 3;
+        }
+
+        .art-article-card:nth-child(7n+8) {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .art-article-card:nth-child(7n+9) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .art-article-card:nth-child(7n+10) {
+            grid-column: span 1;
+            grid-row: span 3;
+        }
+
+        .art-article-card:nth-child(7n+11) {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .art-article-card > a {
+            position: absolute;
+            inset: 0;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .art-article-card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform .4s ease;
+        }
+
+        .art-article-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .art-article-card::after {
+            position: absolute;
+            inset: 25% 0 0;
+            z-index: 1;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 0, 0, .78) 100%
+            );
+            content: "";
+            pointer-events: none;
+        }
+
+        .art-article-copy {
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 16px;
+            background: transparent;
+            border: 0;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+        }
+
+        .art-article-card:nth-child(1) .art-article-copy {
+            padding: 24px;
+        }
+
+        .art-article-category {
+            display: none;
+        }
+
+        .art-article-card h2 {
+            margin: 0;
+            color: #fff;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+            text-shadow: none;
+        }
+
+        .art-article-card:nth-child(1) h2 {
+            font-size: 34px;
+        }
+
+        .art-article-card time {
+            display: none;
+        }
+
+        .art-status {
+            grid-column: 1 / -1;
+            padding: 24px 0;
+            color: #77736f;
+            text-align: center;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        @media (min-width: 601px) and (max-width: 900px) {
+            .art-articles-grid {
+                grid-auto-rows: 90px;
+                gap: 0;
+                padding: 6px;
+            }
+
+            .art-article-card h2 {
+                font-size: 19px;
+            }
+
+            .art-article-card:nth-child(1) h2 {
+                font-size: 29px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .art-page {
+                padding: 32px 1rem 0;
+            }
+
+            .art-page-heading h1 {
+                font-size: 32px;
+            }
+
+            .art-articles-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-auto-rows: 85px;
+                gap: 0;
+                padding: 5px;
+            }
+
+            .art-article-card:nth-child(n) {
+                grid-column: span 1;
+                grid-row: span 2;
+            }
+
+            .art-article-card:nth-child(1) {
+                grid-column: span 2;
+                grid-row: span 3;
+            }
+
+            .art-article-card:nth-child(2) {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+
+            .art-article-card:nth-child(3) {
+                grid-column: span 1;
+                grid-row: span 2;
+            }
+
+            .art-article-card:nth-child(4) {
+                grid-column: span 1;
+                grid-row: span 3;
+            }
+
+            .art-article-card:nth-child(5) {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+
+            .art-article-copy,
+            .art-article-card:nth-child(1) .art-article-copy {
+                padding: 13px;
+            }
+
+            .art-article-card h2 {
+                font-size: 18px;
+            }
+
+            .art-article-card:nth-child(1) h2 {
+                font-size: 28px;
             }
         }
 
 
-/* =====================================================
-   АРТ — МОЗАЙКА КАТО НА НАЧАЛНАТА СТРАНИЦА
-   Единен финален набор от правила за подредба, снимки и заглавия
-===================================================== */
-.art-articles-grid {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    grid-auto-rows: 100px !important;
-    grid-auto-flow: dense !important;
-    gap: 8px !important;
-    padding: 8px !important;
-    background: #FFFFFF !important;
+
+        /* Финален изглед на картите — центрирана снимка и размит фон отстрани */
+        .art-article-card {
+            isolation: isolate;
+            background: #222;
+        }
+        .art-article-card::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            z-index: 0;
+            background-image: var(--art-image);
+            background-size: cover;
+            background-position: center;
+            filter: blur(18px);
+            transform: scale(1.06);
+            opacity: .92;
+        }
+        .art-article-card > a {
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(0,0,0,.10);
+        }
+        .art-article-card img {
+            position: relative;
+            z-index: 0;
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            object-position: center;
+            flex: 0 1 auto;
+            margin: 0 auto;
+            transition: transform .4s ease;
+        }
+        .art-article-card:hover img {
+            transform: scale(1.025);
+        }
+        .art-article-card::after {
+            z-index: 1;
+            inset: 58% 0 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.88));
+        }
+        .art-article-copy {
+            z-index: 2;
+            padding: 18px;
+        }
+        .art-article-card:nth-child(1) .art-article-copy {
+            padding: 24px;
+        }
+        @media (max-width: 600px) {
+            .art-article-card img {
+                max-width: 100%;
+            }
+            .art-article-copy,
+            .art-article-card:nth-child(1) .art-article-copy {
+                padding: 13px;
+            }
+        }
+
+
+        /* Видими сиви разделители между картите, както в мозайката на началната страница */
+        .art-articles-grid {
+            background: #D5D8DD !important;
+            gap: 8px !important;
+            padding: 8px !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+        .art-article-card {
+            border: 0 !important;
+            outline: 0 !important;
+            box-shadow: none !important;
+            background: #E2E4E7 !important;
+        }
+        .art-article-card > a {
+            border: 0 !important;
+            outline: 0 !important;
+        }
+        @media (max-width: 900px) {
+            .art-articles-grid { padding: 6px !important; gap: 6px !important; }
+        }
+        @media (max-width: 600px) {
+            .art-articles-grid { padding: 5px !important; gap: 5px !important; }
+        }
+
+
+        /* Заглавията върху снимките са с бели букви като на началната страница */
+        .art-article-card .art-article-copy h2,
+        .art-article-card h2 {
+            color: #fff !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .45);
+        }
+
+
+
+        /* Финална настройка: бели разделители като в мозайката на началната страница */
+        .art-articles-grid {
+            background: #FFFFFF !important;
+            gap: 8px !important;
+            padding: 8px !important;
+        }
+        .art-article-card {
+            background: #E2E4E7 !important;
+        }
+        @media (max-width: 600px) {
+            .art-articles-grid { gap: 6px !important; padding: 6px !important; }
+        }
+    
+
+        /* По-четливи бели заглавия върху снимките: тъмна прозрачна подложка */
+        .art-article-card::after {
+            content: "" !important;
+            position: absolute !important;
+            inset: 0 !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            background: linear-gradient(180deg, rgba(0,0,0,.02) 25%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.82) 100%) !important;
+        }
+        .art-article-copy {
+            z-index: 2 !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.18) 15%, rgba(0,0,0,.72) 100%) !important;
+            padding: 22px 18px 18px !important;
+        }
+        .art-article-card .art-article-copy h2,
+        .art-article-card h2 {
+            color: #fff !important;
+            font-weight: 600 !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,.95), 0 0 12px rgba(0,0,0,.7) !important;
+        }
+        .art-article-card .art-article-copy time {
+            color: rgba(255,255,255,.92) !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,.9) !important;
+        }
+
+    
+        /* Максимална четливост на заглавията: тъмна полупрозрачна подложка непосредствено зад текста */
+        .art-article-card .art-article-copy {
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 3 !important;
+            box-sizing: border-box !important;
+            padding: 18px 16px 16px !important;
+            background: rgba(0, 0, 0, 0.78) !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+        }
+        .art-article-card .art-article-copy h2,
+        .art-article-card h2 {
+            color: #fff !important;
+            opacity: 1 !important;
+            font-weight: 700 !important;
+            text-shadow: 0 1px 2px #000 !important;
+        }
+        .art-article-card .art-article-copy time,
+        .art-article-card .art-article-category {
+            color: #fff !important;
+            text-shadow: 0 1px 2px #000 !important;
+        }
+
+    
+
+/* Същата подложка и типография като каретата на началната страница */
+.art-article-card::after {
+    inset: 35% 0 0 !important;
+    z-index: 2 !important;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.18) 35%,
+        rgba(0, 0, 0, 0.88) 100%
+    ) !important;
+}
+.art-article-copy {
+    position: absolute !important;
+    z-index: 3 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
     box-sizing: border-box !important;
+    width: 100% !important;
+    padding: 16px 18px !important;
+    background: rgba(18, 20, 25, 0.56) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(5px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+.art-article-card h2,
+.art-article-card .art-article-copy h2 {
+    margin: 0 !important;
+    color: #FFFFFF !important;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: clamp(18px, 1.7vw, 23px) !important;
+    font-weight: 600 !important;
+    line-height: 1.18 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35) !important;
+    opacity: 1 !important;
+}
+.art-article-card:nth-child(1) h2 { font-size: clamp(28px, 3vw, 38px) !important; }
+@media (max-width: 600px) {
+  .art-article-copy,
+  .art-article-card:nth-child(1) .art-article-copy { padding: 11px 12px !important; background: rgba(18, 20, 25, 0.48) !important; }
+  .art-article-card h2,
+  .art-article-card .art-article-copy h2 { font-size: 18px !important; line-height: 1.15 !important; }
+  .art-article-card:nth-child(1) h2 { font-size: 28px !important; }
 }
 
+
+/* === Точно пренесен финален стил на заглавията от index.html === */
+.art-article-card .art-article-copy {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 3 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  padding: 11px 12px !important;
+  background: rgba(18, 20, 25, 0.48) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  backdrop-filter: blur(5px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+.art-article-card .art-article-copy h2,
+.art-article-card h2 {
+  margin: 0 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+.art-article-card:nth-child(1) .art-article-copy h2,
+.art-article-card:nth-child(1) h2 { font-size: 28px !important; }
+.art-article-card .art-article-copy time,
+.art-article-card .art-article-copy .art-article-category {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45) !important;
+  opacity: 1 !important;
+}
+.art-article-card::after {
+  inset: 35% 0 0 !important;
+  z-index: 2 !important;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.18) 35%, rgba(0,0,0,0.88) 100%) !important;
+}
+@media (max-width: 600px) {
+  .art-article-card .art-article-copy { padding: 11px 12px !important; }
+  .art-article-card .art-article-copy h2, .art-article-card h2 { font-size: 17px !important; }
+  .art-article-card:nth-child(1) .art-article-copy h2, .art-article-card:nth-child(1) h2 { font-size: 28px !important; }
+}
+
+
+/* Корекция: запазена е първоначалната мозайка с 12 колони.
+   Заглавията са бели върху прозрачна, размита подложка. */
+.art-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+.art-articles-grid {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-rows: clamp(72px, 7.3vw, 104px) !important;
+    grid-auto-flow: dense !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+    background: transparent !important;
+    align-items: stretch !important;
+    box-sizing: border-box !important;
+}
 .art-article-card {
     position: relative !important;
     min-width: 0 !important;
@@ -3933,27 +4437,35 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
     overflow: hidden !important;
     isolation: isolate !important;
     box-sizing: border-box !important;
-    border: 1px solid #C9CDD3 !important;
-    border-radius: 0 !important;
-    background: #E2E4E7 !important;
-    grid-column: span 1;
-    grid-row: span 2;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: #222 !important;
 }
-
-/* Същата мозайкова подредба като на началната страница */
-.art-article-card:nth-child(1) { grid-column: span 2; grid-row: span 4; }
-.art-article-card:nth-child(2) { grid-column: span 2; grid-row: span 2; }
-.art-article-card:nth-child(3) { grid-column: span 1; grid-row: span 3; }
-.art-article-card:nth-child(4) { grid-column: span 1; grid-row: span 2; }
-.art-article-card:nth-child(5) { grid-column: span 2; grid-row: span 3; }
-.art-article-card:nth-child(n+6) { grid-column: span 1; grid-row: span 2; }
-.art-article-card:nth-child(7n+6) { grid-column: span 2; grid-row: span 3; }
-.art-article-card:nth-child(7n+7) { grid-column: span 1; grid-row: span 3; }
-.art-article-card:nth-child(7n+8) { grid-column: span 1; grid-row: span 2; }
-.art-article-card:nth-child(7n+9) { grid-column: span 2; grid-row: span 2; }
-.art-article-card:nth-child(7n+10) { grid-column: span 1; grid-row: span 3; }
-.art-article-card:nth-child(7n+11) { grid-column: span 1; grid-row: span 2; }
-
+.art-article-card:nth-child(8n + 1) { grid-column: span 6 !important; grid-row: span 4 !important; }
+.art-article-card:nth-child(8n + 2),
+.art-article-card:nth-child(8n + 3),
+.art-article-card:nth-child(8n + 4),
+.art-article-card:nth-child(8n + 5) { grid-column: span 3 !important; grid-row: span 2 !important; }
+.art-article-card:nth-child(8n + 6) { grid-column: span 6 !important; grid-row: span 3 !important; }
+.art-article-card:nth-child(8n + 7),
+.art-article-card:nth-child(8n + 8) { grid-column: span 3 !important; grid-row: span 2 !important; }
+.art-article-card > a {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    background: rgba(0,0,0,.04) !important;
+    border: 0 !important;
+}
 .art-article-card::before {
     content: "" !important;
     position: absolute !important;
@@ -3963,117 +4475,95 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
-    filter: blur(12px) !important;
+    filter: blur(14px) !important;
     transform: scale(1.08) !important;
-    opacity: .88 !important;
+    opacity: .9 !important;
     pointer-events: none !important;
 }
-
-.art-article-card > a {
-    position: absolute !important;
-    inset: 0 !important;
-    display: block !important;
-    z-index: 1 !important;
-    color: #FFFFFF !important;
-    text-decoration: none !important;
-}
-
 .art-article-card img {
-    position: absolute !important;
-    inset: 0 !important;
+    position: relative !important;
     z-index: 1 !important;
     display: block !important;
-    width: 100% !important;
+    width: auto !important;
     height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     object-fit: contain !important;
-    object-position: center center !important;
+    object-position: center !important;
+    flex: 0 1 auto !important;
+    margin: 0 auto !important;
     background: transparent !important;
-    transform: none;
+    transform: none !important;
     transition: transform .4s ease !important;
 }
-
-.art-article-card:hover img { transform: scale(1.04) !important; }
-
-.art-article-card > a::after {
+.art-article-card:hover img { transform: scale(1.045) !important; }
+.art-article-card::after {
     content: "" !important;
     position: absolute !important;
     inset: 25% 0 0 !important;
     z-index: 2 !important;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.18) 35%, rgba(0,0,0,.88) 100%) !important;
     pointer-events: none !important;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.12) 35%, rgba(0,0,0,.72) 100%) !important;
 }
-
-.art-article-copy {
+.art-article-card .art-article-copy {
     position: absolute !important;
     z-index: 3 !important;
-    left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    box-sizing: border-box !important;
+    left: 0 !important;
     width: 100% !important;
-    padding: 11px 12px !important;
-    background: rgba(18,20,25,.48) !important;
+    box-sizing: border-box !important;
+    padding: clamp(14px, 2vw, 24px) !important;
+    background: rgba(18,20,25,.34) !important;
     -webkit-backdrop-filter: blur(5px) !important;
     backdrop-filter: blur(5px) !important;
-    border-top: 1px solid rgba(255,255,255,.25) !important;
-    transition: background-color .25s ease !important;
-}
-.art-article-card:hover .art-article-copy { background: rgba(18,20,25,.56) !important; }
-
-.art-article-card .art-article-category,
-.art-article-card h2,
-.art-article-card time {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    border-top: 1px solid rgba(255,255,255,.22) !important;
     opacity: 1 !important;
-    text-shadow: 0 1px 4px rgba(0,0,0,.65) !important;
+    filter: none !important;
 }
-.art-article-card .art-article-category {
-    margin: 0 0 5px !important;
-    font: 600 9px/1.3 'Plus Jakarta Sans', Arial, sans-serif !important;
-    letter-spacing: .08em !important;
-    text-transform: uppercase !important;
-}
+.art-article-card .art-article-copy h2,
 .art-article-card h2 {
-    max-width: none !important;
+    max-width: 680px !important;
     margin: 0 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
     font-family: 'Cormorant Garamond', Georgia, serif !important;
-    font-size: 18px !important;
+    font-size: clamp(19px, 2.2vw, 32px) !important;
     font-weight: 600 !important;
-    line-height: 1.15 !important;
+    line-height: 1.08 !important;
     overflow-wrap: anywhere !important;
-    text-wrap: pretty !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,.45) !important;
+    opacity: 1 !important;
+    filter: none !important;
 }
-.art-article-card:nth-child(1) h2 { font-size: 34px !important; }
-.art-article-card time {
-    display: block !important;
-    margin-top: 6px !important;
-    font: 500 9px/1.4 'Plus Jakarta Sans', Arial, sans-serif !important;
+.art-article-card:nth-child(8n + 2) h2,
+.art-article-card:nth-child(8n + 3) h2,
+.art-article-card:nth-child(8n + 4) h2,
+.art-article-card:nth-child(8n + 5) h2,
+.art-article-card:nth-child(8n + 7) h2,
+.art-article-card:nth-child(8n + 8) h2 { font-size: clamp(17px, 1.55vw, 23px) !important; }
+.art-article-card .art-article-copy time { display: none !important; }
+.art-article-card .art-article-category { display: none !important; }
+@media (max-width: 760px) {
+    .art-page { width: calc(100% - 28px) !important; }
+    .art-articles-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; grid-auto-rows: 105px !important; gap: 8px !important; }
+    .art-article-card:nth-child(n) { grid-column: span 1 !important; grid-row: span 2 !important; }
+    .art-article-card:nth-child(5n + 1),
+    .art-article-card:nth-child(5n + 4) { grid-column: span 2 !important; grid-row: span 2 !important; }
+    .art-article-card .art-article-copy { padding: 13px !important; }
+    .art-article-card .art-article-copy h2,
+    .art-article-card h2 { font-size: clamp(17px, 4.2vw, 23px) !important; }
+    .art-article-card:nth-child(5n + 1) h2,
+    .art-article-card:nth-child(5n + 4) h2 { font-size: clamp(20px, 5vw, 27px) !important; }
 }
-
-@media (min-width: 601px) and (max-width: 900px) {
-    .art-articles-grid { grid-template-columns: repeat(4,minmax(0,1fr)) !important; grid-auto-rows: 90px !important; gap: 6px !important; padding: 6px !important; }
-    .art-article-card h2 { font-size: 17px !important; }
-    .art-article-card:nth-child(1) h2 { font-size: 29px !important; }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 420px) {
     .art-page { width: calc(100% - 20px) !important; }
-    .art-articles-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; grid-auto-rows: 85px !important; gap: 5px !important; padding: 5px !important; }
-    .art-article-card:nth-child(n) { grid-column: span 1; grid-row: span 2; }
-    .art-article-card:nth-child(1) { grid-column: span 2; grid-row: span 3; }
-    .art-article-card:nth-child(2) { grid-column: span 2; grid-row: span 2; }
-    .art-article-card:nth-child(3) { grid-column: span 1; grid-row: span 2; }
-    .art-article-card:nth-child(4) { grid-column: span 1; grid-row: span 3; }
-    .art-article-card:nth-child(5) { grid-column: span 2; grid-row: span 2; }
-    .art-article-copy { padding: 10px 11px !important; }
-    .art-article-card h2 { font-size: 18px !important; }
-    .art-article-card:nth-child(1) h2 { font-size: 28px !important; }
+    .art-articles-grid { grid-auto-rows: 88px !important; gap: 6px !important; }
+    .art-article-card .art-article-copy { padding: 10px !important; }
+    .art-article-card .art-article-copy h2,
+    .art-article-card h2 { font-size: 17px !important; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .art-article-card img { transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { .art-article-card img { transition: none !important; } }
 
 </style>
 </head>
@@ -4431,19 +4921,7 @@ const root = document.getElementById('art-articles');
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
 function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
-// Премахваме само етикета „Книги и култура“ в началото на заглавието.
-// Категорийният етикет и останалият текст остават непроменени.
-function cleanArticleTitle(v) {
-  return String(v ?? '')
-    .replace(/^\s*книги\s+и\s+култура\s*[:|–—-]?\s*/i, '')
-    .trim();
-}
-function renderCard(a) {
-  const img = a.image_url || FALLBACK_IMAGE;
-  const title = cleanArticleTitle(a.title);
-  const category = String(a.category || 'Арт').trim();
-  return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(category)}</div><h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
-}
+function renderCard(a) { const img = a.image_url || FALLBACK_IMAGE; return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy"><div class="art-article-copy"><h2>${esc(a.title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`; }
 try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
