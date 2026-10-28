@@ -4431,9 +4431,19 @@ const root = document.getElementById('art-articles');
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
 function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
-// Премахваме само началния етикет „Книги и култура“ от показваното заглавие; данните в Supabase не се променят.
-function cleanArticleTitle(v) { return String(v ?? '').replace(/^\s*книги\s+и\s+култура\s*[:|–—-]?\s*/i, '').trim(); }
-function renderCard(a) { const img = a.image_url || FALLBACK_IMAGE; const title = cleanArticleTitle(a.title); return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(a.category || 'Арт')}</div><h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`; }
+// Премахваме само етикета „Книги и култура“ в началото на заглавието.
+// Категорийният етикет и останалият текст остават непроменени.
+function cleanArticleTitle(v) {
+  return String(v ?? '')
+    .replace(/^\s*книги\s+и\s+култура\s*[:|–—-]?\s*/i, '')
+    .trim();
+}
+function renderCard(a) {
+  const img = a.image_url || FALLBACK_IMAGE;
+  const title = cleanArticleTitle(a.title);
+  const category = String(a.category || 'Арт').trim();
+  return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(category)}</div><h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
+}
 try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
   if (error) throw error;
