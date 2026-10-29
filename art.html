@@ -4443,7 +4443,7 @@ function renderCard(a) {
   const img = a.image_url || FALLBACK_IMAGE;
   const title = cleanArticleTitle(a.title);
 const category = String(a.category || 'Арт').trim();
-  return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy"><div class="art-article-category">${esc(category)}</div><h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
+  return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy">${category.toLowerCase() === 'книги и култура' ? '' : `<div class="art-article-category">${esc(category)}</div>`}<h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
 }
 try {
   const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
