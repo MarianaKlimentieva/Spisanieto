@@ -884,7 +884,6 @@
     font-weight: 400 !important;
 }
     </style>
-    <link rel="stylesheet" href="mobile-opinions-fix.css?v=20261025-4">
 </head>
 
 <body>
@@ -1334,7 +1333,7 @@
                     const name = opinion.author_name || 'Автор';
                     const date = formatDate(opinion.created_at);
 
-                 const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}`;
+                    const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}`;
                     const shareText = `Мнение на ${name}: „${opinion.quote}“`;
 
                     return `
@@ -1358,7 +1357,7 @@
                                 <div class="opinion-share" aria-label="Споделяне на мнението">
                                     <span class="opinion-share-label">Сподели:</span>
                                     <a
-                                    href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"
+                                        href="https://www.facebook.com/sharer/sharer.php?${new URLSearchParams({ u: shareUrl }).toString()}"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Сподели във Facebook"
@@ -1387,24 +1386,11 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
     quote.style.setProperty('font-family', '"Cormorant Garamond", Georgia, serif', 'important');
 });
                 observeOpinionViews();
-const targetId = decodeURIComponent(window.location.hash.slice(1));
 
-if (targetId.startsWith('opinion-')) {
-    setTimeout(() => {
-        const target = document.getElementById(targetId);
-
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }, 250);
-}
                 list.querySelectorAll('[data-copy-opinion]').forEach(button => {
                     button.addEventListener('click', async () => {
                         const opinionId = button.dataset.copyOpinion;
-                      const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}`;
+                        const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinionId)}`;
 
                         try {
                             await navigator.clipboard.writeText(shareUrl);
@@ -1469,6 +1455,6 @@ if (targetId.startsWith('opinion-')) {
             }
         })();
     </script>
-<script src="cookie-consent.js"></script>
+
 </body>
 </html>
