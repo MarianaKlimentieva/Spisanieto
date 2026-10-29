@@ -4435,7 +4435,8 @@ function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.is
 // Категорийният етикет и останалият текст остават непроменени.
 function cleanArticleTitle(v) {
   return String(v ?? '')
-    .replace(/^\s*книги\s+и\s+култура\s*[:|–—-]?\s*/i, '')
+    .replace(/книги\s+и\s+култура\s*[:|–—-]?\s*/ig, '')
+    .replace(/^[\s:|–—-]+|[\s:|–—-]+$/g, '')
     .trim();
 }
 function renderCard(a) {
