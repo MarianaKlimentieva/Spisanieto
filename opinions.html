@@ -1350,7 +1350,11 @@ function scrollToOpinionFromHash() {
                     const name = opinion.author_name || 'Автор';
                     const date = formatDate(opinion.created_at);
 
-                    const shareUrl = `https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=${encodeURIComponent(opinion.id)}`;
+                   const sharePreviewUrl =
+    'https://spisanieto-share.spisanieto-news.workers.dev/?type=opinion&id=' +
+    encodeURIComponent(opinion.id);
+
+const shareUrl = sharePreviewUrl;
                     const shareText = `Мнение на ${name}: „${opinion.quote}“`;
 
                     return `
