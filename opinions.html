@@ -1146,7 +1146,24 @@
         setInterval(loadSofiaWeather, 15 * 60 * 1000);
 
         /* МНЕНИЯ И КОМЕНТАРИ */
+/* ПРЕВЪРТАНЕ ДО КОНКРЕТНО МНЕНИЕ ПРИ ОТВАРЯНЕ НА ЛИНК */
 
+function scrollToOpinionFromHash() {
+    const hash = window.location.hash;
+
+    if (!hash || !hash.startsWith('#opinion-')) return;
+
+    const opinionId = decodeURIComponent(hash.substring(1));
+
+    const opinionElement = document.getElementById(opinionId);
+
+    if (opinionElement) {
+        opinionElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
         (async function loadOpinionsPage() {
             const feature = document.getElementById('opinion-feature-content');
             const list = document.getElementById('opinions-list');
