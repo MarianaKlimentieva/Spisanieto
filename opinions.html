@@ -1464,6 +1464,9 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
                 );
 
                 renderList();
+                requestAnimationFrame(function () {
+    setTimeout(scrollToOpinionFromHash, 300);
+});
             } catch (error) {
                 console.error('Грешка при зареждане на мненията:', error);
 
