@@ -1325,17 +1325,38 @@ async function loadArticle() {
         encodeURIComponent(articleId);
 
 
-    const encodedSharePreviewUrl =
-        encodeURIComponent(
-            sharePreviewUrl
-        );
+    /* Facebook: копира линка към Worker-а, който съдържа
+       правилните заглавие, описание и снимка за визуализация. */
+    const facebookButton =
+        document.getElementById('share-facebook');
 
+    facebookButton.href =
+        sharePreviewUrl;
 
-    document.getElementById(
-        'share-facebook'
-    ).href =
-        'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodedSharePreviewUrl;
+    facebookButton.onclick = async function(event) {
+
+        event.preventDefault();
+
+        try {
+
+            await navigator.clipboard.writeText(
+                sharePreviewUrl
+            );
+
+            alert(
+                'Линкът към новината е копиран. Постави го в нова публикация във Facebook.'
+            );
+
+        } catch (error) {
+
+            window.prompt(
+                'Копирай линка към новината:',
+                sharePreviewUrl
+            );
+
+        }
+
+    };
 
 
     document.getElementById(
