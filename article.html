@@ -1320,43 +1320,26 @@ async function loadArticle() {
         );
 
 
+    /* ==========================================
+       FACEBOOK СПОДЕЛЯНЕ ЧРЕЗ CLOUDFLARE WORKER
+       ========================================== */
+
     const sharePreviewUrl =
         'https://spisanieto-share.spisanieto-news.workers.dev/?id=' +
         encodeURIComponent(articleId);
 
 
-    /* Facebook: копира линка към Worker-а, който съдържа
-       правилните заглавие, описание и снимка за визуализация. */
     const facebookButton =
         document.getElementById('share-facebook');
 
     facebookButton.href =
-        sharePreviewUrl;
+        'https://www.facebook.com/sharer/sharer.php?u=' +
+        encodeURIComponent(sharePreviewUrl);
 
-    facebookButton.onclick = async function(event) {
+    facebookButton.target = '_blank';
+    facebookButton.rel = 'noopener noreferrer';
 
-        event.preventDefault();
-
-        try {
-
-            await navigator.clipboard.writeText(
-                sharePreviewUrl
-            );
-
-            alert(
-                'Линкът към новината е копиран. Постави го в нова публикация във Facebook.'
-            );
-
-        } catch (error) {
-
-            window.prompt(
-                'Копирай линка към новината:',
-                sharePreviewUrl
-            );
-
-        }
-
-    };
+    facebookButton.onclick = null;
 
 
     document.getElementById(
