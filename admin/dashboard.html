@@ -193,7 +193,47 @@ imageFile.addEventListener('change',function(){const f=this.files?.[0];if(!f){im
 galleryFiles.addEventListener('change',function(){galleryPreview.innerHTML='';for(const f of Array.from(this.files||[])){if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type))continue;const item=document.createElement('div');item.className='gallery-preview-item';const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt=f.name;const name=document.createElement('div');name.className='gallery-preview-name';name.textContent=f.name;item.append(img,name);galleryPreview.appendChild(item);}});
 opinionAvatar.addEventListener('change',function(){const f=this.files?.[0];if(!f){opinionImagePreview.style.display='none';opinionImagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){opinionMessage.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}opinionImagePreviewImage.src=URL.createObjectURL(f);opinionImagePreview.style.display='block';opinionMessage.textContent='';});
 opinionTopicImage.addEventListener('change',function(){const f=this.files?.[0];if(!f){opinionTopicImagePreview.style.display='none';opinionTopicImagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){opinionMessage.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}opinionTopicImagePreviewImage.src=URL.createObjectURL(f);opinionTopicImagePreview.style.display='block';opinionMessage.textContent='';});
-async function uploadOpinionImage(file){if(!file)return null;const types=['image/jpeg','image/png','image/webp','image/gif'];if(!types.includes(file.type))throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');if(file.size>10*1024*1024)throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');const ext=file.name.includes('.')?file.name.split('.').pop().toLowerCase():'jpg';const path='opinions/'+Date.now()+'-'+crypto.randomUUID()+'.'+(ext==='jpeg'?'jpg':ext);const {data,error}=await supabase.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'31536000',contentType:file.type,upsert:false});if(error)throw Error('Снимката не можа да бъде качена: '+error.message);return supabase.storage.from(STORAGE_BUCKET).getPublicUrl(data.path).data.publicUrl;}
+async function uploadOpinionImage(file) {
+  if (!file) return null;
+
+  const types = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+  if (!types.includes(file.type)) {
+    throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');
+  }
+
+  const optimizedFile = await optimizeImage(file);
+
+  const ext = optimizedFile.type === 'image/webp'
+    ? 'webp'
+    : optimizedFile.type === 'image/png'
+      ? 'png'
+      : optimizedFile.type === 'image/gif'
+        ? 'gif'
+        : 'jpg';
+
+  const path = 'opinions/' + Date.now() + '-' + crypto.randomUUID() + '.' + ext;
+
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(path, optimizedFile, {
+      cacheControl: '31536000',
+      contentType: optimizedFile.type,
+      upsert: false
+    });
+
+  if (error) {
+    throw Error('Снимката не можа да бъде качена: ' + error.message);
+  }
+
+  return supabase.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(data.path).data.publicUrl;
+}
 function getStoragePathFromUrl(url){if(!url)return null;const marker='/storage/v1/object/public/'+STORAGE_BUCKET+'/';const i=url.indexOf(marker);if(i<0)return null;try{return decodeURIComponent(url.substring(i+marker.length));}catch{return url.substring(i+marker.length);}}
 async function deleteStorageImage(url){const path=getStoragePathFromUrl(url);if(!path)return;const {error}=await supabase.storage.from(STORAGE_BUCKET).remove([path]);if(error)throw Error(error.message);}
 async function uploadGalleryImages(newsId,files){const selected=Array.from(files||[]);if(!selected.length)return;const {data:existing,error}=await supabase.from('news_images').select('sort_order').eq('news_id',newsId).order('sort_order',{ascending:false}).limit(1);if(error)throw Error('Не можа да бъде проверен редът на галерията: '+error.message);let next=existing?.length?Number(existing[0].sort_order||0)+1:0;for(let i=0;i<selected.length;i++){message.textContent=`Качване на допълнителна снимка ${i+1} от ${selected.length}...`;const imageUrl=await uploadImage(selected[i]);const {error:insertError}=await supabase.from('news_images').insert({news_id:newsId,image_url:imageUrl,sort_order:next+i});if(insertError)throw Error('Снимката е качена, но не можа да бъде добавена към галерията: '+insertError.message);}}
