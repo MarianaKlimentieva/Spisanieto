@@ -87,7 +87,106 @@ function getEditorHtml(){return sanitizeEditorHtml(contentEditor.innerHTML);}fun
 function getYouTubeVideoId(value){try{const u=new URL(String(value||'').trim());const host=u.hostname.toLowerCase().replace(/^www\./,'').replace(/^m\./,'');let id='';if(host==='youtu.be')id=u.pathname.split('/').filter(Boolean)[0]||'';else if(host==='youtube.com'||host==='youtube-nocookie.com'){if(u.pathname==='/watch')id=u.searchParams.get('v')||'';else{const m=u.pathname.match(/^\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{11})\/?$/);id=m?m[1]:'';}}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null;}catch{return null;}}
 function insertHtmlIntoEditor(html){contentEditor.focus();if(savedSelection&&contentEditor.contains(savedSelection.commonAncestorContainer)){try{restoreSelection();}catch{savedSelection=null;}}if(!savedSelection||!contentEditor.contains(savedSelection.commonAncestorContainer)){const r=document.createRange();r.selectNodeContents(contentEditor);r.collapse(false);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}document.execCommand('insertHTML',false,html);contentEditor.focus();saveSelection();}
 insertYoutubeVideoButton.addEventListener('click',()=>{const id=getYouTubeVideoId(youtubeUrlInput.value);if(!id){videoUploadStatus.textContent='Постави валиден линк към YouTube видео.';youtubeUrlInput.focus();return;}insertHtmlIntoEditor(`<p><br></p><div class="article-video-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="YouTube видео" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p><br></p>`);youtubeUrlInput.value='';videoUploadStatus.textContent='YouTube видеото е добавено в текста. Запази новината, за да се публикува.';});
-async function uploadImage(file){if(!file)return null;const types=['image/jpeg','image/png','image/webp','image/gif'];if(!types.includes(file.type))throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');if(file.size>10*1024*1024)throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');const ext=file.name.includes('.')?file.name.split('.').pop().toLowerCase():'jpg';const path='news/'+Date.now()+'-'+crypto.randomUUID()+'.'+(ext==='jpeg'?'jpg':ext);const {data,error}=await supabase.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'31536000',contentType:file.type,upsert:false});if(error)throw Error('Снимката не можа да бъде качена: '+error.message);const {data:pub}=supabase.storage.from(STORAGE_BUCKET).getPublicUrl(data.path);if(!pub?.publicUrl)throw Error('Не беше получен публичен URL на снимката.');return pub.publicUrl;}
+async function optimizeImage(file) {
+  if (!file) return null;
+
+  // GIF файловете се запазват, за да не се загуби анимацията.
+  if (file.type === 'image/gif') return file;
+
+  if (typeof createImageBitmap !== 'function') return file;
+
+  let bitmap;
+
+  try {
+    bitmap = await createImageBitmap(file);
+
+    const maxWidth = 1600;
+    const scale = Math.min(1, maxWidth / bitmap.width);
+
+    const width = Math.round(bitmap.width * scale);
+    const height = Math.round(bitmap.height * scale);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return file;
+
+    ctx.drawImage(bitmap, 0, 0, width, height);
+
+    const optimizedBlob = await new Promise(resolve => {
+      canvas.toBlob(resolve, 'image/webp', 0.82);
+    });
+
+    if (!optimizedBlob || optimizedBlob.size >= file.size) {
+      return file;
+    }
+
+    return new File(
+      [optimizedBlob],
+      file.name.replace(/\.[^.]+$/, '') + '.webp',
+      {
+        type: 'image/webp',
+        lastModified: Date.now()
+      }
+    );
+
+  } catch (error) {
+    console.warn('Оптимизацията на снимката не бе успешна:', error);
+    return file;
+  } finally {
+    if (bitmap) bitmap.close();
+  }
+}
+
+async function uploadImage(file) {
+  if (!file) return null;
+
+  const types = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+  if (!types.includes(file.type)) {
+    throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');
+  }
+
+  const optimizedFile = await optimizeImage(file);
+
+  const ext = optimizedFile.type === 'image/webp'
+    ? 'webp'
+    : optimizedFile.type === 'image/png'
+      ? 'png'
+      : optimizedFile.type === 'image/gif'
+        ? 'gif'
+        : 'jpg';
+
+  const path = 'news/' + Date.now() + '-' + crypto.randomUUID() + '.' + ext;
+
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(path, optimizedFile, {
+      cacheControl: '31536000',
+      contentType: optimizedFile.type,
+      upsert: false
+    });
+
+  if (error) {
+    throw Error('Снимката не можа да бъде качена: ' + error.message);
+  }
+
+  const { data: pub } = supabase.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(data.path);
+
+  if (!pub?.publicUrl) {
+    throw Error('Не беше получен публичен URL на снимката.');
+  }
+
+  return pub.publicUrl;
+}
 async function uploadVideo(file){if(!file)throw Error('Първо избери видеофайл.');const types={'video/mp4':'mp4','video/webm':'webm','video/ogg':'ogv'};if(!types[file.type])throw Error('Използвай MP4, WebM или Ogg видео.');if(file.size>50*1024*1024)throw Error('Файлът е над 50 MB. Избери по-малко видео.');const path='news/video-'+Date.now()+'-'+crypto.randomUUID()+'.'+types[file.type];const {data,error}=await supabase.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'31536000',contentType:file.type,upsert:false});if(error)throw Error(error.message);const {data:pub}=supabase.storage.from(STORAGE_BUCKET).getPublicUrl(data.path);if(!pub?.publicUrl)throw Error('Не беше получен публичен адрес на видеото.');return pub.publicUrl;}
 uploadVideoButton.addEventListener('click',async()=>{const file=videoFile.files?.[0];uploadVideoButton.disabled=true;try{videoUploadStatus.textContent='Качване на видеото...';const url=await uploadVideo(file);const type=file.type;insertHtmlIntoEditor(`<p><br></p><video class="article-video-file" controls playsinline preload="metadata"><source src="${escapeHtml(url)}" type="${type}"></video><p><br></p>`);videoFile.value='';videoUploadStatus.textContent='Видеото е качено и добавено в текста. Запази новината, за да се публикува.';}catch(error){console.error(error);videoUploadStatus.textContent='Видеото не можа да бъде качено: '+(error.message||'неизвестна грешка');}finally{uploadVideoButton.disabled=false;}});
 imageFile.addEventListener('change',function(){const f=this.files?.[0];if(!f){imagePreview.style.display='none';imagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){message.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}imagePreviewImage.src=URL.createObjectURL(f);imagePreview.style.display='block';message.textContent='';});
