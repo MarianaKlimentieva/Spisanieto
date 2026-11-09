@@ -59,200 +59,1253 @@
 </form><div class="opinion-section-divider"></div><h2>Добавени мнения</h2><div id="opinionsAdminList" class="opinions-admin-list"><div class="loading">Зареждане на мненията...</div></div>
 </section>
 </main>
+
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
-const SUPABASE_URL='https://hxvflentlaktgwimsevc.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-const STORAGE_BUCKET='news-images';
-const $=id=>document.getElementById(id);
-const form=$('newsForm'),message=$('message'),logout=$('logout'),newsList=$('newsList'),formTitle=$('formTitle'),saveButton=$('saveButton'),cancelEdit=$('cancelEdit'),imageFile=$('image_file'),imagePreview=$('imagePreview'),imagePreviewImage=$('imagePreviewImage'),currentImage=$('currentImage'),currentImagePreview=$('currentImagePreview'),galleryFiles=$('gallery_files'),galleryPreview=$('galleryPreview'),existingGallery=$('existingGallery'),existingGalleryGrid=$('existingGalleryGrid'),contentEditor=$('contentEditor'),content=$('content'),addLinkButton=$('addLink'),removeLinkButton=$('removeLink'),removeFormattingButton=$('removeFormatting'),editorAlign=$('editorAlign'),featuredCheckbox=$('is_featured'),focusCheckbox=$('is_focus'),videoFile=$('video_file'),youtubeUrlInput=$('youtubeUrl'),insertYoutubeVideoButton=$('insertYoutubeVideo'),uploadVideoButton=$('uploadVideoButton'),videoUploadStatus=$('videoUploadStatus');
-const opinionForm=$('opinionForm'),opinionQuote=$('opinionQuote'),opinionAuthor=$('opinionAuthor'),opinionAvatar=$('opinionAvatar'),opinionPublished=$('opinionPublished'),opinionSaveButton=$('opinionSaveButton'),opinionCancelButton=$('opinionCancelButton'),opinionMessage=$('opinionMessage'),opinionsAdminList=$('opinionsAdminList'),opinionFormTitle=$('opinionFormTitle'),opinionCurrentImage=$('opinionCurrentImage'),opinionCurrentImagePreview=$('opinionCurrentImagePreview'),opinionImagePreview=$('opinionImagePreview'),opinionImagePreviewImage=$('opinionImagePreviewImage'),opinionTopicImage=$('opinionTopicImage'),opinionCurrentTopicImage=$('opinionCurrentTopicImage'),opinionCurrentTopicImagePreview=$('opinionCurrentTopicImagePreview'),opinionTopicImagePreview=$('opinionTopicImagePreview'),opinionTopicImagePreviewImage=$('opinionTopicImagePreviewImage');
-let editingId=null,currentImageUrl='',savedSelection=null,editingOpinionId=null,currentOpinionAvatarUrl='',currentOpinionTopicImageUrl='';
-const {data:{session}}=await supabase.auth.getSession();if(!session)window.location.href='index.html';
-function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-function formatDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleDateString('bg-BG',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function saveSelection(){const s=window.getSelection();if(s&&s.rangeCount){const r=s.getRangeAt(0);if(contentEditor.contains(r.commonAncestorContainer))savedSelection=r.cloneRange();}}
-function restoreSelection(){if(!savedSelection)return;const s=window.getSelection();s.removeAllRanges();s.addRange(savedSelection);}
-contentEditor.addEventListener('mouseup',saveSelection);contentEditor.addEventListener('keyup',saveSelection);contentEditor.addEventListener('blur',saveSelection);
-document.querySelectorAll('.editor-button[data-command],.editor-button[data-format]').forEach(button=>{button.addEventListener('mousedown',e=>e.preventDefault());button.addEventListener('click',()=>{restoreSelection();if(button.dataset.command)document.execCommand(button.dataset.command,false,null);if(button.dataset.format)document.execCommand('formatBlock',false,button.dataset.format);contentEditor.focus();saveSelection();});});
-removeFormattingButton.addEventListener('mousedown',e=>e.preventDefault());removeFormattingButton.addEventListener('click',()=>{restoreSelection();document.execCommand('removeFormat',false,null);contentEditor.focus();saveSelection();});
-editorAlign.addEventListener('change',function(){if(!this.value)return;restoreSelection();document.execCommand(this.value,false,null);contentEditor.focus();saveSelection();this.value='';});
-addLinkButton.addEventListener('mousedown',e=>e.preventDefault());addLinkButton.addEventListener('click',()=>{restoreSelection();const selection=window.getSelection();if(!selection||!selection.rangeCount||!selection.toString().trim()){alert('Първо маркирай думата или изречението, което искаш да направиш линк.');contentEditor.focus();return;}const input=prompt('Въведи адреса на линка:','https://');if(!input){contentEditor.focus();return;}let url=input.trim();if(!/^(https?:\/\/|mailto:|tel:)/i.test(url))url='https://'+url;try{const parsed=new URL(url);if(!['http:','https:','mailto:','tel:'].includes(parsed.protocol))throw Error();}catch{alert('Моля, въведи валиден адрес.');contentEditor.focus();return;}document.execCommand('createLink',false,url);contentEditor.querySelectorAll('a').forEach(a=>{if(a.getAttribute('href')===url){a.setAttribute('target','_blank');a.setAttribute('rel','noopener noreferrer');}});contentEditor.focus();saveSelection();});
-removeLinkButton.addEventListener('mousedown',e=>e.preventDefault());removeLinkButton.addEventListener('click',()=>{restoreSelection();document.execCommand('unlink',false,null);contentEditor.focus();saveSelection();});
-function plainTextToHtml(text){if(!text)return '';return String(text).split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${escapeHtml(p).replace(/\n/g,'<br>')}</p>`).join('');}
-function sanitizeEditorHtml(html){const clean=DOMPurify.sanitize(html||'',{ALLOWED_TAGS:['p','div','br','strong','b','em','i','u','a','h2','h3','ul','ol','li','blockquote','iframe','video','source'],ALLOWED_ATTR:['href','target','rel','style','src','type','class','title','allow','allowfullscreen','frameborder','loading','referrerpolicy','width','height','controls','playsinline','preload','poster'],ALLOW_DATA_ATTR:false});const box=document.createElement('div');box.innerHTML=clean;box.querySelectorAll('iframe').forEach(frame=>{try{const u=new URL(frame.getAttribute('src')||'');if(u.protocol!=='https:'||!['youtube-nocookie.com','www.youtube-nocookie.com'].includes(u.hostname)||!/^\/embed\/[A-Za-z0-9_-]{11}\/?$/.test(u.pathname)){frame.remove();return;}frame.setAttribute('title','YouTube видео');frame.setAttribute('loading','lazy');frame.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');frame.setAttribute('allowfullscreen','');frame.setAttribute('referrerpolicy','strict-origin-when-cross-origin');}catch{frame.remove();}});function approvedVideoUrl(value){try{const u=new URL(value||'',location.href);return u.protocol==='https:'&&u.origin===new URL(SUPABASE_URL).origin&&u.pathname.startsWith('/storage/v1/object/public/'+STORAGE_BUCKET+'/news/video-');}catch{return false;}}box.querySelectorAll('video').forEach(v=>{if(v.hasAttribute('src')&&!approvedVideoUrl(v.getAttribute('src')))v.removeAttribute('src');v.querySelectorAll('source').forEach(s=>{if(!approvedVideoUrl(s.getAttribute('src')))s.remove();});const direct=approvedVideoUrl(v.getAttribute('src'));const child=[...v.querySelectorAll('source')].some(s=>approvedVideoUrl(s.getAttribute('src')));if(!direct&&!child){v.remove();return;}v.setAttribute('controls','');v.setAttribute('playsinline','');v.setAttribute('preload','metadata');v.classList.add('article-video-file');});return box.innerHTML;}
-function getEditorHtml(){return sanitizeEditorHtml(contentEditor.innerHTML);}function getEditorText(){return contentEditor.innerText.replace(/\u00a0/g,' ').trim();}
-function getYouTubeVideoId(value){try{const u=new URL(String(value||'').trim());const host=u.hostname.toLowerCase().replace(/^www\./,'').replace(/^m\./,'');let id='';if(host==='youtu.be')id=u.pathname.split('/').filter(Boolean)[0]||'';else if(host==='youtube.com'||host==='youtube-nocookie.com'){if(u.pathname==='/watch')id=u.searchParams.get('v')||'';else{const m=u.pathname.match(/^\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{11})\/?$/);id=m?m[1]:'';}}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null;}catch{return null;}}
-function insertHtmlIntoEditor(html){contentEditor.focus();if(savedSelection&&contentEditor.contains(savedSelection.commonAncestorContainer)){try{restoreSelection();}catch{savedSelection=null;}}if(!savedSelection||!contentEditor.contains(savedSelection.commonAncestorContainer)){const r=document.createRange();r.selectNodeContents(contentEditor);r.collapse(false);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}document.execCommand('insertHTML',false,html);contentEditor.focus();saveSelection();}
-insertYoutubeVideoButton.addEventListener('click',()=>{const id=getYouTubeVideoId(youtubeUrlInput.value);if(!id){videoUploadStatus.textContent='Постави валиден линк към YouTube видео.';youtubeUrlInput.focus();return;}insertHtmlIntoEditor(`<p><br></p><div class="article-video-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="YouTube видео" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p><br></p>`);youtubeUrlInput.value='';videoUploadStatus.textContent='YouTube видеото е добавено в текста. Запази новината, за да се публикува.';});
-async function optimizeImage(file) {
-  if (!file) return null;
 
-  // GIF файловете се запазват, за да не се загуби анимацията.
-  if (file.type === 'image/gif') return file;
+const API_BASE = 'https://spisanieto-api.spisanieto-news.workers.dev';
+const SUPABASE_URL = 'https://hxvflentlaktgwimsevc.supabase.co';
+const STORAGE_BUCKET = 'news-images';
 
-  if (typeof createImageBitmap !== 'function') return file;
+const $ = id => document.getElementById(id);
 
-  let bitmap;
+const form = $('newsForm');
+const message = $('message');
+const logout = $('logout');
+const newsList = $('newsList');
+const formTitle = $('formTitle');
+const saveButton = $('saveButton');
+const cancelEdit = $('cancelEdit');
 
-  try {
-    bitmap = await createImageBitmap(file);
+const imageFile = $('image_file');
+const imagePreview = $('imagePreview');
+const imagePreviewImage = $('imagePreviewImage');
+const currentImage = $('currentImage');
+const currentImagePreview = $('currentImagePreview');
 
-    const maxWidth = 1600;
-    const scale = Math.min(1, maxWidth / bitmap.width);
+const galleryFiles = $('gallery_files');
+const galleryPreview = $('galleryPreview');
+const existingGallery = $('existingGallery');
+const existingGalleryGrid = $('existingGalleryGrid');
 
-    const width = Math.round(bitmap.width * scale);
-    const height = Math.round(bitmap.height * scale);
+const contentEditor = $('contentEditor');
+const content = $('content');
+const addLinkButton = $('addLink');
+const removeLinkButton = $('removeLink');
+const removeFormattingButton = $('removeFormatting');
+const editorAlign = $('editorAlign');
 
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+const featuredCheckbox = $('is_featured');
+const focusCheckbox = $('is_focus');
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return file;
+const videoFile = $('video_file');
+const youtubeUrlInput = $('youtubeUrl');
+const insertYoutubeVideoButton = $('insertYoutubeVideo');
+const uploadVideoButton = $('uploadVideoButton');
+const videoUploadStatus = $('videoUploadStatus');
 
-    ctx.drawImage(bitmap, 0, 0, width, height);
+const opinionForm = $('opinionForm');
+const opinionQuote = $('opinionQuote');
+const opinionAuthor = $('opinionAuthor');
+const opinionAvatar = $('opinionAvatar');
+const opinionPublished = $('opinionPublished');
+const opinionSaveButton = $('opinionSaveButton');
+const opinionCancelButton = $('opinionCancelButton');
+const opinionMessage = $('opinionMessage');
+const opinionsAdminList = $('opinionsAdminList');
+const opinionFormTitle = $('opinionFormTitle');
 
-    const optimizedBlob = await new Promise(resolve => {
-      canvas.toBlob(resolve, 'image/webp', 0.82);
+const opinionCurrentImage = $('opinionCurrentImage');
+const opinionCurrentImagePreview = $('opinionCurrentImagePreview');
+const opinionImagePreview = $('opinionImagePreview');
+const opinionImagePreviewImage = $('opinionImagePreviewImage');
+
+const opinionTopicImage = $('opinionTopicImage');
+const opinionCurrentTopicImage = $('opinionCurrentTopicImage');
+const opinionCurrentTopicImagePreview = $('opinionCurrentTopicImagePreview');
+const opinionTopicImagePreview = $('opinionTopicImagePreview');
+const opinionTopicImagePreviewImage = $('opinionTopicImagePreviewImage');
+
+let adminToken = sessionStorage.getItem('spisanieto_admin_token');
+let editingId = null;
+let editingPublished = true;
+let currentImageUrl = '';
+let savedSelection = null;
+let editingOpinionId = null;
+let currentOpinionAvatarUrl = '';
+let currentOpinionTopicImageUrl = '';
+let newsCache = [];
+let opinionsCache = [];
+
+/* -------------------------
+   АВТЕНТИКАЦИЯ
+------------------------- */
+
+function createLoginScreen() {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+
+        overlay.id = 'adminLoginOverlay';
+        overlay.style.cssText = `
+            position:fixed;inset:0;z-index:99999;
+            background:#f7f6f2;display:flex;
+            align-items:center;justify-content:center;
+            padding:20px;font-family:Arial,sans-serif;
+        `;
+
+        overlay.innerHTML = `
+            <form id="adminLoginForm" style="
+                width:100%;max-width:380px;background:#fff;
+                padding:32px;border:1px solid #ddd;
+                border-radius:8px;
+            ">
+                <h2 style="text-align:center;margin:0 0 24px">
+                    СПИСАНИЕТО.
+                </h2>
+                <label for="adminPassword">Администраторска парола</label>
+                <input id="adminPassword" type="password"
+                    autocomplete="current-password" required
+                    style="width:100%;padding:13px;margin-top:8px;
+                    margin-bottom:16px;border:1px solid #ccc;
+                    border-radius:4px;box-sizing:border-box">
+                <button type="submit" style="
+                    width:100%;padding:13px;background:#681638;
+                    color:#fff;border:0;border-radius:4px;
+                    cursor:pointer;font-size:15px">
+                    Вход
+                </button>
+                <p id="adminLoginMessage"
+                    style="color:#a21f5a;text-align:center"></p>
+            </form>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const loginForm = $('adminLoginForm');
+        const passwordInput = $('adminPassword');
+        const loginMessage = $('adminLoginMessage');
+
+        passwordInput.focus();
+
+        loginForm.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            const button = loginForm.querySelector('button');
+            button.disabled = true;
+            button.textContent = 'Проверка...';
+            loginMessage.textContent = '';
+
+            try {
+                const response = await fetch(API_BASE + '/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: passwordInput.value
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.token) {
+                    throw Error(result.error || 'Невалидна парола.');
+                }
+
+                adminToken = result.token;
+                sessionStorage.setItem('spisanieto_admin_token', adminToken);
+
+                overlay.remove();
+                resolve();
+            } catch (error) {
+                loginMessage.textContent = error.message;
+                passwordInput.value = '';
+                passwordInput.focus();
+                button.disabled = false;
+                button.textContent = 'Вход';
+            }
+        });
+    });
+}
+
+async function api(path, options = {}) {
+    const headers = {
+        ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+        ...(adminToken ? { 'Authorization': 'Bearer ' + adminToken } : {}),
+        ...(options.headers || {})
+    };
+
+    const response = await fetch(API_BASE + path, {
+        ...options,
+        headers
     });
 
-    if (!optimizedBlob || optimizedBlob.size >= file.size) {
-      return file;
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw Error(result.error || 'Възникна грешка при връзката със сървъра.');
     }
 
-    return new File(
-      [optimizedBlob],
-      file.name.replace(/\.[^.]+$/, '') + '.webp',
-      {
-        type: 'image/webp',
-        lastModified: Date.now()
-      }
-    );
-
-  } catch (error) {
-    console.warn('Оптимизацията на снимката не бе успешна:', error);
-    return file;
-  } finally {
-    if (bitmap) bitmap.close();
-  }
+    return result;
 }
 
-async function uploadImage(file) {
-  if (!file) return null;
+async function authenticate() {
+    if (adminToken) {
+        try {
+            await api('/api/admin/session');
+            return;
+        } catch {
+            sessionStorage.removeItem('spisanieto_admin_token');
+            adminToken = null;
+        }
+    }
 
-  const types = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    await createLoginScreen();
+}
 
-  if (!types.includes(file.type)) {
-    throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');
-  }
+await authenticate();
 
-  if (file.size > 10 * 1024 * 1024) {
-    throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');
-  }
+/* -------------------------
+   ПОМОЩНИ ФУНКЦИИ
+------------------------- */
 
-  const optimizedFile = await optimizeImage(file);
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[c]));
+}
 
-  const ext = optimizedFile.type === 'image/webp'
-    ? 'webp'
-    : optimizedFile.type === 'image/png'
-      ? 'png'
-      : optimizedFile.type === 'image/gif'
-        ? 'gif'
-        : 'jpg';
+function formatDate(value) {
+    if (!value) return '';
+    const d = new Date(value);
 
-  const path = 'news/' + Date.now() + '-' + crypto.randomUUID() + '.' + ext;
+    return Number.isNaN(d.getTime())
+        ? ''
+        : d.toLocaleDateString('bg-BG', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+}
 
-  const { data, error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(path, optimizedFile, {
-      cacheControl: '31536000',
-      contentType: optimizedFile.type,
-      upsert: false
+function isTrue(value) {
+    return value === true || value === 1 || value === '1';
+}
+
+function plainTextToHtml(text) {
+    if (!text) return '';
+
+    return String(text)
+        .split(/\n\s*\n/)
+        .map(p => p.trim())
+        .filter(Boolean)
+        .map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
+        .join('');
+}
+
+/* -------------------------
+   РЕДАКТОР НА ТЕКСТ
+------------------------- */
+
+function saveSelection() {
+    const selection = window.getSelection();
+
+    if (selection && selection.rangeCount) {
+        const range = selection.getRangeAt(0);
+
+        if (contentEditor.contains(range.commonAncestorContainer)) {
+            savedSelection = range.cloneRange();
+        }
+    }
+}
+
+function restoreSelection() {
+    if (!savedSelection) return;
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedSelection);
+}
+
+contentEditor.addEventListener('mouseup', saveSelection);
+contentEditor.addEventListener('keyup', saveSelection);
+contentEditor.addEventListener('blur', saveSelection);
+
+document.querySelectorAll(
+    '.editor-button[data-command],.editor-button[data-format]'
+).forEach(button => {
+    button.addEventListener('mousedown', e => e.preventDefault());
+
+    button.addEventListener('click', () => {
+        restoreSelection();
+
+        if (button.dataset.command) {
+            document.execCommand(button.dataset.command, false, null);
+        }
+
+        if (button.dataset.format) {
+            document.execCommand('formatBlock', false, button.dataset.format);
+        }
+
+        contentEditor.focus();
+        saveSelection();
+    });
+});
+
+removeFormattingButton.addEventListener('mousedown', e => e.preventDefault());
+
+removeFormattingButton.addEventListener('click', () => {
+    restoreSelection();
+    document.execCommand('removeFormat', false, null);
+    contentEditor.focus();
+    saveSelection();
+});
+
+editorAlign.addEventListener('change', function () {
+    if (!this.value) return;
+
+    restoreSelection();
+    document.execCommand(this.value, false, null);
+    contentEditor.focus();
+    saveSelection();
+    this.value = '';
+});
+
+addLinkButton.addEventListener('mousedown', e => e.preventDefault());
+
+addLinkButton.addEventListener('click', () => {
+    restoreSelection();
+
+    const selection = window.getSelection();
+
+    if (!selection || !selection.rangeCount || !selection.toString().trim()) {
+        alert('Първо маркирай думата или изречението, което искаш да направиш линк.');
+        contentEditor.focus();
+        return;
+    }
+
+    const input = prompt('Въведи адреса на линка:', 'https://');
+
+    if (!input) {
+        contentEditor.focus();
+        return;
+    }
+
+    let url = input.trim();
+
+    if (!/^(https?:\/\/|mailto:|tel:)/i.test(url)) {
+        url = 'https://' + url;
+    }
+
+    try {
+        const parsed = new URL(url);
+
+        if (!['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)) {
+            throw Error();
+        }
+    } catch {
+        alert('Моля, въведи валиден адрес.');
+        contentEditor.focus();
+        return;
+    }
+
+    document.execCommand('createLink', false, url);
+
+    contentEditor.querySelectorAll('a').forEach(a => {
+        if (a.getAttribute('href') === url) {
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+        }
     });
 
-  if (error) {
-    throw Error('Снимката не можа да бъде качена: ' + error.message);
-  }
+    contentEditor.focus();
+    saveSelection();
+});
 
-  const { data: pub } = supabase.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(data.path);
+removeLinkButton.addEventListener('mousedown', e => e.preventDefault());
 
-  if (!pub?.publicUrl) {
-    throw Error('Не беше получен публичен URL на снимката.');
-  }
+removeLinkButton.addEventListener('click', () => {
+    restoreSelection();
+    document.execCommand('unlink', false, null);
+    contentEditor.focus();
+    saveSelection();
+});
 
-  return pub.publicUrl;
-}
-async function uploadVideo(file){if(!file)throw Error('Първо избери видеофайл.');const types={'video/mp4':'mp4','video/webm':'webm','video/ogg':'ogv'};if(!types[file.type])throw Error('Използвай MP4, WebM или Ogg видео.');if(file.size>50*1024*1024)throw Error('Файлът е над 50 MB. Избери по-малко видео.');const path='news/video-'+Date.now()+'-'+crypto.randomUUID()+'.'+types[file.type];const {data,error}=await supabase.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'31536000',contentType:file.type,upsert:false});if(error)throw Error(error.message);const {data:pub}=supabase.storage.from(STORAGE_BUCKET).getPublicUrl(data.path);if(!pub?.publicUrl)throw Error('Не беше получен публичен адрес на видеото.');return pub.publicUrl;}
-uploadVideoButton.addEventListener('click',async()=>{const file=videoFile.files?.[0];uploadVideoButton.disabled=true;try{videoUploadStatus.textContent='Качване на видеото...';const url=await uploadVideo(file);const type=file.type;insertHtmlIntoEditor(`<p><br></p><video class="article-video-file" controls playsinline preload="metadata"><source src="${escapeHtml(url)}" type="${type}"></video><p><br></p>`);videoFile.value='';videoUploadStatus.textContent='Видеото е качено и добавено в текста. Запази новината, за да се публикува.';}catch(error){console.error(error);videoUploadStatus.textContent='Видеото не можа да бъде качено: '+(error.message||'неизвестна грешка');}finally{uploadVideoButton.disabled=false;}});
-imageFile.addEventListener('change',function(){const f=this.files?.[0];if(!f){imagePreview.style.display='none';imagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){message.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}imagePreviewImage.src=URL.createObjectURL(f);imagePreview.style.display='block';message.textContent='';});
-galleryFiles.addEventListener('change',function(){galleryPreview.innerHTML='';for(const f of Array.from(this.files||[])){if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type))continue;const item=document.createElement('div');item.className='gallery-preview-item';const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt=f.name;const name=document.createElement('div');name.className='gallery-preview-name';name.textContent=f.name;item.append(img,name);galleryPreview.appendChild(item);}});
-opinionAvatar.addEventListener('change',function(){const f=this.files?.[0];if(!f){opinionImagePreview.style.display='none';opinionImagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){opinionMessage.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}opinionImagePreviewImage.src=URL.createObjectURL(f);opinionImagePreview.style.display='block';opinionMessage.textContent='';});
-opinionTopicImage.addEventListener('change',function(){const f=this.files?.[0];if(!f){opinionTopicImagePreview.style.display='none';opinionTopicImagePreviewImage.src='';return;}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){opinionMessage.textContent='Моля, избери JPG, PNG, WEBP или GIF изображение.';this.value='';return;}opinionTopicImagePreviewImage.src=URL.createObjectURL(f);opinionTopicImagePreview.style.display='block';opinionMessage.textContent='';});
-async function uploadOpinionImage(file) {
-  if (!file) return null;
-
-  const types = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-
-  if (!types.includes(file.type)) {
-    throw Error('Позволени са JPG, PNG, WEBP и GIF изображения.');
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-    throw Error('Снимката е прекалено голяма. Максималният размер е 10 MB.');
-  }
-
-  const optimizedFile = await optimizeImage(file);
-
-  const ext = optimizedFile.type === 'image/webp'
-    ? 'webp'
-    : optimizedFile.type === 'image/png'
-      ? 'png'
-      : optimizedFile.type === 'image/gif'
-        ? 'gif'
-        : 'jpg';
-
-  const path = 'opinions/' + Date.now() + '-' + crypto.randomUUID() + '.' + ext;
-
-  const { data, error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(path, optimizedFile, {
-      cacheControl: '31536000',
-      contentType: optimizedFile.type,
-      upsert: false
+function sanitizeEditorHtml(html) {
+    const clean = DOMPurify.sanitize(html || '', {
+        ALLOWED_TAGS: [
+            'p', 'div', 'br', 'strong', 'b', 'em', 'i', 'u',
+            'a', 'h2', 'h3', 'ul', 'ol', 'li', 'blockquote',
+            'iframe', 'video', 'source'
+        ],
+        ALLOWED_ATTR: [
+            'href', 'target', 'rel', 'style', 'src', 'type',
+            'class', 'title', 'allow', 'allowfullscreen',
+            'frameborder', 'loading', 'referrerpolicy',
+            'width', 'height', 'controls', 'playsinline',
+            'preload', 'poster'
+        ],
+        ALLOW_DATA_ATTR: false
     });
 
-  if (error) {
-    throw Error('Снимката не можа да бъде качена: ' + error.message);
-  }
+    const box = document.createElement('div');
+    box.innerHTML = clean;
 
-  return supabase.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(data.path).data.publicUrl;
+    box.querySelectorAll('iframe').forEach(frame => {
+        try {
+            const u = new URL(frame.getAttribute('src') || '');
+
+            if (
+                u.protocol !== 'https:' ||
+                !['youtube-nocookie.com', 'www.youtube-nocookie.com'].includes(u.hostname) ||
+                !/^\/embed\/[A-Za-z0-9_-]{11}\/?$/.test(u.pathname)
+            ) {
+                frame.remove();
+                return;
+            }
+
+            frame.setAttribute('title', 'YouTube видео');
+            frame.setAttribute('loading', 'lazy');
+            frame.setAttribute('allowfullscreen', '');
+            frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        } catch {
+            frame.remove();
+        }
+    });
+
+    function approvedVideoUrl(value) {
+        try {
+            const u = new URL(value || '', location.href);
+
+            return u.protocol === 'https:' &&
+                u.origin === new URL(SUPABASE_URL).origin &&
+                u.pathname.startsWith(
+                    '/storage/v1/object/public/' + STORAGE_BUCKET + '/news/video-'
+                );
+        } catch {
+            return false;
+        }
+    }
+
+    box.querySelectorAll('video').forEach(video => {
+        if (
+            video.hasAttribute('src') &&
+            !approvedVideoUrl(video.getAttribute('src'))
+        ) {
+            video.removeAttribute('src');
+        }
+
+        video.querySelectorAll('source').forEach(source => {
+            if (!approvedVideoUrl(source.getAttribute('src'))) {
+                source.remove();
+            }
+        });
+
+        const direct = approvedVideoUrl(video.getAttribute('src'));
+        const child = [...video.querySelectorAll('source')]
+            .some(source => approvedVideoUrl(source.getAttribute('src')));
+
+        if (!direct && !child) {
+            video.remove();
+            return;
+        }
+
+        video.setAttribute('controls', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('preload', 'metadata');
+        video.classList.add('article-video-file');
+    });
+
+    return box.innerHTML;
 }
-function getStoragePathFromUrl(url){if(!url)return null;const marker='/storage/v1/object/public/'+STORAGE_BUCKET+'/';const i=url.indexOf(marker);if(i<0)return null;try{return decodeURIComponent(url.substring(i+marker.length));}catch{return url.substring(i+marker.length);}}
-async function deleteStorageImage(url){const path=getStoragePathFromUrl(url);if(!path)return;const {error}=await supabase.storage.from(STORAGE_BUCKET).remove([path]);if(error)throw Error(error.message);}
-async function uploadGalleryImages(newsId,files){const selected=Array.from(files||[]);if(!selected.length)return;const {data:existing,error}=await supabase.from('news_images').select('sort_order').eq('news_id',newsId).order('sort_order',{ascending:false}).limit(1);if(error)throw Error('Не можа да бъде проверен редът на галерията: '+error.message);let next=existing?.length?Number(existing[0].sort_order||0)+1:0;for(let i=0;i<selected.length;i++){message.textContent=`Качване на допълнителна снимка ${i+1} от ${selected.length}...`;const imageUrl=await uploadImage(selected[i]);const {error:insertError}=await supabase.from('news_images').insert({news_id:newsId,image_url:imageUrl,sort_order:next+i});if(insertError)throw Error('Снимката е качена, но не можа да бъде добавена към галерията: '+insertError.message);}}
-async function loadGallery(newsId){existingGallery.style.display='none';existingGalleryGrid.innerHTML='';if(!newsId)return;const {data,error}=await supabase.from('news_images').select('id,image_url,sort_order,created_at').eq('news_id',newsId).order('sort_order',{ascending:true}).order('created_at',{ascending:true});if(error){console.error('Gallery load error:',error);return;}if(!data?.length)return;data.forEach((image,index)=>{const item=document.createElement('div');item.className='existing-gallery-item';const img=document.createElement('img');img.src=image.image_url;img.alt=`Допълнителна снимка ${index+1}`;const caption=document.createElement('div');caption.className='existing-gallery-caption';caption.textContent=`Снимка ${index+1}`;const del=document.createElement('button');del.type='button';del.className='gallery-delete-button';del.dataset.id=image.id;del.textContent='🗑️ Изтрий';del.addEventListener('click',()=>deleteGalleryImage(image.id,image.image_url));item.append(img,caption,del);existingGalleryGrid.appendChild(item);});existingGallery.style.display='block';}
-async function deleteGalleryImage(id,url){if(!confirm('Сигурни ли сте, че искате да изтриете тази снимка от галерията?'))return;try{const b=existingGalleryGrid.querySelector(`[data-id="${CSS.escape(String(id))}"]`);if(b){b.disabled=true;b.textContent='Изтриване...';}await deleteStorageImage(url);const {error}=await supabase.from('news_images').delete().eq('id',id);if(error)throw Error(error.message);message.textContent='Снимката е изтрита успешно.';if(editingId)await loadGallery(editingId);}catch(e){message.textContent='Снимката не можа да бъде изтрита: '+e.message;}}
-async function loadNews(){newsList.innerHTML='<div class="loading">Зареждане на новините...</div>';const {data,error}=await supabase.from('news').select('id,title,subtitle,category,image_url,content,author,is_featured,is_focus,views,status,created_at,updated_at').eq('status','published').order('created_at',{ascending:false});if(error){console.error(error);newsList.innerHTML='<div class="empty">Грешка при зареждането на новините.</div>';return;}if(!data?.length){newsList.innerHTML='<div class="empty">Все още няма публикувани новини.</div>';return;}newsList.innerHTML=data.map(n=>{const img=n.image_url||'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';return `<div class="news-item"><img class="news-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(n.title)}"><div class="news-info"><div class="news-title">${escapeHtml(n.title)}</div><div class="news-meta">${escapeHtml(n.category||'Новини')} &nbsp; • &nbsp; ${formatDate(n.created_at)}${n.views?` &nbsp; • &nbsp; ${n.views} преглеждания`:''}</div>${n.subtitle?`<div class="news-subtitle">${escapeHtml(n.subtitle)}</div>`:''}${n.is_featured?'<span class="featured-label">⭐ Избрана новина</span>':''}${n.is_focus?'<span class="focus-label">🎯 Тема на фокус</span>':''}</div><div class="news-actions"><button class="edit-button" data-id="${escapeHtml(n.id)}" type="button">✏️ Редактирай</button><button class="delete-button" data-id="${escapeHtml(n.id)}" type="button">🗑️ Изтрий</button></div></div>`;}).join('');newsList.querySelectorAll('.edit-button').forEach(b=>b.addEventListener('click',()=>startEdit(b.dataset.id)));newsList.querySelectorAll('.delete-button').forEach(b=>b.addEventListener('click',()=>deleteNews(b.dataset.id)));}
-async function startEdit(id){message.textContent='Зареждане на новината...';const {data,error}=await supabase.from('news').select('id,title,subtitle,category,image_url,content,content_html,author,is_featured,is_focus,status,seo_title,seo_description,seo_image_url').eq('id',id).single();if(error){console.error(error);message.textContent='Грешка при зареждането на новината.';return;}editingId=data.id;currentImageUrl=data.image_url||'';$('title').value=data.title||'';$('subtitle').value=data.subtitle||'';$('category').value=data.category||'';contentEditor.innerHTML=data.content_html?.trim()?sanitizeEditorHtml(data.content_html):plainTextToHtml(data.content||'');content.value=data.content||'';$('author').value=data.author||'СПИСАНИЕТО.';$('seo_title').value=data.seo_title||'';$('seo_description').value=data.seo_description||'';$('seo_image_url').value=data.seo_image_url||'';featuredCheckbox.checked=data.is_featured===true;focusCheckbox.checked=data.is_focus===true;imageFile.value='';videoFile.value='';youtubeUrlInput.value='';videoUploadStatus.textContent='';galleryFiles.value='';galleryPreview.innerHTML='';imagePreview.style.display='none';imagePreviewImage.src='';if(currentImageUrl){currentImagePreview.src=currentImageUrl;currentImage.style.display='block';}else{currentImagePreview.src='';currentImage.style.display='none';}await loadGallery(data.id);formTitle.textContent='Редактиране на новина';saveButton.textContent='Запази промените';cancelEdit.style.display='inline-block';message.textContent='';window.scrollTo({top:0,behavior:'smooth'});}
-function resetForm(){editingId=null;currentImageUrl='';savedSelection=null;form.reset();$('author').value='СПИСАНИЕТО.';featuredCheckbox.checked=false;focusCheckbox.checked=false;contentEditor.innerHTML='';content.value='';imageFile.value='';videoFile.value='';youtubeUrlInput.value='';videoUploadStatus.textContent='';galleryFiles.value='';galleryPreview.innerHTML='';imagePreview.style.display='none';imagePreviewImage.src='';currentImage.style.display='none';currentImagePreview.src='';existingGallery.style.display='none';existingGalleryGrid.innerHTML='';formTitle.textContent='Нова новина';saveButton.textContent='Запази новината';cancelEdit.style.display='none';message.textContent='';}
-cancelEdit.addEventListener('click',resetForm);
-form.addEventListener('submit',async e=>{e.preventDefault();saveButton.disabled=true;message.textContent=editingId?'Запазване на промените...':'Публикуване...';const title=$('title').value.trim(),subtitle=$('subtitle').value.trim(),category=$('category').value,content_html=getEditorHtml(),contentText=getEditorText(),author=$('author').value.trim(),seo_title=$('seo_title').value.trim(),seo_description=$('seo_description').value.trim(),seo_image_url=$('seo_image_url').value.trim(),is_featured=featuredCheckbox.checked,is_focus=focusCheckbox.checked;const containsMedia=/<(?:iframe|video)\b/i.test(content_html);if(!title){message.textContent='Моля, въведи заглавие.';saveButton.disabled=false;$('title').focus();return;}if(!category){message.textContent='Моля, избери категория.';saveButton.disabled=false;$('category').focus();return;}if(seo_image_url){try{const seoImageUrlParsed=new URL(seo_image_url);if(seoImageUrlParsed.protocol!=='https:')throw Error();}catch{message.textContent='Адресът на SEO изображението трябва да е валиден HTTPS URL.';saveButton.disabled=false;$('seo_image_url').focus();return;}}if(!contentText&&!containsMedia){message.textContent='Моля, въведи текст на новината или добави видео.';saveButton.disabled=false;contentEditor.focus();return;}try{const selected=imageFile.files?.[0];let image_url=currentImageUrl||null;if(selected){message.textContent='Качване на основната снимка...';image_url=await uploadImage(selected);}if(editingId){const {error}=await supabase.from('news').update({title,subtitle,category,image_url,content:contentText,content_html,author:author||'СПИСАНИЕТО.',seo_title:seo_title||null,seo_description:seo_description||null,seo_image_url:seo_image_url||null,is_featured,is_focus,updated_at:new Date().toISOString()}).eq('id',editingId);if(error)throw Error('Грешка при редактирането: '+error.message);if(galleryFiles.files?.length)await uploadGalleryImages(editingId,galleryFiles.files);message.textContent='Новината е редактирана успешно!';resetForm();await loadNews();return;}const {data:inserted,error}=await supabase.from('news').insert({title,subtitle,category,image_url,content:contentText,content_html,author:author||'СПИСАНИЕТО.',seo_title:seo_title||null,seo_description:seo_description||null,seo_image_url:seo_image_url||null,status:'published',is_featured,is_focus,views:0}).select('id').single();if(error)throw Error('Грешка при публикуването: '+error.message);if(galleryFiles.files?.length)await uploadGalleryImages(inserted.id,galleryFiles.files);message.textContent='Новината е публикувана успешно!';resetForm();await loadNews();}catch(err){console.error(err);message.textContent=err.message||'Възникна грешка.';}finally{saveButton.disabled=false;}});
-async function deleteNews(id){if(!confirm('Сигурни ли сте, че искате да изтриете тази новина?'))return;const {data:imgs,error:loadError}=await supabase.from('news_images').select('id,image_url').eq('news_id',id);if(loadError){alert('Новината не беше изтрита, защото галерията не можа да бъде проверена.');return;}for(const img of imgs||[]){try{await deleteStorageImage(img.image_url);}catch(e){console.error(e);alert('Новината не беше изтрита, защото снимка от галерията не можа да бъде изтрита.');return;}}const {error:delImages}=await supabase.from('news_images').delete().eq('news_id',id);if(delImages){alert('Грешка при изтриването на галерията: '+delImages.message);return;}const {error}=await supabase.from('news').delete().eq('id',id);if(error){alert('Грешка при изтриването: '+error.message);return;}if(String(editingId)===String(id))resetForm();await loadNews();}
-async function loadOpinionsAdmin(){opinionsAdminList.innerHTML='<div class="loading">Зареждане на мненията...</div>';const {data,error}=await supabase.from('opinions').select('id,quote,author_name,avatar_url,image_url,published,created_at').order('created_at',{ascending:false});if(error){console.error(error);opinionsAdminList.innerHTML=`<div class="empty">Грешка при зареждането на мненията.<br><br>${escapeHtml(error.message)}</div>`;return;}if(!data?.length){opinionsAdminList.innerHTML='<div class="empty">Все още няма добавени мнения.</div>';return;}opinionsAdminList.innerHTML=data.map(o=>{const avatar=o.avatar_url||'https://ui-avatars.com/api/?name='+encodeURIComponent(o.author_name||'Автор')+'&background=f0ece7&color=333';return `<div class="opinion-admin-item"><img class="opinion-admin-avatar" src="${escapeHtml(avatar)}" alt="${escapeHtml(o.author_name||'Автор')}"><div class="opinion-admin-content"><div class="opinion-admin-quote">„${escapeHtml(o.quote)}“</div><div class="opinion-admin-author">${escapeHtml(o.author_name)}</div><div class="opinion-admin-status ${o.published?'published':'unpublished'}">${o.published?'Публикувано':'Скрито'} &nbsp; • &nbsp; ${formatDate(o.created_at)}</div></div><div class="opinion-admin-actions"><button type="button" class="opinion-edit-button" data-opinion-id="${escapeHtml(o.id)}">✏️ Редактирай</button><button type="button" class="opinion-delete-button" data-opinion-id="${escapeHtml(o.id)}">🗑️ Изтрий</button></div></div>`;}).join('');opinionsAdminList.querySelectorAll('.opinion-edit-button').forEach(b=>b.addEventListener('click',()=>startOpinionEdit(b.dataset.opinionId)));opinionsAdminList.querySelectorAll('.opinion-delete-button').forEach(b=>b.addEventListener('click',()=>deleteOpinion(b.dataset.opinionId)));}
-async function startOpinionEdit(id){opinionMessage.textContent='Зареждане на мнението...';const {data,error}=await supabase.from('opinions').select('id,quote,author_name,avatar_url,image_url,published').eq('id',id).single();if(error){console.error(error);opinionMessage.textContent='Грешка при зареждането на мнението.';return;}editingOpinionId=data.id;currentOpinionAvatarUrl=data.avatar_url||'';currentOpinionTopicImageUrl=data.image_url||'';opinionQuote.value=data.quote||'';opinionAuthor.value=data.author_name||'';opinionPublished.checked=data.published===true;opinionAvatar.value='';opinionTopicImage.value='';opinionImagePreview.style.display='none';opinionImagePreviewImage.src='';opinionTopicImagePreview.style.display='none';opinionTopicImagePreviewImage.src='';if(currentOpinionAvatarUrl){opinionCurrentImagePreview.src=currentOpinionAvatarUrl;opinionCurrentImage.style.display='block';}else{opinionCurrentImagePreview.src='';opinionCurrentImage.style.display='none';}if(currentOpinionTopicImageUrl){opinionCurrentTopicImagePreview.src=currentOpinionTopicImageUrl;opinionCurrentTopicImage.style.display='block';}else{opinionCurrentTopicImagePreview.src='';opinionCurrentTopicImage.style.display='none';}opinionFormTitle.textContent='Редактиране на мнение';opinionSaveButton.textContent='Запази промените';opinionCancelButton.style.display='inline-block';opinionMessage.textContent='';opinionForm.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>{opinionQuote.focus();opinionQuote.setSelectionRange(opinionQuote.value.length,opinionQuote.value.length);},300);}
-function resetOpinionForm(){editingOpinionId=null;currentOpinionAvatarUrl='';currentOpinionTopicImageUrl='';opinionForm.reset();opinionPublished.checked=true;opinionAvatar.value='';opinionTopicImage.value='';opinionCurrentImage.style.display='none';opinionCurrentImagePreview.src='';opinionImagePreview.style.display='none';opinionImagePreviewImage.src='';opinionCurrentTopicImage.style.display='none';opinionCurrentTopicImagePreview.src='';opinionTopicImagePreview.style.display='none';opinionTopicImagePreviewImage.src='';opinionFormTitle.textContent='Мнения & Коментари';opinionSaveButton.textContent='Добави мнение';opinionCancelButton.style.display='none';opinionMessage.textContent='';}
-opinionCancelButton.addEventListener('click',resetOpinionForm);
-opinionForm.addEventListener('submit',async e=>{e.preventDefault();opinionSaveButton.disabled=true;opinionMessage.textContent=editingOpinionId?'Запазване на промените...':'Добавяне на мнението...';const quote=opinionQuote.value.trim(),authorName=opinionAuthor.value.trim(),published=opinionPublished.checked;if(!quote||!authorName){opinionMessage.textContent=!quote?'Моля, въведи мнение или цитат.':'Моля, въведи име на автора.';opinionSaveButton.disabled=false;(!quote?opinionQuote:opinionAuthor).focus();return;}try{let avatarUrl=currentOpinionAvatarUrl||null,topicImageUrl=currentOpinionTopicImageUrl||null;if(opinionAvatar.files?.[0]){opinionMessage.textContent='Качване на снимката на автора...';avatarUrl=await uploadOpinionImage(opinionAvatar.files[0]);}if(opinionTopicImage.files?.[0]){opinionMessage.textContent='Качване на тематичната снимка...';topicImageUrl=await uploadOpinionImage(opinionTopicImage.files[0]);}if(editingOpinionId){const {error}=await supabase.from('opinions').update({quote,author_name:authorName,avatar_url:avatarUrl,image_url:topicImageUrl,published}).eq('id',editingOpinionId);if(error)throw Error('Грешка при редактирането: '+error.message);}else{const {error}=await supabase.from('opinions').insert({quote,author_name:authorName,avatar_url:avatarUrl,image_url:topicImageUrl,published});if(error)throw Error('Грешка при добавянето: '+error.message);}opinionMessage.textContent=editingOpinionId?'Мнението е редактирано успешно!':'Мнението е добавено успешно!';resetOpinionForm();await loadOpinionsAdmin();}catch(err){console.error(err);opinionMessage.textContent=err.message||'Възникна грешка.';}finally{opinionSaveButton.disabled=false;}});
-async function deleteOpinion(id){if(!confirm('Сигурни ли сте, че искате да изтриете това мнение?'))return;opinionMessage.textContent='Изтриване на мнението...';try{const {data,error:loadError}=await supabase.from('opinions').select('id,avatar_url,image_url').eq('id',id).single();if(loadError)throw Error('Мнението не можа да бъде заредено: '+loadError.message);for(const url of [data?.avatar_url,data?.image_url].filter(Boolean)){try{await deleteStorageImage(url);}catch(err){console.warn('Снимката не можа да бъде изтрита:',err);}}const {error}=await supabase.from('opinions').delete().eq('id',id);if(error)throw Error('Грешка при изтриването: '+error.message);if(String(editingOpinionId)===String(id))resetOpinionForm();opinionMessage.textContent='Мнението е изтрито успешно.';await loadOpinionsAdmin();}catch(err){console.error(err);opinionMessage.textContent=err.message||'Мнението не можа да бъде изтрито.';}}
-logout.addEventListener('click',async()=>{await supabase.auth.signOut();window.location.href='index.html';});
-await loadNews();await loadOpinionsAdmin();
+
+function getEditorHtml() {
+    return sanitizeEditorHtml(contentEditor.innerHTML);
+}
+
+function getEditorText() {
+    return contentEditor.innerText.replace(/\u00a0/g, ' ').trim();
+}
+
+function getYouTubeVideoId(value) {
+    try {
+        const u = new URL(String(value || '').trim());
+        const host = u.hostname.toLowerCase()
+            .replace(/^www\./, '')
+            .replace(/^m\./, '');
+
+        let id = '';
+
+        if (host === 'youtu.be') {
+            id = u.pathname.split('/').filter(Boolean)[0] || '';
+        } else if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+            if (u.pathname === '/watch') {
+                id = u.searchParams.get('v') || '';
+            } else {
+                const match = u.pathname.match(
+                    /^\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{11})\/?$/
+                );
+                id = match ? match[1] : '';
+            }
+        }
+
+        return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+    } catch {
+        return null;
+    }
+}
+
+function insertHtmlIntoEditor(html) {
+    contentEditor.focus();
+
+    if (savedSelection && contentEditor.contains(savedSelection.commonAncestorContainer)) {
+        try {
+            restoreSelection();
+        } catch {
+            savedSelection = null;
+        }
+    }
+
+    if (!savedSelection || !contentEditor.contains(savedSelection.commonAncestorContainer)) {
+        const range = document.createRange();
+        range.selectNodeContents(contentEditor);
+        range.collapse(false);
+
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
+    document.execCommand('insertHTML', false, html);
+    contentEditor.focus();
+    saveSelection();
+}
+
+insertYoutubeVideoButton.addEventListener('click', () => {
+    const id = getYouTubeVideoId(youtubeUrlInput.value);
+
+    if (!id) {
+        videoUploadStatus.textContent = 'Постави валиден линк към YouTube видео.';
+        youtubeUrlInput.focus();
+        return;
+    }
+
+    insertHtmlIntoEditor(`
+        <p><br></p>
+        <div class="article-video-embed">
+            <iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0"
+                title="YouTube видео" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen="true"
+                referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+        </div>
+        <p><br></p>
+    `);
+
+    youtubeUrlInput.value = '';
+    videoUploadStatus.textContent =
+        'YouTube видеото е добавено. Запази новината, за да се публикува.';
+});
+
+/* -------------------------
+   ВРЕМЕННО СПИРАНЕ НА КАЧВАНЕТО
+------------------------- */
+
+[
+    imageFile,
+    galleryFiles,
+    videoFile,
+    opinionAvatar,
+    opinionTopicImage
+].forEach(input => {
+    input.disabled = true;
+    input.title = 'Качването ще бъде активирано след настройването на новото хранилище.';
+});
+
+uploadVideoButton.disabled = true;
+
+function addUploadNotice(element, text) {
+    if (!element) return;
+
+    const notice = document.createElement('small');
+    notice.textContent = text;
+    notice.style.cssText = 'display:block;color:#8a5268;margin-top:6px;';
+    element.insertAdjacentElement('afterend', notice);
+}
+
+addUploadNotice(imageFile, 'Качването на нови снимки ще бъде активирано на следващия етап.');
+addUploadNotice(galleryFiles, 'Качването на нови снимки в галерията ще бъде активирано на следващия етап.');
+addUploadNotice(videoFile, 'Качването на видеофайлове ще бъде активирано на следващия етап.');
+addUploadNotice(opinionAvatar, 'Качването на нови снимки ще бъде активирано на следващия етап.');
+addUploadNotice(opinionTopicImage, 'Качването на нови снимки ще бъде активирано на следващия етап.');
+
+videoUploadStatus.textContent =
+    'Можеш да добавяш YouTube видеа. Качването на видеофайлове ще бъде активирано по-късно.';
+
+/* -------------------------
+   СНИМКИ И ПРЕГЛЕДИ
+------------------------- */
+
+imageFile.addEventListener('change', function () {
+    imagePreview.style.display = 'none';
+    imagePreviewImage.src = '';
+});
+
+galleryFiles.addEventListener('change', function () {
+    galleryPreview.innerHTML = '';
+});
+
+opinionAvatar.addEventListener('change', function () {
+    opinionImagePreview.style.display = 'none';
+    opinionImagePreviewImage.src = '';
+});
+
+opinionTopicImage.addEventListener('change', function () {
+    opinionTopicImagePreview.style.display = 'none';
+    opinionTopicImagePreviewImage.src = '';
+});
+
+/* -------------------------
+   ГАЛЕРИЯ
+------------------------- */
+
+async function loadGallery(newsId) {
+    existingGallery.style.display = 'none';
+    existingGalleryGrid.innerHTML = '';
+
+    const news = newsCache.find(item => String(item.id) === String(newsId));
+    const gallery = Array.isArray(news?.gallery) ? news.gallery : [];
+
+    if (!gallery.length) return;
+
+    gallery.forEach((image, index) => {
+        const url = typeof image === 'string'
+            ? image
+            : image.image_url;
+
+        if (!url) return;
+
+        const item = document.createElement('div');
+        item.className = 'existing-gallery-item';
+
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = `Допълнителна снимка ${index + 1}`;
+
+        const caption = document.createElement('div');
+        caption.className = 'existing-gallery-caption';
+        caption.textContent = `Снимка ${index + 1}`;
+
+        item.append(img, caption);
+        existingGalleryGrid.appendChild(item);
+    });
+
+    if (existingGalleryGrid.children.length) {
+        existingGallery.style.display = 'block';
+    }
+}
+
+/* -------------------------
+   НОВИНИ
+------------------------- */
+
+async function loadNews() {
+    newsList.innerHTML = '<div class="loading">Зареждане на новините...</div>';
+
+    try {
+        const result = await api('/api/admin/news');
+        newsCache = Array.isArray(result.news)
+            ? result.news
+            : Array.isArray(result.data)
+                ? result.data
+                : [];
+
+        if (!newsCache.length) {
+            newsList.innerHTML = '<div class="empty">Все още няма добавени новини.</div>';
+            return;
+        }
+
+        newsList.innerHTML = newsCache.map(n => {
+            const img = n.image_url ||
+                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
+
+            const published = isTrue(n.published);
+
+            return `
+                <div class="news-item">
+                    <img class="news-thumb"
+                        src="${escapeHtml(img)}"
+                        alt="${escapeHtml(n.title)}">
+
+                    <div class="news-info">
+                        <div class="news-title">${escapeHtml(n.title)}</div>
+
+                        <div class="news-meta">
+                            ${escapeHtml(n.category || 'Новини')}
+                            &nbsp; • &nbsp; ${formatDate(n.created_at)}
+                        </div>
+
+                        ${n.subtitle
+                            ? `<div class="news-subtitle">${escapeHtml(n.subtitle)}</div>`
+                            : ''}
+
+                        <span class="${published ? 'featured-label' : 'focus-label'}">
+                            ${published ? 'Публикувана' : 'Чернова'}
+                        </span>
+
+                        ${isTrue(n.is_featured)
+                            ? '<span class="featured-label">⭐ Избрана новина</span>'
+                            : ''}
+
+                        ${isTrue(n.is_focus)
+                            ? '<span class="focus-label">🎯 Тема на фокус</span>'
+                            : ''}
+                    </div>
+
+                    <div class="news-actions">
+                        <button class="edit-button"
+                            data-id="${escapeHtml(n.id)}" type="button">
+                            ✏️ Редактирай
+                        </button>
+
+                        <button class="delete-button"
+                            data-id="${escapeHtml(n.id)}" type="button">
+                            🗑️ Изтрий
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        newsList.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', () => startEdit(button.dataset.id));
+        });
+
+        newsList.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', () => deleteNews(button.dataset.id));
+        });
+
+    } catch (error) {
+        console.error(error);
+        newsList.innerHTML =
+            `<div class="empty">Грешка при зареждането: ${escapeHtml(error.message)}</div>`;
+    }
+}
+
+async function startEdit(id) {
+    const data = newsCache.find(item => String(item.id) === String(id));
+
+    if (!data) {
+        message.textContent = 'Новината не беше намерена.';
+        return;
+    }
+
+    editingId = data.id;
+    editingPublished = isTrue(data.published);
+    currentImageUrl = data.image_url || '';
+
+    $('title').value = data.title || '';
+    $('subtitle').value = data.subtitle || '';
+    $('category').value = data.category || '';
+
+    contentEditor.innerHTML = data.content_html?.trim()
+        ? sanitizeEditorHtml(data.content_html)
+        : plainTextToHtml(data.content || '');
+
+    content.value = data.content || '';
+
+    $('author').value = data.author || 'СПИСАНИЕТО.';
+    $('seo_title').value = data.seo_title || '';
+    $('seo_description').value = data.seo_description || '';
+    $('seo_image_url').value = data.seo_image_url || '';
+
+    featuredCheckbox.checked = isTrue(data.is_featured);
+    focusCheckbox.checked = isTrue(data.is_focus);
+
+    imageFile.value = '';
+    videoFile.value = '';
+    youtubeUrlInput.value = '';
+    videoUploadStatus.textContent = '';
+
+    galleryFiles.value = '';
+    galleryPreview.innerHTML = '';
+
+    imagePreview.style.display = 'none';
+    imagePreviewImage.src = '';
+
+    if (currentImageUrl) {
+        currentImagePreview.src = currentImageUrl;
+        currentImage.style.display = 'block';
+    } else {
+        currentImagePreview.src = '';
+        currentImage.style.display = 'none';
+    }
+
+    await loadGallery(data.id);
+
+    formTitle.textContent = 'Редактиране на новина';
+    saveButton.textContent = 'Запази промените';
+    cancelEdit.style.display = 'inline-block';
+    message.textContent = '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+    editingId = null;
+    editingPublished = true;
+    currentImageUrl = '';
+    savedSelection = null;
+
+    form.reset();
+
+    $('author').value = 'СПИСАНИЕТО.';
+    featuredCheckbox.checked = false;
+    focusCheckbox.checked = false;
+
+    contentEditor.innerHTML = '';
+    content.value = '';
+
+    imageFile.value = '';
+    videoFile.value = '';
+    youtubeUrlInput.value = '';
+    videoUploadStatus.textContent =
+        'Можеш да добавяш YouTube видеа.';
+
+    galleryFiles.value = '';
+    galleryPreview.innerHTML = '';
+
+    imagePreview.style.display = 'none';
+    imagePreviewImage.src = '';
+
+    currentImage.style.display = 'none';
+    currentImagePreview.src = '';
+
+    existingGallery.style.display = 'none';
+    existingGalleryGrid.innerHTML = '';
+
+    formTitle.textContent = 'Нова новина';
+    saveButton.textContent = 'Запази новината';
+    cancelEdit.style.display = 'none';
+    message.textContent = '';
+}
+
+cancelEdit.addEventListener('click', resetForm);
+
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    saveButton.disabled = true;
+    message.textContent = editingId
+        ? 'Запазване на промените...'
+        : 'Публикуване...';
+
+    const title = $('title').value.trim();
+    const subtitle = $('subtitle').value.trim();
+    const category = $('category').value;
+    const content_html = getEditorHtml();
+    const contentText = getEditorText();
+    const author = $('author').value.trim();
+
+    const seo_title = $('seo_title').value.trim();
+    const seo_description = $('seo_description').value.trim();
+    const seo_image_url = $('seo_image_url').value.trim();
+
+    const is_featured = featuredCheckbox.checked;
+    const is_focus = focusCheckbox.checked;
+
+    const containsMedia = /<(?:iframe|video)\b/i.test(content_html);
+
+    if (!title) {
+        message.textContent = 'Моля, въведи заглавие.';
+        saveButton.disabled = false;
+        $('title').focus();
+        return;
+    }
+
+    if (!category) {
+        message.textContent = 'Моля, избери категория.';
+        saveButton.disabled = false;
+        $('category').focus();
+        return;
+    }
+
+    if (seo_image_url) {
+        try {
+            const parsed = new URL(seo_image_url);
+            if (parsed.protocol !== 'https:') throw Error();
+        } catch {
+            message.textContent =
+                'Адресът на SEO изображението трябва да е валиден HTTPS URL.';
+            saveButton.disabled = false;
+            $('seo_image_url').focus();
+            return;
+        }
+    }
+
+    if (!contentText && !containsMedia) {
+        message.textContent = 'Моля, въведи текст на новината или добави видео.';
+        saveButton.disabled = false;
+        contentEditor.focus();
+        return;
+    }
+
+    const body = {
+        title,
+        subtitle,
+        category,
+        image_url: currentImageUrl || null,
+        content: contentText,
+        content_html,
+        author: author || 'СПИСАНИЕТО.',
+        seo_title: seo_title || null,
+        seo_description: seo_description || null,
+        seo_image_url: seo_image_url || null,
+        is_featured,
+        is_focus,
+        published: editingId ? editingPublished : true
+    };
+
+    try {
+        if (editingId) {
+            await api('/api/admin/news/' + encodeURIComponent(editingId), {
+                method: 'PUT',
+                body: JSON.stringify(body)
+            });
+
+            message.textContent = 'Новината е редактирана успешно!';
+        } else {
+            await api('/api/admin/news', {
+                method: 'POST',
+                body: JSON.stringify(body)
+            });
+
+            message.textContent = 'Новината е публикувана успешно!';
+        }
+
+        resetForm();
+        await loadNews();
+
+    } catch (error) {
+        console.error(error);
+        message.textContent = error.message || 'Възникна грешка.';
+    } finally {
+        saveButton.disabled = false;
+    }
+});
+
+async function deleteNews(id) {
+    if (!confirm('Сигурни ли сте, че искате да изтриете тази новина?')) {
+        return;
+    }
+
+    try {
+        await api('/api/admin/news/' + encodeURIComponent(id), {
+            method: 'DELETE'
+        });
+
+        if (String(editingId) === String(id)) {
+            resetForm();
+        }
+
+        message.textContent = 'Новината е изтрита.';
+        await loadNews();
+
+    } catch (error) {
+        alert('Грешка при изтриването: ' + error.message);
+    }
+}
+
+/* -------------------------
+   МНЕНИЯ
+------------------------- */
+
+async function loadOpinionsAdmin() {
+    opinionsAdminList.innerHTML =
+        '<div class="loading">Зареждане на мненията...</div>';
+
+    try {
+        const result = await api('/api/admin/opinions');
+
+        opinionsCache = Array.isArray(result.opinions)
+            ? result.opinions
+            : Array.isArray(result.data)
+                ? result.data
+                : [];
+
+        if (!opinionsCache.length) {
+            opinionsAdminList.innerHTML =
+                '<div class="empty">Все още няма добавени мнения.</div>';
+            return;
+        }
+
+        opinionsAdminList.innerHTML = opinionsCache.map(o => {
+            const avatar = o.avatar_url ||
+                'https://ui-avatars.com/api/?name=' +
+                encodeURIComponent(o.author_name || 'Автор') +
+                '&background=f0ece7&color=333';
+
+            const published = isTrue(o.published);
+
+            return `
+                <div class="opinion-admin-item">
+                    <img class="opinion-admin-avatar"
+                        src="${escapeHtml(avatar)}"
+                        alt="${escapeHtml(o.author_name || 'Автор')}">
+
+                    <div class="opinion-admin-content">
+                        <div class="opinion-admin-quote">
+                            „${escapeHtml(o.quote)}“
+                        </div>
+
+                        <div class="opinion-admin-author">
+                            ${escapeHtml(o.author_name)}
+                        </div>
+
+                        <div class="opinion-admin-status ${published ? 'published' : 'unpublished'}">
+                            ${published ? 'Публикувано' : 'Скрито'}
+                            &nbsp; • &nbsp; ${formatDate(o.created_at)}
+                        </div>
+                    </div>
+
+                    <div class="opinion-admin-actions">
+                        <button type="button"
+                            class="opinion-edit-button"
+                            data-opinion-id="${escapeHtml(o.id)}">
+                            ✏️ Редактирай
+                        </button>
+
+                        <button type="button"
+                            class="opinion-delete-button"
+                            data-opinion-id="${escapeHtml(o.id)}">
+                            🗑️ Изтрий
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        opinionsAdminList.querySelectorAll('.opinion-edit-button')
+            .forEach(button => {
+                button.addEventListener('click', () =>
+                    startOpinionEdit(button.dataset.opinionId)
+                );
+            });
+
+        opinionsAdminList.querySelectorAll('.opinion-delete-button')
+            .forEach(button => {
+                button.addEventListener('click', () =>
+                    deleteOpinion(button.dataset.opinionId)
+                );
+            });
+
+    } catch (error) {
+        console.error(error);
+        opinionsAdminList.innerHTML =
+            `<div class="empty">Грешка при зареждането: ${escapeHtml(error.message)}</div>`;
+    }
+}
+
+async function startOpinionEdit(id) {
+    const data = opinionsCache.find(item => String(item.id) === String(id));
+
+    if (!data) {
+        opinionMessage.textContent = 'Мнението не беше намерено.';
+        return;
+    }
+
+    editingOpinionId = data.id;
+
+    currentOpinionAvatarUrl = data.avatar_url || '';
+    currentOpinionTopicImageUrl = data.image_url || '';
+
+    opinionQuote.value = data.quote || '';
+    opinionAuthor.value = data.author_name || '';
+    opinionPublished.checked = isTrue(data.published);
+
+    opinionAvatar.value = '';
+    opinionTopicImage.value = '';
+
+    opinionImagePreview.style.display = 'none';
+    opinionImagePreviewImage.src = '';
+
+    opinionTopicImagePreview.style.display = 'none';
+    opinionTopicImagePreviewImage.src = '';
+
+    if (currentOpinionAvatarUrl) {
+        opinionCurrentImagePreview.src = currentOpinionAvatarUrl;
+        opinionCurrentImage.style.display = 'block';
+    } else {
+        opinionCurrentImagePreview.src = '';
+        opinionCurrentImage.style.display = 'none';
+    }
+
+    if (currentOpinionTopicImageUrl) {
+        opinionCurrentTopicImagePreview.src = currentOpinionTopicImageUrl;
+        opinionCurrentTopicImage.style.display = 'block';
+    } else {
+        opinionCurrentTopicImagePreview.src = '';
+        opinionCurrentTopicImage.style.display = 'none';
+    }
+
+    opinionFormTitle.textContent = 'Редактиране на мнение';
+    opinionSaveButton.textContent = 'Запази промените';
+    opinionCancelButton.style.display = 'inline-block';
+    opinionMessage.textContent = '';
+
+    opinionForm.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+
+    setTimeout(() => {
+        opinionQuote.focus();
+        opinionQuote.setSelectionRange(
+            opinionQuote.value.length,
+            opinionQuote.value.length
+        );
+    }, 300);
+}
+
+function resetOpinionForm() {
+    editingOpinionId = null;
+    currentOpinionAvatarUrl = '';
+    currentOpinionTopicImageUrl = '';
+
+    opinionForm.reset();
+    opinionPublished.checked = true;
+
+    opinionAvatar.value = '';
+    opinionTopicImage.value = '';
+
+    opinionCurrentImage.style.display = 'none';
+    opinionCurrentImagePreview.src = '';
+
+    opinionImagePreview.style.display = 'none';
+    opinionImagePreviewImage.src = '';
+
+    opinionCurrentTopicImage.style.display = 'none';
+    opinionCurrentTopicImagePreview.src = '';
+
+    opinionTopicImagePreview.style.display = 'none';
+    opinionTopicImagePreviewImage.src = '';
+
+    opinionFormTitle.textContent = 'Мнения & Коментари';
+    opinionSaveButton.textContent = 'Добави мнение';
+    opinionCancelButton.style.display = 'none';
+    opinionMessage.textContent = '';
+}
+
+opinionCancelButton.addEventListener('click', resetOpinionForm);
+
+opinionForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    opinionSaveButton.disabled = true;
+    opinionMessage.textContent = editingOpinionId
+        ? 'Запазване на промените...'
+        : 'Добавяне на мнението...';
+
+    const quote = opinionQuote.value.trim();
+    const author_name = opinionAuthor.value.trim();
+    const published = opinionPublished.checked;
+
+    if (!quote || !author_name) {
+        opinionMessage.textContent = !quote
+            ? 'Моля, въведи мнение или цитат.'
+            : 'Моля, въведи име на автора.';
+
+        opinionSaveButton.disabled = false;
+        (!quote ? opinionQuote : opinionAuthor).focus();
+        return;
+    }
+
+    const body = {
+        quote,
+        author_name,
+        avatar_url: currentOpinionAvatarUrl || null,
+        image_url: currentOpinionTopicImageUrl || null,
+        published
+    };
+
+    try {
+        if (editingOpinionId) {
+            await api(
+                '/api/admin/opinions/' + encodeURIComponent(editingOpinionId),
+                {
+                    method: 'PUT',
+                    body: JSON.stringify(body)
+                }
+            );
+
+            opinionMessage.textContent = 'Мнението е редактирано успешно!';
+        } else {
+            await api('/api/admin/opinions', {
+                method: 'POST',
+                body: JSON.stringify(body)
+            });
+
+            opinionMessage.textContent = 'Мнението е добавено успешно!';
+        }
+
+        resetOpinionForm();
+        await loadOpinionsAdmin();
+
+    } catch (error) {
+        console.error(error);
+        opinionMessage.textContent = error.message || 'Възникна грешка.';
+    } finally {
+        opinionSaveButton.disabled = false;
+    }
+});
+
+async function deleteOpinion(id) {
+    if (!confirm('Сигурни ли сте, че искате да изтриете това мнение?')) {
+        return;
+    }
+
+    opinionMessage.textContent = 'Изтриване на мнението...';
+
+    try {
+        await api('/api/admin/opinions/' + encodeURIComponent(id), {
+            method: 'DELETE'
+        });
+
+        if (String(editingOpinionId) === String(id)) {
+            resetOpinionForm();
+        }
+
+        opinionMessage.textContent = 'Мнението е изтрито успешно.';
+        await loadOpinionsAdmin();
+
+    } catch (error) {
+        console.error(error);
+        opinionMessage.textContent =
+            error.message || 'Мнението не можа да бъде изтрито.';
+    }
+}
+
+/* -------------------------
+   ИЗХОД
+------------------------- */
+
+logout.addEventListener('click', () => {
+    sessionStorage.removeItem('spisanieto_admin_token');
+    adminToken = null;
+    window.location.href = 'index.html';
+});
+
+/* -------------------------
+   СТАРТИРАНЕ
+------------------------- */
+
+await loadNews();
+await loadOpinionsAdmin();
+
 </script>
+
 </body>
 </html>
