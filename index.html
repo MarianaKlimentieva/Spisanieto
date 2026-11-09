@@ -6602,26 +6602,11 @@ async function loadCulinaryArt() {
 loadCulinaryArt();
 
 
+
 async function loadCultureMetro() {
+
     const container = document.getElementById('culture-metro-container');
     if (!container) return;
-
-    let attempts = 0;
-
-    while (!window.supabaseClient && attempts < 50) {
-        await new Promise(function(resolve) {
-            setTimeout(resolve, 100);
-        });
-        attempts++;
-    }
-
-    const client = window.supabaseClient;
-
-    if (!client) {
-        container.innerHTML =
-            '<div class="culture-metro-empty">Публикациите временно не могат да бъдат заредени.</div>';
-        return;
-    }
 
     function cultureEscapeHtml(value) {
         if (value === null || value === undefined) return '';
@@ -6657,17 +6642,31 @@ async function loadCultureMetro() {
     }
 
     try {
-        const { data, error } = await client
-            .from('news')
-            .select('id,title,image_url,category,created_at')
-            .eq('status', 'published')
-            .or('category.ilike.%Книг%,category.ilike.%Култур%')
-            .order('created_at', { ascending: false })
-            .limit(20);
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        );
 
-        if (error) throw error;
+        if (!response.ok) {
+            throw new Error('Cloudflare API error');
+        }
 
-        if (!data || data.length === 0) {
+        const result = await response.json();
+
+        const data = (result.news || [])
+            .filter(news =>
+                news.status === 'published' &&
+                news.category &&
+                (
+                    news.category.toLowerCase().includes('книг') ||
+                    news.category.toLowerCase().includes('култур')
+                )
+            )
+            .sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            )
+            .slice(0, 20);
+
+        if (!data.length) {
             container.innerHTML =
                 '<div class="culture-metro-empty">Очаквайте нови публикации в „АРТ“.</div>';
             return;
@@ -6682,12 +6681,13 @@ async function loadCultureMetro() {
         `;
 
     } catch (error) {
-        console.error('Грешка при зареждане на АРТ:', error);
+        console.error('Cloudflare ART error:', error);
 
         container.innerHTML =
             '<div class="culture-metro-empty">Възникна проблем при зареждането на публикациите.</div>';
     }
 }
+
 
 loadCultureMetro();
 loadFashionInspiration();
