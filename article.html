@@ -1228,41 +1228,9 @@ async function loadArticle() {
         );
 
 
-    const {
-        data: galleryImages,
-        error: galleryError
-    } =
-        await supabase
-            .from('news_images')
-            .select(`
-                id,
-                image_url,
-                sort_order
-            `)
-            .eq(
-                'news_id',
-                Number(articleId)
-            )
-            .order(
-                'sort_order',
-                {
-                    ascending: true
-                }
-            );
-
-
-    if (galleryError) {
-
-        console.error(
-            'Грешка при зареждане на галерията:',
-            galleryError
-        );
-
-    }
-
+       const galleryImages = data.gallery || [];
 
     if (
-        !galleryError &&
         galleryImages &&
         galleryImages.length > 0
     ) {
@@ -1313,7 +1281,6 @@ async function loadArticle() {
             );
 
     }
-
 
     const articleUrl =
         window.location.href;
