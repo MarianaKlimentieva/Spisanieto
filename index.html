@@ -6003,67 +6003,16 @@ async function loadHero() {
    
 <script>
 
+
 async function loadOpinions() {
 
-    const container =
-        document.getElementById(
-            'opinions-container'
-        );
+    const container = document.getElementById('opinions-container');
+    const moreButton = document.getElementById('opinions-more-button');
 
-    const moreButton =
-        document.getElementById(
-            'opinions-more-button'
-        );
-
-    if (!container) {
-        return;
-    }
-
-    let attempts = 0;
-
-    while (
-        !window.supabaseClient &&
-        attempts < 50
-    ) {
-        await new Promise(
-            resolve =>
-                setTimeout(
-                    resolve,
-                    100
-                )
-        );
-
-        attempts++;
-    }
-
-    const opinionsClient =
-        window.supabaseClient;
-
-    if (!opinionsClient) {
-
-        console.error(
-            'Supabase client не може да бъде зареден.'
-        );
-
-        container.innerHTML = `
-            <div class="opinion-card">
-                <p class="opinion-quote">
-                    Мненията временно не могат да бъдат заредени.
-                </p>
-            </div>
-        `;
-
-        return;
-    }
+    if (!container) return;
 
     function opinionEscapeHtml(value) {
-
-        if (
-            value === null ||
-            value === undefined
-        ) {
-            return '';
-        }
+        if (value === null || value === undefined) return '';
 
         return String(value)
             .replace(/&/g, '&amp;')
@@ -6075,177 +6024,107 @@ async function loadOpinions() {
 
     try {
 
-        const {
-            data,
-            error
-        } =
-            await opinionsClient
-                .from('opinions')
-                .select(
-                    'quote, author_name, avatar_url, created_at'
-                )
-                .eq(
-                    'published',
-                    true
-                )
-                .order(
-                    'created_at',
-                    {
-                        ascending: false
-                    }
-                );
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/opinions'
+        );
 
-        if (error) {
-
-            console.error(
-                'Грешка от Supabase при зареждане на мнения:',
-                error
-            );
-
-            container.innerHTML = `
-                <div class="opinion-card">
-                    <p class="opinion-quote">
-                        Мненията временно не могат да бъдат заредени.
-                    </p>
-                </div>
-            `;
-
-            if (moreButton) {
-                moreButton.parentElement.style.display =
-                    'none';
-            }
-
-            return;
+        if (!response.ok) {
+            throw new Error('Cloudflare API error');
         }
 
-        if (
-            !data ||
-            data.length === 0
-        ) {
+        const result = await response.json();
 
+        const data = (result.opinions || [])
+            .filter(opinion => opinion.published === 1 || opinion.published === true)
+            .sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+
+        if (!data.length) {
             container.innerHTML = '';
 
             if (moreButton) {
-                moreButton.parentElement.style.display =
-                    'none';
+                moreButton.parentElement.style.display = 'none';
             }
 
             return;
         }
 
-        container.innerHTML =
-            data.map(
-                function(opinion, index) {
+        container.innerHTML = data.map(function(opinion, index) {
 
-                    const quote =
-                        opinionEscapeHtml(
-                            opinion.quote || ''
-                        );
+            const quote = opinionEscapeHtml(opinion.quote || '');
+            const author = opinionEscapeHtml(opinion.author_name || '');
+            const avatar = opinionEscapeHtml(opinion.avatar_url || '');
 
-                    const author =
-                        opinionEscapeHtml(
-                            opinion.author_name || ''
-                        );
+            return `
+                <div
+                    class="opinion-card"
+                    ${index >= 3 ? 'style="display:none;"' : ''}
+                >
 
-                    const avatar =
-                        opinionEscapeHtml(
-                            opinion.avatar_url || ''
-                        );
+                    <p class="opinion-quote">
+                        „${quote}“
+                    </p>
 
-                    return `
-                        <div
-                            class="opinion-card"
-                            ${index >= 3
-                                ? 'style="display:none;"'
+                    <div class="opinion-author-box">
+
+                        ${
+                            avatar
+                                ? `
+                                    <img
+                                        src="${avatar}"
+                                        class="opinion-avatar"
+                                        alt="${author || 'Автор'}"
+                                        loading="lazy"
+                                    >
+                                `
                                 : ''
-                            }
-                        >
+                        }
 
-                            <p class="opinion-quote">
-                                „${quote}“
-                            </p>
-
-                            <div class="opinion-author-box">
-
-                                ${
-                                    avatar
-                                        ? `
-                                            <img
-                                                src="${avatar}"
-                                                class="opinion-avatar"
-                                                alt="${author || 'Автор'}"
-                                                loading="lazy"
-                                            >
-                                        `
-                                        : ''
-                                }
-
-                                <div>
-                                    <div class="opinion-author-name">
-                                        ${author}
-                                    </div>
-                                </div>
-
+                        <div>
+                            <div class="opinion-author-name">
+                                ${author}
                             </div>
-
                         </div>
-                    `;
-                }
-            ).join('');
 
-        if (!moreButton) {
-            return;
-        }
+                    </div>
+
+                </div>
+            `;
+        }).join('');
+
+        if (!moreButton) return;
 
         if (data.length <= 3) {
 
-            moreButton.parentElement.style.display =
-                'none';
+            moreButton.parentElement.style.display = 'none';
 
         } else {
 
-            moreButton.parentElement.style.display =
-                'block';
+            moreButton.parentElement.style.display = 'block';
+            moreButton.style.display = 'flex';
 
-            moreButton.style.display =
-                'flex';
+            const newButton = moreButton.cloneNode(true);
 
-            const newButton =
-                moreButton.cloneNode(true);
+            moreButton.parentNode.replaceChild(newButton, moreButton);
 
-            moreButton.parentNode.replaceChild(
-                newButton,
-                moreButton
-            );
+            newButton.addEventListener('click', function() {
 
-            newButton.addEventListener(
-                'click',
-                function() {
+                const hiddenCards = container.querySelectorAll(
+                    '.opinion-card[style*="display:none"]'
+                );
 
-                    const hiddenCards =
-                        container.querySelectorAll(
-                            '.opinion-card[style*="display:none"]'
-                        );
+                hiddenCards.forEach(function(card) {
+                    card.style.display = 'flex';
+                });
 
-                    hiddenCards.forEach(
-                        function(card) {
-                            card.style.display =
-                                'flex';
-                        }
-                    );
-
-                    newButton.parentElement.style.display =
-                        'none';
-                }
-            );
+                newButton.parentElement.style.display = 'none';
+            });
         }
 
     } catch (error) {
 
-        console.error(
-            'Грешка при зареждане на мнения:',
-            error
-        );
+        console.error('Cloudflare Opinions error:', error);
 
         container.innerHTML = `
             <div class="opinion-card">
@@ -6256,11 +6135,11 @@ async function loadOpinions() {
         `;
 
         if (moreButton) {
-            moreButton.parentElement.style.display =
-                'none';
+            moreButton.parentElement.style.display = 'none';
         }
     }
 }
+
 
 loadOpinions();
 
