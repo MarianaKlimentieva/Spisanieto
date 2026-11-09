@@ -5687,176 +5687,84 @@ async function loadHighlights() {
            ТЕМИ НА ФОКУС
         ========================================= */
 
-        async function loadFocusTopics() {
+        
+async function loadFocusTopics() {
 
-            const box =
-                document.getElementById(
-                    'focus-topics-box'
-                );
+    const box = document.getElementById('focus-topics-box');
+    const container = document.getElementById('focus-topics');
 
+    try {
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        );
 
-            const container =
-                document.getElementById(
-                    'focus-topics'
-                );
-
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from('news')
-
-                    .select(`
-                        id,
-                        title,
-                        category,
-                        created_at,
-                        image_url,
-                        is_focus,
-                        status
-                    `)
-
-                    .eq(
-                        'status',
-                        'published'
-                    )
-
-                    .eq(
-                        'is_focus',
-                        true
-                    )
-
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    );
-
-
-            if (error) {
-
-                console.error(
-                    'Focus topics Supabase error:',
-                    error
-                );
-
-
-                if (box) {
-                    box.style.display = 'none';
-                }
-
-                return;
-            }
-
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                if (box) {
-                    box.style.display = 'none';
-                }
-
-                return;
-            }
-
-
-            if (box) {
-                box.style.display = '';
-            }
-
-
-            container.innerHTML =
-                data
-
-                    .map(
-                        news => {
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-
-                            const date =
-                                news.created_at
-
-                                    ? new Date(
-                                        news.created_at
-                                    ).toLocaleDateString(
-                                        'bg-BG'
-                                    )
-
-                                    : '';
-
-
-                            const imageUrl =
-                                news.image_url
-
-                                    ? String(
-                                        news.image_url
-                                    ).trim()
-
-                                    : '';
-
-
-                            const image =
-                                imageUrl ||
-
-                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
-
-
-                            return `
-
-                                <a
-                                    href="${articleUrl}"
-                                    class="focus-topic"
-                                >
-
-                                    <img
-                                        src="${escapeHtml(image)}"
-                                        class="focus-topic-image"
-                                        alt="${escapeHtml(news.title)}"
-                                        loading="lazy"
-                                        onerror="
-                                            this.onerror=null;
-                                            this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
-                                        "
-                                    >
-
-
-                                    <span class="focus-topic-category">
-
-                                        ${escapeHtml(
-                                            news.category ||
-                                            'Новини'
-                                        )}
-
-                                    </span>
-
-
-                                    <span class="focus-topic-title">
-
-                                        ${escapeHtml(
-                                            news.title
-                                        )}
-
-                                    </span>
-
-
-                                   
-
-                                </a>
-
-                            `;
-                        }
-                    )
-
-                    .join('');
+        if (!response.ok) {
+            throw new Error('Cloudflare API error');
         }
+
+        const result = await response.json();
+
+        const data = (result.news || [])
+            .filter(news =>
+                news.is_focus === 1 &&
+                (news.status === 'published' || news.status == null)
+            )
+            .sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+
+        if (!data.length) {
+            if (box) box.style.display = 'none';
+            return;
+        }
+
+        if (box) box.style.display = '';
+
+        container.innerHTML = data.map(news => {
+
+            const articleUrl =
+                `article.html?id=${encodeURIComponent(news.id)}`;
+
+            const date = news.created_at
+                ? new Date(news.created_at).toLocaleDateString('bg-BG')
+                : '';
+
+            const imageUrl = news.image_url
+                ? String(news.image_url).trim()
+                : '';
+
+            const image = imageUrl ||
+                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';
+
+            return `
+                <a href="${articleUrl}" class="focus-topic">
+
+                    <img
+                        src="${escapeHtml(image)}"
+                        class="focus-topic-image"
+                        alt="${escapeHtml(news.title)}"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80';"
+                    >
+
+                    <span class="focus-topic-category">
+                        ${escapeHtml(news.category || 'Новини')}
+                    </span>
+
+                    <span class="focus-topic-title">
+                        ${escapeHtml(news.title)}
+                    </span>
+
+                </a>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('Cloudflare focus topics error:', error);
+        if (box) box.style.display = 'none';
+    }
+}
+
 
 
         /* =========================================
