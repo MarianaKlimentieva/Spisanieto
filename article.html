@@ -1106,34 +1106,34 @@ async function loadArticle() {
     }
 
 
-    let currentViews =
-        Number(data.views) || 0;
+       let currentViews = Number(data.views) || 0;
 
+    try {
 
-    const {
-        error: viewsError
-    } =
-        await supabase.rpc(
-            'increment_news_views',
+        const viewsResponse = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news/' +
+            encodeURIComponent(articleId) +
+            '/view',
             {
-                news_id: Number(articleId)
+                method: 'POST'
             }
         );
 
+        const viewsResult = await viewsResponse.json();
 
-    if (viewsError) {
+        if (!viewsResponse.ok || !viewsResult.ok) {
+            throw new Error('Броячът не можа да бъде обновен.');
+        }
+
+        currentViews = Number(viewsResult.views) || currentViews;
+
+        console.log('Гледането е отчетено успешно.');
+
+    } catch (viewsError) {
 
         console.error(
             'Грешка при увеличаване на views:',
             viewsError
-        );
-
-    } else {
-
-        currentViews++;
-
-        console.log(
-            'Гледането е отчетено успешно.'
         );
 
     }
