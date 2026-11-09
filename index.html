@@ -5046,6 +5046,7 @@ try {
 } catch (error) {
 
     console.error('Search Cloudflare error:', error);
+alert(error.message);
 
     results.innerHTML = `
         <div class="search-empty">
