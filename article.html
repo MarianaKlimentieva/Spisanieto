@@ -993,28 +993,39 @@ async function loadArticle() {
     }
 
 
-    const { data, error: supabaseError } =
-        await supabase
-            .from('news')
-            .select(`
-                id,
-                title,
-                subtitle,
-                content,
-                content_html,
-                category,
-                image_url,
-                created_at,
-                updated_at,
-                author,
-                seo_title,
-                seo_description,
-                seo_image_url,
-                views
-            `)
-            .eq('id', articleId)
-            .eq('status', 'published')
-            .single();
+       let data = null;
+
+    try {
+
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news/' +
+            encodeURIComponent(articleId)
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.news) {
+            throw new Error('Новината не е намерена.');
+        }
+
+        data = result.news;
+
+    } catch (loadError) {
+
+        console.error(
+            'Грешка при зареждане:',
+            loadError
+        );
+
+        loading.style.display = 'none';
+
+        error.textContent =
+            'Новината не е намерена.';
+
+        error.style.display = 'block';
+
+        return;
+    }
 
 
     if (supabaseError || !data) {
