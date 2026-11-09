@@ -5315,146 +5315,87 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
            АКЦЕНТИ
         ========================================= */
 
-        async function loadHighlights() {
+       
+async function loadHighlights() {
 
-            const container =
-                document.getElementById(
-                    'highlights'
-                );
+    const container = document.getElementById('highlights');
 
+    try {
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        );
 
-            const {
-                data,
-                error
-            } =
-                await applyCategoryFilter(
-
-                    supabase
-
-                        .from('news')
-
-                        .select(`
-                            id,
-                            title,
-                            category,
-                            image_url,
-                            author,
-                            created_at
-                        `)
-
-                        .eq(
-                            'status',
-                            'published'
-                        )
-
-                )
-
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-
-                    .limit(8);
-
-
-            if (error) {
-
-                console.error(
-                    'Supabase error:',
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <p class="card-excerpt">
-                        Възникна проблем при зареждането на новините.
-                    </p>
-
-                `;
-
-                return;
-            }
-
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-
-                    <p class="card-excerpt">
-                        В тази рубрика все още няма публикувани новини.
-                    </p>
-
-                `;
-
-                return;
-            }
-
-
-            container.innerHTML =
-                data
-
-                    .map(
-                        news => {
-
-                            const image =
-                                news.image_url ||
-
-                                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
-
-
-                            const category =
-                                news.category ||
-                                'Новини';
-
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-
-                            return `
-
-                                <article class="card">
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="card-image-link"
-                                    >
-
-                                        <img
-                                            src="${escapeHtml(image)}"
-                                            class="card-img"
-                                            alt="${escapeHtml(news.title)}"
-                                        >
-
-                                    </a>
-
-
-                                    <span class="category">
-                                        ${escapeHtml(category)}
-                                    </span>
-
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="card-title"
-                                    >
-                                        ${escapeHtml(news.title)}
-                                    </a>
-
-                                </article>
-
-                            `;
-                        }
-                    )
-
-                    .join('');
+        if (!response.ok) {
+            throw new Error('Грешка при връзката с Cloudflare');
         }
+
+        const result = await response.json();
+
+        let data = result.news || [];
+
+        if (activeCategory) {
+            data = data.filter(news =>
+                news.category === activeCategory
+            );
+        }
+
+        data = data
+            .sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            )
+            .slice(0, 8);
+
+        if (!data.length) {
+            container.innerHTML = `
+                <p class="card-excerpt">
+                    В тази рубрика все още няма публикувани новини.
+                </p>
+            `;
+            return;
+        }
+
+        container.innerHTML = data.map(news => {
+
+            const image = news.image_url ||
+                'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
+
+            const category = news.category || 'Новини';
+
+            const articleUrl =
+                `article.html?id=${encodeURIComponent(news.id)}`;
+
+            return `
+                <article class="card">
+                    <a href="${articleUrl}" class="card-image-link">
+                        <img
+                            src="${escapeHtml(image)}"
+                            class="card-img"
+                            alt="${escapeHtml(news.title)}"
+                        >
+                    </a>
+
+                    <span class="category">
+                        ${escapeHtml(category)}
+                    </span>
+
+                    <a href="${articleUrl}" class="card-title">
+                        ${escapeHtml(news.title)}
+                    </a>
+                </article>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('Cloudflare news error:', error);
+
+        container.innerHTML = `
+            <p class="card-excerpt">
+                Възникна проблем при зареждането на новините.
+            </p>
+        `;
+    }
+}
+
 
 
         /* =========================================
