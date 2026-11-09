@@ -5028,59 +5028,34 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
                     .filter(Boolean);
 
 
-            const {
-                data,
-                error
-            } =
-                await supabase
+          let data = [];
 
-                    .from('news')
+try {
+    const response = await fetch(
+        'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+    );
 
-                    .select(`
-                        id,
-                        title,
-                        subtitle,
-                        content,
-                        category,
-                        image_url,
-                        author,
-                        created_at
-                    `)
+    if (!response.ok) {
+        throw new Error('Cloudflare API error');
+    }
 
-                    .eq(
-                        'status',
-                        'published'
-                    )
+    const result = await response.json();
 
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
+    data = result.news || [];
 
-                    .limit(200);
+} catch (error) {
 
+    console.error('Search Cloudflare error:', error);
 
-            if (error) {
+    results.innerHTML = `
+        <div class="search-empty">
+            Възникна проблем при търсенето.
+            Моля, опитайте отново.
+        </div>
+    `;
 
-                console.error(
-                    'Search Supabase error:',
-                    error
-                );
-
-
-                results.innerHTML = `
-
-                    <div class="search-empty">
-                        Възникна проблем при търсенето.
-                        Моля, опитайте отново.
-                    </div>
-
-                `;
-
-                return;
-            }
+    return;
+}
 
 
             if (
