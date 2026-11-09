@@ -5402,140 +5402,80 @@ async function loadHighlights() {
            НАЙ-ЧЕТЕНИ
         ========================================= */
 
-        async function loadPopularNews() {
+        
+async function loadPopularNews() {
 
-            const container =
-                document.getElementById(
-                    'popular-news'
-                );
+    const container = document.getElementById('popular-news');
 
+    try {
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        );
 
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from('news')
-
-                    .select(`
-                        id,
-                        title,
-                        views,
-                        created_at
-                    `)
-
-                    .eq(
-                        'status',
-                        'published'
-                    )
-
-                    .order(
-                        'views',
-                        {
-                            ascending: false
-                        }
-                    )
-
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-
-                    .limit(5);
-
-
-            if (error) {
-
-                console.error(
-                    'Popular news Supabase error:',
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <li class="popular-item">
-
-                        <span class="popular-num">
-                            01
-                        </span>
-
-                        <span class="popular-text">
-                            Не успяхме да заредим най-четените новини.
-                        </span>
-
-                    </li>
-
-                `;
-
-                return;
-            }
-
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-
-                    <li class="popular-item">
-
-                        <span class="popular-num">
-                            01
-                        </span>
-
-                        <span class="popular-text">
-                            Все още няма публикувани новини.
-                        </span>
-
-                    </li>
-
-                `;
-
-                return;
-            }
-
-
-            container.innerHTML =
-                data
-
-                    .map(
-                        (news, index) => {
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-
-                            return `
-
-                                <li class="popular-item">
-
-                                    <span class="popular-num">
-                                        ${String(
-                                            index + 1
-                                        ).padStart(2, '0')}
-                                    </span>
-
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="popular-text"
-                                    >
-                                        ${escapeHtml(news.title)}
-                                    </a>
-
-                                </li>
-
-                            `;
-                        }
-                    )
-
-                    .join('');
+        if (!response.ok) {
+            throw new Error('Cloudflare API error');
         }
+
+        const result = await response.json();
+
+        const data = (result.news || [])
+            .sort((a, b) => {
+                const viewsDifference = (b.views || 0) - (a.views || 0);
+
+                if (viewsDifference !== 0) {
+                    return viewsDifference;
+                }
+
+                return new Date(b.created_at) - new Date(a.created_at);
+            })
+            .slice(0, 5);
+
+        if (!data.length) {
+            container.innerHTML = `
+                <li class="popular-item">
+                    <span class="popular-num">01</span>
+                    <span class="popular-text">
+                        Все още няма публикувани новини.
+                    </span>
+                </li>
+            `;
+            return;
+        }
+
+        container.innerHTML = data.map((news, index) => {
+
+            const articleUrl =
+                `article.html?id=${encodeURIComponent(news.id)}`;
+
+            return `
+                <li class="popular-item">
+
+                    <span class="popular-num">
+                        ${String(index + 1).padStart(2, '0')}
+                    </span>
+
+                    <a href="${articleUrl}" class="popular-text">
+                        ${escapeHtml(news.title)}
+                    </a>
+
+                </li>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('Cloudflare popular news error:', error);
+
+        container.innerHTML = `
+            <li class="popular-item">
+                <span class="popular-num">01</span>
+                <span class="popular-text">
+                    Не успяхме да заредим най-четените новини.
+                </span>
+            </li>
+        `;
+    }
+}
+
 
 
         /* =========================================
