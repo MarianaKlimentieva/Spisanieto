@@ -5482,145 +5482,90 @@ async function loadPopularNews() {
            ПОСЛЕДНИ НОВИНИ
         ========================================= */
 
-        async function loadLatestNews() {
+       
+async function loadLatestNews() {
 
-            const container =
-                document.getElementById(
-                    'latest-news'
-                );
+    const container = document.getElementById('latest-news');
 
+    if (!container) {
+        console.warn('Latest news container not found.');
+        return;
+    }
 
-            const {
-                data,
-                error
-            } =
-                await supabase
+    try {
+        const response = await fetch(
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        );
 
-                    .from('news')
-
-                    .select(`
-                        id,
-                        title,
-                        category,
-                        created_at
-                    `)
-
-                    .eq(
-                        'status',
-                        'published'
-                    )
-
-                    .order(
-                        'created_at',
-                        {
-                            ascending: false
-                        }
-                    )
-
-                    .limit(5);
-
-
-            if (error) {
-
-                console.error(
-                    'Latest news Supabase error:',
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <li class="latest-item">
-
-                        <span class="latest-date">
-                            Не успяхме да заредим последните новини.
-                        </span>
-
-                    </li>
-
-                `;
-
-                return;
-            }
-
-
-            if (
-                !data ||
-                data.length === 0
-            ) {
-
-                container.innerHTML = `
-
-                    <li class="latest-item">
-
-                        <span class="latest-date">
-                            Все още няма публикувани новини.
-                        </span>
-
-                    </li>
-
-                `;
-
-                return;
-            }
-
-
-            container.innerHTML =
-                data
-
-                    .map(
-                        news => {
-
-                            const articleUrl =
-                                `article.html?id=${encodeURIComponent(news.id)}`;
-
-
-                            const date =
-                                news.created_at
-
-                                    ? new Date(
-                                        news.created_at
-                                    ).toLocaleDateString(
-                                        'bg-BG'
-                                    )
-
-                                    : '';
-
-
-                            return `
-
-                                <li class="latest-item">
-
-                                    <span class="latest-category">
-
-                                        ${escapeHtml(
-                                            news.category ||
-                                            'Новини'
-                                        )}
-
-                                    </span>
-
-
-                                    <a
-                                        href="${articleUrl}"
-                                        class="latest-link"
-                                    >
-                                        ${escapeHtml(news.title)}
-                                    </a>
-
-
-                                    <span class="latest-date">
-                                        ${date}
-                                    </span>
-
-                                </li>
-
-                            `;
-                        }
-                    )
-
-                    .join('');
+        if (!response.ok) {
+            throw new Error('Cloudflare API error');
         }
+
+        const result = await response.json();
+
+        const data = (result.news || [])
+            .filter(news =>
+                news.status === 'published' || news.status == null
+            )
+            .sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            )
+            .slice(0, 5);
+
+        if (!data.length) {
+            container.innerHTML = `
+                <li class="latest-item">
+                    <span class="latest-date">
+                        Все още няма публикувани новини.
+                    </span>
+                </li>
+            `;
+            return;
+        }
+
+        container.innerHTML = data.map(news => {
+
+            const articleUrl =
+                `article.html?id=${encodeURIComponent(news.id)}`;
+
+            const date = news.created_at
+                ? new Date(news.created_at).toLocaleDateString('bg-BG')
+                : '';
+
+            return `
+                <li class="latest-item">
+
+                    <span class="latest-category">
+                        ${escapeHtml(news.category || 'Новини')}
+                    </span>
+
+                    <a
+                        href="${articleUrl}"
+                        class="latest-link"
+                    >
+                        ${escapeHtml(news.title)}
+                    </a>
+
+                    <span class="latest-date">
+                        ${date}
+                    </span>
+
+                </li>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('Cloudflare Latest news error:', error);
+
+        container.innerHTML = `
+            <li class="latest-item">
+                <span class="latest-date">
+                    Не успяхме да заредим последните новини.
+                </span>
+            </li>
+        `;
+    }
+}
 
 
         /* =========================================
