@@ -4422,62 +4422,84 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
         </div>
 
     </footer>
-<script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const SUPABASE_URL = 'https://hxvflentlaktgwimsevc.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-const client = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+<script>
+const API_URL = 'https://spisanieto-api.spisanieto-news.workers.dev';
 const root = document.getElementById('art-articles');
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=80';
-function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
-function fmtDate(v) { if (!v) return ''; const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'}); }
+let allArtNews = [];
+let allPublishedNews = [];
+
+function esc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('bg-BG', {day:'2-digit', month:'2-digit', year:'numeric'});
+}
+
 // Премахваме само етикета „Книги и култура“ в началото на заглавието.
-// Категорийният етикет и останалият текст остават непроменени.
 function cleanArticleTitle(v) {
   return String(v ?? '')
     .replace(/книги\s+и\s+култура\s*[:|–—-]?\s*/ig, '')
     .replace(/^[\s:|–—-]+|[\s:|–—-]+$/g, '')
     .trim();
 }
+
 function renderCard(a) {
   const img = a.image_url || FALLBACK_IMAGE;
   const title = cleanArticleTitle(a.title);
-const category = String(a.category || 'Арт').trim();
+  const category = String(a.category || 'Арт').trim();
   return `<article class="art-article-card"><a href="article.html?id=${encodeURIComponent(a.id)}"><img src="${esc(img)}" alt="${esc(title)}" loading="lazy"><div class="art-article-copy">${category.toLowerCase() === 'книги и култура' ? '' : `<div class="art-article-category">${esc(category)}</div>`}<h2>${esc(title)}</h2><time>${fmtDate(a.created_at)}</time></div></a></article>`;
 }
-try {
-  const { data, error } = await client.from('news').select('id,title,image_url,category,created_at').eq('status','published').or('category.ilike.%Книг%,category.ilike.%Култур%').order('created_at',{ascending:false});
-  if (error) throw error;
-  if (!data || !data.length) { root.innerHTML = '<div class="art-status">Все още няма публикувани материали в рубриката „Арт“.</div>'; }
-  else {
-    root.innerHTML = data.map(renderCard).join('');
 
-    root.querySelectorAll('.art-article-card').forEach(card => {
-        const img = card.querySelector('img');
-
-        if (!img) return;
-
-        const setArtBackground = () => {
-            const src = img.currentSrc || img.src;
-
-            if (!src) return;
-
-            card.style.setProperty(
-                '--art-image',
-                `url(${JSON.stringify(src)})`
-            );
-        };
-
-        if (img.complete && img.naturalWidth > 0) {
-            setArtBackground();
-        } else {
-            img.addEventListener('load', setArtBackground, {
-                once: true
-            });
-        }
-    });
+function getNewsArray(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload?.news)) return payload.news;
+  if (Array.isArray(payload?.articles)) return payload.articles;
+  return [];
 }
-} catch (e) { console.error('Грешка при зареждане на АРТ:', e); root.innerHTML = '<div class="art-status">Публикациите временно не могат да бъдат заредени. Моля, опитайте отново по-късно.</div>'; }
+
+function setArtImageBackgrounds() {
+  root.querySelectorAll('.art-article-card').forEach(card => {
+    const img = card.querySelector('img');
+    if (!img) return;
+    const setBackground = () => {
+      const src = img.currentSrc || img.src;
+      if (src) card.style.setProperty('--art-image', `url(${JSON.stringify(src)})`);
+    };
+    if (img.complete && img.naturalWidth > 0) setBackground();
+    else img.addEventListener('load', setBackground, {once:true});
+  });
+}
+
+async function loadArtNews() {
+  try {
+    const response = await fetch(`${API_URL}/api/news`);
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    const payload = await response.json();
+    const news = getNewsArray(payload);
+    allPublishedNews = news;
+    allArtNews = news.filter(a => {
+      const category = String(a.category || '').toLocaleLowerCase('bg-BG');
+      return category.includes('книг') || category.includes('култур');
+    });
+    allArtNews.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    if (!allArtNews.length) {
+      root.innerHTML = '<div class="art-status">Все още няма публикувани материали в рубриката „Арт“.</div>';
+      return;
+    }
+    root.innerHTML = allArtNews.map(renderCard).join('');
+    setArtImageBackgrounds();
+  } catch (error) {
+    console.error('Грешка при зареждане на АРТ:', error);
+    root.innerHTML = '<div class="art-status">Публикациите временно не могат да бъдат заредени. Моля, опитайте отново по-късно.</div>';
+  }
+}
+
+loadArtNews();
 </script>
 <script>
 (function(){
@@ -4497,7 +4519,7 @@ try {
  window.closeAboutModal=function(){const m=document.getElementById('aboutModal');if(m)m.style.display='none';};
  const searchInput=document.getElementById('searchInput');
  if(searchInput) searchInput.addEventListener('input',async function(){const q=this.value.trim();const out=document.getElementById('searchResults');if(!out)return;if(q.length<2){out.innerHTML='<div class="search-empty">Започнете да пишете, за да търсите в новините.</div>';return;}out.innerHTML='<div class="search-empty">Търсене...</div>';try{const {data,error}=await clientSearch(q);if(error)throw error;if(!data||!data.length){out.innerHTML='<div class="search-empty">Няма намерени публикации.</div>';return;}out.innerHTML=data.map(a=>`<a class="search-result" href="article.html?id=${encodeURIComponent(a.id)}"><strong>${escSearch(a.title)}</strong></a>`).join('');}catch(e){out.innerHTML='<div class="search-empty">Търсенето временно не е достъпно.</div>';}});
- async function clientSearch(q){const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');const c=createClient('https://hxvflentlaktgwimsevc.supabase.co','sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY');return await c.from('news').select('id,title').eq('status','published').ilike('title','%'+q+'%').order('created_at',{ascending:false}).limit(8);}
+ async function clientSearch(q){if(!allPublishedNews.length){const response=await fetch('https://spisanieto-api.spisanieto-news.workers.dev/api/news');if(!response.ok)throw new Error('API error');const payload=await response.json();allPublishedNews=Array.isArray(payload)?payload:(payload.data||payload.news||payload.articles||[]);}const term=q.toLocaleLowerCase('bg-BG');return {data:allPublishedNews.filter(a=>String(a.title||'').toLocaleLowerCase('bg-BG').includes(term)).sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0)).slice(0,8),error:null};}
  function escSearch(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
  window.addEventListener('click',e=>{['searchModal','aboutModal'].forEach(id=>{const m=document.getElementById(id);if(m&&e.target===m)m.style.display='none';});});
 })();
