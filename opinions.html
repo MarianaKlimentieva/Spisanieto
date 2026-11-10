@@ -1037,16 +1037,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script>
-        const SUPABASE_URL = 'https://hxvflentlaktgwimsevc.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-
-        window.supabaseClient = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
 
         /* ПРОЗОРЕЦ „РЕДАКЦИЯ“ */
 
@@ -1171,7 +1162,7 @@ function scrollToOpinionFromHash() {
             const prevButton = document.getElementById('opinion-prev');
             const nextButton = document.getElementById('opinion-next');
 
-            if (!feature || !list || !window.supabaseClient) return;
+            if (!feature || !list) return;
 
             let opinions = [];
             let currentIndex = 0;
@@ -1308,15 +1299,20 @@ function scrollToOpinionFromHash() {
                         const previousCount = Math.max(0, Number(countElement?.textContent) || 0);
 
                         try {
-                            const { data, error } = await window.supabaseClient.rpc(
-                                'increment_opinion_views',
-                                { opinion_id: String(opinionId) }
+                            const response = await fetch(
+                                'https://spisanieto-api.spisanieto-news.workers.dev/api/opinions/' +
+                                encodeURIComponent(opinionId) + '/view',
+                                { method: 'POST' }
                             );
 
-                            if (error) throw error;
+                            const result = await response.json();
+
+                            if (!response.ok || !result.ok) {
+                                throw new Error('Броячът на посещенията не може да бъде обновен.');
+                            }
 
                             if (countElement) {
-                                const newCount = Number(data);
+                                const newCount = Number(result.views);
                                 countElement.textContent = Number.isFinite(newCount) && newCount >= 0
                                     ? String(newCount)
                                     : String(previousCount + 1);
@@ -1455,15 +1451,17 @@ list.querySelectorAll('.opinion-list-quote').forEach(quote => {
             }
 
             try {
-                const { data, error } = await window.supabaseClient
-                    .from('opinions')
-                    .select('id, quote, author_name, avatar_url, image_url, created_at, views')
-                    .eq('published', true)
-                    .order('created_at', { ascending: false });
+                const response = await fetch(
+                    'https://spisanieto-api.spisanieto-news.workers.dev/api/opinions'
+                );
 
-                if (error) throw error;
+                const result = await response.json();
 
-                opinions = (data || []).filter(
+                if (!response.ok || !result.opinions) {
+                    throw new Error('Мненията не могат да бъдат заредени.');
+                }
+
+                opinions = result.opinions.filter(
                     item => item.quote && item.quote.trim()
                 );
 
