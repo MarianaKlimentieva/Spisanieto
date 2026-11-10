@@ -1020,22 +1020,7 @@ async function loadArticle() {
     }
 
 
-    if (supabaseError || !data) {
-
-        console.error(
-            'Грешка при зареждане:',
-            supabaseError
-        );
-
-        loading.style.display = 'none';
-
-        error.textContent =
-            'Новината не е намерена.';
-
-        error.style.display = 'block';
-
-        return;
-    }
+   
 
 
     document.getElementById(
