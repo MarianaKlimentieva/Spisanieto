@@ -755,23 +755,12 @@
 
 
     <!-- =========================================
-         SUPABASE
+         CLOUDFLARE API
     ========================================= -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script>
-        const SUPABASE_URL =
-            'https://hxvflentlaktgwimsevc.supabase.co';
-
-        const SUPABASE_ANON_KEY =
-            'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
+        const API_URL =
+            'https://spisanieto-api.spisanieto-news.workers.dev';
 
         /* =========================================
            ESCAPE HTML
@@ -791,108 +780,119 @@
         }
 
         /* =========================================
-           LOAD ALL NEWS
+           LOAD ALL NEWS FROM CLOUDFLARE
         ========================================= */
 
         async function loadAllNews() {
             const container =
                 document.getElementById('all-news');
 
-            const { data, error } =
-                await supabaseClient
-                    .from('news')
-                    .select(`
-                        id,
-                        title,
-                        subtitle,
-                        category,
-                        image_url,
-                        author,
-                        created_at
-                    `)
-                    .eq('status', 'published')
-                    .order('created_at', {
-                        ascending: false
-                    });
+            if (!container) {
+                return;
+            }
 
-            if (error) {
-                console.error('News Supabase error:', error);
+            try {
+                const response = await fetch(
+                    `${API_URL}/api/news`
+                );
+
+                const result = await response.json();
+
+                if (!response.ok || !result.ok || !Array.isArray(result.news)) {
+                    throw new Error(
+                        result.error || 'Неуспешно зареждане на новините.'
+                    );
+                }
+
+                const data = result.news
+                    .filter(news =>
+                        Number(news.published) === 1 &&
+                        (news.status === 'published' || news.status == null)
+                    )
+                    .sort((a, b) =>
+                        new Date(b.created_at || 0) -
+                        new Date(a.created_at || 0)
+                    );
+
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="status-message">
+                            Все още няма публикувани новини.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+                container.innerHTML = data.map(news => {
+                    const image =
+                        news.image_url ||
+                        'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';
+
+                    const category =
+                        news.category || 'Новини';
+
+                    const articleUrl =
+                        `article.html?id=${encodeURIComponent(news.id)}`;
+
+                    const date = news.created_at
+                        ? new Date(news.created_at).toLocaleDateString('bg-BG')
+                        : '';
+
+                    return `
+                        <article class="news-card">
+                            <a href="${articleUrl}" class="news-image-link">
+                                <img
+                                    src="${escapeHtml(image)}"
+                                    class="news-image"
+                                    alt="${escapeHtml(news.title)}"
+                                    loading="lazy"
+                                    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';"
+                                >
+                            </a>
+
+                            <span class="news-category">
+                                ${escapeHtml(category)}
+                            </span>
+
+                            <a href="${articleUrl}" class="news-title">
+                                ${escapeHtml(news.title)}
+                            </a>
+
+                            ${
+                                news.subtitle
+                                    ? `
+                                        <div class="news-subtitle">
+                                            ${escapeHtml(news.subtitle)}
+                                        </div>
+                                    `
+                                    : ''
+                            }
+
+                            <div class="news-meta">
+                                ${
+                                    news.author
+                                        ? `${escapeHtml(news.author)} · `
+                                        : ''
+                                }
+                                ${date}
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error(
+                    'Грешка при зареждане на новините от Cloudflare:',
+                    error
+                );
 
                 container.innerHTML = `
                     <div class="status-message">
                         Възникна проблем при зареждането на новините.
                     </div>
                 `;
-
-                return;
             }
-
-            if (!data || data.length === 0) {
-                container.innerHTML = `
-                    <div class="status-message">
-                        Все още няма публикувани новини.
-                    </div>
-                `;
-
-                return;
-            }
-
-            container.innerHTML = data.map(news => {
-                const image =
-                    news.image_url ||
-                    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';
-
-                const category =
-                    news.category || 'Новини';
-
-                const articleUrl =
-                    `article.html?id=${encodeURIComponent(news.id)}`;
-
-                const date = news.created_at
-                    ? new Date(news.created_at).toLocaleDateString('bg-BG')
-                    : '';
-
-                return `
-                    <article class="news-card">
-                        <a href="${articleUrl}" class="news-image-link">
-                            <img
-                                src="${escapeHtml(image)}"
-                                class="news-image"
-                                alt="${escapeHtml(news.title)}"
-                                loading="lazy"
-                                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';"
-                            >
-                        </a>
-
-                        <span class="news-category">
-                            ${escapeHtml(category)}
-                        </span>
-
-                        <a href="${articleUrl}" class="news-title">
-                            ${escapeHtml(news.title)}
-                        </a>
-
-                        ${
-                            news.subtitle
-                                ? `
-                                    <div class="news-subtitle">
-                                        ${escapeHtml(news.subtitle)}
-                                    </div>
-                                `
-                                : ''
-                        }
-
-                        <div class="news-meta">
-                            ${
-                                news.author
-                                    ? `${escapeHtml(news.author)} · `
-                                    : ''
-                            }
-                            ${date}
-                        </div>
-                    </article>
-                `;
-            }).join('');
         }
 
         /* =========================================
