@@ -613,11 +613,8 @@ body { background: #FFFFFF; color: #111111; }
     <div class="footer-bottom">&copy; <span id="current-year">2026</span> СПИСАНИЕТО. Всички права запазени.</div>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL='https://hxvflentlaktgwimsevc.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const API_BASE='https://spisanieto-api.spisanieto-news.workers.dev';
 const FALLBACK_IMAGE='https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80';
 const PAGE_SIZE=9;let articles=[],page=1,railOffset=0;
 document.getElementById('current-year').textContent=new Date().getFullYear();
@@ -673,8 +670,14 @@ document.getElementById('rail-prev').addEventListener('click',()=>document.getEl
 document.getElementById('rail-next').addEventListener('click',()=>document.getElementById('featured-rail').scrollBy({left:340,behavior:'smooth'}));
 async function loadArticles(){
  try{
-  const {data,error}=await supabaseClient.from('news').select('id,title,subtitle,image_url,category,created_at').eq('status','published').eq('category','Кулинарно изкуство').order('created_at',{ascending:false});
-  if(error)throw error;articles=data||[];renderRail();renderEditorial();renderLatest();
+  const response=await fetch(`${API_BASE}/api/news?limit=100`);
+  if(!response.ok)throw new Error(`API заявката е неуспешна: ${response.status}`);
+  const result=await response.json();
+  const news=Array.isArray(result)?result:(result.news||[]);
+  articles=news
+    .filter(item=>item.category==='Кулинарно изкуство')
+    .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  renderRail();renderEditorial();renderLatest();
  }catch(e){
   console.error('Грешка при зареждане на кулинарните статии:',e);
   const msg='<div class="status"><strong>Публикациите не могат да бъдат заредени</strong>Моля, опитайте отново след малко.</div>';
@@ -704,10 +707,12 @@ loadArticles();
     if(term.length<2){results.innerHTML='<div class="search-empty">Въведете поне 2 символа за търсене.</div>';return;}
     results.innerHTML='<div class="search-status">Търсене за „'+safeText(term)+'“…</div>';
     try{
-      const {data,error}=await supabaseClient.from('news').select('id,title,subtitle,content,category,image_url,author,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
-      if(error)throw error;
+      const response=await fetch(`${API_BASE}/api/news?limit=100`);
+      if(!response.ok)throw new Error(`API заявката е неуспешна: ${response.status}`);
+      const result=await response.json();
+      const data=Array.isArray(result)?result:(result.news||[]);
       const words=term.toLocaleLowerCase('bg-BG').split(/\s+/).filter(Boolean);
-      const matches=(data||[]).filter(item=>{const hay=[item.title,item.subtitle,item.content,item.category,item.author].filter(Boolean).join(' ').toLocaleLowerCase('bg-BG');return words.every(word=>hay.includes(word));});
+      const matches=data.filter(item=>{const hay=[item.title,item.subtitle,item.content,item.category,item.author].filter(Boolean).join(' ').toLocaleLowerCase('bg-BG');return words.every(word=>hay.includes(word));});
       if(!matches.length){results.innerHTML='<div class="search-empty">Няма намерени публикации за „'+safeText(term)+'“.</div>';return;}
       results.innerHTML='<div class="search-status">Намерени '+matches.length+' '+(matches.length===1?'резултат':'резултата')+' за „'+safeText(term)+'“</div>'+matches.map(item=>{
         const image=item.image_url||'';const articleUrl='article.html?id='+encodeURIComponent(item.id);
