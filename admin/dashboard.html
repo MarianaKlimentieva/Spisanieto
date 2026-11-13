@@ -20,10 +20,10 @@
 <label for="category">Категория</label><select id="category" required>
 <option value="">Изберете категория</option><option value="Новини">Новини</option><option value="Политика">Политика</option><option value="Свят">Свят</option><option value="Анализи">Анализи</option><option value="Лайфстайл">Лайфстайл</option><option value="Технологии">Технологии</option><option value="Икономика">Икономика</option><option value="Мода и тенденции">Мода и тенденции</option><option value="Кулинарно изкуство">Кулинарно изкуство</option><option value="Пътешествия &amp; Места">Пътешествия &amp; Места</option><option value="Книги и култура">Книги и култура</option>
 </select>
-<label for="image_file">Снимка на новината</label><input type="file" id="image_file" accept="image/jpeg,image/png,image/webp,image/gif"><div class="image-help">Избери снимка от компютъра. Тя ще бъде качена автоматично в Supabase.</div>
+<label for="image_file">Снимка на новината</label><input type="file" id="image_file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><div class="image-help">Избери снимка от компютъра. Тя ще бъде качена в Cloudinary при запазване на новината.</div>
 <div id="currentImage" class="current-image"><div class="current-image-title">Текуща снимка:</div><img id="currentImagePreview" src="" alt="Текуща снимка"></div>
 <div id="imagePreview" class="image-preview"><div class="current-image-title">Нова снимка:</div><img id="imagePreviewImage" src="" alt="Преглед на снимката"></div>
-<label for="gallery_files">Допълнителни снимки към новината</label><input type="file" id="gallery_files" accept="image/jpeg,image/png,image/webp,image/gif" multiple><div class="gallery-help">Можеш да избереш няколко снимки наведнъж. Те ще бъдат добавени в галерията на новината.</div>
+<label for="gallery_files">Допълнителни снимки към новината</label><input type="file" id="gallery_files" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple><div class="gallery-help">Можеш да избереш няколко снимки наведнъж. Те ще бъдат добавени в галерията на новината.</div>
 <div id="existingGallery" class="existing-gallery"><div class="current-image-title">Вече добавени снимки:</div><div id="existingGalleryGrid" class="existing-gallery-grid"></div></div><div id="galleryPreview" class="gallery-preview"></div>
 <div class="video-tools"><h3>Видео към новината</h3><label for="youtubeUrl">Постави линк от YouTube</label><div class="video-row"><input type="url" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off"><button type="button" id="insertYoutubeVideo" class="video-action-button">Вмъкни YouTube видео</button></div><div class="video-help">Копирай адреса от YouTube и го постави тук. Поддържат се обикновени видеа, youtu.be, Shorts и YouTube Live.</div><label for="video_file">Или качи видеофайл от компютъра</label><input type="file" id="video_file" accept="video/mp4,video/webm,video/ogg"><div class="video-help">Поддържани формати: MP4, WebM и Ogg. Максимален размер: 50 MB. След качването видеото се добавя в текста; запази новината, за да се публикува.</div><button type="button" id="uploadVideoButton" class="video-action-button" style="margin-top:12px">Качи и вмъкни видео</button><div id="videoUploadStatus" class="video-status" aria-live="polite"></div></div>
 <label>Текст на новината</label>
@@ -52,8 +52,8 @@
 <h2 id="opinionFormTitle">Мнения &amp; Коментари</h2><form id="opinionForm" class="opinion-form">
 <label for="opinionQuote">Мнение / цитат</label><textarea id="opinionQuote" name="opinionQuote" placeholder="Въведете мнение или цитат" required autocomplete="off" spellcheck="true"></textarea>
 <label for="opinionAuthor">Име на автора</label><input type="text" id="opinionAuthor" name="opinionAuthor" placeholder="Име на автора" required autocomplete="off">
-<label for="opinionAvatar">Снимка на автора</label><input type="file" id="opinionAvatar" accept="image/jpeg,image/png,image/webp,image/gif"><div class="image-help">Снимката е по желание.</div><div id="opinionCurrentImage" class="opinion-current-image"><div class="current-image-title">Текуща снимка:</div><img id="opinionCurrentImagePreview" src="" alt="Текуща снимка на автора"></div><div id="opinionImagePreview" class="opinion-image-preview"><div class="current-image-title">Нова снимка:</div><img id="opinionImagePreviewImage" src="" alt="Преглед на снимката"></div>
-<div class="opinion-topic-image-field"><label for="opinionTopicImage">Голяма тематична снимка</label><input type="file" id="opinionTopicImage" accept="image/jpeg,image/png,image/webp,image/gif"><div class="image-help">Тази снимка ще се показва в карусела отделно от портрета на автора.</div><div id="opinionCurrentTopicImage" class="opinion-current-image" style="display:none"><div class="current-image-title">Текуща тематична снимка:</div><img id="opinionCurrentTopicImagePreview" src="" alt="Текуща тематична снимка"></div><div id="opinionTopicImagePreview" class="opinion-image-preview" style="display:none"><div class="current-image-title">Нова тематична снимка:</div><img id="opinionTopicImagePreviewImage" src="" alt="Преглед на тематичната снимка"></div></div>
+<label for="opinionAvatar">Снимка на автора</label><input type="file" id="opinionAvatar" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><div class="image-help">Снимката е по желание.</div><div id="opinionCurrentImage" class="opinion-current-image"><div class="current-image-title">Текуща снимка:</div><img id="opinionCurrentImagePreview" src="" alt="Текуща снимка на автора"></div><div id="opinionImagePreview" class="opinion-image-preview"><div class="current-image-title">Нова снимка:</div><img id="opinionImagePreviewImage" src="" alt="Преглед на снимката"></div>
+<div class="opinion-topic-image-field"><label for="opinionTopicImage">Голяма тематична снимка</label><input type="file" id="opinionTopicImage" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><div class="image-help">Тази снимка ще се показва в карусела отделно от портрета на автора.</div><div id="opinionCurrentTopicImage" class="opinion-current-image" style="display:none"><div class="current-image-title">Текуща тематична снимка:</div><img id="opinionCurrentTopicImagePreview" src="" alt="Текуща тематична снимка"></div><div id="opinionTopicImagePreview" class="opinion-image-preview" style="display:none"><div class="current-image-title">Нова тематична снимка:</div><img id="opinionTopicImagePreviewImage" src="" alt="Преглед на тематичната снимка"></div></div>
 <div class="featured-box"><label class="featured-option"><input type="checkbox" id="opinionPublished" checked>Публикувано</label><div class="featured-help">Ако е отметнато, мнението ще се показва на началната страница.</div></div>
 <button type="submit" class="save" id="opinionSaveButton">Добави мнение</button><button type="button" class="cancel" id="opinionCancelButton" style="display:none">Отказ</button><div id="opinionMessage" role="status" aria-live="polite"></div>
 </form><div class="opinion-section-divider"></div><h2>Добавени мнения</h2><div id="opinionsAdminList" class="opinions-admin-list"><div class="loading">Зареждане на мненията...</div></div>
@@ -130,6 +130,7 @@ let adminToken = sessionStorage.getItem('spisanieto_admin_token');
 let editingId = null;
 let editingPublished = true;
 let currentImageUrl = '';
+let currentGalleryUrls = [];
 let savedSelection = null;
 let editingOpinionId = null;
 let currentOpinionAvatarUrl = '';
@@ -611,20 +612,11 @@ insertYoutubeVideoButton.addEventListener('click', () => {
 });
 
 /* -------------------------
-   ВРЕМЕННО СПИРАНЕ НА КАЧВАНЕТО
+   КАЧВАНЕ НА СНИМКИ В CLOUDINARY
 ------------------------- */
 
-[
-    imageFile,
-    galleryFiles,
-    videoFile,
-    opinionAvatar,
-    opinionTopicImage
-].forEach(input => {
-    input.disabled = true;
-    input.title = 'Качването ще бъде активирано след настройването на новото хранилище.';
-});
-
+videoFile.disabled = true;
+videoFile.title = 'Качването на видеофайлове засега не е активирано.';
 uploadVideoButton.disabled = true;
 
 function addUploadNotice(element, text) {
@@ -636,36 +628,91 @@ function addUploadNotice(element, text) {
     element.insertAdjacentElement('afterend', notice);
 }
 
-addUploadNotice(imageFile, 'Качването на нови снимки ще бъде активирано на следващия етап.');
-addUploadNotice(galleryFiles, 'Качването на нови снимки в галерията ще бъде активирано на следващия етап.');
-addUploadNotice(videoFile, 'Качването на видеофайлове ще бъде активирано на следващия етап.');
-addUploadNotice(opinionAvatar, 'Качването на нови снимки ще бъде активирано на следващия етап.');
-addUploadNotice(opinionTopicImage, 'Качването на нови снимки ще бъде активирано на следващия етап.');
+addUploadNotice(videoFile, 'Качването на видеофайлове засега не е активирано. Можеш да добавяш YouTube видеа.');
 
-videoUploadStatus.textContent =
-    'Можеш да добавяш YouTube видеа. Качването на видеофайлове ще бъде активирано по-късно.';
+async function uploadImageToCloudinary(file) {
+    if (!file) return null;
+
+    const allowedTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif',
+        'image/avif'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        throw new Error('Неподдържан формат на снимката: ' + file.name);
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+        throw new Error('Снимката „' + file.name + '“ е по-голяма от 10 MB.');
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(API_BASE + '/api/admin/upload', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + adminToken
+        },
+        body: formData
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || !result.ok || !result.url) {
+        throw new Error(result.error || 'Снимката не можа да бъде качена в Cloudinary.');
+    }
+
+    return result.url;
+}
+
+function previewSelectedImage(file, container, image) {
+    container.style.display = 'none';
+    image.src = '';
+
+    if (!file) return;
+
+    image.src = URL.createObjectURL(file);
+    container.style.display = 'block';
+}
 
 /* -------------------------
    СНИМКИ И ПРЕГЛЕДИ
 ------------------------- */
 
 imageFile.addEventListener('change', function () {
-    imagePreview.style.display = 'none';
-    imagePreviewImage.src = '';
+    previewSelectedImage(this.files[0], imagePreview, imagePreviewImage);
 });
 
 galleryFiles.addEventListener('change', function () {
     galleryPreview.innerHTML = '';
+
+    [...this.files].forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-preview-item';
+
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.alt = 'Преглед на снимка ' + (index + 1);
+
+        const name = document.createElement('div');
+        name.className = 'gallery-preview-name';
+        name.textContent = file.name;
+
+        item.append(img, name);
+        galleryPreview.appendChild(item);
+    });
 });
 
 opinionAvatar.addEventListener('change', function () {
-    opinionImagePreview.style.display = 'none';
-    opinionImagePreviewImage.src = '';
+    previewSelectedImage(this.files[0], opinionImagePreview, opinionImagePreviewImage);
 });
 
 opinionTopicImage.addEventListener('change', function () {
-    opinionTopicImagePreview.style.display = 'none';
-    opinionTopicImagePreviewImage.src = '';
+    previewSelectedImage(this.files[0], opinionTopicImagePreview, opinionTopicImagePreviewImage);
 });
 
 /* -------------------------
@@ -678,6 +725,9 @@ async function loadGallery(newsId) {
 
     const news = newsCache.find(item => String(item.id) === String(newsId));
     const gallery = Array.isArray(news?.gallery) ? news.gallery : [];
+    currentGalleryUrls = gallery
+        .map(image => typeof image === 'string' ? image : image?.image_url)
+        .filter(Boolean);
 
     if (!gallery.length) return;
 
@@ -858,6 +908,7 @@ function resetForm() {
     editingId = null;
     editingPublished = true;
     currentImageUrl = '';
+    currentGalleryUrls = [];
     savedSelection = null;
 
     form.reset();
@@ -958,6 +1009,7 @@ form.addEventListener('submit', async e => {
         subtitle,
         category,
         image_url: currentImageUrl || null,
+        gallery: currentGalleryUrls,
         content: contentText,
         content_html,
         author: author || 'СПИСАНИЕТО.',
@@ -970,6 +1022,28 @@ form.addEventListener('submit', async e => {
     };
 
     try {
+        if (imageFile.files[0]) {
+            message.textContent = 'Качване на основната снимка...';
+            currentImageUrl = await uploadImageToCloudinary(imageFile.files[0]);
+            body.image_url = currentImageUrl;
+        }
+
+        const selectedGalleryFiles = [...galleryFiles.files];
+        if (selectedGalleryFiles.length) {
+            message.textContent = 'Качване на снимките в галерията...';
+            const uploadedGalleryUrls = [];
+
+            for (let i = 0; i < selectedGalleryFiles.length; i++) {
+                message.textContent = `Качване на снимка ${i + 1} от ${selectedGalleryFiles.length}...`;
+                uploadedGalleryUrls.push(
+                    await uploadImageToCloudinary(selectedGalleryFiles[i])
+                );
+            }
+
+            currentGalleryUrls = [...currentGalleryUrls, ...uploadedGalleryUrls];
+            body.gallery = currentGalleryUrls;
+        }
+
         if (editingId) {
             await api('/api/admin/news/' + encodeURIComponent(editingId), {
                 method: 'PUT',
@@ -1232,6 +1306,18 @@ opinionForm.addEventListener('submit', async e => {
     };
 
     try {
+        if (opinionAvatar.files[0]) {
+            opinionMessage.textContent = 'Качване на снимката на автора...';
+            currentOpinionAvatarUrl = await uploadImageToCloudinary(opinionAvatar.files[0]);
+            body.avatar_url = currentOpinionAvatarUrl;
+        }
+
+        if (opinionTopicImage.files[0]) {
+            opinionMessage.textContent = 'Качване на тематичната снимка...';
+            currentOpinionTopicImageUrl = await uploadImageToCloudinary(opinionTopicImage.files[0]);
+            body.image_url = currentOpinionTopicImageUrl;
+        }
+
         if (editingOpinionId) {
             await api(
                 '/api/admin/opinions/' + encodeURIComponent(editingOpinionId),
