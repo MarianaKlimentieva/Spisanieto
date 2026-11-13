@@ -4597,7 +4597,7 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
 
 
     <!-- =========================================
-         SUPABASE + MAIN JAVASCRIPT
+         CLOUDFLARE API + MAIN JAVASCRIPT
     ========================================= -->
 
    
@@ -4619,21 +4619,6 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
             categoryParam
                 ? categoryParam.trim()
                 : '';
-
-
-        function applyCategoryFilter(query) {
-
-            if (activeCategory) {
-
-                return query.eq(
-                    'category',
-                    activeCategory
-                );
-
-            }
-
-            return query;
-        }
 
 
         function updateCategoryTitle() {
@@ -5005,7 +4990,7 @@ box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
 
 try {
     const response = await fetch(
-        'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+        'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
     );
 
     if (!response.ok) {
@@ -5271,7 +5256,7 @@ async function loadHighlights() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -5358,7 +5343,7 @@ async function loadPopularNews() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -5443,7 +5428,7 @@ async function loadLatestNews() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -5529,7 +5514,7 @@ async function loadFocusTopics() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -5619,7 +5604,7 @@ async function loadHero() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -5946,7 +5931,7 @@ async function loadHero() {
 
     <!-- =========================================
          МНЕНИЯ & КОМЕНТАРИ
-         SUPABASE LOADER
+         CLOUDFLARE API LOADER
     ========================================= -->
 
    
@@ -6134,7 +6119,7 @@ async function loadFashionInspiration() {
     try {
 
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -6320,7 +6305,7 @@ async function loadCulinaryArt() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
@@ -6416,7 +6401,7 @@ async function loadCultureMetro() {
 
     try {
         const response = await fetch(
-            'https://spisanieto-api.spisanieto-news.workers.dev/api/news'
+            'https://spisanieto-api.spisanieto-news.workers.dev/api/news?limit=100'
         );
 
         if (!response.ok) {
