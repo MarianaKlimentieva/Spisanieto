@@ -764,11 +764,8 @@ h1, h2, h3, p { margin-top: 0; }
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = 'https://hxvflentlaktgwimsevc.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const API_BASE = 'https://spisanieto-api.spisanieto-news.workers.dev';
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1200&q=80';
 const PAGE_SIZE = 6;
@@ -949,15 +946,20 @@ function renderNews() {
 async function loadCategory() {
   const list = document.getElementById('news-list');
   try {
-    const { data, error } = await supabaseClient
-      .from('news')
-      .select('id,title,subtitle,image_url,category,created_at')
-      .eq('status', 'published')
-      .eq('category', 'Мода и тенденции')
-      .order('created_at', { ascending: false });
+    const response = await fetch(`${API_BASE}/api/news?limit=100`);
+    if (!response.ok) {
+      throw new Error(`API заявката е неуспешна: ${response.status}`);
+    }
 
-    if (error) throw error;
-    allArticles = data || [];
+    const result = await response.json();
+    const news = Array.isArray(result) ? result : (result.news || []);
+
+    allArticles = news
+      .filter(article => article.category === 'Мода и тенденции')
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    currentPage = 1;
+    currentSlide = 0;
     renderHero();
     renderTopics();
     renderNews();
