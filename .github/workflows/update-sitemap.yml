@@ -17,17 +17,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate sitemap from Supabase
+      - name: Generate sitemap from Cloudflare API
         env:
-          SUPABASE_URL: https://hxvflentlaktgwimsevc.supabase.co
-          SUPABASE_PUBLISHABLE_KEY: sb_publishable_waLxhS_U0hYHzlfp016b4g_bwDTjWGY
+          API_URL: https://spisanieto-api.spisanieto-news.workers.dev/api/news
         run: |
           node <<'NODE'
           const fs = require('node:fs');
 
           const SITE = 'https://spisanieto.bg';
-          const API = `${process.env.SUPABASE_URL}/rest/v1/news`;
-          const KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+          const API = process.env.API_URL;
 
           function escapeXml(value) {
             return String(value)
@@ -38,103 +36,152 @@ jobs:
               .replace(/'/g, '&apos;');
           }
 
+          function unescapeXml(value) {
+            return value
+              .replace(/&amp;/g, '&')
+              .replace(/&lt;/g, '<')
+              .replace(/&gt;/g, '>')
+              .replace(/&quot;/g, '"')
+              .replace(/&apos;/g, "'");
+          }
+
           async function main() {
             const sitemapPath = 'sitemap.xml';
+
             const oldXml = fs.existsSync(sitemapPath)
               ? fs.readFileSync(sitemapPath, 'utf8')
               : '';
 
-            const staticUrls = new Set([`${SITE}/`]);
+            // Запазваме всички досегашни адреси,
+            // включително старите статии.
+            const entriesMap = new Map();
 
             for (const match of oldXml.matchAll(
-              /<loc>([\s\S]*?)<\/loc>/g
+              /<url>([\s\S]*?)<\/url>/g
             )) {
+              const block = match[1];
+              const locMatch = block.match(
+                /<loc>([\s\S]*?)<\/loc>/
+              );
+
+              if (!locMatch) continue;
+
+              const loc = unescapeXml(locMatch[1].trim());
+
               try {
-                const url = new URL(
-                  match[1].replace(/&amp;/g, '&').trim()
-                );
+                const url = new URL(loc);
 
                 if (url.origin !== SITE) continue;
 
-                if (
-                  url.pathname === '/article.html' &&
-                  url.searchParams.has('id')
-                ) continue;
-
                 url.hash = '';
-                staticUrls.add(url.href);
-              } catch {}
+
+                const lastmodMatch = block.match(
+                  /<lastmod>([\s\S]*?)<\/lastmod>/
+                );
+
+                entriesMap.set(url.href, {
+                  loc: url.href,
+                  lastmod: lastmodMatch
+                    ? unescapeXml(lastmodMatch[1].trim())
+                    : ''
+                });
+              } catch {
+                continue;
+              }
             }
 
-            const news = [];
+            // Основни постоянни страници.
+            const staticPages = [
+              '/',
+              '/art.html',
+              '/culinary.html',
+              '/news.html',
+              '/opinions.html',
+              '/poveritelnost.html'
+            ];
+
+            for (const path of staticPages) {
+              const loc = `${SITE}${path}`;
+
+              if (!entriesMap.has(loc)) {
+                entriesMap.set(loc, {
+                  loc,
+                  lastmod: ''
+                });
+              }
+            }
+
+            // Вземаме публикуваните новини от Cloudflare API.
             let offset = 0;
-            const pageSize = 1000;
+            const pageSize = 100;
+            let totalNews = 0;
 
             while (true) {
               const url = new URL(API);
 
-              url.searchParams.set(
-                'select',
-                'id,created_at,updated_at'
-              );
-              url.searchParams.set('status', 'eq.published');
-              url.searchParams.set('order', 'id.asc');
               url.searchParams.set('limit', String(pageSize));
               url.searchParams.set('offset', String(offset));
 
-              const response = await fetch(url, {
-                headers: {
-                  apikey: KEY,
-                  Authorization: `Bearer ${KEY}`
-                }
-              });
+              const response = await fetch(url);
 
               if (!response.ok) {
                 throw new Error(
-                  `Supabase error ${response.status}: ` +
+                  `Cloudflare API error ${response.status}: ` +
                   await response.text()
                 );
               }
 
-              const rows = await response.json();
+              const result = await response.json();
 
-              if (!Array.isArray(rows)) {
-                throw new Error('Unexpected Supabase response.');
+              if (!result || !Array.isArray(result.news)) {
+                throw new Error(
+                  'Unexpected Cloudflare API response.'
+                );
               }
 
-              news.push(...rows);
+              const rows = result.news;
+
+              for (const item of rows) {
+                if (item.id == null) continue;
+
+                const articleUrl = new URL(
+                  '/article.html',
+                  SITE
+                );
+
+                articleUrl.searchParams.set(
+                  'id',
+                  String(item.id)
+                );
+
+                const loc = articleUrl.href;
+                const date = item.updated_at || item.created_at;
+                const timestamp = date ? new Date(date) : null;
+
+                const lastmod = timestamp &&
+                  !Number.isNaN(timestamp.getTime())
+                  ? timestamp.toISOString()
+                  : '';
+
+                entriesMap.set(loc, {
+                  loc,
+                  lastmod
+                });
+
+                totalNews++;
+              }
 
               if (rows.length < pageSize) break;
+
               offset += rows.length;
             }
 
-            if (news.length === 0) {
-              throw new Error(
-                'No published news returned. Sitemap was not overwritten.'
-              );
-            }
+            // Старите адреси остават, дори ако D1 е празна.
+            const entries = [...entriesMap.values()];
 
-            const entries = [...staticUrls].map(loc => ({ loc }));
-
-            for (const item of news) {
-              if (item.id == null) continue;
-
-              const url = new URL('/article.html', SITE);
-              url.searchParams.set('id', String(item.id));
-
-              const date = item.updated_at || item.created_at;
-              const timestamp = date ? new Date(date) : null;
-
-              entries.push({
-                loc: url.href,
-                lastmod: timestamp &&
-                  !Number.isNaN(timestamp.getTime())
-                  ? timestamp.toISOString()
-                  : ''
-              });
-            }
-
-            entries.sort((a, b) => a.loc.localeCompare(b.loc));
+            entries.sort((a, b) =>
+              a.loc.localeCompare(b.loc)
+            );
 
             const body = entries.map(item =>
               [
@@ -153,7 +200,13 @@ jobs:
               body + '\n</urlset>\n';
 
             fs.writeFileSync(sitemapPath, xml, 'utf8');
-            console.log(`Generated sitemap with ${entries.length} URLs.`);
+
+            console.log(
+              `Sitemap generated: ${entries.length} URLs.`
+            );
+            console.log(
+              `News received from Cloudflare: ${totalNews}.`
+            );
           }
 
           main().catch(error => {
@@ -170,7 +223,7 @@ jobs:
           fi
 
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+users.noreply.github.com"
           git add sitemap.xml
-          git commit -m "Update sitemap from published news"
+          git commit -m "Update sitemap from Cloudflare API"
           git push
