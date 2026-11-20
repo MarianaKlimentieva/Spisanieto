@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -700,17 +701,12 @@
 
 <script type="module">
 
-
-
 import DOMPurify from
     'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
 
 
 const SUPABASE_URL =
     'https://hxvflentlaktgwimsevc.supabase.co';
-
-
-
 
 
 const params = new URLSearchParams(
@@ -985,7 +981,7 @@ async function loadArticle() {
     }
 
 
-       let data = null;
+    let data = null;
 
     try {
 
@@ -1018,9 +1014,6 @@ async function loadArticle() {
 
         return;
     }
-
-
-   
 
 
     document.getElementById(
@@ -1083,7 +1076,7 @@ async function loadArticle() {
     }
 
 
-       let currentViews = Number(data.views) || 0;
+    let currentViews = Number(data.views) || 0;
 
     try {
 
@@ -1205,7 +1198,7 @@ async function loadArticle() {
         );
 
 
-       const galleryImages = data.gallery || [];
+    const galleryImages = data.gallery || [];
 
     if (
         galleryImages &&
@@ -1279,21 +1272,15 @@ async function loadArticle() {
        FACEBOOK СПОДЕЛЯНЕ ЧРЕЗ CLOUDFLARE WORKER
        ========================================== */
 
-    const sharePreviewUrl =
-        'https://spisanieto-share.spisanieto-news.workers.dev/?id=' +
-        encodeURIComponent(articleId);
-
-
     const facebookButton =
         document.getElementById('share-facebook');
 
     facebookButton.href =
         'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodeURIComponent(sharePreviewUrl);
+        encodeURIComponent(articleUrl);
 
     facebookButton.target = '_blank';
     facebookButton.rel = 'noopener noreferrer';
-
     facebookButton.onclick = null;
 
 
@@ -1466,3 +1453,4 @@ loadArticle();
 <script src="cookie-consent.js"></script>
 </body>
 </html>
+```
