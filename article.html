@@ -1268,20 +1268,31 @@ async function loadArticle() {
         );
 
 
-    /* ==========================================
-       FACEBOOK СПОДЕЛЯНЕ ЧРЕЗ CLOUDFLARE WORKER
-       ========================================== */
+   /* ==========================================
+   FACEBOOK СПОДЕЛЯНЕ
+   ========================================== */
 
-    const facebookButton =
-        document.getElementById('share-facebook');
+const facebookButton =
+    document.getElementById('share-facebook');
 
-    facebookButton.href =
-        'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodeURIComponent(articleUrl);
+const facebookShareUrl =
+    'https://www.facebook.com/sharer/sharer.php?u=' +
+    encodeURIComponent(articleUrl);
 
-    facebookButton.target = '_blank';
-    facebookButton.rel = 'noopener noreferrer';
-    facebookButton.onclick = null;
+facebookButton.href = facebookShareUrl;
+
+facebookButton.target = '_blank';
+facebookButton.rel = 'noopener noreferrer';
+
+facebookButton.onclick = function(event) {
+    event.preventDefault();
+
+    window.open(
+        facebookShareUrl,
+        'facebook-share',
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+};
 
 
     document.getElementById(
