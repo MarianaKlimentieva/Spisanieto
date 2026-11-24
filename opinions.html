@@ -1378,6 +1378,7 @@ const shareUrl = sharePreviewUrl;
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Сподели във Facebook"
+                                        onclick="event.preventDefault(); window.open(this.href, 'facebook-share', 'width=700,height=600,resizable=yes,scrollbars=yes');"
                                     >Facebook</a>
                                     <a
                                         href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}"
