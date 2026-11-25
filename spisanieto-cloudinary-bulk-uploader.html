@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Миграция на изображения – СПИСАНИЕТО.</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#24212a;background:#f6f6f8}
+*{box-sizing:border-box}body{margin:0;padding:28px 16px}
+main{max-width:850px;margin:0 auto;background:#fff;border:1px solid #e5e2e8;border-radius:14px;padding:26px;box-shadow:0 8px 30px #21101a0b}
+h1{font-size:24px;margin:0 0 8px;color:#681638}p{line-height:1.55;color:#555}
+.note{background:#fff6fa;border-left:4px solid #a21f5a;padding:12px 14px;margin:18px 0}
+label{display:block;font-weight:700;margin:18px 0 7px}
+input[type=password],input[type=file]{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;background:white}
+button{border:0;border-radius:8px;padding:12px 18px;background:#681638;color:white;font-weight:700;cursor:pointer;margin:14px 8px 0 0}
+button:disabled{opacity:.45;cursor:not-allowed}
+#status{margin-top:18px;padding:12px;background:#f4f2f5;border-radius:8px;white-space:pre-wrap;line-height:1.5}
+#bar{height:9px;background:#eee;border-radius:8px;overflow:hidden;margin-top:12px}#fill{height:100%;width:0;background:#a21f5a;transition:width .2s}
+small{color:#666;display:block;margin-top:6px}
+</style>
+</head>
+<body>
+<main>
+<h1>Миграция на старите изображения</h1>
+<p>Инструментът качва избраните архивни изображения от Supabase в Cloudinary през защитения API на СПИСАНИЕТО. и създава CSV карта на старите и новите адреси.</p>
+<div class="note"><strong>Важно:</strong> отвори тази страница през сайта (spisanieto.bg или GitHub Pages), а не директно като файл от компютъра. Паролата за администратора се изпраща само към API адреса на сайта. Не се записва във файла и не се изпраща към ChatGPT.</div>
+<label for="password">Администраторска парола</label>
+<input id="password" type="password" autocomplete="current-password" placeholder="Въведи паролата за администрацията">
+<label for="folder">Папка с разархивираните изображения</label>
+<input id="folder" type="file" webkitdirectory directory multiple accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+<small>Избери папката „news-images“ от разархивирания пакет. Трябва да съдържа подпапките „news“ и „opinions“.</small>
+<button id="start">Започни качването</button>
+<button id="csv" disabled>Изтегли CSV картата</button>
+<div id="bar"><div id="fill"></div></div>
+<div id="status">Готово за работа. Няма да се променя нищо в D1.</div>
+</main>
+<script>
+(() => {
+  const API = 'https://spisanieto-api.spisanieto-news.workers.dev';
+  const SUPABASE = 'https://hxvflentlaktgwimsevc.supabase.co/storage/v1/object/public/news-images/';
+  const $ = id => document.getElementById(id);
+  let mapping = [];
+  let running = false;
+
+  function csvCell(v){ return '"' + String(v ?? '').replace(/"/g,'""') + '"'; }
+  function downloadCSV(){
+    const rows = [['old_supabase_url','cloudinary_url','relative_path','public_id']];
+    for (const x of mapping) rows.push([x.oldUrl,x.url,x.path,x.publicId || '']);
+    const csv = '\ufeff' + rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+    const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'spisanieto-cloudinary-url-map.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(a.href);
+  }
+
+  $('csv').addEventListener('click',downloadCSV);
+  $('start').addEventListener('click', async () => {
+    if (running) return;
+    const password = $('password').value;
+    const files = Array.from($('folder').files || []);
+    if (!password) { $('status').textContent='Въведи администраторската парола.'; return; }
+    if (!files.length) { $('status').textContent='Избери папката news-images от разархивирания пакет.'; return; }
+
+    const selected = files.filter(f => /^news-images\/(news|opinions)\//.test(f.webkitRelativePath || ''));
+    if (!selected.length) {
+      $('status').textContent='Не намирам подпапки news-images/news или news-images/opinions. Избери самата папка „news-images“, а не родителската папка.';
+      return;
+    }
+    const unsupported = selected.filter(f => !/^image\/(jpeg|png|webp|gif|avif)$/.test(f.type));
+    if (unsupported.length) {
+      $('status').textContent='Има неподдържани файлове: ' + unsupported.map(f=>f.name).join(', ');
+      return;
+    }
+    const tooLarge = selected.filter(f => f.size > 10*1024*1024);
+    if (tooLarge.length) {
+      $('status').textContent='Файлове над 10 MB (лимит на API): ' + tooLarge.map(f=>f.name).join(', ');
+      return;
+    }
+
+    running = true; $('start').disabled=true; $('csv').disabled=true; mapping=[];
+    $('status').textContent='Проверка на администраторската парола…';
+    try {
+      const login = await fetch(API + '/api/admin/login', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({password})
+      });
+      const auth = await login.json().catch(()=>({}));
+      if (!login.ok || !auth.token) throw new Error(auth.error || 'Неуспешен вход в администрацията.');
+
+      let done=0, failed=[];
+      for (const file of selected) {
+        const relative = file.webkitRelativePath.replace(/^news-images\//,'');
+        const form = new FormData(); form.append('file',file,file.name);
+        try {
+          const response = await fetch(API + '/api/admin/upload', {
+            method:'POST', headers:{'Authorization':'Bearer '+auth.token}, body:form
+          });
+          const result = await response.json().catch(()=>({}));
+          if (!response.ok || !result.ok || !result.url) throw new Error(result.error || ('HTTP '+response.status));
+          mapping.push({
+            oldUrl: SUPABASE + relative,
+            url: result.url,
+            path: relative,
+            publicId: result.public_id || ''
+          });
+        } catch (e) {
+          failed.push(relative + ' — ' + e.message);
+        }
+        done++;
+        $('fill').style.width = Math.round(done/selected.length*100)+'%';
+        $('status').textContent = 'Качени успешно: '+mapping.length+' от '+selected.length+
+          '\nОбработени: '+done+' от '+selected.length+
+          (failed.length ? '\n\nГрешки:\n'+failed.slice(-8).join('\n') : '');
+        await new Promise(resolve=>setTimeout(resolve,180));
+      }
+      $('csv').disabled = mapping.length===0;
+      $('status').textContent += '\n\n' + (failed.length
+        ? 'Качването приключи с '+failed.length+' грешки. Изтегли CSV картата на успешните качвания; не стартирай повторно върху всички файлове, преди да прегледаме грешките.'
+        : 'Всички избрани изображения са качени успешно. Изтегли CSV картата и я запази — нужна е за обновяването на адресите в SQL.');
+    } catch(e) {
+      $('status').textContent='Грешка: '+e.message;
+    } finally {
+      running=false; $('start').disabled=false;
+      $('password').value='';
+    }
+  });
+})();
+</script>
+</body>
+</html>
