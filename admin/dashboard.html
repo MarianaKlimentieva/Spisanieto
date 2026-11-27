@@ -20,6 +20,9 @@
 <label for="category">Категория</label><select id="category" required>
 <option value="">Изберете категория</option><option value="Новини">Новини</option><option value="Политика">Политика</option><option value="Свят">Свят</option><option value="Анализи">Анализи</option><option value="Лайфстайл">Лайфстайл</option><option value="Технологии">Технологии</option><option value="Икономика">Икономика</option><option value="Мода и тенденции">Мода и тенденции</option><option value="Кулинарно изкуство">Кулинарно изкуство</option><option value="Пътешествия &amp; Места">Пътешествия &amp; Места</option><option value="Книги и култура">Книги и култура</option>
 </select>
+<label for="publish_at">Дата и час на публикуване</label>
+<input type="datetime-local" id="publish_at" required>
+<div class="image-help">Можеш да зададеш минала дата за вече публикувана новина или бъдеща дата и час за планирано публикуване. Новината ще стане видима автоматично в зададения момент.</div>
 <label for="image_file">Снимка на новината</label><input type="file" id="image_file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><div class="image-help">Избери снимка от компютъра. Тя ще бъде качена в Cloudinary при запазване на новината.</div>
 <div id="currentImage" class="current-image"><div class="current-image-title">Текуща снимка:</div><img id="currentImagePreview" src="" alt="Текуща снимка"></div>
 <div id="imagePreview" class="image-preview"><div class="current-image-title">Нова снимка:</div><img id="imagePreviewImage" src="" alt="Преглед на снимката"></div>
@@ -290,6 +293,30 @@ function formatDate(value) {
             year: 'numeric'
         });
 }
+
+function toLocalDateTimeInput(value) {
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 16);
+}
+
+function formatDateTime(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+        ? ''
+        : date.toLocaleString('bg-BG', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+}
+
+// При отваряне на формата задаваме текущите дата и час.
+$('publish_at').value = toLocalDateTimeInput(new Date());
 
 function isTrue(value) {
     return value === true || value === 1 || value === '1';
@@ -824,6 +851,16 @@ async function loadNews() {
                 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80';
 
             const published = isTrue(n.published);
+            const publicationDate = n.publish_at || n.created_at;
+            const publicationTimestamp = publicationDate ? new Date(publicationDate).getTime() : NaN;
+            const isScheduled = published &&
+                !Number.isNaN(publicationTimestamp) &&
+                publicationTimestamp > Date.now();
+            const publicationLabel = !published
+                ? 'Чернова'
+                : isScheduled
+                    ? 'Планирана'
+                    : 'Публикувана';
 
             return `
                 <div class="news-item">
@@ -836,15 +873,15 @@ async function loadNews() {
 
                         <div class="news-meta">
                             ${escapeHtml(n.category || 'Новини')}
-                            &nbsp; • &nbsp; ${formatDate(n.created_at)}
+                            &nbsp; • &nbsp; ${formatDateTime(publicationDate)}
                         </div>
 
                         ${n.subtitle
                             ? `<div class="news-subtitle">${escapeHtml(n.subtitle)}</div>`
                             : ''}
 
-                        <span class="${published ? 'featured-label' : 'focus-label'}">
-                            ${published ? 'Публикувана' : 'Чернова'}
+                        <span class="${isScheduled ? 'focus-label' : published ? 'featured-label' : 'focus-label'}">
+                            ${publicationLabel}
                         </span>
 
                         ${isTrue(n.is_featured)
@@ -901,6 +938,9 @@ async function startEdit(id) {
     $('title').value = data.title || '';
     $('subtitle').value = data.subtitle || '';
     $('category').value = data.category || '';
+    $('publish_at').value = toLocalDateTimeInput(
+        data.publish_at || data.created_at || new Date()
+    );
 
     contentEditor.innerHTML = data.content_html?.trim()
         ? sanitizeEditorHtml(data.content_html)
@@ -953,6 +993,7 @@ function resetForm() {
     savedSelection = null;
 
     form.reset();
+    $('publish_at').value = toLocalDateTimeInput(new Date());
 
     $('author').value = 'СПИСАНИЕТО.';
     featuredCheckbox.checked = false;
@@ -998,6 +1039,8 @@ form.addEventListener('submit', async e => {
     const title = $('title').value.trim();
     const subtitle = $('subtitle').value.trim();
     const category = $('category').value;
+    const publishAtInput = $('publish_at').value;
+    const publishAtDate = publishAtInput ? new Date(publishAtInput) : null;
     const content_html = getEditorHtml();
     const contentText = getEditorText();
     const author = $('author').value.trim();
@@ -1022,6 +1065,13 @@ form.addEventListener('submit', async e => {
         message.textContent = 'Моля, избери категория.';
         saveButton.disabled = false;
         $('category').focus();
+        return;
+    }
+
+    if (!publishAtDate || Number.isNaN(publishAtDate.getTime())) {
+        message.textContent = 'Моля, избери валидни дата и час на публикуване.';
+        saveButton.disabled = false;
+        $('publish_at').focus();
         return;
     }
 
@@ -1059,6 +1109,7 @@ form.addEventListener('submit', async e => {
         seo_image_url: seo_image_url || null,
         is_featured,
         is_focus,
+        publish_at: publishAtDate.toISOString(),
         published: editingId ? editingPublished : true
     };
 
@@ -1098,10 +1149,12 @@ form.addEventListener('submit', async e => {
                 body: JSON.stringify(body)
             });
 
-            message.textContent = 'Новината е публикувана успешно!';
+            message.textContent = 'Новината е запазена успешно!';
         }
 
+        const successMessage = message.textContent;
         resetForm();
+        message.textContent = successMessage;
         await loadNews();
 
     } catch (error) {
