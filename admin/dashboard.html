@@ -687,10 +687,21 @@ imageFile.addEventListener('change', function () {
     previewSelectedImage(this.files[0], imagePreview, imagePreviewImage);
 });
 
-galleryFiles.addEventListener('change', function () {
+function renderGalleryFilePreview() {
     galleryPreview.innerHTML = '';
+    const files = [...galleryFiles.files];
 
-    [...this.files].forEach((file, index) => {
+    if (!files.length) return;
+
+    const heading = document.createElement('div');
+    heading.className = 'gallery-help';
+    heading.style.gridColumn = '1 / -1';
+    heading.style.fontWeight = 'bold';
+    heading.textContent = 'Избрани за качване: ' + files.length + ' ' +
+        (files.length === 1 ? 'снимка' : 'снимки');
+    galleryPreview.appendChild(heading);
+
+    files.forEach((file, index) => {
         const item = document.createElement('div');
         item.className = 'gallery-preview-item';
 
@@ -702,9 +713,39 @@ galleryFiles.addEventListener('change', function () {
         name.className = 'gallery-preview-name';
         name.textContent = file.name;
 
-        item.append(img, name);
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'gallery-delete-button';
+        remove.textContent = 'Премахни';
+        remove.addEventListener('click', () => {
+            const transfer = new DataTransfer();
+            [...galleryFiles.files].forEach((selectedFile, fileIndex) => {
+                if (fileIndex !== index) transfer.items.add(selectedFile);
+            });
+            galleryFiles.files = transfer.files;
+            renderGalleryFilePreview();
+        });
+
+        item.append(img, name, remove);
         galleryPreview.appendChild(item);
     });
+}
+
+galleryFiles.addEventListener('change', function () {
+    const transfer = new DataTransfer();
+    const combined = [...galleryFiles.files];
+    const seen = new Set();
+
+    combined.forEach(file => {
+        const key = [file.name, file.size, file.lastModified].join('|');
+        if (!seen.has(key)) {
+            seen.add(key);
+            transfer.items.add(file);
+        }
+    });
+
+    galleryFiles.files = transfer.files;
+    renderGalleryFilePreview();
 });
 
 opinionAvatar.addEventListener('change', function () {
